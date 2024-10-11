@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SharpSite.Web\SharpSite.Web.csproj" />
+    <ProjectReference Include="..\SharpSite.Data.Postgres\SharpSite.Data.Postgres.csproj"  IsAspireProjectResource="false" />
   </ItemGroup>
 
   <ItemGroup>

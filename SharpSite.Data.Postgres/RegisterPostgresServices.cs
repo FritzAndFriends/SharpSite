@@ -15,3 +15,10 @@ public class RegisterPostgresServices : IRegisterServices
 
 	}
 }
+
+public static class Constants
+{
+
+	public const string DBNAME = "SharpSite";
+
+}
