@@ -1,14 +1,6 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var dbServer = builder.AddPostgres("database")
-	.WithPgAdmin();
-
-var db = dbServer.AddDatabase(SharpSite.Data.Postgres.Constants.DBNAME);
-
-
-var migrationSvc = builder.AddProject<Projects.SharpSite_Data_Postgres_Migration>("migrationsvc")
-	.WithReference(db)
-	.WaitFor(dbServer);
+var (db, migrationSvc) = builder.AddPostgresServices();
 
 builder.AddProject<Projects.SharpSite_Web>("webfrontend")
 	.WithReference(db)
