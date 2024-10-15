@@ -10,6 +10,7 @@ public class RegisterPostgresServices : IRegisterServices
 	{
 		
 		host.Services.AddScoped<IPostRepository, PgPostRepository>();
+		host.AddNpgsqlDbContext<PgContext>(Constants.DBNAME);
 		
 		return host;
 

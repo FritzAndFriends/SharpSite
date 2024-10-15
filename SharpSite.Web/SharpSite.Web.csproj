@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SharpSite.ServiceDefaults\SharpSite.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\SharpSite.Data.Postgres\SharpSite.Data.Postgres.csproj" />
   </ItemGroup>
 
 </Project>

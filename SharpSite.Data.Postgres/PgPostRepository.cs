@@ -1,36 +1,66 @@
-﻿using SharpSite.Abstractions;
+﻿using System.Linq;
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
+using SharpSite.Abstractions;
 
 namespace SharpSite.Data.Postgres;
 
-public class PgPostRepository : IPostRepository
+public class PgPostRepository(PgContext Context) : IPostRepository
 {
-	public Post AddPost(Post post)
+	public async Task<Post> AddPost(Post post)
 	{
-		throw new NotImplementedException();
+		// add a post to the database
+		await Context.Posts.AddAsync((PgPost)post);
+		await Context.SaveChangesAsync();
+
+		return post;
 	}
 
-	public void DeletePost(string slug)
+	public async Task DeletePost(string slug)
 	{
-		throw new NotImplementedException();
+		// delete a post from the database based on the slug submitted
+		var post = await Context.Posts.FirstOrDefaultAsync(p => p.Slug == slug);
+		if (post != null)
+		{
+			Context.Posts.Remove(post);
+			await Context.SaveChangesAsync();
+		}
 	}
 
-	public Post GetPost(string slug)
+	public async Task<Post?> GetPost(string slug)
 	{
-		throw new NotImplementedException();
+		// get a post from the database based on the slug submitted
+		return await Context.Posts
+			.Where(p => p.Slug == slug)
+			.Select(p => (Post)p)
+			.FirstOrDefaultAsync();
+		
 	}
 
-	public IEnumerable<Post> GetPosts()
+	public async Task<IEnumerable<Post>> GetPosts()
 	{
-		throw new NotImplementedException();
+		// get all posts from the database
+		var posts = await Context.Posts.ToArrayAsync();
+		return posts.Select(p => (Post)p);
 	}
 
-	public IQueryable<Post> GetPosts(Func<Post, bool> where)
+	public async Task<IEnumerable<Post>> GetPosts(Expression<Func<Post, bool>> where)
 	{
-		throw new NotImplementedException();
+		// get all posts from the database based on the where clause
+		return await Context.Posts
+			.Where(p => where.Compile().Invoke((Post)p))
+			.Select(p => (Post)p)
+			.ToArrayAsync();
+
 	}
 
-	public Post UpdatePost(Post post)
+	public async Task<Post> UpdatePost(Post post)
 	{
-		throw new NotImplementedException();
+		// update a post in the database
+		Context.Posts.Update((PgPost)post);
+		await Context.SaveChangesAsync();
+
+		return post;
+
 	}
 }
