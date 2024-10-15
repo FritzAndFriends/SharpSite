@@ -8,7 +8,7 @@ namespace SharpSite.Data.Postgres;
 public class PgPost
 {
 
-	[Required]
+	[Required, Key]
 	public required string Slug { get; set; }
 
 	[Required, MaxLength(300)]

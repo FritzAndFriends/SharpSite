@@ -7,6 +7,6 @@ public class PgContext : DbContext
 
 	public PgContext(DbContextOptions<PgContext> options) : base(options) { }
 
-	public DbSet<PgPost> Posts { get; set; }
+	public DbSet<PgPost> Posts => Set<PgPost>();
 	
 }

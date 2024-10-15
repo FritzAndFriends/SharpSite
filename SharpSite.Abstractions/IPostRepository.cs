@@ -1,18 +1,20 @@
+using System.Linq.Expressions;
+
 namespace SharpSite.Abstractions;
 
 public interface IPostRepository
 {
 
-	Post GetPost(string slug);
+	Task<Post?> GetPost(string slug);
 
-	IEnumerable<Post> GetPosts();
+	Task<IEnumerable<Post>> GetPosts();
 
-	IQueryable<Post> GetPosts(Func<Post, bool> where);
+	Task<IEnumerable<Post>> GetPosts(Expression<Func<Post, bool>> where);
 
-	Post AddPost(Post post);
+	Task<Post> AddPost(Post post);
 
-	Post UpdatePost(Post post);
+	Task<Post> UpdatePost(Post post);
 
-	void DeletePost(string slug);
+	Task DeletePost(string slug);
 
 }
