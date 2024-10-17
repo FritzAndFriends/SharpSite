@@ -1,5 +1,7 @@
 @page "/post/{slug?}"
 @inject IPostRepository PostService
+@inject NavigationManager NavManager
+@rendermode InteractiveServer
 
 <PageTitle>@if (string.IsNullOrEmpty(Slug)) {
 	<text>New Post</text>
@@ -23,6 +25,11 @@
 	<input type="text" class="form-control" id="title" placeholder="Enter title" @bind="Post.Title" />
 </div>
 
+@** add a publish date field *@
+<div class="form-group">
+	<label for="publishDate">Publish Date</label>
+	<input type="date" class="form-control" id="publishDate" @bind="Post.PublishedDate" />
+</div>
 
 <div class="form-group">
 	<label for="content">Content</label>
@@ -36,27 +43,35 @@
 </div>
 @code {
 		[Parameter] public string? Slug { get; set; }
-		private Post Post { get; set; }
+		private Post? Post { get; set; }
 
 		protected override async Task OnInitializedAsync()
 		{
-				Post = (await PostService.GetPost(Slug)) ?? new Post() {
+				Post = (await PostService.GetPost(Slug ?? string.Empty)) ?? new Post() {
 					Slug= string.Empty,
 					Content = string.Empty,
-					Title = string.Empty
+					Title = string.Empty,
+					PublishedDate = DateTime.Now
 				};
 		}
 
 		private async Task SavePost()
 		{
-				if (string.IsNullOrEmpty(Post.Slug))
+
+				Console.WriteLine("Save Post");	
+
+
+				if (string.IsNullOrEmpty(Post!.Slug))
 				{
-					Post.Slug = Post.Title;
+					Post.Slug = Post.GetSlug(Post.Title);
+					Console.WriteLine(Post.Slug);
 					await PostService.AddPost(Post);
+					NavManager.NavigateTo("/");
 				}
 				else
 				{
 					await PostService.UpdatePost(Post);
+					NavManager.NavigateTo("/");
 				}
 		}
 }
