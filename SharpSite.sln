@@ -1,4 +1,4 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.0.0
 MinimumVisualStudioVersion = 17.8.0.0
@@ -6,9 +6,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpSite.AppHost", "SharpS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpSite.ServiceDefaults", "SharpSite.ServiceDefaults\SharpSite.ServiceDefaults.csproj", "{69274D92-FC5E-4459-9874-ABE8E37CD34F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpSite.ApiService", "SharpSite.ApiService\SharpSite.ApiService.csproj", "{038562B6-2796-4722-A659-D6AE23354BF0}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpSite.Web", "SharpSite.Web\SharpSite.Web.csproj", "{DE034223-9D30-4F03-A63E-DE1A7611DB52}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSite.Abstractions", "SharpSite.Abstractions\SharpSite.Abstractions.csproj", "{72FA60DA-37C2-4A3F-AA89-790A9AFBAD9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSite.Data.Postgres", "SharpSite.Data.Postgres\SharpSite.Data.Postgres.csproj", "{93BB1DA5-64F7-4803-8D9E-C5E0CF2EA3AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSite.Data.Postgres.Migration", "SharpSite.Data.Postgres.Migration\SharpSite.Data.Postgres.Migration.csproj", "{6594608C-854F-436B-8B5B-4FF223A57C8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,14 +28,22 @@ Global
 		{69274D92-FC5E-4459-9874-ABE8E37CD34F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69274D92-FC5E-4459-9874-ABE8E37CD34F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69274D92-FC5E-4459-9874-ABE8E37CD34F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{038562B6-2796-4722-A659-D6AE23354BF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{038562B6-2796-4722-A659-D6AE23354BF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{038562B6-2796-4722-A659-D6AE23354BF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{038562B6-2796-4722-A659-D6AE23354BF0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DE034223-9D30-4F03-A63E-DE1A7611DB52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DE034223-9D30-4F03-A63E-DE1A7611DB52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE034223-9D30-4F03-A63E-DE1A7611DB52}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE034223-9D30-4F03-A63E-DE1A7611DB52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72FA60DA-37C2-4A3F-AA89-790A9AFBAD9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72FA60DA-37C2-4A3F-AA89-790A9AFBAD9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72FA60DA-37C2-4A3F-AA89-790A9AFBAD9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72FA60DA-37C2-4A3F-AA89-790A9AFBAD9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93BB1DA5-64F7-4803-8D9E-C5E0CF2EA3AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93BB1DA5-64F7-4803-8D9E-C5E0CF2EA3AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93BB1DA5-64F7-4803-8D9E-C5E0CF2EA3AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93BB1DA5-64F7-4803-8D9E-C5E0CF2EA3AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6594608C-854F-436B-8B5B-4FF223A57C8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6594608C-854F-436B-8B5B-4FF223A57C8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6594608C-854F-436B-8B5B-4FF223A57C8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6594608C-854F-436B-8B5B-4FF223A57C8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
