@@ -1,0 +1,62 @@
+@page "/post/{slug?}"
+@inject IPostRepository PostService
+
+<PageTitle>@if (string.IsNullOrEmpty(Slug)) {
+	<text>New Post</text>
+} else {
+	<text>Edit Post</text>
+}
+</PageTitle>
+
+
+<h1>@if (string.IsNullOrEmpty(Slug)) {
+	<text>New Post</text>
+} else {
+	<text>Edit Post</text>
+}
+</h1>
+
+@if (Post is not null)
+{
+<div class="form-group">
+	<label for="title">Title</label>
+	<input type="text" class="form-control" id="title" placeholder="Enter title" @bind="Post.Title" />
+</div>
+
+
+<div class="form-group">
+	<label for="content">Content</label>
+	<textarea class="form-control" id="content" rows="3" @bind="Post.Content"></textarea>
+</div>
+
+}
+
+<div class="form-group">
+	<button type="submit" class="btn btn-primary" @onclick="SavePost">Save</button>
+</div>
+@code {
+		[Parameter] public string? Slug { get; set; }
+		private Post Post { get; set; }
+
+		protected override async Task OnInitializedAsync()
+		{
+				Post = (await PostService.GetPost(Slug)) ?? new Post() {
+					Slug= string.Empty,
+					Content = string.Empty,
+					Title = string.Empty
+				};
+		}
+
+		private async Task SavePost()
+		{
+				if (string.IsNullOrEmpty(Post.Slug))
+				{
+					Post.Slug = Post.Title;
+					await PostService.AddPost(Post);
+				}
+				else
+				{
+					await PostService.UpdatePost(Post);
+				}
+		}
+}
