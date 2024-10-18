@@ -9,7 +9,11 @@ public static class PostgresExtensions
 
 		var dbServer = builder.AddPostgres("database")
 			.WithDataVolume($"{SharpSite.Data.Postgres.Constants.DBNAME}-data", false)
-			.WithPgAdmin();
+			.WithLifetime(ContainerLifetime.Persistent)
+			.WithPgAdmin(config => {
+				// config.WithImageTag("latest");
+				config.WithLifetime(ContainerLifetime.Persistent);
+			});
 
 		var outdb = dbServer.AddDatabase(SharpSite.Data.Postgres.Constants.DBNAME);
 
