@@ -32,4 +32,9 @@ public class Post
 			return slug;
 		}
 
+		public Uri ToUrl()
+		{
+			return new Uri($"/{PublishedDate.UtcDateTime.ToString("yyyyMMdd")}/{Slug}", UriKind.Relative);
+		}
+
 }
