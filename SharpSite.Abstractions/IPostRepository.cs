@@ -5,7 +5,7 @@ namespace SharpSite.Abstractions;
 public interface IPostRepository
 {
 
-	Task<Post?> GetPost(string slug);
+	Task<Post?> GetPost(string dateString, string slug);
 
 	Task<IEnumerable<Post>> GetPosts();
 

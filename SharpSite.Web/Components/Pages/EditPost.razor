@@ -47,7 +47,7 @@
 
 		protected override async Task OnInitializedAsync()
 		{
-				Post = (await PostService.GetPost(Slug ?? string.Empty)) ?? new Post() {
+				Post = (await PostService.GetPost("", Slug ?? string.Empty)) ?? new Post() {
 					Slug= string.Empty,
 					Content = string.Empty,
 					Title = string.Empty,
