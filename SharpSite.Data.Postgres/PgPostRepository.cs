@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using SharpSite.Abstractions;
@@ -27,14 +28,20 @@ public class PgPostRepository(PgContext Context) : IPostRepository
 		}
 	}
 
-	public async Task<Post?> GetPost(string slug)
+	public async Task<Post?> GetPost(string dateString, string slug)
 	{
+
+		var theDate = DateTimeOffset.ParseExact(dateString, "yyyyMMdd", CultureInfo.InvariantCulture);
+
 		// get a post from the database based on the slug submitted
-		return await Context.Posts
-			.Where(p => p.Slug == slug)
+		var thePosts = await Context.Posts
+			.Where(p => p.Slug == slug )
 			.Select(p => (Post)p)
-			.FirstOrDefaultAsync();
+			.ToArrayAsync();
 		
+		return thePosts.FirstOrDefault(p => 
+			p.PublishedDate.UtcDateTime.Date == theDate.UtcDateTime.Date);
+
 	}
 
 	public async Task<IEnumerable<Post>> GetPosts()

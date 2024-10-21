@@ -1,0 +1,31 @@
+@page "/{urldate:int}/{slug}"
+@inject IPostRepository PostService
+
+@if (Post is not null)
+{
+	<h1>@Post.Title</h1>
+	<h6>@Post.PublishedDate.LocalDateTime</h6>
+	<p>@Post.Content</p>
+}
+else
+{
+	<p>Post not found</p>
+}
+
+<hr />
+<a href="/">Back to home</a>
+
+@code {
+	[Parameter] public int UrlDate { get; set; }
+	[Parameter] public string Slug { get; set; }
+	private Post? Post { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		Post = await PostService.GetPost(UrlDate.ToString(), Slug);
+
+		// todo: 404 if Post is null
+
+
+	}
+}
