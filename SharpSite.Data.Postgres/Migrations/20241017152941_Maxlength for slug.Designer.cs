@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SharpSite.Data.Postgres;
@@ -11,9 +12,11 @@ using SharpSite.Data.Postgres;
 namespace SharpSite.Data.Postgres.Migrations
 {
     [DbContext(typeof(PgContext))]
-    partial class PgContextModelSnapshot : ModelSnapshot
+    [Migration("20241017152941_Maxlength for slug")]
+    partial class Maxlengthforslug
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,8 +28,7 @@ namespace SharpSite.Data.Postgres.Migrations
             modelBuilder.Entity("SharpSite.Data.Postgres.PgPost", b =>
                 {
                     b.Property<string>("Slug")
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -37,8 +39,8 @@ namespace SharpSite.Data.Postgres.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
 
                     b.HasKey("Slug");
 

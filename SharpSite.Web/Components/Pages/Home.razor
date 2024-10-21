@@ -1,7 +1,21 @@
 ﻿@page "/"
+@inject IPostRepository PostService
 
-<PageTitle>Home</PageTitle>
+<PageTitle>SharpSite</PageTitle>
 
-<h1>Hello, world!</h1>
+@if (Posts is not null)
+{
+	@foreach (var post in Posts)
+	{
+		<PostView item="post" />
+	}
+} 
 
-Welcome to your new app.
+@code {
+	private IEnumerable<Post>? Posts { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		Posts = await PostService.GetPosts();
+	}
+}
