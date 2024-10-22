@@ -16,9 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost" Version="9.0.0-*" />
-    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.0.0-*" />
-    <PackageReference Include="system.text.json" Version="8.0.5" />
+    <PackageReference Include="Aspire.Hosting.AppHost" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" />
+    <PackageReference Include="System.Text.Json" />
   </ItemGroup>
 
 </Project>
