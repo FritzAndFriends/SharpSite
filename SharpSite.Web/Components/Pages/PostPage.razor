@@ -17,7 +17,7 @@ else
 
 @code {
 	[Parameter] public int UrlDate { get; set; }
-	[Parameter] public string Slug { get; set; }
+	[Parameter] public required string Slug { get; set; }
 	private Post? Post { get; set; }
 
 	protected override async Task OnInitializedAsync()
