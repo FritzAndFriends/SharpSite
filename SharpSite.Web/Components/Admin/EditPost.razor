@@ -1,4 +1,4 @@
-@page "/post/{slug?}"
+@page "/admin/post/{urldate:int?}/{slug?}"
 @inject IPostRepository PostService
 @inject NavigationManager NavManager
 @rendermode InteractiveServer
@@ -43,16 +43,19 @@
 </div>
 @code {
 		[Parameter] public string? Slug { get; set; }
+		[Parameter] public int? UrlDate { get; set; }
+
 		private Post? Post { get; set; }
 
 		protected override async Task OnInitializedAsync()
 		{
-				Post = (await PostService.GetPost("", Slug ?? string.Empty)) ?? new Post() {
+				Post = (await PostService.GetPost(UrlDate?.ToString() ?? string.Empty, Slug ?? string.Empty)) ?? new Post() {
 					Slug= string.Empty,
 					Content = string.Empty,
 					Title = string.Empty,
 					PublishedDate = DateTime.Now
 				};
+
 		}
 
 		private async Task SavePost()

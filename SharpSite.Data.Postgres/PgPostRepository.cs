@@ -31,10 +31,16 @@ public class PgPostRepository(PgContext Context) : IPostRepository
 	public async Task<Post?> GetPost(string dateString, string slug)
 	{
 
+		if (string.IsNullOrEmpty(dateString) || string.IsNullOrEmpty(slug))
+		{
+			return null;
+		}
+
 		var theDate = DateTimeOffset.ParseExact(dateString, "yyyyMMdd", CultureInfo.InvariantCulture);
 
 		// get a post from the database based on the slug submitted
 		var thePosts = await Context.Posts
+			.AsNoTracking()
 			.Where(p => p.Slug == slug )
 			.Select(p => (Post)p)
 			.ToArrayAsync();
@@ -47,7 +53,7 @@ public class PgPostRepository(PgContext Context) : IPostRepository
 	public async Task<IEnumerable<Post>> GetPosts()
 	{
 		// get all posts from the database
-		var posts = await Context.Posts.ToArrayAsync();
+		var posts = await Context.Posts.AsNoTracking().ToArrayAsync();
 		return posts.Select(p => (Post)p);
 	}
 
@@ -55,6 +61,7 @@ public class PgPostRepository(PgContext Context) : IPostRepository
 	{
 		// get all posts from the database based on the where clause
 		return await Context.Posts
+			.AsNoTracking()
 			.Where(p => where.Compile().Invoke((Post)p))
 			.Select(p => (Post)p)
 			.ToArrayAsync();
