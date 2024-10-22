@@ -30,6 +30,7 @@ To make it easy for folks to customize, we project that we will build the follow
 - social media integration
 - exporting content
 - static site generation
+- multitenancy support
 
 ## Future extensions we would like to support
 
