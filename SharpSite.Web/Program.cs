@@ -35,6 +35,7 @@ app.UseOutputCache();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
+app.MapSiteMap();
 app.MapDefaultEndpoints();
 
 app.Run();
