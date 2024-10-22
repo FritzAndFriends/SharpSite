@@ -12,6 +12,11 @@
 }
 else
 {
+
+	@** add a link to create a new post *@
+	<a href="/admin/post">New Post</a>
+		
+
 	@** use a quickgrid to format the list of posts with each posts title being a link to the editpost page for that post *@
 	<QuickGrid Items="@GridPosts" style="width: 100%">
 		<TemplateColumn Title="Title">
