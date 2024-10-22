@@ -16,6 +16,6 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		Posts = await PostService.GetPosts();
+		Posts = (await PostService.GetPosts()).OrderByDescending(p => p.PublishedDate);
 	}
 }
