@@ -20,7 +20,6 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         global-json-file: global.json
-        cache: true
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
