@@ -1,6 +1,4 @@
 @page "/admin/post/{urldate:int?}/{slug?}"
-@using PSC.Blazor.Components.MarkdownEditor 
-@using PSC.Blazor.Components.MarkdownEditor.EventsArgs
 @inject IPostRepository PostService
 @inject NavigationManager NavManager
 @rendermode InteractiveServer
@@ -35,7 +33,7 @@
 
 <div class="form-group">
 	<label for="content">Content</label>
-	<MarkdownEditor @bind-Value="@Post.Content" HideIcons="@(["mde-tb-image"])"  />
+	<TextEditor @bind-Content="@Post.Content" />
 </div>
 
 }
