@@ -1,11 +1,12 @@
 @page "/{urldate:int}/{slug}"
+@using Markdig
 @inject IPostRepository PostService
 
 @if (Post is not null)
 {
 	<h1>@Post.Title</h1>
 	<h6>@Post.PublishedDate.LocalDateTime</h6>
-	<p>@Post.Content</p>
+	<p>@((MarkupString)Markdown.ToHtml(Post.Content))</p>
 }
 else
 {
