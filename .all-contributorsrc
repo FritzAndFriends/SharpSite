@@ -1,0 +1,27 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "csharpfritz",
+      "name": "Jeffrey T. Fritz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/78577?v=4",
+      "profile": "https://mas.to/@csharpfritz",
+      "contributions": [
+        "code",
+        "projectManagement"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "SharpSite",
+  "projectOwner": "FritzAndFriends"
+}

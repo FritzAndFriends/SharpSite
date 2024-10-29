@@ -1,4 +1,7 @@
 # SharpSite
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 An accessible CMS built with .NET 9 and Blazor that you are free to use.
 
 ## Purpose
@@ -42,6 +45,20 @@ To make it easy for folks to customize, we project that we will build the follow
 ## Contributors
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://mas.to/@csharpfritz"><img src="https://avatars.githubusercontent.com/u/78577?v=4?s=100" width="100px;" alt="Jeffrey T. Fritz"/><br /><sub><b>Jeffrey T. Fritz</b></sub></a><br /><a href="https://github.com/FritzAndFriends/SharpSite/commits?author=csharpfritz" title="Code">💻</a> <a href="#projectManagement-csharpfritz" title="Project Management">📆</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 
