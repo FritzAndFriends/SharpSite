@@ -1,4 +1,5 @@
 @page "/admin/post/{urldate:int?}/{slug?}"
+@inject IOutputCacheStore OutputCacheStore
 @inject IPostRepository PostService
 @inject NavigationManager NavManager
 @rendermode InteractiveServer
@@ -75,12 +76,24 @@
 					Post.Slug = Post.GetSlug(Post.Title);
 					Console.WriteLine(Post.Slug);
 					await PostService.AddPost(Post);
+
+					// flush the outputcache for the sitemap and rss
+					await FlushCache();
+
 					NavManager.NavigateTo("/");
 				}
 				else
 				{
 					await PostService.UpdatePost(Post);
+					await FlushCache();
 					NavManager.NavigateTo("/");
 				}
 		}
+
+		private async Task FlushCache()
+		{
+				await OutputCacheStore.EvictByTagAsync("sitemap", CancellationToken.None);
+				await OutputCacheStore.EvictByTagAsync("rss", CancellationToken.None);
+		}
+
 }
