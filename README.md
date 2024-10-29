@@ -37,7 +37,7 @@ To make it easy for folks to customize, we project that we will build the follow
 - Email mailing list management
 - Payments
 - Wordpress import wizard
-- Mobile app for editing
+- Mobile app for editing 
 
 ## Contributors
 
