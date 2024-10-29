@@ -36,6 +36,7 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.MapSiteMap();
+app.MapRobotsTxt();
 app.MapDefaultEndpoints();
 
 app.Run();
