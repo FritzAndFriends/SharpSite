@@ -14,6 +14,9 @@ public class PgPost
 	[Required, MaxLength(200)]
 	public required string Title { get; set; }
 
+	[MaxLength(500)]
+	public string? Description { get; set; }
+
 	[Required]
 	public required string Content { get; set; } = string.Empty;
 
@@ -27,6 +30,7 @@ public class PgPost
 		{
 			Slug = post.Slug,
 			Title = post.Title,
+			Description = post.Description,
 			Content = post.Content,
 			Published = post.PublishedDate
 		};
@@ -40,6 +44,7 @@ public class PgPost
 		{
 			Slug = post.Slug,
 			Title = post.Title,
+			Description = post.Description,
 			Content = post.Content,
 			PublishedDate = post.Published
 		};
