@@ -31,6 +31,12 @@
 	<input type="date" class="form-control" id="publishDate" @bind="Post.PublishedDate" />
 </div>
 
+@** add a textarea for the Post description *@
+<div class="form-group">
+	<label for="description">Description</label>
+	<textarea class="form-control" id="description" rows="3" @bind="Post.Description"></textarea>
+</div>
+
 <div class="form-group">
 	<label for="content">Content</label>
 	<TextEditor @bind-Content="@Post.Content" />
