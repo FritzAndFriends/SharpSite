@@ -60,6 +60,10 @@ git push origin feature_your-feature-name
 
 If you find a bug or have a feature request, please [open an issue](https://github.com/FritzAndFriends/SharpSite/issues) on GitHub. Provide as much detail as possible to help us address the issue quickly.
 
+## Lead Project Maintainer 
+
+[Jeff Fritz](https://github.com/csharpfritz) is the lead project maintainer. Feel free to reach out to him for any significant inquiries or guidance regarding SharpSite. 
+
 ## Code of Conduct
 
 We adhere to the Contributor Covenant [Code of Conduct](https://www.contributor-covenant.org/version/2/0/code_of_conduct/). By participating, you are expected to uphold this code.
