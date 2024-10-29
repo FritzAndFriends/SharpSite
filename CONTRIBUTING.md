@@ -14,7 +14,7 @@ git clone https://github.com/YOUR-USERNAME/SharpSite.git
 3. Create a new branch for your feature or bugfix:
 
 ```
-git checkout -b feature/your-feature-name
+git checkout -b feature_your-feature-name
 ```
 
 ## Development Setup
