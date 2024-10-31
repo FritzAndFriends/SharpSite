@@ -8,14 +8,22 @@ public class PgContext : DbContext
 
 	public PgContext(DbContextOptions<PgContext> options) : base(options) { }
 
+	public DbSet<PgPage> Pages => Set<PgPage>();
+
 	public DbSet<PgPost> Posts => Set<PgPost>();
 	
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
+				modelBuilder.Entity<PgPage>()
+					.HasIndex(p => p.Slug)
+					.IsUnique();
+
         modelBuilder
             .Entity<PgPost>()
             .Property(e => e.Published)
             .HasConversion(new DateTimeOffsetConverter());
+
     }
 
 }

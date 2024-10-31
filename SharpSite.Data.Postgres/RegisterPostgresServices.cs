@@ -9,6 +9,7 @@ public class RegisterPostgresServices : IRegisterServices
 	public IHostApplicationBuilder RegisterServices(IHostApplicationBuilder host)
 	{
 		
+		host.Services.AddScoped<IPageRepository, PgPageRepository>();
 		host.Services.AddScoped<IPostRepository, PgPostRepository>();
 		host.AddNpgsqlDbContext<PgContext>(Constants.DBNAME);
 		
