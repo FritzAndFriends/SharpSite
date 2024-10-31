@@ -22,4 +22,8 @@
     <PackageReference Include="PSC.Blazor.Components.MarkdownEditor" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\SharpSite\SharpSite.Web\.editorconfig" />
+  </ItemGroup>
+
 </Project>
