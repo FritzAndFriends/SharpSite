@@ -44,6 +44,11 @@ public static class ProgramExtensions_Sitemap
 
 			context.Response.ContentType = "application/xml";
 			await context.Response.WriteAsync(sb.ToString());
+		})
+		.CacheOutput(policy =>
+		{
+			policy.Tag("sitemap");
+			policy.Expire(TimeSpan.FromMinutes(30));
 		});
 		return app;
 

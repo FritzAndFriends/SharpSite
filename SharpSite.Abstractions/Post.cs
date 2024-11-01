@@ -14,6 +14,9 @@ public class Post
 		[Required, MaxLength(200)]
 		public required string Title { get; set; } = string.Empty;
 
+		[MaxLength(500)]
+		public string? Description { get; set; }
+
 		[Required]
 		public required string Content { get; set; } = string.Empty;
 

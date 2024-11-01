@@ -1,4 +1,5 @@
 @page "/admin/post/{urldate:int?}/{slug?}"
+@inject IOutputCacheStore OutputCacheStore
 @inject IPostRepository PostService
 @inject NavigationManager NavManager
 @rendermode InteractiveServer
@@ -31,9 +32,15 @@
 	<input type="date" class="form-control" id="publishDate" @bind="Post.PublishedDate" />
 </div>
 
+@** add a textarea for the Post description *@
+<div class="form-group">
+	<label for="description">Description</label>
+	<textarea class="form-control" id="description" rows="3" @bind="Post.Description"></textarea>
+</div>
+
 <div class="form-group">
 	<label for="content">Content</label>
-	<textarea class="form-control" id="content" rows="3" @bind="Post.Content"></textarea>
+	<TextEditor @bind-Content="@Post.Content" />
 </div>
 
 }
@@ -69,12 +76,24 @@
 					Post.Slug = Post.GetSlug(Post.Title);
 					Console.WriteLine(Post.Slug);
 					await PostService.AddPost(Post);
+
+					// flush the outputcache for the sitemap and rss
+					await FlushCache();
+
 					NavManager.NavigateTo("/");
 				}
 				else
 				{
 					await PostService.UpdatePost(Post);
+					await FlushCache();
 					NavManager.NavigateTo("/");
 				}
 		}
+
+		private async Task FlushCache()
+		{
+				await OutputCacheStore.EvictByTagAsync("sitemap", CancellationToken.None);
+				await OutputCacheStore.EvictByTagAsync("rss", CancellationToken.None);
+		}
+
 }
