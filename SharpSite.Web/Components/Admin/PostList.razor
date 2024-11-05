@@ -1,11 +1,11 @@
 @attribute [Route(RouteValues.AdminPostList)]
 @using Microsoft.AspNetCore.Components.QuickGrid
 @inject IPostRepository PostService
-@inject IStringLocalizer<SharedResource> Localizer
 
-<PageTitle>Posts</PageTitle>
 
-<h1>Posts</h1>
+<PageTitle>@Localizer["sharpsite_postsadmin"]</PageTitle>
+
+<h1>@Localizer["sharpsite_postsadmin"]</h1>
 
 @if (Posts is null)
 {

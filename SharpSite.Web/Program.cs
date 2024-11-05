@@ -1,24 +1,15 @@
 using SharpSite.Data.Postgres;
 using SharpSite.Web;
 using SharpSite.Web.Components;
+using SharpSite.Web.Locales;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var pg = new RegisterPostgresServices();
 pg.RegisterServices(builder);
 
-builder.Services.Configure<RequestLocalizationOptions>(options =>
-{
-	var supportedCultures = new[] { "en-US", "nl-NL" };
-	options.SetDefaultCulture(supportedCultures[0])
-		.AddSupportedCultures(supportedCultures)
-		.AddSupportedUICultures(supportedCultures);
-});
-
-builder.Services.AddLocalization(options =>
-{
-	options.ResourcesPath = "Locales";
-});
+// add the custom localization features for the application framework
+builder.ConfigureRequestLocalization();
 
 // Add service defaults & Aspire components.
 builder.AddServiceDefaults();
