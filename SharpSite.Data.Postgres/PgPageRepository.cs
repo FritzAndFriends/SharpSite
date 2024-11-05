@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using SharpSite.Abstractions;
 
@@ -9,10 +10,12 @@ namespace SharpSite.Data.Postgres;
 public class PgPageRepository : IPageRepository
 {
 	private readonly PgContext Context;
+	private readonly IMemoryCache Cache;
 
 	public PgPageRepository(IServiceProvider serviceProvider)
 	{
 		Context = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<PgContext>();
+		Cache = serviceProvider.GetRequiredService<IMemoryCache>();
 	}
 
 	public async Task<Page> AddPage(Page page)
@@ -21,6 +24,8 @@ public class PgPageRepository : IPageRepository
 		// Add the page to the database
 		await Context.Pages.AddAsync((PgPage)page);
 		await Context.SaveChangesAsync();
+
+		Cache.Remove("Pages");
 
 		return page;
 
@@ -39,11 +44,19 @@ public class PgPageRepository : IPageRepository
 		Context.Pages.Remove(page);
 		await Context.SaveChangesAsync();
 
+		Cache.Remove("Pages");
+
 	}
 
 	public async Task<Page?> GetPage(string slug)
 	{
-		
+
+		// check if the page is in the cache
+		if (Cache.TryGetValue("Pages", out IEnumerable<Page>? pages))
+		{
+			return pages!.FirstOrDefault(p => p.Slug == slug);
+		}
+
 		// get the page with a given slug
 		var page = await Context.Pages
 			.AsNoTracking()
@@ -61,10 +74,18 @@ public class PgPageRepository : IPageRepository
 
 	public async Task<IEnumerable<Page>> GetPages()
 	{
-		// get all pages from the database
-		return (await Context.Pages.AsNoTracking().ToListAsync())
-			.Select(p => (Page)p)
-			.ToList();
+
+		// check if the pages are in the cache
+		return await Cache.GetOrCreateAsync("Pages", async entry =>
+		{
+			entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5);
+			var pages = await Context.Pages
+				.AsNoTracking()
+				.Select(p => (Page)p)
+				.ToListAsync();
+	
+			return pages ?? Enumerable.Empty<Page>();
+		}) ?? Enumerable.Empty<Page>();
 
 	}
 
@@ -72,11 +93,11 @@ public class PgPageRepository : IPageRepository
 	{
 
 		// get all pages from the database that satisfy the given condition
-		return await Context.Pages
-			.AsNoTracking()
+		var pages = await GetPages();
+		return pages
 			.Where(p => where.Compile().Invoke((Page)p))
 			.Select(p => (Page)p)
-			.ToListAsync();
+			.ToList();
 
 	}
 
