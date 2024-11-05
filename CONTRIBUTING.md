@@ -44,6 +44,37 @@ dotnet run
 - Keep code changes concise and focused.
 - Write clear, descriptive commit messages.
 
+## Adding Translations
+
+To add translations for a new locale, follow these steps:
+
+1. **Add a .resx File**:
+    - Navigate to the `SharpSite.Web/Locales` folder in the project.
+    - Add a new `.resx` file with the appropriate naming convention, e.g., `SharedResource.<locale>.resx` (e.g., `SharedResource.fr.resx` for French).
+    - Add the necessary key-value pairs for the translations in the `.resx` file.
+
+2. **Update Locales Configuration**:
+    - Open `Locales/Configuration.cs`.
+    - Add an entry for the new locale in the appropriate configuration section. For example:
+
+      ```csharp
+      public static class Configuration
+      {
+        public readonly static string[] SupportedCultures = {
+           "en-US",
+           "nl-NL"
+            // Add your new locale here
+           "<locale>"
+        };
+        ...
+      }
+
+      ```
+
+3. **Verify Translations**:
+    - Ensure that the translations are correctly loaded and displayed in the application.
+    - Test the application with the new locale to verify that all translations are working as expected.
+
 ## Submitting Changes
 
 1. Ensure all tests pass before submitting a pull request.
@@ -60,9 +91,9 @@ git push origin feature_your-feature-name
 
 If you find a bug or have a feature request, please [open an issue](https://github.com/FritzAndFriends/SharpSite/issues) on GitHub. Provide as much detail as possible to help us address the issue quickly.
 
-## Lead Project Maintainer 
+## Lead Project Maintainer
 
-[Jeff Fritz](https://github.com/csharpfritz) is the lead project maintainer. Feel free to reach out to him for any significant inquiries or guidance regarding SharpSite. 
+[Jeff Fritz](https://github.com/csharpfritz) is the lead project maintainer. Feel free to reach out to him for any significant inquiries or guidance regarding SharpSite.
 
 ## Code of Conduct
 

@@ -2,29 +2,30 @@
 @using Microsoft.AspNetCore.Components.QuickGrid
 @inject IPostRepository PostService
 
-<PageTitle>Posts</PageTitle>
 
-<h1>Posts</h1>
+<PageTitle>@Localizer["sharpsite_postsadmin"]</PageTitle>
+
+<h1>@Localizer["sharpsite_postsadmin"]</h1>
 
 @if (Posts is null)
 {
-	<p><em>Loading...</em></p>
+	<p><em>@Localizer["sharpsite_loading"]</em></p>
 }
 else
 {
 
 	@** add a link to create a new post *@
-	<a href="/admin/post">New Post</a>
+	<a href="/admin/post">@Localizer["sharpsite_newpost"]</a>
 		
 
 	@** use a quickgrid to format the list of posts with each posts title being a link to the editpost page for that post *@
 	<QuickGrid Items="@GridPosts" style="width: 100%">
-		<TemplateColumn Title="Title">
+		<TemplateColumn Title="@Localizer["sharpsite_postlist_title"]">
 				<a href="@($"/admin/post{context.ToUrl()}")">@context.Title</a>
 		</TemplateColumn>
 		<PropertyColumn Property="@(p => p.PublishedDate.ToLocalTime())" 
 			Format="g"
-			Title="Published Date" />
+						Title="@Localizer["sharpsite_postlist_publisheddate"]" />
 	</QuickGrid>
 }
 

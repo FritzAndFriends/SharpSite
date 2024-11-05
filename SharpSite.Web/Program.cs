@@ -1,11 +1,15 @@
 using SharpSite.Data.Postgres;
 using SharpSite.Web;
 using SharpSite.Web.Components;
+using SharpSite.Web.Locales;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var pg = new RegisterPostgresServices();
 pg.RegisterServices(builder);
+
+// add the custom localization features for the application framework
+builder.ConfigureRequestLocalization();
 
 // Add service defaults & Aspire components.
 builder.AddServiceDefaults();
@@ -39,5 +43,7 @@ app.MapSiteMap();
 app.MapRobotsTxt();
 app.MapRssFeed();
 app.MapDefaultEndpoints();
+
+app.UseRequestLocalization();
 
 app.Run();
