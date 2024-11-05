@@ -7,6 +7,19 @@ var builder = WebApplication.CreateBuilder(args);
 var pg = new RegisterPostgresServices();
 pg.RegisterServices(builder);
 
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+	var supportedCultures = new[] { "en-US", "nl-NL" };
+	options.SetDefaultCulture(supportedCultures[0])
+		.AddSupportedCultures(supportedCultures)
+		.AddSupportedUICultures(supportedCultures);
+});
+
+builder.Services.AddLocalization(options =>
+{
+	options.ResourcesPath = "Locales";
+});
+
 // Add service defaults & Aspire components.
 builder.AddServiceDefaults();
 
@@ -39,5 +52,7 @@ app.MapSiteMap();
 app.MapRobotsTxt();
 app.MapRssFeed();
 app.MapDefaultEndpoints();
+
+app.UseRequestLocalization();
 
 app.Run();
