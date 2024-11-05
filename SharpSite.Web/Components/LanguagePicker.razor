@@ -6,9 +6,12 @@
 <div class="mt-3 mb-3 mx-5">
     @if (LocalizationOptions.Value.SupportedCultures != null)
     {
-        @foreach (var culture in LocalizationOptions.Value.SupportedCultures)
+        @foreach (var culture in LocalizationOptions.Value.SupportedCultures.OrderBy(c => c.IetfLanguageTag))
         {
-            <a onclick="location.href = '@SetCulture(culture.Name)'" class="text-decoration-none">
+            <a onclick="location.href = '@SetCulture(culture.Name)'" 
+							role="button"
+							title="@culture.NativeName"
+							class="text-decoration-none ">
                 <span class="badge rounded-pill mx-1 @(culture.ToString() == CultureInfo.CurrentCulture.ToString()?"bg-primary":"bg-primary-dark")">@culture</span>
             </a>
         }
