@@ -1,0 +1,38 @@
+@page "/admin/Pages"
+@inject IPageRepository PageRepository
+
+<PageTitle>@Localizer["sharpsite_pageadmin"]</PageTitle>
+<h1>@Localizer["sharpsite_pageadmin"]</h1>
+
+@* show a list of pages that are currently in use.  Each page record should be a link to a 'EditPage' page*@
+@foreach (var p in Pages)
+{
+	<div class="card">
+		<div class="card-body">
+			<h5 class="card-title">@p.Title</h5>
+			<p class="card-text">@p.Content</p>
+			<a href="@($"/admin/EditPage/{p.Id}")" class="btn btn-primary">@Localizer["sharpsite_edit"]</a>
+
+			<button class="btn btn-danger" @onclick="() => DeletePage(p.Id)">@Localizer["sharpsite_delete"]</button>
+		</div>
+	</div>
+}
+
+@* add a button to create a new page*@
+<a href="/admin/EditPage" class="btn btn-primary">@Localizer["sharpsite_newpage"]</a>
+
+@code {
+		IEnumerable<Page> Pages { get; set; } = Enumerable.Empty<Page>();
+
+		protected override async Task OnInitializedAsync()
+		{
+				Pages = await PageRepository.GetPages();
+		}
+
+		private async Task DeletePage(int id)
+		{
+				await PageRepository.DeletePage(id);
+				Pages = await PageRepository.GetPages();
+		}
+}
+

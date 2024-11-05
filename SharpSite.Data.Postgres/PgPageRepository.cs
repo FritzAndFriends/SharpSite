@@ -1,12 +1,20 @@
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using SharpSite.Abstractions;
 
 namespace SharpSite.Data.Postgres;
 
-public class PgPageRepository(PgContext Context) : IPageRepository
+public class PgPageRepository : IPageRepository
 {
+	private readonly PgContext Context;
+
+	public PgPageRepository(IServiceProvider serviceProvider)
+	{
+		Context = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<PgContext>();
+	}
+
 	public async Task<Page> AddPage(Page page)
 	{
 		
