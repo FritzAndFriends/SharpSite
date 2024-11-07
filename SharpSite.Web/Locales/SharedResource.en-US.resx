@@ -189,4 +189,24 @@
     <value>Posts admin</value>
     <comment>Link text to the Posts Admin page</comment>
   </data>
+  <data name="sharpsite_pageadmin" xml:space="preserve">
+    <value>Page Admin</value>
+    <comment>Link text and title for the Page Admin page</comment>
+  </data>
+  <data name="sharpsite_edit" xml:space="preserve">
+    <value>Edit</value>
+    <comment>Edit text for the edit link on admin pages</comment>
+  </data>
+  <data name="sharpsite_delete" xml:space="preserve">
+    <value>Delete</value>
+    <comment>Delete text for the delete link in Admin pages</comment>
+  </data>
+  <data name="sharpsite_newpage" xml:space="preserve">
+    <value>New Page</value>
+    <comment>Link text for the 'Create New Page' link in the Admin Page list</comment>
+  </data>
+  <data name="sharpsite_editpage" xml:space="preserve">
+    <value>Edit Page</value>
+    <comment>label for editing a page on the Page Edit page</comment>
+  </data>
 </root>

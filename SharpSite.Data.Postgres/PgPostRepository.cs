@@ -2,12 +2,21 @@
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using SharpSite.Abstractions;
 
 namespace SharpSite.Data.Postgres;
 
-public class PgPostRepository(PgContext Context) : IPostRepository
+public class PgPostRepository : IPostRepository
 {
+
+	public PgPostRepository(IServiceProvider serviceProvider)
+	{
+		Context = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<PgContext>();
+	}
+
+	private readonly PgContext Context;
+
 	public async Task<Post> AddPost(Post post)
 	{
 		// add a post to the database
