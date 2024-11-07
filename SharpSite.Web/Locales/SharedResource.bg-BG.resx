@@ -167,10 +167,10 @@
   </data>
 	<data name="sharpsite_home" xml:space="preserve">
     <value>Начало</value>
-    <comment>home page link</comment>
+    <comment>Линк до начална страница</comment>
   </data>
 	<data name="sharpsite_postsadmin" xml:space="preserve">
     <value>Постове админ</value>
-    <comment>Link text to the Posts Admin page</comment>
+    <comment>Линк до постове на админ</comment>
   </data>
 </root>
