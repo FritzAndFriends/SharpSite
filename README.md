@@ -1,6 +1,6 @@
 # SharpSite
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 An accessible CMS built with .NET 9 and Blazor that you are free to use.
 
@@ -54,6 +54,7 @@ To make it easy for folks to customize, we project that we will build the follow
       <td align="center" valign="top" width="14.28%"><a href="https://deepx.de"><img src="https://avatars.githubusercontent.com/u/3179474?v=4?s=100" width="100px;" alt="Mario 'DeepX' Staats"/><br /><sub><b>Mario 'DeepX' Staats</b></sub></a><br /><a href="#design-deepx" title="Design">🎨</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/MdeBruin93"><img src="https://avatars.githubusercontent.com/u/16732519?v=4?s=100" width="100px;" alt="MdeBruin"/><br /><sub><b>MdeBruin</b></sub></a><br /><a href="https://github.com/FritzAndFriends/SharpSite/commits?author=MdeBruin93" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/DjeeBay"><img src="https://avatars.githubusercontent.com/u/22008152?v=4?s=100" width="100px;" alt="DjeeBay"/><br /><sub><b>DjeeBay</b></sub></a><br /><a href="#translation-DjeeBay" title="Translation">🌍</a> <a href="https://github.com/FritzAndFriends/SharpSite/commits?author=DjeeBay" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/DimitarPramatarov"><img src="https://avatars.githubusercontent.com/u/51478619?v=4?s=100" width="100px;" alt="Dimitar Pramatarov"/><br /><sub><b>Dimitar Pramatarov</b></sub></a><br /><a href="#translation-DimitarPramatarov" title="Translation">🌍</a></td>
     </tr>
   </tbody>
 </table>
