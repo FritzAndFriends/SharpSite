@@ -3,10 +3,10 @@ public static class Configuration
 {
 
 	public readonly static string[] SupportedCultures = { 
+		"bg-BG",
 		"en-US", 
 		"fr-FR",
 		"nl-NL",
-		"bg-BG"
 	};
 
 	/// <summary>
