@@ -44,6 +44,15 @@
         "translation",
         "code"
       ]
+    },
+    {
+      "login": "DimitarPramatarov",
+      "name": "Dimitar Pramatarov",
+      "avatar_url": "https://avatars.githubusercontent.com/u/51478619?v=4",
+      "profile": "https://github.com/DimitarPramatarov",
+      "contributions": [
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7,
