@@ -72,6 +72,18 @@ public class PgPageRepository : IPageRepository
 
 	}
 
+	public async Task<Page?> GetPage(int id)
+	{
+		
+		// get the page with a given id
+		var page = await Context.Pages
+			.AsNoTracking()
+			.FirstOrDefaultAsync(p => p.Id == id);
+
+		return page is not null ? (Page?)page : null;
+
+	}
+
 	public async Task<IEnumerable<Page>> GetPages()
 	{
 
@@ -101,4 +113,14 @@ public class PgPageRepository : IPageRepository
 
 	}
 
+	public async Task UpdatePage(Page page)
+	{
+		
+		// update the existing page in the database
+		Context.Pages.Update((PgPage)page);
+		await Context.SaveChangesAsync();
+
+		Cache.Remove("Pages");
+		
+	}
 }
