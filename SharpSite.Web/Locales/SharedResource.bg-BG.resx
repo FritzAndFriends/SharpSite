@@ -117,76 +117,60 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="sharpsite_about" xml:space="preserve">
-    <value>About SharpSite</value>
-    <comment/>
+	<data name="sharpsite_about" xml:space="preserve">
+    <value>За SharpSite</value>
   </data>
-  <data name="sharpsite_about_description" xml:space="preserve">
-    <value>SharpSite is a simple blog engine written in C# using Blazor.</value>
-    <comment/>
+	<data name="sharpsite_about_description" xml:space="preserve">
+    <value>SharpSite е лесна система за блогове създадена с помоща на C# Blazor.</value>
   </data>
-  <data name="sharpsite_about_packages" xml:space="preserve">
-    <value>Packages Used</value>
-    <comment/>
+	<data name="sharpsite_about_packages" xml:space="preserve">
+    <value>Използвани пакети</value>
   </data>
-  <data name="sharpsite_backtohome" xml:space="preserve">
-    <value>Back to home</value>
-    <comment/>
+	<data name="sharpsite_backtohome" xml:space="preserve">
+    <value>Към начало</value>
   </data>
-  <data name="sharpsite_editpost" xml:space="preserve">
-    <value>Edit Post</value>
-    <comment/>
+	<data name="sharpsite_editpost" xml:space="preserve">
+    <value>Редактирай пост</value>
   </data>
-  <data name="sharpsite_editpost_content" xml:space="preserve">
-    <value>Content</value>
-    <comment/>
+	<data name="sharpsite_editpost_content" xml:space="preserve">
+    <value>Съдържание</value>
   </data>
-  <data name="sharpsite_editpost_description" xml:space="preserve">
-    <value>Description</value>
-    <comment/>
+	<data name="sharpsite_editpost_description" xml:space="preserve">
+    <value>Описание</value>
   </data>
-  <data name="sharpsite_editpost_publishdate" xml:space="preserve">
-    <value>Publish Date</value>
-    <comment/>
+	<data name="sharpsite_editpost_publishdate" xml:space="preserve">
+    <value>Публикуван</value>
   </data>
-  <data name="sharpsite_editpost_title" xml:space="preserve">
-    <value>Title</value>
-    <comment/>
+	<data name="sharpsite_editpost_title" xml:space="preserve">
+    <value>Заглваие</value>
   </data>
-  <data name="sharpsite_loading" xml:space="preserve">
-    <value>Loading...</value>
-    <comment/>
+	<data name="sharpsite_loading" xml:space="preserve">
+    <value>Зареждане</value>
   </data>
-  <data name="sharpsite_newpost" xml:space="preserve">
-    <value>New Post</value>
-    <comment/>
+	<data name="sharpsite_newpost" xml:space="preserve">
+    <value>Нов пост</value>
   </data>
-  <data name="sharpsite_pagenotfound" xml:space="preserve">
-    <value>Page not found</value>
-    <comment/>
+	<data name="sharpsite_pagenotfound" xml:space="preserve">
+    <value>Страницата не е намерена</value>
   </data>
-  <data name="sharpsite_postlist_publisheddate" xml:space="preserve">
-    <value>Published Date</value>
-    <comment/>
+	<data name="sharpsite_postlist_publisheddate" xml:space="preserve">
+    <value>Публикуван</value>
   </data>
-  <data name="sharpsite_postlist_title" xml:space="preserve">
-    <value>Title</value>
-    <comment/>
+	<data name="sharpsite_postlist_title" xml:space="preserve">
+    <value>Заглавие</value>
   </data>
-  <data name="sharpsite_save" xml:space="preserve">
-    <value>Save</value>
-    <comment/>
+	<data name="sharpsite_save" xml:space="preserve">
+    <value>Запази</value>
   </data>
-  <data name="sharpsite_unhandled_exception" xml:space="preserve">
-    <value>An unhandled error has occurred.</value>
-    <comment/>
+	<data name="sharpsite_unhandled_exception" xml:space="preserve">
+    <value>Грешка в приложението.</value>
   </data>
-  <data name="sharpsite_home" xml:space="preserve">
-    <value>Home</value>
+	<data name="sharpsite_home" xml:space="preserve">
+    <value>Начало</value>
     <comment>home page link</comment>
   </data>
-  <data name="sharpsite_postsadmin" xml:space="preserve">
-    <value>Posts admin</value>
+	<data name="sharpsite_postsadmin" xml:space="preserve">
+    <value>Постове админ</value>
     <comment>Link text to the Posts Admin page</comment>
   </data>
 </root>
