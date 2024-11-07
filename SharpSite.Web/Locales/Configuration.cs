@@ -5,7 +5,8 @@ public static class Configuration
 	public readonly static string[] SupportedCultures = { 
 		"en-US", 
 		"fr-FR",
-		"nl-NL"
+		"nl-NL",
+		"bg-BG"
 	};
 
 	/// <summary>
