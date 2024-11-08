@@ -7,6 +7,7 @@ public static class Configuration
 		"en-US", 
 		"fr-FR",
 		"nl-NL",
+		"sw-KE",
 	};
 
 	/// <summary>
