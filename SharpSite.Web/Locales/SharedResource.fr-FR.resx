@@ -171,4 +171,19 @@
   <data name="sharpsite_postsadmin" xml:space="preserve">
     <value>Gestion des postes</value>
   </data>
+  <data name="sharpsite_pageadmin" xml:space="preserve">
+    <value>Gestion des pages</value>
+  </data>
+  <data name="sharpsite_edit" xml:space="preserve">
+    <value>Modifier</value>
+  </data>
+  <data name="sharpsite_delete" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="sharpsite_newpage" xml:space="preserve">
+    <value>Nouvelle page</value>
+  </data>
+  <data name="sharpsite_editpage" xml:space="preserve">
+    <value>Modifier la page</value>
+  </data>
 </root>
