@@ -25,6 +25,43 @@
       "contributions": [
         "design"
       ]
+    },
+    {
+      "login": "MdeBruin93",
+      "name": "MdeBruin",
+      "avatar_url": "https://avatars.githubusercontent.com/u/16732519?v=4",
+      "profile": "https://github.com/MdeBruin93",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "DjeeBay",
+      "name": "DjeeBay",
+      "avatar_url": "https://avatars.githubusercontent.com/u/22008152?v=4",
+      "profile": "https://github.com/DjeeBay",
+      "contributions": [
+        "translation",
+        "code"
+      ]
+    },
+    {
+      "login": "DimitarPramatarov",
+      "name": "Dimitar Pramatarov",
+      "avatar_url": "https://avatars.githubusercontent.com/u/51478619?v=4",
+      "profile": "https://github.com/DimitarPramatarov",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "genga898",
+      "name": "Emmanuel Genga",
+      "avatar_url": "https://avatars.githubusercontent.com/u/84174227?v=4",
+      "profile": "https://github.com/genga898",
+      "contributions": [
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7,

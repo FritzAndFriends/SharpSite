@@ -1,0 +1,23 @@
+@page "/{slug:minlength(5):required}"
+@using Markdig
+@inject IPageRepository PageRepository
+
+@if (Page is not null)
+{
+	<h1>@Page.Title</h1>
+	@((MarkupString)Markdown.ToHtml(Page.Content))
+}
+else
+{
+	<PageNotFound />
+}
+
+@code {
+	[Parameter] public string Slug { get; set; } = string.Empty;
+	private Page? Page { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		Page = await PageRepository.GetPage(Slug);
+	}
+}

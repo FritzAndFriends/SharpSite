@@ -1,52 +1,61 @@
 @page "/admin/post/{urldate:int?}/{slug?}"
+
 @inject IOutputCacheStore OutputCacheStore
 @inject IPostRepository PostService
 @inject NavigationManager NavManager
+@inject IStringLocalizer<SharedResource> Localizer
 @rendermode InteractiveServer
 
-<PageTitle>@if (string.IsNullOrEmpty(Slug)) {
-	<text>New Post</text>
-} else {
-	<text>Edit Post</text>
-}
+<PageTitle>
+    @if (string.IsNullOrEmpty(Slug))
+    {
+        <text>@Localizer["sharpsite_newpost"]</text>
+    }
+    else
+    {
+		<text>@Localizer["sharpsite_editpost"]</text>
+    }
 </PageTitle>
 
-
-<h1>@if (string.IsNullOrEmpty(Slug)) {
-	<text>New Post</text>
-} else {
-	<text>Edit Post</text>
-}
+<h1>
+    @if (string.IsNullOrEmpty(Slug))
+    {
+        <text>@Localizer["sharpsite_newpost"]</text>
+    }
+    else
+    {
+        <text>@Localizer["sharpsite_editpost"]</text>
+    }
 </h1>
 
 @if (Post is not null)
 {
 <div class="form-group">
-	<label for="title">Title</label>
+    <label for="title">@Localizer["sharpsite_editpost_title"]</label>
 	<input type="text" class="form-control" id="title" placeholder="Enter title" @bind="Post.Title" />
 </div>
 
 @** add a publish date field *@
 <div class="form-group">
-	<label for="publishDate">Publish Date</label>
+    <label for="publishDate">@Localizer["sharpsite_editpost_publishdate"]</label>
 	<input type="date" class="form-control" id="publishDate" @bind="Post.PublishedDate" />
 </div>
 
 @** add a textarea for the Post description *@
 <div class="form-group">
-	<label for="description">Description</label>
+	<label for="description">@Localizer["sharpsite_editpost_description"]</label>
 	<textarea class="form-control" id="description" rows="3" @bind="Post.Description"></textarea>
 </div>
 
 <div class="form-group">
-	<label for="content">Content</label>
+    <label for="content">@Localizer["sharpsite_editpost_content"]</label>
 	<TextEditor @bind-Content="@Post.Content" />
 </div>
 
 }
 
 <div class="form-group">
-	<button type="submit" class="btn btn-primary" @onclick="SavePost">Save</button>
+	<button type="submit" class="btn btn-primary" @onclick="SavePost">@Localizer["sharpsite_save"]</button>
 </div>
 @code {
 		[Parameter] public string? Slug { get; set; }
