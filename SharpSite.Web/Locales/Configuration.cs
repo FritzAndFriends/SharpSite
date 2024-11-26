@@ -20,7 +20,7 @@ public static class Configuration
 		builder.Services.Configure<RequestLocalizationOptions>(options =>
 		{
 			
-			options.SetDefaultCulture(SupportedCultures[0])
+			options.SetDefaultCulture("en-US")
 									.AddSupportedCultures(SupportedCultures)
 									.AddSupportedUICultures(SupportedCultures);
 		});
