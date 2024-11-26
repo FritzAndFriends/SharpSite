@@ -5,7 +5,7 @@ var builder = Host.CreateApplicationBuilder(args);
 
 builder.AddServiceDefaults();
 var pg = new RegisterPostgresServices();
-pg.RegisterServices(builder);
+pg.RegisterServices(builder, disableRetry: true);
 
 builder.Services.AddHostedService<Worker>();
 
