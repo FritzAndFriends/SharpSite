@@ -8,7 +8,8 @@ public static class ProgramExtensions_Sitemap
 		app.MapGet("/sitemap.xml", async (
 			IHostEnvironment env, 
 			HttpContext context, 
-			IPostRepository postRepository) =>
+			IPostRepository postRepository,
+			IPageRepository pageRepository) =>
 		{
 
 			var host = context.Request.Host.Value;
@@ -38,7 +39,18 @@ public static class ProgramExtensions_Sitemap
 				sb.Append(newXml);
 			}
 
-			// append post URLs
+			// append page URLs
+			var pages = await pageRepository.GetPages();
+			foreach (var page in pages)
+			{
+				var newXml = $"""
+					<url>
+						<loc>https://{host}/{page.Slug.ToLowerInvariant()}</loc>
+						<lastmod>{page.LastUpdate.ToString("yyyy-MM-dd")}</lastmod>
+					</url>
+				""";
+				sb.Append(newXml);
+			}
 
 			sb.Append("</urlset>");
 
