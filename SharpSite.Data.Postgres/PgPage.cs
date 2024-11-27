@@ -17,6 +17,8 @@ public class PgPage
 
 	public string Content {get; set;} = string.Empty;
 
+	public DateTimeOffset LastUpdate { get; set; } = DateTimeOffset.Now;
+
 	public static explicit operator PgPage(Page page)
 	{
 
@@ -25,7 +27,8 @@ public class PgPage
 			Id = page.Id,
 			Title = page.Title,
 			Slug = page.Slug,
-			Content = page.Content
+			Content = page.Content,
+			LastUpdate = page.LastUpdate
 		};
 
 	}
@@ -37,7 +40,8 @@ public class PgPage
 			Id = page.Id,
 			Title = page.Title,
 			Slug = page.Slug,
-			Content = page.Content
+			Content = page.Content,
+			LastUpdate = page.LastUpdate
 		};
 	}
 

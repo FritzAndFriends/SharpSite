@@ -117,6 +117,7 @@ public class PgPageRepository : IPageRepository
 	{
 		
 		// update the existing page in the database
+		page.LastUpdate = DateTimeOffset.Now;
 		Context.Pages.Update((PgPage)page);
 		await Context.SaveChangesAsync();
 

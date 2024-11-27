@@ -42,7 +42,8 @@
 				{
 					Title = "",
 					Slug = "",
-					Content = ""
+					Content = "",
+					LastUpdate = DateTimeOffset.Now
 				};
 			ThisPageTitle = Localizer["sharpsite_newpage"];
 		}
@@ -50,14 +51,17 @@
 
 	private async Task SavePage()
 	{
+
 		if (Id == 0)
 		{
 			// format and set the slug based on the title
 			Page!.Slug = Page!.Title.ToLower().Replace(" ", "-");
+			Page!.LastUpdate = DateTimeOffset.Now;
 			await PageRepository.AddPage(Page!);
 		}
 		else
 		{
+			Page!.LastUpdate = DateTimeOffset.Now;
 			await PageRepository.UpdatePage(Page!);
 		}
 		NavManager.NavigateTo("/admin/Pages");

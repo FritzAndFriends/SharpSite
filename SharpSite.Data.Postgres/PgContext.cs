@@ -19,12 +19,17 @@ public class PgContext : DbContext
 					.HasIndex(p => p.Slug)
 					.IsUnique();
 
-        modelBuilder
-            .Entity<PgPost>()
-            .Property(e => e.Published)
-            .HasConversion(new DateTimeOffsetConverter());
+		modelBuilder
+				.Entity<PgPost>()
+				.Property(e => e.Published)
+				.HasConversion(new DateTimeOffsetConverter());
 
-    }
+		modelBuilder
+			.Entity<PgPage>()
+			.Property(e => e.LastUpdate)
+			.HasConversion(new DateTimeOffsetConverter());
+
+	}
 
 }
 
