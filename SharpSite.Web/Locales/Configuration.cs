@@ -3,17 +3,17 @@ public static class Configuration
 {
 
 	public readonly static string[] SupportedCultures = {
-		"bg-BG",
-		"en-US",
-		"es-ES",
-		"fi-FI",
-		"fr-FR",
-		"it-IT",
-		"nl-NL",
-		"pt-BR",
-		"sv-SE",
-		"sw-KE",
-		"de-DE",
+		"bg",
+		"en",
+		"es",
+		"fi",
+		"fr",
+		"it",
+		"nl",
+		"pt",
+		"sv",
+		"sw",
+		"de",
 	};
 
 	/// <summary>

@@ -33,7 +33,7 @@ jobs:
         with:
           # The source locale (for example, 'en') used to create the glob pattern
           # for which resource (**/*.en.resx) files to use as input
-          sourceLocale: 'en-US'
+          sourceLocale: 'en'
           # The Azure Cognitive Services translator resource subscription key
           subscriptionKey: ${{ secrets.AZURE_TRANSLATOR_SUBSCRIPTION_KEY }}
           # The Azure Cognitive Services translator resource endpoint.
