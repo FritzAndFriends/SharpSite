@@ -43,7 +43,7 @@ jobs:
           # region: ${{ secrets.AZURE_TRANSLATOR_REGION }}
           # (Optional) Locales to translate to, otherwise all possible locales
           # are targeted. Requires double quotes.
-          toLocales: '["bg-BG","es-ES","fi-FI","fr-FR","de-DE","it-IT","nl-NL","pt-BR","sv-SE","sw-KE"]'
+          toLocales: '["bg","es","fi","fr","de","it","nl","pt","sv","sw"]'
 
       - name: create-pull-request
         uses: peter-evans/create-pull-request@v3.4.1
