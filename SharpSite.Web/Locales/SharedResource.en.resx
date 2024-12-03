@@ -207,6 +207,6 @@
   </data>
   <data name="sharpsite_editpage" xml:space="preserve">
     <value>Edit Page</value>
-    <comment>label for editing a page on the Page Edit page</comment>
+    <comment>Label for editing a page on the Page Edit page</comment>
   </data>
 </root>
