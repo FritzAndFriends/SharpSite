@@ -6,7 +6,7 @@ public static class Configuration
 		"bg",
 		"en",
 		"es",
-		"fi",
+		//"fi",
 		"fr",
 		//"it",
 		"nl",
