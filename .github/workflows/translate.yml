@@ -8,6 +8,7 @@ on:
     branches: [ "main" ]
     paths:
     - '**.resx'      # XML-based (resource) translation file format, .NET
+  workflow_dispatch:
 
 # GitHub automatically creates a GITHUB_TOKEN secret to use in your workflow.
 env:
