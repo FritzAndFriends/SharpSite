@@ -9,6 +9,8 @@
     <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="9.0.0" />
     <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0" />
     <PackageVersion Include="markdig" Version="0.37.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Identity.Stores" Version="9.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Localization" Version="9.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Components.QuickGrid" Version="9.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Memory" Version="9.0.0" />
