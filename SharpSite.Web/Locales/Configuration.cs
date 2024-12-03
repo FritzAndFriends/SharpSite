@@ -2,11 +2,16 @@ namespace SharpSite.Web.Locales;
 public static class Configuration
 {
 
-	public readonly static string[] SupportedCultures = { 
+	public readonly static string[] SupportedCultures = {
 		"bg-BG",
-		"en-US", 
+		"en-US",
+		"es-ES",
+		"fi-FI",
 		"fr-FR",
+		"it-IT",
 		"nl-NL",
+		"pt-BR",
+		"sv-SE",
 		"sw-KE",
 		"de-DE",
 	};
@@ -20,7 +25,7 @@ public static class Configuration
 
 		builder.Services.Configure<RequestLocalizationOptions>(options =>
 		{
-			
+
 			options.SetDefaultCulture("en-US")
 									.AddSupportedCultures(SupportedCultures)
 									.AddSupportedUICultures(SupportedCultures);
