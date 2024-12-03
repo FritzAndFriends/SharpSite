@@ -4,7 +4,7 @@ name: Create translation pull request
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the main branch
 on:
-  pull_request:
+  push:
     branches: [ "main" ]
     paths:
     - '**.resx'      # XML-based (resource) translation file format, .NET
