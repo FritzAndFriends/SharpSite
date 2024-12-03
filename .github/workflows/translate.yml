@@ -40,7 +40,7 @@ jobs:
           endpoint: ${{ secrets.AZURE_TRANSLATOR_ENDPOINT }}
           # (Optional) The Azure Cognitive Services translator resource region.
           # This is optional when using a global translator resource.
-          # region: ${{ secrets.AZURE_TRANSLATOR_REGION }}
+          region: 'eastus'
           # (Optional) Locales to translate to, otherwise all possible locales
           # are targeted. Requires double quotes.
           toLocales: '["bg","es","fi","fr","de","it","nl","pt","sv","sw"]'
