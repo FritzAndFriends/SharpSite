@@ -8,10 +8,10 @@ public static class Configuration
 		"es",
 		"fi",
 		"fr",
-		"it",
+		//"it",
 		"nl",
-		"pt",
-		"sv",
+		//"pt",
+		//"sv",
 		"sw",
 		"de",
 	};
