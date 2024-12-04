@@ -203,7 +203,7 @@
   </data>
   <data name="sharpsite_newpage" xml:space="preserve">
     <value>New Page</value>
-    <comment>Link text for the 'Create New Page' link in the Admin Page list</comment>
+    <comment>Link text for the 'Create New Page' link in the Admin Page</comment>
   </data>
   <data name="sharpsite_editpage" xml:space="preserve">
     <value>Edit Page</value>
