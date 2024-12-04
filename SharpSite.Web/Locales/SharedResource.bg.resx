@@ -1,64 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <root>
-  <!--
-    Microsoft ResX Schema
-
-    Version 2.0
-
-    The primary goals of this format is to allow a simple XML format
-    that is mostly human readable. The generation and parsing of the
-    various data types are done through the TypeConverter classes
-    associated with the data types.
-
-    Example:
-
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-
-    There are any number of "resheader" rows that contain simple
-    name/value pairs.
-
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
-    text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
-    mimetype set.
-
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
-    extensible. For a given mimetype the value must be set accordingly:
-
-    Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
-    read any of the formats listed below.
-
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
@@ -117,60 +58,96 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-	<data name="sharpsite_about" xml:space="preserve">
-    <value>За SharpSite</value>
+  <data name="sharpsite_about" xml:space="preserve">
+    <value>Относно SharpSite</value>
+    <comment/>
   </data>
-	<data name="sharpsite_about_description" xml:space="preserve">
-    <value>SharpSite е лесна система за блогове създадена с помоща на C# Blazor.</value>
+  <data name="sharpsite_about_description" xml:space="preserve">
+    <value>SharpSite е прост двигател за блогове, написан на C# с помощта на Blazor.</value>
+    <comment/>
   </data>
-	<data name="sharpsite_about_packages" xml:space="preserve">
+  <data name="sharpsite_about_packages" xml:space="preserve">
     <value>Използвани пакети</value>
+    <comment/>
   </data>
-	<data name="sharpsite_backtohome" xml:space="preserve">
-    <value>Към начало</value>
+  <data name="sharpsite_backtohome" xml:space="preserve">
+    <value>Обратно към дома</value>
+    <comment/>
   </data>
-	<data name="sharpsite_editpost" xml:space="preserve">
-    <value>Редактирай пост</value>
+  <data name="sharpsite_editpost" xml:space="preserve">
+    <value>Редактиране на публикацията</value>
+    <comment/>
   </data>
-	<data name="sharpsite_editpost_content" xml:space="preserve">
-    <value>Съдържание</value>
+  <data name="sharpsite_editpost_content" xml:space="preserve">
+    <value>Доволен</value>
+    <comment/>
   </data>
-	<data name="sharpsite_editpost_description" xml:space="preserve">
+  <data name="sharpsite_editpost_description" xml:space="preserve">
     <value>Описание</value>
+    <comment/>
   </data>
-	<data name="sharpsite_editpost_publishdate" xml:space="preserve">
-    <value>Публикуван</value>
+  <data name="sharpsite_editpost_publishdate" xml:space="preserve">
+    <value>Дата на публикуване</value>
+    <comment/>
   </data>
-	<data name="sharpsite_editpost_title" xml:space="preserve">
-    <value>Заглваие</value>
-  </data>
-	<data name="sharpsite_loading" xml:space="preserve">
-    <value>Зареждане</value>
-  </data>
-	<data name="sharpsite_newpost" xml:space="preserve">
-    <value>Нов пост</value>
-  </data>
-	<data name="sharpsite_pagenotfound" xml:space="preserve">
-    <value>Страницата не е намерена</value>
-  </data>
-	<data name="sharpsite_postlist_publisheddate" xml:space="preserve">
-    <value>Публикуван</value>
-  </data>
-	<data name="sharpsite_postlist_title" xml:space="preserve">
+  <data name="sharpsite_editpost_title" xml:space="preserve">
     <value>Заглавие</value>
+    <comment/>
   </data>
-	<data name="sharpsite_save" xml:space="preserve">
-    <value>Запази</value>
+  <data name="sharpsite_loading" xml:space="preserve">
+    <value>Зареждане...</value>
+    <comment/>
   </data>
-	<data name="sharpsite_unhandled_exception" xml:space="preserve">
-    <value>Грешка в приложението.</value>
+  <data name="sharpsite_newpost" xml:space="preserve">
+    <value>Нова публикация</value>
+    <comment/>
   </data>
-	<data name="sharpsite_home" xml:space="preserve">
-    <value>Начало</value>
-    <comment>Линк до начална страница</comment>
+  <data name="sharpsite_pagenotfound" xml:space="preserve">
+    <value>Страницата не е намерена</value>
+    <comment/>
   </data>
-	<data name="sharpsite_postsadmin" xml:space="preserve">
-    <value>Постове админ</value>
-    <comment>Линк до постове на админ</comment>
+  <data name="sharpsite_postlist_publisheddate" xml:space="preserve">
+    <value>Дата на публикуване</value>
+    <comment/>
+  </data>
+  <data name="sharpsite_postlist_title" xml:space="preserve">
+    <value>Заглавие</value>
+    <comment/>
+  </data>
+  <data name="sharpsite_save" xml:space="preserve">
+    <value>Спасявам</value>
+    <comment/>
+  </data>
+  <data name="sharpsite_unhandled_exception" xml:space="preserve">
+    <value>Възникна необработена грешка.</value>
+    <comment/>
+  </data>
+  <data name="sharpsite_home" xml:space="preserve">
+    <value>Дом</value>
+    <comment>home page link</comment>
+  </data>
+  <data name="sharpsite_postsadmin" xml:space="preserve">
+    <value>Администратор на публикации</value>
+    <comment>Link text to the Posts Admin page</comment>
+  </data>
+  <data name="sharpsite_pageadmin" xml:space="preserve">
+    <value>Администратор на страница</value>
+    <comment>Link text and title for the Page Admin page</comment>
+  </data>
+  <data name="sharpsite_edit" xml:space="preserve">
+    <value>Редактирам</value>
+    <comment>Edit text for the edit link on admin pages</comment>
+  </data>
+  <data name="sharpsite_delete" xml:space="preserve">
+    <value>Изтривам</value>
+    <comment>Delete text for the delete link in Admin pages</comment>
+  </data>
+  <data name="sharpsite_newpage" xml:space="preserve">
+    <value>Нова страница</value>
+    <comment>Link text for the 'Create New Page' link in the Admin Page</comment>
+  </data>
+  <data name="sharpsite_editpage" xml:space="preserve">
+    <value>Редактиране на страница</value>
+    <comment>Label for editing a page on the Page Edit page</comment>
   </data>
 </root>

@@ -59,95 +59,95 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="sharpsite_about" xml:space="preserve">
-    <value>À propos de SharpSite</value>
+    <value>Tietoja SharpSitesta</value>
     <comment/>
   </data>
   <data name="sharpsite_about_description" xml:space="preserve">
-    <value>SharpSite est un moteur de blog simple écrit en C# à l’aide de Blazor.</value>
+    <value>SharpSite on yksinkertainen blogimoottori, joka on kirjoitettu C #: lla Blazorin avulla.</value>
     <comment/>
   </data>
   <data name="sharpsite_about_packages" xml:space="preserve">
-    <value>Forfaits utilisés</value>
+    <value>Käytetyt paketit</value>
     <comment/>
   </data>
   <data name="sharpsite_backtohome" xml:space="preserve">
-    <value>Retour à l’accueil</value>
+    <value>Takaisin etusivulle</value>
     <comment/>
   </data>
   <data name="sharpsite_editpost" xml:space="preserve">
-    <value>Modifier l’article</value>
+    <value>Muokkaa viestiä</value>
     <comment/>
   </data>
   <data name="sharpsite_editpost_content" xml:space="preserve">
-    <value>Contenu</value>
+    <value>Sisältö</value>
     <comment/>
   </data>
   <data name="sharpsite_editpost_description" xml:space="preserve">
-    <value>Description</value>
+    <value>Kuvaus</value>
     <comment/>
   </data>
   <data name="sharpsite_editpost_publishdate" xml:space="preserve">
-    <value>Date de publication</value>
+    <value>Julkaisupäivä</value>
     <comment/>
   </data>
   <data name="sharpsite_editpost_title" xml:space="preserve">
-    <value>Titre</value>
+    <value>Nimike</value>
     <comment/>
   </data>
   <data name="sharpsite_loading" xml:space="preserve">
-    <value>Chargement...</value>
+    <value>Lastaaminen...</value>
     <comment/>
   </data>
   <data name="sharpsite_newpost" xml:space="preserve">
-    <value>Nouveau post</value>
+    <value>Uusi Post</value>
     <comment/>
   </data>
   <data name="sharpsite_pagenotfound" xml:space="preserve">
-    <value>Page introuvable</value>
+    <value>Sivua ei löydy</value>
     <comment/>
   </data>
   <data name="sharpsite_postlist_publisheddate" xml:space="preserve">
-    <value>Date de publication</value>
+    <value>Julkaisupäivä</value>
     <comment/>
   </data>
   <data name="sharpsite_postlist_title" xml:space="preserve">
-    <value>Titre</value>
+    <value>Nimike</value>
     <comment/>
   </data>
   <data name="sharpsite_save" xml:space="preserve">
-    <value>Sauvegarder</value>
+    <value>Säästää</value>
     <comment/>
   </data>
   <data name="sharpsite_unhandled_exception" xml:space="preserve">
-    <value>Une erreur non gérée s’est produite.</value>
+    <value>Tapahtui käsittelemätön virhe.</value>
     <comment/>
   </data>
   <data name="sharpsite_home" xml:space="preserve">
-    <value>Domicile</value>
+    <value>Koti</value>
     <comment>home page link</comment>
   </data>
   <data name="sharpsite_postsadmin" xml:space="preserve">
-    <value>Admin des messages</value>
+    <value>Viestit admin</value>
     <comment>Link text to the Posts Admin page</comment>
   </data>
   <data name="sharpsite_pageadmin" xml:space="preserve">
-    <value>Administrateur de la page</value>
+    <value>Sivun ylläpitäjä</value>
     <comment>Link text and title for the Page Admin page</comment>
   </data>
   <data name="sharpsite_edit" xml:space="preserve">
-    <value>Éditer</value>
+    <value>Muokata</value>
     <comment>Edit text for the edit link on admin pages</comment>
   </data>
   <data name="sharpsite_delete" xml:space="preserve">
-    <value>Supprimer</value>
+    <value>Poistaa</value>
     <comment>Delete text for the delete link in Admin pages</comment>
   </data>
   <data name="sharpsite_newpage" xml:space="preserve">
-    <value>Nouvelle page</value>
+    <value>Uusi sivu</value>
     <comment>Link text for the 'Create New Page' link in the Admin Page</comment>
   </data>
   <data name="sharpsite_editpage" xml:space="preserve">
-    <value>Modifier la page</value>
+    <value>Muokkaa sivua</value>
     <comment>Label for editing a page on the Page Edit page</comment>
   </data>
 </root>

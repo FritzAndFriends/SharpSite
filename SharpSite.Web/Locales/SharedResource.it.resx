@@ -59,95 +59,95 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="sharpsite_about" xml:space="preserve">
-    <value>À propos de SharpSite</value>
+    <value>Informazioni su SharpSite</value>
     <comment/>
   </data>
   <data name="sharpsite_about_description" xml:space="preserve">
-    <value>SharpSite est un moteur de blog simple écrit en C# à l’aide de Blazor.</value>
+    <value>SharpSite è un semplice motore di blog scritto in C# utilizzando Blazor.</value>
     <comment/>
   </data>
   <data name="sharpsite_about_packages" xml:space="preserve">
-    <value>Forfaits utilisés</value>
+    <value>Pacchetti utilizzati</value>
     <comment/>
   </data>
   <data name="sharpsite_backtohome" xml:space="preserve">
-    <value>Retour à l’accueil</value>
+    <value>Torna alla home</value>
     <comment/>
   </data>
   <data name="sharpsite_editpost" xml:space="preserve">
-    <value>Modifier l’article</value>
+    <value>Modifica post</value>
     <comment/>
   </data>
   <data name="sharpsite_editpost_content" xml:space="preserve">
-    <value>Contenu</value>
+    <value>Contenuto</value>
     <comment/>
   </data>
   <data name="sharpsite_editpost_description" xml:space="preserve">
-    <value>Description</value>
+    <value>Descrizione</value>
     <comment/>
   </data>
   <data name="sharpsite_editpost_publishdate" xml:space="preserve">
-    <value>Date de publication</value>
+    <value>Data di pubblicazione</value>
     <comment/>
   </data>
   <data name="sharpsite_editpost_title" xml:space="preserve">
-    <value>Titre</value>
+    <value>Titolo</value>
     <comment/>
   </data>
   <data name="sharpsite_loading" xml:space="preserve">
-    <value>Chargement...</value>
+    <value>Caricamento...</value>
     <comment/>
   </data>
   <data name="sharpsite_newpost" xml:space="preserve">
-    <value>Nouveau post</value>
+    <value>Nuovo post</value>
     <comment/>
   </data>
   <data name="sharpsite_pagenotfound" xml:space="preserve">
-    <value>Page introuvable</value>
+    <value>Pagina non trovata</value>
     <comment/>
   </data>
   <data name="sharpsite_postlist_publisheddate" xml:space="preserve">
-    <value>Date de publication</value>
+    <value>Data di pubblicazione</value>
     <comment/>
   </data>
   <data name="sharpsite_postlist_title" xml:space="preserve">
-    <value>Titre</value>
+    <value>Titolo</value>
     <comment/>
   </data>
   <data name="sharpsite_save" xml:space="preserve">
-    <value>Sauvegarder</value>
+    <value>Salvare</value>
     <comment/>
   </data>
   <data name="sharpsite_unhandled_exception" xml:space="preserve">
-    <value>Une erreur non gérée s’est produite.</value>
+    <value>Si è verificato un errore non gestito.</value>
     <comment/>
   </data>
   <data name="sharpsite_home" xml:space="preserve">
-    <value>Domicile</value>
+    <value>Casa</value>
     <comment>home page link</comment>
   </data>
   <data name="sharpsite_postsadmin" xml:space="preserve">
-    <value>Admin des messages</value>
+    <value>Messaggi di amministrazione</value>
     <comment>Link text to the Posts Admin page</comment>
   </data>
   <data name="sharpsite_pageadmin" xml:space="preserve">
-    <value>Administrateur de la page</value>
+    <value>Amministratore della pagina</value>
     <comment>Link text and title for the Page Admin page</comment>
   </data>
   <data name="sharpsite_edit" xml:space="preserve">
-    <value>Éditer</value>
+    <value>Redigere</value>
     <comment>Edit text for the edit link on admin pages</comment>
   </data>
   <data name="sharpsite_delete" xml:space="preserve">
-    <value>Supprimer</value>
+    <value>Cancellare</value>
     <comment>Delete text for the delete link in Admin pages</comment>
   </data>
   <data name="sharpsite_newpage" xml:space="preserve">
-    <value>Nouvelle page</value>
+    <value>Nuova pagina</value>
     <comment>Link text for the 'Create New Page' link in the Admin Page</comment>
   </data>
   <data name="sharpsite_editpage" xml:space="preserve">
-    <value>Modifier la page</value>
+    <value>Modifica pagina</value>
     <comment>Label for editing a page on the Page Edit page</comment>
   </data>
 </root>

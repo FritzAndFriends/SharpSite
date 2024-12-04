@@ -59,95 +59,95 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="sharpsite_about" xml:space="preserve">
-    <value>À propos de SharpSite</value>
+    <value>Sobre o SharpSite</value>
     <comment/>
   </data>
   <data name="sharpsite_about_description" xml:space="preserve">
-    <value>SharpSite est un moteur de blog simple écrit en C# à l’aide de Blazor.</value>
+    <value>SharpSite é um mecanismo de blog simples escrito em C# usando Blazor.</value>
     <comment/>
   </data>
   <data name="sharpsite_about_packages" xml:space="preserve">
-    <value>Forfaits utilisés</value>
+    <value>Pacotes usados</value>
     <comment/>
   </data>
   <data name="sharpsite_backtohome" xml:space="preserve">
-    <value>Retour à l’accueil</value>
+    <value>Voltar para casa</value>
     <comment/>
   </data>
   <data name="sharpsite_editpost" xml:space="preserve">
-    <value>Modifier l’article</value>
+    <value>Editar postagem</value>
     <comment/>
   </data>
   <data name="sharpsite_editpost_content" xml:space="preserve">
-    <value>Contenu</value>
+    <value>Conteúdo</value>
     <comment/>
   </data>
   <data name="sharpsite_editpost_description" xml:space="preserve">
-    <value>Description</value>
+    <value>Descrição</value>
     <comment/>
   </data>
   <data name="sharpsite_editpost_publishdate" xml:space="preserve">
-    <value>Date de publication</value>
+    <value>Data de publicação</value>
     <comment/>
   </data>
   <data name="sharpsite_editpost_title" xml:space="preserve">
-    <value>Titre</value>
+    <value>Título</value>
     <comment/>
   </data>
   <data name="sharpsite_loading" xml:space="preserve">
-    <value>Chargement...</value>
+    <value>Carregamento...</value>
     <comment/>
   </data>
   <data name="sharpsite_newpost" xml:space="preserve">
-    <value>Nouveau post</value>
+    <value>Nova postagem</value>
     <comment/>
   </data>
   <data name="sharpsite_pagenotfound" xml:space="preserve">
-    <value>Page introuvable</value>
+    <value>Página não encontrada</value>
     <comment/>
   </data>
   <data name="sharpsite_postlist_publisheddate" xml:space="preserve">
-    <value>Date de publication</value>
+    <value>Data de Publicação</value>
     <comment/>
   </data>
   <data name="sharpsite_postlist_title" xml:space="preserve">
-    <value>Titre</value>
+    <value>Título</value>
     <comment/>
   </data>
   <data name="sharpsite_save" xml:space="preserve">
-    <value>Sauvegarder</value>
+    <value>Salvar</value>
     <comment/>
   </data>
   <data name="sharpsite_unhandled_exception" xml:space="preserve">
-    <value>Une erreur non gérée s’est produite.</value>
+    <value>Ocorreu um erro não tratado.</value>
     <comment/>
   </data>
   <data name="sharpsite_home" xml:space="preserve">
-    <value>Domicile</value>
+    <value>Casa</value>
     <comment>home page link</comment>
   </data>
   <data name="sharpsite_postsadmin" xml:space="preserve">
-    <value>Admin des messages</value>
+    <value>Posts admin</value>
     <comment>Link text to the Posts Admin page</comment>
   </data>
   <data name="sharpsite_pageadmin" xml:space="preserve">
-    <value>Administrateur de la page</value>
+    <value>Administrador da página</value>
     <comment>Link text and title for the Page Admin page</comment>
   </data>
   <data name="sharpsite_edit" xml:space="preserve">
-    <value>Éditer</value>
+    <value>Editar</value>
     <comment>Edit text for the edit link on admin pages</comment>
   </data>
   <data name="sharpsite_delete" xml:space="preserve">
-    <value>Supprimer</value>
+    <value>Excluir</value>
     <comment>Delete text for the delete link in Admin pages</comment>
   </data>
   <data name="sharpsite_newpage" xml:space="preserve">
-    <value>Nouvelle page</value>
+    <value>Nova página</value>
     <comment>Link text for the 'Create New Page' link in the Admin Page</comment>
   </data>
   <data name="sharpsite_editpage" xml:space="preserve">
-    <value>Modifier la page</value>
+    <value>Editar página</value>
     <comment>Label for editing a page on the Page Edit page</comment>
   </data>
 </root>

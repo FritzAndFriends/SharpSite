@@ -1,104 +1,45 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
-    Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
-    associated with the data types.
-    
-    Example:
-    
-    ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader>
-    <resheader name="version">2.0</resheader>
-    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
-    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
-    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
-    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
-    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
-        <value>[base64 mime encoded serialized .NET Framework object]</value>
-    </data>
-    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
-        <comment>This is a comment</comment>
-    </data>
-                
-    There are any number of "resheader" rows that contain simple 
-    name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
-    mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
-    extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
-    read any of the formats listed below.
-    
-    mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
-    
-    mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
-
-    mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
-            : using a System.ComponentModel.TypeConverter
-            : and then encoded with base64 encoding.
-    -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -119,71 +60,94 @@
   </resheader>
   <data name="sharpsite_about" xml:space="preserve">
     <value>Über SharpSite</value>
+    <comment/>
   </data>
   <data name="sharpsite_about_description" xml:space="preserve">
-    <value>SharpSite ist eine simple Blog-Engine geschrieben in C# und Blazor.</value>
+    <value>SharpSite ist eine einfache Blog-Engine, die in C# mit Blazor geschrieben wurde.</value>
+    <comment/>
   </data>
   <data name="sharpsite_about_packages" xml:space="preserve">
     <value>Verwendete Pakete</value>
+    <comment/>
   </data>
   <data name="sharpsite_backtohome" xml:space="preserve">
-    <value>Zurück zur Homepage</value>
+    <value>Zurück zur Startseite</value>
+    <comment/>
   </data>
   <data name="sharpsite_editpost" xml:space="preserve">
-    <value>Post bearbeiten</value>
+    <value>Beitrag bearbeiten</value>
+    <comment/>
   </data>
   <data name="sharpsite_editpost_content" xml:space="preserve">
     <value>Inhalt</value>
+    <comment/>
   </data>
   <data name="sharpsite_editpost_description" xml:space="preserve">
     <value>Beschreibung</value>
+    <comment/>
   </data>
   <data name="sharpsite_editpost_publishdate" xml:space="preserve">
-    <value>Veröffentlicht am</value>
+    <value>Datum der Veröffentlichung</value>
+    <comment/>
   </data>
   <data name="sharpsite_editpost_title" xml:space="preserve">
     <value>Titel</value>
+    <comment/>
   </data>
   <data name="sharpsite_loading" xml:space="preserve">
-    <value>Loading...</value>
+    <value>Laden...</value>
+    <comment/>
   </data>
   <data name="sharpsite_newpost" xml:space="preserve">
-    <value>Neuer Post</value>
+    <value>Neuer Beitrag</value>
+    <comment/>
   </data>
   <data name="sharpsite_pagenotfound" xml:space="preserve">
-    <value>Post nicht gefunden</value>
+    <value>Seite nicht gefunden</value>
+    <comment/>
   </data>
   <data name="sharpsite_postlist_publisheddate" xml:space="preserve">
-    <value>Veröffentlicht am</value>
+    <value>Veröffentlichungsdatum</value>
+    <comment/>
   </data>
   <data name="sharpsite_postlist_title" xml:space="preserve">
     <value>Titel</value>
+    <comment/>
   </data>
   <data name="sharpsite_save" xml:space="preserve">
-    <value>Speichern</value>
+    <value>Retten</value>
+    <comment/>
   </data>
   <data name="sharpsite_unhandled_exception" xml:space="preserve">
-    <value>Ein unbehandelter Fehler ist aufgetreten.</value>
+    <value>Ein nicht behandelter Fehler ist aufgetreten.</value>
+    <comment/>
   </data>
   <data name="sharpsite_home" xml:space="preserve">
-    <value>Home</value>
+    <value>Heim</value>
+    <comment>home page link</comment>
   </data>
   <data name="sharpsite_postsadmin" xml:space="preserve">
-    <value>Post Admin</value>
+    <value>Beiträge admin</value>
+    <comment>Link text to the Posts Admin page</comment>
   </data>
   <data name="sharpsite_pageadmin" xml:space="preserve">
-    <value>Seiten Admin</value>
+    <value>Seiten-Admin</value>
+    <comment>Link text and title for the Page Admin page</comment>
   </data>
   <data name="sharpsite_edit" xml:space="preserve">
-    <value>Bearbeiten</value>
+    <value>Redigieren</value>
+    <comment>Edit text for the edit link on admin pages</comment>
   </data>
   <data name="sharpsite_delete" xml:space="preserve">
     <value>Löschen</value>
+    <comment>Delete text for the delete link in Admin pages</comment>
   </data>
   <data name="sharpsite_newpage" xml:space="preserve">
     <value>Neue Seite</value>
+    <comment>Link text for the 'Create New Page' link in the Admin Page</comment>
   </data>
   <data name="sharpsite_editpage" xml:space="preserve">
     <value>Seite bearbeiten</value>
+    <comment>Label for editing a page on the Page Edit page</comment>
   </data>
 </root>
