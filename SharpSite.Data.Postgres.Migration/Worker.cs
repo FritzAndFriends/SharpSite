@@ -1,8 +1,8 @@
-using System.Diagnostics;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using OpenTelemetry.Trace;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
+using OpenTelemetry.Trace;
+using System.Diagnostics;
 
 namespace SharpSite.Data.Postgres.Migration;
 

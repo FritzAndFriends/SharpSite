@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using SharpSite.Abstractions;
-using SharpSite.Web.Components.Account;
 
 namespace SharpSite.Security.Postgres;
 
-internal sealed class IdentityUserAccessor(UserManager<SharpSiteUser> userManager, IdentityRedirectManager redirectManager)
+internal sealed class IdentityUserAccessor(UserManager<PgSharpSiteUser> userManager, IdentityRedirectManager redirectManager)
 {
 	public async Task<SharpSiteUser> GetRequiredUserAsync(HttpContext context)
 	{
