@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SharpSite.Abstractions;
+using SharpSite.Data.Postgres;
 
 namespace SharpSite.Security.Postgres;
 
@@ -42,9 +43,4 @@ public class RegisterPostgresSecurityServices : IRegisterServices
 		return builder;
 
 	}
-}
-
-public static class Constants
-{
-	public const string DBNAME = "SharpSiteSecurity";
 }

@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SharpSite.Abstractions\SharpSite.Abstractions.csproj" />
+    <ProjectReference Include="..\SharpSite.Data.Postgres\SharpSite.Data.Postgres.csproj" />
   </ItemGroup>
 
 </Project>
