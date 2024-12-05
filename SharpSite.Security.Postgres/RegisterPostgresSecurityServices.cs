@@ -3,6 +3,7 @@ global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -113,5 +114,10 @@ public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 			activity?.AddEvent(new ActivityEvent("Assigned admin user to Admin role"));
 		}
 
+	}
+
+	public void MapEndpoints(IEndpointRouteBuilder endpointDooHickey)
+	{
+		endpointDooHickey.MapAdditionalIdentityEndpoints();
 	}
 }

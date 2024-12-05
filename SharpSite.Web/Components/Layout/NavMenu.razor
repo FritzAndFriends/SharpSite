@@ -1,59 +1,106 @@
-﻿@inject IPageRepository PageRepository
+﻿@using System.Security.Claims
+@implements IDisposable
+@inject NavigationManager NavigationManager
+@inject IPageRepository PageRepository
+@inject AuthenticationStateProvider AuthZ
+
 
 <div class="top-row ps-3 navbar navbar-dark">
-        <a href="/"><img src="/logo.webp" /></a>
+	<a href="/"><img src="/logo.webp" /></a>
 </div>
 
 <input type="checkbox" title="Navigation menu" class="navbar-toggler" />
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill" aria-hidden="true"></span> @Localizer["sharpsite_home"]
-            </NavLink>
-        </div>
+	<nav class="flex-column">
+		<div class="nav-item px-3">
+			<NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+				<span class="bi bi-house-door-fill" aria-hidden="true"></span> @Localizer["sharpsite_home"]
+			</NavLink>
+		</div>
 
-				@foreach (var p in Pages)
-				{
-						<div class="nav-item px-3">
-								<NavLink class="nav-link" href="@($"/{p.Slug}")" Match="NavLinkMatch.All">
-										<span class="bi bi-plus-square-fill" aria-hidden="true"></span> @p.Title
-								</NavLink>
-						</div>
-				}
+		@foreach (var p in Pages)
+		{
+			<div class="nav-item px-3">
+				<NavLink class="nav-link" href="@($"/{p.Slug}")" Match="NavLinkMatch.All">
+					<span class="bi bi-plus-square-fill" aria-hidden="true"></span> @p.Title
+				</NavLink>
+			</div>
+		}
 
-				@** insert a horizontal rule to separate the bottom two items in the menu*@
-				<hr class="dropdown-divider" />
+		@** insert a horizontal rule to separate the bottom two items in the menu*@
+		<hr class="dropdown-divider" />
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/admin/posts" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill" aria-hidden="true"></span>@Localizer["sharpsite_postsadmin"]
-            </NavLink>
-        </div>
 
-				<div class="nav-item px-3">
-						<NavLink class="nav-link" href="/admin/pages" Match="NavLinkMatch.All">
-								<span class="bi bi-house-door-fill" aria-hidden="true"></span>@Localizer["sharpsite_pageadmin"]
-						</NavLink>
-				</div>
+		<AuthorizeView>
+			<div class="nav-item px-3">
+				<NavLink class="nav-link" href="/admin/posts" Match="NavLinkMatch.All">
+					<span class="bi bi-house-door-fill" aria-hidden="true"></span>@Localizer["sharpsite_postsadmin"]
+				</NavLink>
+			</div>
+		</AuthorizeView>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/aboutSharpSite" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill" aria-hidden="true"></span>@Localizer["sharpsite_about"]
-            </NavLink>
-        </div>
-        <LanguagePicker />
-    </nav>
+		<AuthorizeView Roles="Admin">
+			<div class="nav-item px-3">
+				<NavLink class="nav-link" href="/admin/pages" Match="NavLinkMatch.All">
+					<span class="bi bi-house-door-fill" aria-hidden="true"></span>@Localizer["sharpsite_pageadmin"]
+				</NavLink>
+			</div>
+		</AuthorizeView>
+
+		<div class="nav-item px-3">
+			<NavLink class="nav-link" href="/aboutSharpSite" Match="NavLinkMatch.All">
+				<span class="bi bi-house-door-fill" aria-hidden="true"></span>@Localizer["sharpsite_about"]
+			</NavLink>
+		</div>
+
+
+		<div class="nav-item px-3">
+			<AuthorizeView>
+				<Authorized>
+					<form action="Account/Logout" method="post">
+						<AntiforgeryToken />
+						<input type="hidden" name="ReturnUrl" value="@currentUrl" />
+						<button type="submit" class="nav-link">
+							<span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
+						</button>
+					</form>
+				</Authorized>
+				<NotAuthorized>
+					<NavLink class="nav-link" href="/Account/Login" Match="NavLinkMatch.All">
+						<span class="bi bi-house-door-fill" aria-hidden="true"></span>Login
+					</NavLink>
+				</NotAuthorized>
+			</AuthorizeView>
+
+		</div>
+
+		<LanguagePicker />
+	</nav>
 </div>
 
 @code {
 
 	IEnumerable<Page> Pages { get; set; } = Enumerable.Empty<Page>();
+	private string? currentUrl;
+
 
 	protected override async Task OnInitializedAsync()
 	{
 		Pages = await PageRepository.GetPages();
+		currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+		NavigationManager.LocationChanged += OnLocationChanged;
+	}
+
+	private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+	{
+		currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+		StateHasChanged();
+	}
+
+	public void Dispose()
+	{
+		NavigationManager.LocationChanged -= OnLocationChanged;
 	}
 
 }

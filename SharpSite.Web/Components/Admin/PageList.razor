@@ -1,5 +1,5 @@
 @page "/admin/Pages"
-@attribute [Authorize]
+@attribute [Authorize(Roles = Constants.Roles.AdminUsers)]
 @inject IPageRepository PageRepository
 @inject NavigationManager NavManager
 @rendermode InteractiveServer

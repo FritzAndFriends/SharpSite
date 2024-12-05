@@ -45,6 +45,7 @@ app.MapRazorComponents<App>()
 		.AddInteractiveServerRenderMode()
 		.AddAdditionalAssemblies(typeof(SharpSite.Security.Postgres.PgSharpSiteUser).Assembly);
 
+pgSecurity.MapEndpoints(app);
 
 app.MapSiteMap();
 app.MapRobotsTxt();

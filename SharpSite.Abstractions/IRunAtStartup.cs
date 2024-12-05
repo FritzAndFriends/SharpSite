@@ -7,3 +7,8 @@ public interface IRunAtStartup
 {
 	Task RunAtStartup(IServiceProvider services);
 }
+
+public interface IHasEndpoints
+{
+	void MapEndpoints(IServiceProvider services);
+}

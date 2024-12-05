@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
-using SharpSite.Abstractions;
 using SharpSite.Security.Postgres;
 using SharpSite.Security.Postgres.Account.Pages;
 using SharpSite.Security.Postgres.Account.Pages.Manage;
@@ -44,7 +43,7 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
 
 		accountGroup.MapPost("/Logout", async (
 				ClaimsPrincipal user,
-				[FromServices] SignInManager<SharpSiteUser> signInManager,
+				[FromServices] SignInManager<PgSharpSiteUser> signInManager,
 				[FromForm] string returnUrl) =>
 		{
 			await signInManager.SignOutAsync();
@@ -55,7 +54,7 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
 
 		manageGroup.MapPost("/LinkExternalLogin", async (
 				HttpContext context,
-				[FromServices] SignInManager<SharpSiteUser> signInManager,
+				[FromServices] SignInManager<PgSharpSiteUser> signInManager,
 				[FromForm] string provider) =>
 		{
 			// Clear the existing external cookie to ensure a clean login process
