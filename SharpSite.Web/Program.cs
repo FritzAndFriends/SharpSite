@@ -53,4 +53,6 @@ app.MapDefaultEndpoints();
 
 app.UseRequestLocalization();
 
+await pgSecurity.RunAtStartup(app.Services);
+
 app.Run();
