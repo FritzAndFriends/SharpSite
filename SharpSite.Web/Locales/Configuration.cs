@@ -14,6 +14,7 @@ public static class Configuration
 		//"sv",
 		"sw",
 		"de",
+		"ca",
 	};
 
 	/// <summary>

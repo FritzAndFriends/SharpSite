@@ -6,12 +6,12 @@ name: .NET Build
 on:
   push:
     branches: [ "main" ]
-    paths-ignore:
-      - '**/*.md'
+    paths:
+      - 'SharpSite.*/**'
   pull_request:
     branches: [ "main" ]
-    paths-ignore:
-      - '**/*.md'
+    paths:
+      - 'SharpSite.*/**'
   workflow_dispatch:
 
 jobs:
