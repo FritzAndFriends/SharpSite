@@ -1,4 +1,5 @@
 @attribute [Route(RouteValues.AdminPostList)]
+@attribute [Authorize()]
 @using Microsoft.AspNetCore.Components.QuickGrid
 @inject IPostRepository PostService
 

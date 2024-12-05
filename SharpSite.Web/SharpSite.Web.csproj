@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SharpSite.Security.Postgres\SharpSite.Security.Postgres.csproj" />
     <ProjectReference Include="..\SharpSite.ServiceDefaults\SharpSite.ServiceDefaults.csproj" />
     <ProjectReference Include="..\SharpSite.Data.Postgres\SharpSite.Data.Postgres.csproj" />
   </ItemGroup>
