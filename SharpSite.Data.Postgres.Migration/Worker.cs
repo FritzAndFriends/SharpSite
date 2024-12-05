@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using OpenTelemetry.Trace;
+using SharpSite.Security.Postgres;
 using System.Diagnostics;
 
 namespace SharpSite.Data.Postgres.Migration;
@@ -15,27 +16,51 @@ public class Worker(
 
 	protected override async Task ExecuteAsync(CancellationToken cancellationToken)
 	{
-		using var activity = s_activitySource.StartActivity("Migrating database", ActivityKind.Client);
-
-		try
+		using (var activity = s_activitySource.StartActivity("Migrating website database", ActivityKind.Client))
 		{
-			using var scope = serviceProvider.CreateScope();
-			var dbContext = scope.ServiceProvider.GetRequiredService<PgContext>();
 
-			await EnsureDatabaseAsync(dbContext, cancellationToken);
-			await RunMigrationAsync(dbContext, cancellationToken);
+			try
+			{
+				using var scope = serviceProvider.CreateScope();
+				var dbContext = scope.ServiceProvider.GetRequiredService<PgContext>();
+
+				await EnsureDatabaseAsync(dbContext, cancellationToken);
+				await RunMigrationAsync(dbContext, cancellationToken);
+
+			}
+			catch (Exception ex)
+			{
+				activity?.RecordException(ex);
+				throw;
+			}
 
 		}
-		catch (Exception ex)
+
+		using (var activity = s_activitySource.StartActivity("Migrating security database", ActivityKind.Client))
 		{
-			activity?.RecordException(ex);
-			throw;
+
+			try
+			{
+				using var scope = serviceProvider.CreateScope();
+				var dbContext = scope.ServiceProvider.GetRequiredService<PgSecurityContext>();
+
+				await EnsureDatabaseAsync(dbContext, cancellationToken);
+				await RunMigrationAsync(dbContext, cancellationToken);
+
+			}
+			catch (Exception ex)
+			{
+				activity?.RecordException(ex);
+				throw;
+			}
+
 		}
 
 		hostApplicationLifetime.StopApplication();
+
 	}
 
-	private static async Task EnsureDatabaseAsync(PgContext dbContext, CancellationToken cancellationToken)
+	private static async Task EnsureDatabaseAsync(DbContext dbContext, CancellationToken cancellationToken)
 	{
 		var dbCreator = dbContext.GetService<IRelationalDatabaseCreator>();
 
@@ -46,7 +71,7 @@ public class Worker(
 
 	}
 
-	private static async Task RunMigrationAsync(PgContext dbContext, CancellationToken cancellationToken)
+	private static async Task RunMigrationAsync(DbContext dbContext, CancellationToken cancellationToken)
 	{
 
 		// Run migration in a transaction to avoid partial migration if it fails.

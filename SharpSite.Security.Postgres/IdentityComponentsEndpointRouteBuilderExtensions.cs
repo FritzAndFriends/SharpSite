@@ -1,10 +1,14 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
 using SharpSite.Abstractions;
+using SharpSite.Security.Postgres;
+using SharpSite.Security.Postgres.Account.Pages;
+using SharpSite.Security.Postgres.Account.Pages.Manage;
 using System.Security.Claims;
 using System.Text.Json;
 
@@ -21,7 +25,7 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
 
 		accountGroup.MapPost("/PerformExternalLogin", (
 				HttpContext context,
-				[FromServices] SignInManager<SharpSiteUser> signInManager,
+				[FromServices] SignInManager<PgSharpSiteUser> signInManager,
 				[FromForm] string provider,
 				[FromForm] string returnUrl) =>
 		{
@@ -71,7 +75,7 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
 
 		manageGroup.MapPost("/DownloadPersonalData", async (
 				HttpContext context,
-				[FromServices] UserManager<SharpSiteUser> userManager,
+				[FromServices] UserManager<PgSharpSiteUser> userManager,
 				[FromServices] AuthenticationStateProvider authenticationStateProvider) =>
 		{
 			var user = await userManager.GetUserAsync(context.User);
@@ -85,7 +89,7 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
 
 			// Only include personal data for download
 			var personalData = new Dictionary<string, string>();
-			var personalDataProps = typeof(SharpSiteUser).GetProperties().Where(
+			var personalDataProps = typeof(PgSharpSiteUser).GetProperties().Where(
 									prop => Attribute.IsDefined(prop, typeof(PersonalDataAttribute)));
 			foreach (var p in personalDataProps)
 			{

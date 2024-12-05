@@ -1,4 +1,5 @@
 using SharpSite.Data.Postgres;
+using SharpSite.Security.Postgres;
 using SharpSite.Web;
 using SharpSite.Web.Components;
 using SharpSite.Web.Locales;
@@ -7,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 var pg = new RegisterPostgresServices();
 pg.RegisterServices(builder);
+
+var pgSecurity = new RegisterPostgresSecurityServices();
+pgSecurity.RegisterServices(builder);
 
 // add the custom localization features for the application framework
 builder.ConfigureRequestLocalization();
@@ -38,7 +42,9 @@ app.UseAntiforgery();
 app.UseOutputCache();
 
 app.MapRazorComponents<App>()
-		.AddInteractiveServerRenderMode();
+		.AddInteractiveServerRenderMode()
+		.AddAdditionalAssemblies(typeof(SharpSite.Security.Postgres.PgSharpSiteUser).Assembly);
+
 
 app.MapSiteMap();
 app.MapRobotsTxt();

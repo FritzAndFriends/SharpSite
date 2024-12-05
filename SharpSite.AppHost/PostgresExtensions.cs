@@ -1,8 +1,8 @@
 public static class PostgresExtensions
 {
 
-	public static 
-		(IResourceBuilder<PostgresDatabaseResource> db, 
+	public static
+		(IResourceBuilder<PostgresDatabaseResource> db,
 		IResourceBuilder<ProjectResource> migrationSvc) AddPostgresServices(
 		this IDistributedApplicationBuilder builder)
 	{
@@ -10,7 +10,8 @@ public static class PostgresExtensions
 		var dbServer = builder.AddPostgres("database")
 			.WithDataVolume($"{SharpSite.Data.Postgres.Constants.DBNAME}-data", false)
 			.WithLifetime(ContainerLifetime.Persistent)
-			.WithPgAdmin(config => {
+			.WithPgAdmin(config =>
+			{
 				// config.WithImageTag("latest");
 				config.WithLifetime(ContainerLifetime.Persistent);
 			});
