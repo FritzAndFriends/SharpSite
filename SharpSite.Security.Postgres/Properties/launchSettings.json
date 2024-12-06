@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "SharpSite.Security.Postgres": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:58101;http://localhost:58102"
+    }
+  }
+}

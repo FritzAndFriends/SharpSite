@@ -1,5 +1,5 @@
 @page "/admin/post/{urldate:int?}/{slug?}"
-
+@attribute [Authorize()]
 @inject IOutputCacheStore OutputCacheStore
 @inject IPostRepository PostService
 @inject NavigationManager NavManager
