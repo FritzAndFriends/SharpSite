@@ -10,7 +10,7 @@ public static class Constants
 		public const string Editor = "Editor";
 		public const string EditorUsers = "Admin,Editor";
 		public const string User = "User";
-
+		public const string AllUsers = "Admin,Editor,User";
 
 	}
 

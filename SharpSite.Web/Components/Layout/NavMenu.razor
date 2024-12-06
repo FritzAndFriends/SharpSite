@@ -39,17 +39,12 @@
 					<span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @user?.DisplayName
 				</NavLink>
 			</div>
-			<div class="nav-item px-3">
-				<NavLink class="nav-link" href="/admin/posts" Match="NavLinkMatch.All">
-					<span class="bi bi-house-door-fill" aria-hidden="true"></span>@Localizer["sharpsite_postsadmin"]
-				</NavLink>
-			</div>
 		</AuthorizeView>
 
-		<AuthorizeView Roles="Admin">
+		<AuthorizeView Roles="@Constants.Roles.AllUsers">
 			<div class="nav-item px-3">
-				<NavLink class="nav-link" href="/admin/pages" Match="NavLinkMatch.All">
-					<span class="bi bi-house-door-fill" aria-hidden="true"></span>@Localizer["sharpsite_pageadmin"]
+				<NavLink class="nav-link" href="/admin" Match="NavLinkMatch.All">
+					<span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> Site Admin
 				</NavLink>
 			</div>
 		</AuthorizeView>
