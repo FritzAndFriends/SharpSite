@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using SharpSite.Abstractions;
 using System.Security.Claims;
 
@@ -27,4 +28,13 @@ public class UserRepository(IServiceProvider services) : IUserRepository
 		return CurrentUser;
 
 	}
+
+	public async Task<IEnumerable<SharpSiteUser>> GetAllUsersAsync()
+	{
+		using var scope = services.CreateScope();
+		var userManager = scope.ServiceProvider.GetRequiredService<UserManager<PgSharpSiteUser>>();
+		var pgUsers = await userManager.Users.ToListAsync();
+		return pgUsers.Select(u => (SharpSiteUser)u).ToList();
+	}
+
 }

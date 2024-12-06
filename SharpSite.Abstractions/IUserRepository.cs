@@ -7,4 +7,6 @@ public interface IUserRepository
 
 	Task<SharpSiteUser> GetUserAsync(ClaimsPrincipal user);
 
+	Task<IEnumerable<SharpSiteUser>> GetAllUsersAsync();
+
 }

@@ -1,0 +1,28 @@
+﻿@page "/admin/users"
+@attribute [Authorize(Roles = Constants.Roles.AdminUsers)]
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject IUserRepository UserRepository
+
+<h3>User List</h3>
+
+<QuickGrid Items="GridUsers" TGridItem="SharpSiteUser" PageSize="10" ShowPager="true">
+	<PropertyColumn Property="@(u => u.UserName)" Title="Username" />
+	<PropertyColumn Property="@(u => u.DisplayName)" Title="Display Name" />
+	@* <PropertyColumn Property="u => u.UserName" Title="Username" /> *@
+
+</QuickGrid>
+
+@code {
+
+	private IEnumerable<SharpSiteUser>? Users { get; set; }
+	IQueryable<SharpSiteUser>? GridUsers => Users?.AsQueryable();
+
+	protected override async Task OnInitializedAsync()
+	{
+
+		Users = await UserRepository.GetAllUsersAsync();
+		await base.OnInitializedAsync();
+
+	}
+
+}
