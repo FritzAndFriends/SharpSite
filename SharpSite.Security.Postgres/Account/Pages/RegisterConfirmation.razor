@@ -3,7 +3,6 @@
 @using System.Text
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
-@using SharpSite.Web.Components.Account
 
 
 @inject UserManager<PgSharpSiteUser> UserManager
@@ -55,7 +54,7 @@ else
             HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
             statusMessage = "Error finding user for unspecified email";
         }
-        else if (EmailSender is IdentityNoOpEmailSender)
+        else if (EmailSender.GetType().Name == "IdentityNoOpEmailSender")
         {
             // Once you add a real email sender, you should remove this code that lets you confirm the account
             var userId = await UserManager.GetUserIdAsync(user);
