@@ -12,6 +12,8 @@ public static class Constants
 		public const string User = "User";
 		public const string AllUsers = "Admin,Editor,User";
 
+		public static string[] AllRoles = [Admin, Editor, User];
+
 	}
 
 }

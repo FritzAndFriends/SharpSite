@@ -9,4 +9,6 @@ public interface IUserRepository
 
 	Task<IEnumerable<SharpSiteUser>> GetAllUsersAsync();
 
+	Task UpdateRoleForUserAsync(SharpSiteUser user);
+
 }
