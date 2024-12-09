@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using SharpSite.Security.Postgres;
@@ -11,9 +12,11 @@ using SharpSite.Security.Postgres;
 namespace SharpSite.Security.Postgres.Migrations
 {
     [DbContext(typeof(PgSecurityContext))]
-    partial class PgSecurityContextModelSnapshot : ModelSnapshot
+    [Migration("20241206163417_User DisplayName")]
+    partial class UserDisplayName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

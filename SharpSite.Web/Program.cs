@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Identity;
+using SharpSite.Abstractions;
 using SharpSite.Data.Postgres;
 using SharpSite.Security.Postgres;
 using SharpSite.Web;
@@ -24,6 +26,8 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddOutputCache();
 builder.Services.AddMemoryCache();
+
+builder.Services.AddSingleton<IEmailSender<SharpSiteUser>, IdentityNoOpEmailSender>();
 
 var app = builder.Build();
 

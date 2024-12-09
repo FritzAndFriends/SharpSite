@@ -1,0 +1,61 @@
+﻿@page "/admin/users"
+@attribute [Authorize(Roles = Constants.Roles.AdminUsers)]
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject IUserRepository UserRepository
+
+<h3>User List</h3>
+
+<QuickGrid Items="GridUsers" TGridItem="SharpSiteUser" Pagination="@pagination">
+	<PropertyColumn Property="@(u => u.UserName)" Title="Username" />
+	<PropertyColumn Property="@(u => u.DisplayName)" Title="Display Name" />
+	<TemplateColumn Title="Role">
+		@if (context.UserName != editUserId)
+		{
+			<button class="btn-link btn" @onclick="() => editUserId = context.UserName!">@context.UserName</button>
+		}
+		else
+		{
+			<InputSelect @bind-Value="context.Role">
+				<option value="">Select Role</option>
+				@foreach (var role in Constants.Roles.AllRoles)
+				{
+					<option value="@role">@role</option>
+				}
+			</InputSelect>
+			<button class="btn-link btn" @onclick="SaveRoleForUser">Save</button>
+			<button class="btn-link btn" @onclick="() => editUserId = string.Empty">Cancel</button>
+		}
+	</TemplateColumn>
+
+</QuickGrid>
+
+@if (Users?.Count() > 10)
+{
+	<Paginator State="@pagination" />
+}
+
+@code {
+
+	private IEnumerable<SharpSiteUser>? Users { get; set; }
+	IQueryable<SharpSiteUser>? GridUsers => Users?.AsQueryable();
+
+	PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
+
+	string editUserId = string.Empty;
+
+	protected override async Task OnInitializedAsync()
+	{
+
+		Users = await UserRepository.GetAllUsersAsync();
+
+		await base.OnInitializedAsync();
+
+	}
+	private async Task SaveRoleForUser()
+	{
+		var editUser = Users!.First(u => u.UserName == editUserId);
+		await UserRepository.UpdateRoleForUserAsync(editUser);
+		editUserId = string.Empty;
+	}
+}
