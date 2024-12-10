@@ -1,6 +1,16 @@
 public static class PostgresExtensions
 {
 
+	/// <summary>
+	/// A collection of version information used by the containers in this app
+	/// </summary>
+	public static class VERSIONS
+	{
+		public const string POSTGRES = "17.2";
+		public const string PGADMIN = "latest";
+	}
+
+
 	public static
 		(IResourceBuilder<PostgresDatabaseResource> db,
 		IResourceBuilder<ProjectResource> migrationSvc) AddPostgresServices(
@@ -8,11 +18,12 @@ public static class PostgresExtensions
 	{
 
 		var dbServer = builder.AddPostgres("database")
+			.WithImageTag(VERSIONS.POSTGRES)
 			.WithDataVolume($"{SharpSite.Data.Postgres.Constants.DBNAME}-data", false)
 			.WithLifetime(ContainerLifetime.Persistent)
 			.WithPgAdmin(config =>
 			{
-				// config.WithImageTag("latest");
+				config.WithImageTag(VERSIONS.PGADMIN);
 				config.WithLifetime(ContainerLifetime.Persistent);
 			});
 

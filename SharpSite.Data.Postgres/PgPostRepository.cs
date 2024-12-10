@@ -1,9 +1,8 @@
-﻿using System.Globalization;
-using System.Linq;
-using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SharpSite.Abstractions;
+using System.Globalization;
+using System.Linq.Expressions;
 
 namespace SharpSite.Data.Postgres;
 
@@ -20,6 +19,8 @@ public class PgPostRepository : IPostRepository
 	public async Task<Post> AddPost(Post post)
 	{
 		// add a post to the database
+		post.PublishedDate = DateTimeOffset.Now;
+		post.LastUpdate = DateTimeOffset.Now;
 		await Context.Posts.AddAsync((PgPost)post);
 		await Context.SaveChangesAsync();
 
@@ -50,11 +51,11 @@ public class PgPostRepository : IPostRepository
 		// get a post from the database based on the slug submitted
 		var thePosts = await Context.Posts
 			.AsNoTracking()
-			.Where(p => p.Slug == slug )
+			.Where(p => p.Slug == slug)
 			.Select(p => (Post)p)
 			.ToArrayAsync();
-		
-		return thePosts.FirstOrDefault(p => 
+
+		return thePosts.FirstOrDefault(p =>
 			p.PublishedDate.UtcDateTime.Date == theDate.UtcDateTime.Date);
 
 	}
@@ -80,6 +81,7 @@ public class PgPostRepository : IPostRepository
 	public async Task<Post> UpdatePost(Post post)
 	{
 		// update a post in the database
+		post.LastUpdate = DateTimeOffset.Now;
 		Context.Posts.Update((PgPost)post);
 		await Context.SaveChangesAsync();
 

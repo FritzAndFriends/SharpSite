@@ -1,13 +1,13 @@
-using System.Text;
 using SharpSite.Abstractions;
+using System.Text;
 
 public static class ProgramExtensions_Sitemap
 {
 	public static WebApplication MapSiteMap(this WebApplication app)
 	{
 		app.MapGet("/sitemap.xml", async (
-			IHostEnvironment env, 
-			HttpContext context, 
+			IHostEnvironment env,
+			HttpContext context,
 			IPostRepository postRepository,
 			IPageRepository pageRepository) =>
 		{
@@ -33,7 +33,7 @@ public static class ProgramExtensions_Sitemap
 				var newXml = $"""
 					<url>
 						<loc>https://{host}{post.ToUrl()}</loc>
-						<lastmod>{post.PublishedDate.ToString("yyyy-MM-dd")}</lastmod>
+						<lastmod>{post.LastUpdate.ToString("yyyy-MM-dd")}</lastmod>
 					</url>
 				""";
 				sb.Append(newXml);
