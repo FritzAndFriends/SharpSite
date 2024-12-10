@@ -1,17 +1,32 @@
 ﻿@inherits LayoutComponentBase
-@*layout SharpSite.Web.Components.Layout.MainLayout*@
 
-<h1>Manage your account</h1>
+<LayoutView Layout="@MainLayoutType">
+  <h1>Manage your account</h1>
 
-<div>
+  <div>
     <h2>Change your account settings</h2>
     <hr />
     <div class="row">
-        <div class="col-lg-3">
-            <ManageNavMenu />
-        </div>
-        <div class="col-lg-9">
-            @Body
-        </div>
+      <div class="col-lg-3">
+        <ManageNavMenu />
+      </div>
+      <div class="col-lg-9">
+        @Body
+      </div>
     </div>
-</div>
+  </div>
+</LayoutView>
+
+@code {
+
+  private Type? MainLayoutType { get; set; }
+
+  protected override void OnInitialized()
+  {
+
+    MainLayoutType = Type.GetType("SharpSite.Web.Components.Layout.MainLayout, SharpSite.Web");
+
+    base.OnInitialized();
+  }
+
+}

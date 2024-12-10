@@ -25,6 +25,8 @@ public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 		builder.Services.AddScoped<IdentityRedirectManager>();
 		builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 
+		builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 		builder.Services.AddAuthentication(options =>
 		{
 			options.DefaultScheme = IdentityConstants.ApplicationScheme;
@@ -104,6 +106,7 @@ public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 		{
 			var admin = new PgSharpSiteUser
 			{
+				DisplayName = "Admin",
 				UserName = "admin@localhost",
 				Email = "admin@localhost",
 				EmailConfirmed = true

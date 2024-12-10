@@ -10,6 +10,12 @@ public class SharpSiteUser
 	}
 
 	public string Id { get; }
+	public required string DisplayName { get; set; }
 	public string? UserName { get; }
 	public string? Email { get; }
+
+	public string? PhoneNumber { get; set; }
+
+	public string? Role { get; set; }
+
 }

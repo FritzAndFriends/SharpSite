@@ -1,0 +1,25 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+<ul class="nav nav-pills flex-column">
+	<AuthorizeView Roles="@Constants.Roles.Admin">
+		<li class="nav-item">
+			<NavLink class="nav-link" href="/admin/pages" Match="NavLinkMatch.All">
+				@Localizer["sharpsite_pageadmin"]
+			</NavLink>
+		</li>
+	</AuthorizeView>
+	<li class="nav-item">
+		<NavLink class="nav-link" href="/admin/posts" Match="NavLinkMatch.All">
+			@Localizer["sharpsite_postsadmin"]
+		</NavLink>
+	</li>
+
+	<AuthorizeView Roles="@Constants.Roles.Admin">
+		<li class="nav-iten">
+			<NavLink class="nav-link" href="/admin/users">
+				User Admin
+			</NavLink>
+		</li>
+	</AuthorizeView>
+
+</ul>
