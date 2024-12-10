@@ -23,6 +23,9 @@ public class PgPost
 	[Required]
 	public required DateTimeOffset Published { get; set; } = DateTimeOffset.MaxValue;
 
+	[Required]
+	public required DateTimeOffset LastUpdate { get; set; } = DateTimeOffset.Now;
+
 	public static explicit operator PgPost(SharpSite.Abstractions.Post post)
 	{
 
@@ -32,7 +35,8 @@ public class PgPost
 			Title = post.Title,
 			Description = post.Description,
 			Content = post.Content,
-			Published = post.PublishedDate
+			Published = post.PublishedDate,
+			LastUpdate = post.LastUpdate,
 		};
 
 	}
@@ -46,7 +50,8 @@ public class PgPost
 			Title = post.Title,
 			Description = post.Description,
 			Content = post.Content,
-			PublishedDate = post.Published
+			PublishedDate = post.Published,
+			LastUpdate = post.LastUpdate,
 		};
 
 	}
