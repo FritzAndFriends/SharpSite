@@ -77,8 +77,14 @@ A package is required to either have a `LICENSE` file embedded or provide an ent
 2. The package should be saved in an isolated folder, 'quarantine' or similar
 3. Extract the manifest from the package and display the content on screen for the admin to review and grant permissions for the plugin
 4. If approved, 
-   1. Move the lib files into a `Plugins` folder 
-   2. Dynamically load the initial assembly 
-   3. Move the web files into the `wwwroot/Plugins/PLUGIN_NAME/` folder
+   1. Move the lib files into a `Plugins` child folder named after the plugin 
+   2. Copy the `manifest.json` for each plugin into its `Plugins` folder
+   3. Dynamically load the initial assembly 
+   4. Load the manifest into the 'LoadedPlugins' application state information
+   5. Move the web files into the `wwwroot/Plugins/PLUGIN_NAME/` folder
 
-We need to enhance the website startup so that it loads the libraries from the `Plugins` folder.
+We need to enhance the website startup so that it loads the libraries and manifests from the `Plugins` folder.
+
+### Enable / Disable plugins
+
+We will want a way to have plugins downloaded, but not enabled
