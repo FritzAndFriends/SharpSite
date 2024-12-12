@@ -8,6 +8,11 @@ using SharpSite.Web.Locales;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//Assembly.LoadFrom(
+//	Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory!.FullName,
+//		"Sample.FirstThemePlugin.dll")
+//	);
+
 var pg = new RegisterPostgresServices();
 pg.RegisterServices(builder);
 
@@ -29,6 +34,8 @@ builder.Services.AddMemoryCache();
 
 builder.Services.AddSingleton<IEmailSender<SharpSiteUser>, IdentityNoOpEmailSender>();
 
+builder.Services.AddSingleton<ApplicationState>();
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -47,7 +54,10 @@ app.UseOutputCache();
 
 app.MapRazorComponents<App>()
 		.AddInteractiveServerRenderMode()
-		.AddAdditionalAssemblies(typeof(SharpSite.Security.Postgres.PgSharpSiteUser).Assembly);
+		.AddAdditionalAssemblies(
+		typeof(SharpSite.Security.Postgres.PgSharpSiteUser).Assembly
+		//typeof(Sample.FirstThemePlugin.Theme).Assembly
+		);
 
 pgSecurity.MapEndpoints(app);
 

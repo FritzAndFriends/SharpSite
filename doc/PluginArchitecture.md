@@ -41,6 +41,7 @@ The manifest should include information Like the following:
 - Author website (optional)
 - Source repository (optional)
 - Tags
+- Required SharpSite feature access
 
 ### Licenses
 
@@ -62,6 +63,7 @@ A package is required to either have a `LICENSE` file embedded or provide an ent
 	"AuthorWebsite": "https://footheme.com",
 	"Source": "https://github.com/footheme",
 	"KnownLicense": "MIT",
-	"Tags": ["theme", "foo", "bar"]
+	"Tags": ["theme", "foo", "bar"],
+	"Features": ["theme"]
 }
 ```

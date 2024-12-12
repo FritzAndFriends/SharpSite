@@ -1,0 +1,23 @@
+﻿@inject ApplicationState AppState
+@using System.Reflection
+@using SharpSite.Abstractions.Theme
+
+@foreach (var item in (ThemeComponent?.Stylesheets ?? []))
+{
+	<link rel="stylesheet" type="text/css" href="@item" />
+}
+
+@code {
+	IHasStylesheets? ThemeComponent;
+
+	protected override void OnInitialized()
+	{
+
+		ThemeComponent = !string.IsNullOrEmpty(AppState.CurrentThemeType)
+			? Activator.CreateInstance(Type.GetType(AppState.CurrentThemeType)!) as IHasStylesheets
+			: null;
+
+		base.OnInitialized();
+	}
+
+}
