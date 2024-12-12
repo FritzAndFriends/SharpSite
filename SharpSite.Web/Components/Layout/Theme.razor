@@ -2,22 +2,33 @@
 @using System.Reflection
 @using SharpSite.Abstractions.Theme
 
-@foreach (var item in (ThemeComponent?.Stylesheets ?? []))
+@foreach (var item in (Stylesheets))
 {
-	<link rel="stylesheet" type="text/css" href="@item" />
+	var theUrl = item.StartsWith("http") ? item : FormatThemeStylesheetLocation(item);
+	<link rel="stylesheet" type="text/css" href="@theUrl" />
 }
 
 @code {
 	IHasStylesheets? ThemeComponent;
 
+	string[] Stylesheets = [];
+
 	protected override void OnInitialized()
 	{
+
 
 		ThemeComponent = !string.IsNullOrEmpty(AppState.CurrentThemeType)
 			? Activator.CreateInstance(Type.GetType(AppState.CurrentThemeType)!) as IHasStylesheets
 			: null;
 
+		Stylesheets = ThemeComponent?.Stylesheets ?? [];
+
 		base.OnInitialized();
+	}
+
+	string FormatThemeStylesheetLocation(string stylesheet)
+	{
+		return $"/Plugins/{ThemeComponent?.GetType().Assembly.GetName().Name}/{stylesheet}";
 	}
 
 }

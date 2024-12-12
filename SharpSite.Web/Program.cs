@@ -5,13 +5,14 @@ using SharpSite.Security.Postgres;
 using SharpSite.Web;
 using SharpSite.Web.Components;
 using SharpSite.Web.Locales;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Assembly.LoadFrom(
-//	Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory!.FullName,
-//		"Sample.FirstThemePlugin.dll")
-//	);
+Assembly.LoadFrom(
+	Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory!.FullName,
+		"Sample.FirstThemePlugin.dll")
+	);
 
 var pg = new RegisterPostgresServices();
 pg.RegisterServices(builder);

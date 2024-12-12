@@ -15,10 +15,13 @@ The collection should include at a minimum the following for a package called `M
 
 ```
  manifest.json
- MyPlugin.dll
  README.md
  Changelog.txt
  LICENSE
+ lib
+ - MyPlugin.dll
+ web
+ - theme.css
 ```
 
 The name of the entry DLL must match the name of the package.  SharpSite will attempt to load this DLL
@@ -67,3 +70,15 @@ A package is required to either have a `LICENSE` file embedded or provide an ent
 	"Features": ["theme"]
 }
 ```
+
+### Plugin Install Process
+
+1. A plugin package should be uploaded to SharpSite using an Site Admin UI.  
+2. The package should be saved in an isolated folder, 'quarantine' or similar
+3. Extract the manifest from the package and display the content on screen for the admin to review and grant permissions for the plugin
+4. If approved, 
+   1. Move the lib files into a `Plugins` folder 
+   2. Dynamically load the initial assembly 
+   3. Move the web files into the `wwwroot/Plugins/PLUGIN_NAME/` folder
+
+We need to enhance the website startup so that it loads the libraries from the `Plugins` folder.
