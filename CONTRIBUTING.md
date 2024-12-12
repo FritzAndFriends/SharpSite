@@ -20,7 +20,8 @@ git checkout -b feature_your-feature-name
 ## Development Setup
 
 1. Ensure you have .NET 9 SDK installed on your machine.
-2. Install the necessary dependencies.  From the root folder, run this command:
+2. Configure Docker or Podman on your machine.  We will use this with .NET Aspire.  More details about configuring and using .NET Aspire can be found at: https://learn.microsoft.com/dotnet/aspire/fundamentals/setup-tooling
+3. Install the necessary dependencies.  From the root folder, run this command:
 
 ```
 dotnet restore
