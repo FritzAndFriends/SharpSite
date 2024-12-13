@@ -32,7 +32,24 @@ dotnet restore
 dotnet build
 ```
 
-4. Run the project locally with .NET Aspire from the **SharpSite.AppHost** folder:
+4. Install development certificates for local development.
+
+Generate a new HTTPS development certificate:
+```bash
+dotnet dev-certs https --trust
+```
+
+Export the HTTPS development certificate:
+```bash
+dotnet dev-certs https -ep path/to/certificate.pfx -p yourpassword
+```
+
+Verify the HTTPS development certificate:
+```bash
+dotnet dev-certs https --check --trust
+```
+
+5. Run the project locally with .NET Aspire from the **SharpSite.AppHost** folder:
 
 ```
 dotnet run
