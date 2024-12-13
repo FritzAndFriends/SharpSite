@@ -16,9 +16,8 @@
 	protected override void OnInitialized()
 	{
 
-
-		ThemeComponent = !string.IsNullOrEmpty(AppState.CurrentThemeType)
-			? Activator.CreateInstance(Type.GetType(AppState.CurrentThemeType)!) as IHasStylesheets
+		ThemeComponent = AppState.CurrentThemeType is not null
+			? Activator.CreateInstance(AppState.CurrentThemeType) as IHasStylesheets
 			: null;
 
 		Stylesheets = ThemeComponent?.Stylesheets ?? [];

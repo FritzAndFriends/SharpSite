@@ -35,16 +35,5 @@
     <EditorConfigFiles Remove="D:\SharpSite\SharpSite.Web\.editorconfig" />
   </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Locales\SharedResource.en-US.resx">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Locales\SharedResource.nl-NL.resx">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Locales\SharedResource.resx">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
 
 </Project>

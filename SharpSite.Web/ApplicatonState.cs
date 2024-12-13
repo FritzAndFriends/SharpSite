@@ -4,7 +4,7 @@ namespace SharpSite.Web;
 
 public class ApplicationState
 {
-	public string? CurrentThemeType => "Sample.FirstThemePlugin.MyTheme, Sample.FirstThemePlugin";
+	public Type? CurrentThemeType { get; set; }
 
 	/// <summary>
 	/// List of the plugins that are currently loaded.

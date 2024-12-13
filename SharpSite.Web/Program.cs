@@ -1,18 +1,17 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.FileProviders;
 using SharpSite.Abstractions;
 using SharpSite.Data.Postgres;
 using SharpSite.Security.Postgres;
 using SharpSite.Web;
 using SharpSite.Web.Components;
 using SharpSite.Web.Locales;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-Assembly.LoadFrom(
-	Path.Combine(new FileInfo(Assembly.GetExecutingAssembly().Location).Directory!.FullName,
-		"Sample.FirstThemePlugin.dll")
-	);
+// Load plugins
+var appState = new ApplicationState();
+await PluginManager.LoadPluginsAtStartup(appState);
 
 var pg = new RegisterPostgresServices();
 pg.RegisterServices(builder);
@@ -26,7 +25,6 @@ builder.ConfigureRequestLocalization();
 // Add service defaults & Aspire components.
 builder.AddServiceDefaults();
 
-builder.Services.AddTransient<PluginManager>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -42,7 +40,8 @@ builder.Services.AddMemoryCache();
 
 builder.Services.AddSingleton<IEmailSender<SharpSiteUser>, IdentityNoOpEmailSender>();
 
-builder.Services.AddSingleton<ApplicationState>();
+builder.Services.AddSingleton(appState);
+builder.Services.AddTransient<PluginManager>();
 
 var app = builder.Build();
 
@@ -55,7 +54,22 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseStaticFiles();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+	FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "wwwroot")),
+	RequestPath = ""
+});
+
+// create the plugins folder if it doesn't exist
+Directory.CreateDirectory(Path.Combine(app.Environment.ContentRootPath, "plugins"));
+Directory.CreateDirectory(Path.Combine(app.Environment.ContentRootPath, "plugins/_wwwroot"));
+
+app.UseStaticFiles(new StaticFileOptions
+{
+	FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "plugins/_wwwroot")),
+	RequestPath = "/plugins"
+});
 app.UseAntiforgery();
 
 app.UseOutputCache();

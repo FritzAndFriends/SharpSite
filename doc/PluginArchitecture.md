@@ -74,7 +74,7 @@ A package is required to either have a `LICENSE` file embedded or provide an ent
 ### Plugin Install Process
 
 1. A plugin package should be uploaded to SharpSite using an Site Admin UI.  
-2. The package should be saved in an isolated folder, 'quarantine' or similar
+2. The package should be saved in an isolated folder, `_uploaded`
 3. Extract the manifest from the package and display the content on screen for the admin to review and grant permissions for the plugin
 4. If approved, 
    1. Move the lib files into a `Plugins` child folder named after the plugin 

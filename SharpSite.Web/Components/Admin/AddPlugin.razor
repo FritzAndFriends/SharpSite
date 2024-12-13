@@ -39,7 +39,7 @@
 	@* add an accept and reject button *@
 	<div class="form-group">
 		<button class="btn btn-primary" @onclick="SavePlugin">Accept</button>
-		<button class="btn btn-danger">Reject</button>
+		<button class="btn btn-danger" @onclick="RejectPlugin">Reject</button>
 	</div>
 
 }
@@ -68,6 +68,11 @@
 	private async Task SavePlugin()
 	{
 		await PluginManager.SavePlugin();
+		NavigationManager.NavigateTo("/admin/plugins");
+	}
+	private void RejectPlugin(MouseEventArgs e)
+	{
+		// Navigate back to the list of plugins
 		NavigationManager.NavigateTo("/admin/plugins");
 	}
 }
