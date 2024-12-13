@@ -1,6 +1,6 @@
 # SharpSite
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 An accessible CMS built with .NET 9 and Blazor that you are free to use.
 
@@ -57,6 +57,9 @@ To make it easy for folks to customize, we project that we will build the follow
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/DimitarPramatarov"><img src="https://avatars.githubusercontent.com/u/51478619?v=4?s=100" width="100px;" alt="Dimitar Pramatarov"/><br /><sub><b>Dimitar Pramatarov</b></sub></a><br /><a href="#translation-DimitarPramatarov" title="Translation">🌍</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/genga898"><img src="https://avatars.githubusercontent.com/u/84174227?v=4?s=100" width="100px;" alt="Emmanuel Genga"/><br /><sub><b>Emmanuel Genga</b></sub></a><br /><a href="#translation-genga898" title="Translation">🌍</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/mcNets"><img src="https://avatars.githubusercontent.com/u/24267381?v=4?s=100" width="100px;" alt="Joan Magnet"/><br /><sub><b>Joan Magnet</b></sub></a><br /><a href="#translation-mcnets" title="Translation">🌍</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/default-writer/c"><img src="https://avatars.githubusercontent.com/u/383256?v=4?s=100" width="100px;" alt="default-writer"/><br /><sub><b>default-writer</b></sub></a><br /><a href="https://github.com/FritzAndFriends/SharpSite/commits?author=default-writer" title="Documentation">📖</a></td>
     </tr>
   </tbody>
 </table>
