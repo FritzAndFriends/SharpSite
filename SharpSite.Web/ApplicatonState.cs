@@ -9,6 +9,11 @@ public class ApplicationState
 	/// <summary>
 	/// List of the plugins that are currently loaded.
 	/// </summary>
-	public Dictionary<string, PluginManifest> Plugins => new();
+	public Dictionary<string, PluginManifest> Plugins { get; } = new();
+
+	public void AddPlugin(string pluginName, PluginManifest manifest)
+	{
+		Plugins.Add(pluginName, manifest);
+	}
 
 }

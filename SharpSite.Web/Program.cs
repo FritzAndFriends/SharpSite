@@ -26,9 +26,16 @@ builder.ConfigureRequestLocalization();
 // Add service defaults & Aspire components.
 builder.AddServiceDefaults();
 
+builder.Services.AddTransient<PluginManager>();
+
 // Add services to the container.
 builder.Services.AddRazorComponents()
-		.AddInteractiveServerComponents();
+		.AddInteractiveServerComponents()
+		.AddHubOptions(options =>
+		{
+			options.MaximumReceiveMessageSize = 1024 * 1024 * 10; // 10 MB
+			options.EnableDetailedErrors = true;
+		});
 
 builder.Services.AddOutputCache();
 builder.Services.AddMemoryCache();

@@ -183,4 +183,7 @@
   <data name="sharpsite_nopluginsinstalled" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
+  <data name="sharpsite_addnewplugin" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
 </root>
