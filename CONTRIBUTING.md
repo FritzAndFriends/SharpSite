@@ -2,6 +2,12 @@
 
 Thank you for your interest in contributing to SharpSite! Your contributions are valuable and help improve the project for everyone. Here's how you can get started:
 
+
+## Prerequisites
+
+- [.NET 9 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
+
+
 ## Getting Started
 
 1. Fork the repository to your GitHub account.
