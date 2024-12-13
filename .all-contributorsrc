@@ -72,6 +72,15 @@
       "contributions": [
         "translation"
       ]
+    },
+    {
+      "login": "default-writer",
+      "name": "default-writer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/383256?v=4",
+      "profile": "https://github.com/default-writer/c",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
