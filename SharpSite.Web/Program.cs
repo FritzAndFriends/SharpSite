@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.FileProviders;
 using SharpSite.Abstractions;
 using SharpSite.Data.Postgres;
 using SharpSite.Security.Postgres;
@@ -7,6 +8,10 @@ using SharpSite.Web.Components;
 using SharpSite.Web.Locales;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Load plugins
+var appState = new ApplicationState();
+await PluginManager.LoadPluginsAtStartup(appState);
 
 var pg = new RegisterPostgresServices();
 pg.RegisterServices(builder);
@@ -20,14 +25,23 @@ builder.ConfigureRequestLocalization();
 // Add service defaults & Aspire components.
 builder.AddServiceDefaults();
 
+
 // Add services to the container.
 builder.Services.AddRazorComponents()
-		.AddInteractiveServerComponents();
+		.AddInteractiveServerComponents()
+		.AddHubOptions(options =>
+		{
+			options.MaximumReceiveMessageSize = 1024 * 1024 * 10; // 10 MB
+			options.EnableDetailedErrors = true;
+		});
 
 builder.Services.AddOutputCache();
 builder.Services.AddMemoryCache();
 
 builder.Services.AddSingleton<IEmailSender<SharpSiteUser>, IdentityNoOpEmailSender>();
+
+builder.Services.AddSingleton(appState);
+builder.Services.AddTransient<PluginManager>();
 
 var app = builder.Build();
 
@@ -40,14 +54,32 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseStaticFiles();
+
+app.UseStaticFiles(new StaticFileOptions
+{
+	FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "wwwroot")),
+	RequestPath = ""
+});
+
+// create the plugins folder if it doesn't exist
+Directory.CreateDirectory(Path.Combine(app.Environment.ContentRootPath, "plugins"));
+Directory.CreateDirectory(Path.Combine(app.Environment.ContentRootPath, "plugins/_wwwroot"));
+
+app.UseStaticFiles(new StaticFileOptions
+{
+	FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "plugins/_wwwroot")),
+	RequestPath = "/plugins"
+});
 app.UseAntiforgery();
 
 app.UseOutputCache();
 
 app.MapRazorComponents<App>()
 		.AddInteractiveServerRenderMode()
-		.AddAdditionalAssemblies(typeof(SharpSite.Security.Postgres.PgSharpSiteUser).Assembly);
+		.AddAdditionalAssemblies(
+		typeof(SharpSite.Security.Postgres.PgSharpSiteUser).Assembly
+		//typeof(Sample.FirstThemePlugin.Theme).Assembly
+		);
 
 pgSecurity.MapEndpoints(app);
 

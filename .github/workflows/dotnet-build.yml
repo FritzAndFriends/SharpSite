@@ -9,7 +9,7 @@ on:
     paths:
       - 'SharpSite.*/**'
   pull_request:
-    branches: [ "main" ]
+    branches: [ "*" ]
     paths:
       - 'SharpSite.*/**'
   workflow_dispatch:

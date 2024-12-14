@@ -22,4 +22,12 @@
 		</li>
 	</AuthorizeView>
 
+	<AuthorizeView Roles="@Constants.Roles.Admin">
+		<li class="nav-iten">
+			<NavLink class="nav-link" href="/admin/plugins">
+				@Localizer["sharpsite_pluginmanagement"]
+			</NavLink>
+		</li>
+	</AuthorizeView>
+
 </ul>
