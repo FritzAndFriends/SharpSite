@@ -127,7 +127,8 @@ public class PluginManager(ApplicationState AppState, ILogger<PluginManager> log
 
 	public static Task<ApplicationState> LoadPluginsAtStartup(ApplicationState state)
 	{
-		// Add your logic to load plugins at startup here
+		if (!Directory.Exists("plugins")) return Task.FromResult(state);
+
 		foreach (var pluginFolder in Directory.GetDirectories("plugins"))
 		{
 
