@@ -60,11 +60,6 @@ app.UseStaticFiles(new StaticFileOptions
 	FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "wwwroot")),
 	RequestPath = ""
 });
-
-// create the plugins folder if it doesn't exist
-Directory.CreateDirectory(Path.Combine(app.Environment.ContentRootPath, "plugins"));
-Directory.CreateDirectory(Path.Combine(app.Environment.ContentRootPath, "plugins/_wwwroot"));
-
 app.UseStaticFiles(new StaticFileOptions
 {
 	FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "plugins/_wwwroot")),
