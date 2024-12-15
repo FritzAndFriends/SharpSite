@@ -131,7 +131,6 @@ public class PluginManager(ApplicationState AppState, ILogger<PluginManager> log
 		{
 			// create the plugins folder if it doesn't exist
 			Directory.CreateDirectory( "plugins");
-			Directory.CreateDirectory( "plugins/_wwwroot");
 			return Task.FromResult(state);
 		}
 
