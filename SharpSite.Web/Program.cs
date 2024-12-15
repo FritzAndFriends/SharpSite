@@ -55,16 +55,14 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 
-app.UseStaticFiles(new StaticFileOptions
+var pluginRoot = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, @"plugins/_wwwroot"));
+var compositeFileProvider = new CompositeFileProvider(app.Environment.WebRootFileProvider, pluginRoot);
+app.UseStaticFiles(new StaticFileOptions()
 {
-	FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "wwwroot")),
-	RequestPath = ""
+	FileProvider = compositeFileProvider
+
 });
-app.UseStaticFiles(new StaticFileOptions
-{
-	FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "plugins/_wwwroot")),
-	RequestPath = "/plugins"
-});
+
 app.UseAntiforgery();
 
 app.UseOutputCache();
