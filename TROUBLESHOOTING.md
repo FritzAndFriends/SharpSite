@@ -12,7 +12,7 @@ dotnet workload install aspire
 - Q: running .NET Aspire project AppHost leads to errors:
 
 ```text
-Container runtime 'docker' was found but appears to be unhealthy. Ensure that Docker is running and that the Docker daemon is accessible. If Resource Saver mode is enabled, containers may not run. For more information, visit: https://docs.docker.com/desktop/use-desktop/resource-saver/
+Container runtime 'docker' was found but appears to be unhealthy. Ensure that Docker is running and that the Docker daemon is accessible.
 ```
 
 - A: You need to download Docker Desktop and install it or run it manually.
