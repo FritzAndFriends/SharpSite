@@ -17,12 +17,17 @@ public class PluginManifest
 	public string? Source { get; set; }
 	public string? KnownLicense { get; set; }
 	public string[]? Tags { get; set; }
-	public required string[] Features { get; set; }
+	public required PluginFeatures[] Features { get; set; }
 
 	public string IdVersionToString()
 	{
 		return $"{id}@{Version}";
 	}
 
+}
+
+public enum PluginFeatures
+{
+	Theme
 }
 
