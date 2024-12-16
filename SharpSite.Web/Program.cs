@@ -11,8 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Load plugins
 var appState = new ApplicationState();
-await PluginManager.LoadPluginsAtStartup(appState);
-
 var pg = new RegisterPostgresServices();
 pg.RegisterServices(builder);
 
@@ -60,7 +58,6 @@ var compositeFileProvider = new CompositeFileProvider(app.Environment.WebRootFil
 app.UseStaticFiles(new StaticFileOptions()
 {
 	FileProvider = compositeFileProvider
-
 });
 
 app.UseAntiforgery();
@@ -84,5 +81,9 @@ app.MapDefaultEndpoints();
 app.UseRequestLocalization();
 
 await pgSecurity.RunAtStartup(app.Services);
+
+// Use DI to get the logger
+var pluginManager = app.Services.GetRequiredService<PluginManager>();
+pluginManager.LoadPluginsAtStartup();
 
 app.Run();

@@ -13,7 +13,12 @@ public class ApplicationState
 
 	public void AddPlugin(string pluginName, PluginManifest manifest)
 	{
-		Plugins.Add(pluginName, manifest);
+		if (!Plugins.ContainsKey(pluginName))
+		{
+			Plugins.Add(pluginName, manifest);
+		} else {
+			Plugins[pluginName] = manifest;
+		}
 	}
 
 }
