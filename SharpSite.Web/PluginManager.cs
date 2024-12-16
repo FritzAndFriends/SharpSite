@@ -127,18 +127,16 @@ public class PluginManager(ApplicationState AppState, ILogger<PluginManager> log
 
 	public static Task<ApplicationState> LoadPluginsAtStartup(ApplicationState state)
 	{
-		if (!Directory.Exists("plugins"))
-		{
-			// create the plugins folder if it doesn't exist
-			Directory.CreateDirectory( "plugins");
-			Directory.CreateDirectory( "plugins/_wwwroot");
-			return Task.FromResult(state);
-		}
+		// create the plugins folder if it doesn't exist
+		Directory.CreateDirectory("plugins");
+		Directory.CreateDirectory("plugins/_wwwroot");
 
 		foreach (var pluginFolder in Directory.GetDirectories("plugins"))
 		{
 
 			var pluginName = Path.GetFileName(pluginFolder);
+			if (pluginName.StartsWith("_")) continue;
+
 			var manifestPath = Path.Combine(pluginFolder, "manifest.json");
 			if (!File.Exists(manifestPath)) continue;
 
