@@ -163,9 +163,6 @@ public class PluginManager(ApplicationState AppState, ILogger<PluginManager> log
 			AppState.AddPlugin(key, manifest!);
 			logger.LogInformation("Plugin {PluginName} loaded at startup.", pluginName);
 
-			AppState.AddPlugin(key, manifest!);
-			logger.LogInformation("Plugin {PluginName} loaded at startup.", pluginName);
-
 			if (manifest!.Features.Contains("theme", StringComparer.InvariantCultureIgnoreCase))
 			{
 				// identify a type in the pluginAssembly that implements IHasStylesheets
