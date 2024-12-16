@@ -101,4 +101,7 @@ await pgSecurity.RunAtStartup(app.Services);
 var pluginManager = app.Services.GetRequiredService<PluginManager>();
 pluginManager.LoadPluginsAtStartup();
 
+// Load application state
+await appState.Load();
+
 app.Run();

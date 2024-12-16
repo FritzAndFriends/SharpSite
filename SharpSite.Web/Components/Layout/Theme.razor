@@ -16,8 +16,8 @@
 	protected override void OnInitialized()
 	{
 
-		ThemeComponent = AppState.CurrentTheme.HasValue
-			? Activator.CreateInstance(AppState.CurrentTheme.Value.ThemeType) as IHasStylesheets
+		ThemeComponent = AppState.ThemeType is not null && AppState.ThemeType != null
+			? Activator.CreateInstance(AppState.ThemeType) as IHasStylesheets
 			: null;
 
 		Stylesheets = ThemeComponent?.Stylesheets ?? [];
@@ -27,7 +27,7 @@
 
 	string FormatThemeStylesheetLocation(string stylesheet)
 	{
-		return $"/Plugins/{AppState.CurrentTheme!.Value.IdVersion}/{stylesheet}";
+		return $"/Plugins/{AppState.CurrentTheme!.IdVersion}/{stylesheet}";
 	}
 
 }

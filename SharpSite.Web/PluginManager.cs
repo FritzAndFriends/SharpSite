@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
 using SharpSite.Abstractions;
-using SharpSite.Abstractions.Theme;
 using System.IO.Compression;
 using System.Reflection;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 namespace SharpSite.Web;
@@ -49,12 +49,28 @@ public class PluginManager(ApplicationState AppState, ILogger<PluginManager> log
 
 		using var manifestStream = manifestEntry.Open();
 
-		Manifest = JsonSerializer.Deserialize<PluginManifest>(manifestStream);
+		Manifest = ReadManifest(manifestStream);
 
 		ValidateManifest();
 
 		// Add your logic to process the manifest content here
 		logger.LogInformation("Plugin {PluginName} uploaded and manifest processed.", CurrentUploadedPluginName);
+	}
+
+
+	private PluginManifest? ReadManifest(string manifestPath)
+	{
+		using var manifestStream = File.OpenRead(manifestPath);
+		return ReadManifest(manifestStream);
+	}
+
+	private PluginManifest? ReadManifest(Stream manifestStream)
+	{
+		var options = new JsonSerializerOptions
+		{
+			Converters = { new JsonStringEnumConverter() }
+		};
+		return JsonSerializer.Deserialize<PluginManifest>(manifestStream, options);
 	}
 
 	public async Task SavePlugin()
@@ -87,12 +103,9 @@ public class PluginManager(ApplicationState AppState, ILogger<PluginManager> log
 		AppState.AddPlugin(Manifest.id, Manifest);
 		logger.LogInformation("Plugin {PluginName} loaded at runtime.", CurrentUploadedPluginName);
 
-		if (Manifest.Features.Contains("theme", StringComparer.InvariantCultureIgnoreCase))
+		if (Manifest.Features.Contains(PluginFeatures.Theme))
 		{
-			// identify a type in the pluginAssembly that implements IHasStylesheets
-			var themeType = pluginAssembly?.GetTypes().FirstOrDefault(t => typeof(IHasStylesheets).IsAssignableFrom(t));
-			if (themeType is not null) AppState.CurrentTheme = (Manifest.IdVersionToString(), themeType);
-
+			AppState.SetTheme(Manifest);
 		}
 
 		// Add your logic to save the plugin here
@@ -114,7 +127,7 @@ public class PluginManager(ApplicationState AppState, ILogger<PluginManager> log
 			if (!File.Exists(manifestPath)) continue;
 
 			// Add plugin to the list of plugins in ApplicationState
-			var manifest = JsonSerializer.Deserialize<PluginManifest>(File.ReadAllText(manifestPath));
+			var manifest = ReadManifest(manifestPath);
 
 			// By convention it is a package_name of (<package_name>@<package_vesrson>.(sspkg|.dll)
 			var key = manifest!.id;
@@ -124,20 +137,13 @@ public class PluginManager(ApplicationState AppState, ILogger<PluginManager> log
 			if (!string.IsNullOrEmpty(pluginDll))
 			{
 				// Soft load of package without taking ownership for the process .dll
-				var assembylData = File.ReadAllBytes(pluginDll);
-				pluginAssembly = Assembly.Load(assembylData);
+				var assemblyData = File.ReadAllBytes(pluginDll);
+				pluginAssembly = Assembly.Load(assemblyData);
 				logger.LogInformation("Assembly {AssemblyName} loaded at startup.", pluginDll);
 			}
 
 			AppState.AddPlugin(key, manifest!);
 			logger.LogInformation("Plugin {PluginName} loaded at startup.", pluginName);
-
-			if (manifest!.Features.Contains("theme", StringComparer.InvariantCultureIgnoreCase))
-			{
-				// identify a type in the pluginAssembly that implements IHasStylesheets
-				var themeType = pluginAssembly?.GetTypes().FirstOrDefault(t => typeof(IHasStylesheets).IsAssignableFrom(t));
-				if (themeType is not null) AppState.CurrentTheme = (manifest.IdVersionToString(), themeType);
-			}
 
 		}
 	}
