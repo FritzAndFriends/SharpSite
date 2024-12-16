@@ -100,7 +100,7 @@ public class PluginManager(ApplicationState AppState, ILogger<PluginManager> log
 
 		}
 
-		// By convention it is a package_name of (<package_name>@package_vesrson>.(sspkg|.dll)
+		// By convention it is a package_name of (<package_name>@<package_vesrson>.(sspkg|.dll)
 		var key = CurrentUploadedPluginName.Split('@')[0];
 		// if there is a DLL in the pluginLibFolder with the same base name as the plugin file, reflection load that DLL
 		var pluginDll = Directory.GetFiles(pluginLibFolder.FullName, $"{key}*.dll").FirstOrDefault();
@@ -144,7 +144,7 @@ public class PluginManager(ApplicationState AppState, ILogger<PluginManager> log
 			var manifestPath = Path.Combine(pluginFolder, "manifest.json");
 			if (!File.Exists(manifestPath)) continue;
 
-			// By convention it is a package_name of (<package_name>@package_vesrson>.(sspkg|.dll)
+			// By convention it is a package_name of (<package_name>@<package_vesrson>.(sspkg|.dll)
 			var key = pluginName.Split('@')[0];
 
 			// Add plugin to the list of plugins in ApplicationState
