@@ -35,5 +35,13 @@
     <EditorConfigFiles Remove="D:\SharpSite\SharpSite.Web\.editorconfig" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Components\Admin\PluginCard.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Components\Admin\PluginCard.razor.css" />
+  </ItemGroup>
+
 
 </Project>
