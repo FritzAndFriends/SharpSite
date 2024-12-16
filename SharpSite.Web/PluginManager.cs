@@ -147,13 +147,21 @@ public class PluginManager(ApplicationState AppState, ILogger<PluginManager> log
 			// By convention it is a package_name of (<package_name>@package_vesrson>.(sspkg|.dll)
 			var key = pluginName.Split('@')[0];
 
+			// By convention it is a package_name of (<package_name>@package_vesrson>.(sspkg|.dll)
+			var key = pluginName.Split('@')[0];
+
 			// Add plugin to the list of plugins in ApplicationState
 			var manifest = JsonSerializer.Deserialize<PluginManifest>(File.ReadAllText(manifestPath));
 
 			var pluginDll = Directory.GetFiles(pluginFolder, $"{key}*.dll").FirstOrDefault();
+			var pluginDll = Directory.GetFiles(pluginFolder, $"{key}*.dll").FirstOrDefault();
 			Assembly? pluginAssembly = null;
 			if (!string.IsNullOrEmpty(pluginDll))
 			{
+				// Soft load of package without taking ownership for the process .dll
+			    var assembylData = File.ReadAllBytes(pluginDll);
+				pluginAssembly = Assembly.Load(assembylData);
+				logger.LogInformation("Assembly {AssemblyName} loaded at startup.", pluginDll);
 				// Soft load of package without taking ownership for the process .dll
 			    var assembylData = File.ReadAllBytes(pluginDll);
 				pluginAssembly = Assembly.Load(assembylData);
@@ -163,10 +171,14 @@ public class PluginManager(ApplicationState AppState, ILogger<PluginManager> log
 			AppState.AddPlugin(key, manifest!);
 			logger.LogInformation("Plugin {PluginName} loaded at startup.", pluginName);
 
+			AppState.AddPlugin(key, manifest!);
+			logger.LogInformation("Plugin {PluginName} loaded at startup.", pluginName);
+
 			if (manifest!.Features.Contains("theme", StringComparer.InvariantCultureIgnoreCase))
 			{
 				// identify a type in the pluginAssembly that implements IHasStylesheets
 				var themeType = pluginAssembly?.GetTypes().FirstOrDefault(t => typeof(IHasStylesheets).IsAssignableFrom(t));
+				AppState.CurrentThemeType = themeType;
 				AppState.CurrentThemeType = themeType;
 			}
 
