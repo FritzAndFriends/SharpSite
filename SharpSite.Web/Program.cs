@@ -10,13 +10,17 @@ using SharpSite.Web.Locales;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Load plugins
-var appState = new ApplicationState();
+PluginManager.Initialize();
+
+// Load plugins for postgres
+#region Postgres Plugins
 var pg = new RegisterPostgresServices();
 pg.RegisterServices(builder);
 
 var pgSecurity = new RegisterPostgresSecurityServices();
 pgSecurity.RegisterServices(builder);
+#endregion
+
 
 // add the custom localization features for the application framework
 builder.ConfigureRequestLocalization();
@@ -33,15 +37,21 @@ builder.Services.Configure<HubOptions>(options =>
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-		.AddInteractiveServerComponents();
+		.AddInteractiveServerComponents()
+		.AddCircuitOptions(o =>
+		{
+			o.DetailedErrors = true;
+		});
+
 
 builder.Services.AddOutputCache();
 builder.Services.AddMemoryCache();
 
 builder.Services.AddSingleton<IEmailSender<SharpSiteUser>, IdentityNoOpEmailSender>();
 
+var appState = new ApplicationState();
 builder.Services.AddSingleton(appState);
-builder.Services.AddTransient<PluginManager>();
+builder.Services.AddSingleton<PluginManager>();
 
 var app = builder.Build();
 

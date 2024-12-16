@@ -14,7 +14,11 @@
 
   @if (PluginManager.Manifest != null)
 {
-	@* present the field from the manifest*@
+	@* add the id field from the manifest*@
+	<div class="form-group">
+		<label for="pluginId">Plugin Id</label>
+		<input type="text" class="form-control" id="pluginId" value="@PluginManager.Manifest.id" readonly />
+	</div>
 	<div class="form-group">
 		<label for="pluginName">Plugin Name</label>
 		<input type="text" class="form-control" id="pluginName" value="@PluginManager.Manifest.DisplayName" readonly />
