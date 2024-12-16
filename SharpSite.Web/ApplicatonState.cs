@@ -4,7 +4,7 @@ namespace SharpSite.Web;
 
 public class ApplicationState
 {
-	public Type? CurrentThemeType { get; set; }
+	public (string IdVersion, Type ThemeType)? CurrentTheme { get; set; }
 
 	/// <summary>
 	/// List of the plugins that are currently loaded.
@@ -16,7 +16,9 @@ public class ApplicationState
 		if (!Plugins.ContainsKey(pluginName))
 		{
 			Plugins.Add(pluginName, manifest);
-		} else {
+		}
+		else
+		{
 			Plugins[pluginName] = manifest;
 		}
 	}

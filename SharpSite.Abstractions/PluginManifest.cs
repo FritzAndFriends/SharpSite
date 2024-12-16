@@ -3,6 +3,7 @@
 
 public class PluginManifest
 {
+	public required string id { get; set; }
 	public required string DisplayName { get; set; }
 	public required string Description { get; set; }
 	public required string Version { get; set; }
@@ -17,5 +18,11 @@ public class PluginManifest
 	public string? KnownLicense { get; set; }
 	public string[]? Tags { get; set; }
 	public required string[] Features { get; set; }
+
+	public string IdVersionToString()
+	{
+		return $"{id}@{Version}";
+	}
+
 }
 
