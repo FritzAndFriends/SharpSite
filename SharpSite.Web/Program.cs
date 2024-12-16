@@ -55,11 +55,13 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 
-var pluginRoot = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, @"plugins/_wwwroot"));
-var compositeFileProvider = new CompositeFileProvider(app.Environment.WebRootFileProvider, pluginRoot);
+var pluginRoot = new PhysicalFileProvider(
+	Path.Combine(app.Environment.ContentRootPath, @"plugins/_wwwroot"));
+app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions()
 {
-	FileProvider = compositeFileProvider
+	FileProvider = pluginRoot,
+	RequestPath = "/plugins"
 
 });
 
