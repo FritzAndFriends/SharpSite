@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.FileProviders;
 using SharpSite.Abstractions;
 using SharpSite.Data.Postgres;
@@ -23,15 +24,16 @@ builder.ConfigureRequestLocalization();
 // Add service defaults & Aspire components.
 builder.AddServiceDefaults();
 
+// Configure larger messages to allow upload of packages
+builder.Services.Configure<HubOptions>(options =>
+{
+	options.MaximumReceiveMessageSize = 1024 * 1024 * 10; // 1MB or use null
+	options.EnableDetailedErrors = true;
+});
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-		.AddInteractiveServerComponents()
-		.AddHubOptions(options =>
-		{
-			options.MaximumReceiveMessageSize = 1024 * 1024 * 10; // 10 MB
-			options.EnableDetailedErrors = true;
-		});
+		.AddInteractiveServerComponents();
 
 builder.Services.AddOutputCache();
 builder.Services.AddMemoryCache();
