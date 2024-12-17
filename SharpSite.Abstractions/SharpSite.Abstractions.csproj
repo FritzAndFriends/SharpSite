@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SharpSite.Abstractions.Theme\SharpSite.Abstractions.Theme.csproj" />
+  </ItemGroup>
+
 </Project>

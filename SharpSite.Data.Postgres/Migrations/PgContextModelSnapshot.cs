@@ -68,6 +68,9 @@ namespace SharpSite.Data.Postgres.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
+                    b.Property<DateTimeOffset>("LastUpdate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<DateTimeOffset>("Published")
                         .HasColumnType("timestamp with time zone");
 

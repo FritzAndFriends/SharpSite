@@ -2,6 +2,12 @@
 
 Thank you for your interest in contributing to SharpSite! Your contributions are valuable and help improve the project for everyone. Here's how you can get started:
 
+
+## Prerequisites
+
+- [.NET 9 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
+
+
 ## Getting Started
 
 1. Fork the repository to your GitHub account.
@@ -33,7 +39,24 @@ dotnet restore
 dotnet build
 ```
 
-4. Run the project locally with .NET Aspire from the **SharpSite.AppHost** folder:
+4. Install development certificates for local development.
+
+Generate a new HTTPS development certificate:
+```bash
+dotnet dev-certs https --trust
+```
+
+Export the HTTPS development certificate:
+```bash
+dotnet dev-certs https -ep path/to/certificate.pfx -p yourpassword
+```
+
+Verify the HTTPS development certificate:
+```bash
+dotnet dev-certs https --check --trust
+```
+
+5. Run the project locally with .NET Aspire from the **SharpSite.AppHost** folder:
 
 ```
 dotnet run
