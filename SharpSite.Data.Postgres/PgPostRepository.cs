@@ -46,7 +46,7 @@ public class PgPostRepository : IPostRepository
 			return null;
 		}
 
-		var theDate = DateTimeOffset.ParseExact(dateString, "yyyyMMdd", CultureInfo.InvariantCulture);
+		var theDate = DateTimeOffset.ParseExact(dateString, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
 
 		// get a post from the database based on the slug submitted
 		var thePosts = await Context.Posts
