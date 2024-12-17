@@ -165,8 +165,8 @@
   <data name="sharpsite_unhandled_exception" xml:space="preserve">
     <value>An unhandled error has occurred.</value>
   </data>
-  <data name="sharpsite_newpage" xml:space="preserve">
-    <value>Kurasa Jipya</value>
+  <data name="sharpsite_home" xml:space="preserve">
+    <value>Nyumbani</value>
   </data>
   <data name="sharpsite_postsadmin" xml:space="preserve">
     <value>Msimamizi wa Uchapishaji</value>
@@ -174,19 +174,19 @@
   <data name="sharpsite_pageadmin" xml:space="preserve">
     <value>Msimamizi wa Kurasa</value>
   </data>
-  <data name="sharpsite_home" xml:space="preserve">
-    <value>Nyumbani</value>
+  <data name="sharpsite_edit" xml:space="preserve">
+    <value>Hariri</value>
   </data>
   <data name="sharpsite_delete" xml:space="preserve">
     <value>Futa</value>
   </data>
-  <data name="sharpsite_edit" xml:space="preserve">
-    <value>Hariri</value>
+  <data name="sharpsite_newpage" xml:space="preserve">
+    <value>Kurasa Jipya</value>
   </data>
   <data name="sharpsite_editpage" xml:space="preserve">
     <value>Kurasa Hariri</value>
   </data>
-  <data name="" xml:space="preserve">
+  <data name="sharpsite_update" xml:space="preserve">
     <value>Back to Home</value>
   </data>
 </root>
