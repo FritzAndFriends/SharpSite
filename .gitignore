@@ -7,6 +7,9 @@
 SharpSite.Web/plugins/
 artifacts/FirstPlugin/
 
+# Exclude Aspire package.lock.json
+SharpSite.AppHost/packages.lock.json
+
 # User-specific files
 *.rsuser
 *.suo
