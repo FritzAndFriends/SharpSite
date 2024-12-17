@@ -45,6 +45,8 @@ public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 			.WithTracing(tracing => tracing.AddSource(InitializeUsersActivitySourceName));
 
 
+		builder.Services.AddSingleton<IEmailSender<PgSharpSiteUser>, IdentityNoOpEmailSender>();
+
 		return builder;
 
 	}
