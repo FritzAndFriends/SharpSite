@@ -19,7 +19,7 @@ public static class PostgresExtensions
 
 		var dbServer = builder.AddPostgres("database")
 			.WithImageTag(VERSIONS.POSTGRES)
-			.WithDataVolume($"{SharpSite.Data.Postgres.Constants.DBNAME}-data54", false)
+			.WithDataVolume($"{SharpSite.Data.Postgres.Constants.DBNAME}-data", false)
 			.WithLifetime(ContainerLifetime.Persistent)
 			.WithPgAdmin(config =>
 			{
