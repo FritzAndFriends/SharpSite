@@ -1,0 +1,33 @@
+﻿@inject ApplicationState AppState
+@using System.Reflection
+@using SharpSite.Abstractions.Theme
+
+@foreach (var item in (Stylesheets))
+{
+	var theUrl = item.StartsWith("http") ? item : FormatThemeStylesheetLocation(item);
+	<link rel="stylesheet" type="text/css" href="@theUrl" />
+}
+
+@code {
+	IHasStylesheets? ThemeComponent;
+
+	string[] Stylesheets = [];
+
+	protected override void OnInitialized()
+	{
+
+		ThemeComponent = AppState.ThemeType is not null && AppState.ThemeType != null
+			? Activator.CreateInstance(AppState.ThemeType) as IHasStylesheets
+			: null;
+
+		Stylesheets = ThemeComponent?.Stylesheets ?? [];
+
+		base.OnInitialized();
+	}
+
+	string FormatThemeStylesheetLocation(string stylesheet)
+	{
+		return $"/Plugins/{AppState.CurrentTheme!.IdVersion}/{stylesheet}";
+	}
+
+}

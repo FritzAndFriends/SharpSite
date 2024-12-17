@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="plugins\**" />
+    <Content Remove="plugins\**" />
+    <EmbeddedResource Remove="plugins\**" />
+    <None Remove="plugins\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SharpSite.Security.Postgres\SharpSite.Security.Postgres.csproj" />
     <ProjectReference Include="..\SharpSite.ServiceDefaults\SharpSite.ServiceDefaults.csproj" />
     <ProjectReference Include="..\SharpSite.Data.Postgres\SharpSite.Data.Postgres.csproj" />
@@ -29,15 +36,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Locales\SharedResource.en-US.resx">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Locales\SharedResource.nl-NL.resx">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Update="Locales\SharedResource.resx">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <None Remove="Components\Admin\PluginCard.razor.css" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Components\Admin\PluginCard.razor.css" />
+  </ItemGroup>
+
 
 </Project>
