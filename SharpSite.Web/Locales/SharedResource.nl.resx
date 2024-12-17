@@ -165,4 +165,25 @@
   <data name="sharpsite_unhandled_exception" xml:space="preserve">
     <value>Er is een onverwachte fout opgetreden.</value>
   </data>
+  <data name="sharpsite_home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="sharpsite_postsadmin" xml:space="preserve">
+    <value>Post Beheerder</value>
+  </data>
+  <data name="sharpsite_pageadmin" xml:space="preserve">
+    <value>Pagina Beheerder</value>
+  </data>
+  <data name="sharpsite_edit" xml:space="preserve">
+    <value>Wijzig</value>
+  </data>
+  <data name="sharpsite_delete" xml:space="preserve">
+    <value>Verwijderen</value>
+  </data>
+  <data name="sharpsite_newpage" xml:space="preserve">
+    <value>Nieuwe Pagina</value>
+  </data>
+  <data name="sharpsite_editpage" xml:space="preserve">
+    <value>Wijzig pagina</value>
+  </data>
 </root>
