@@ -9,7 +9,7 @@ Plugins are features that are not distributed with SharpSite but can be added af
 
 A Plugin should contain a collection of files, compressed in ZIP format, and renamed with a SSPKG extension.  The version number should appear in the filename before the SSPKG extension, separated from the package name with an `@` character.
 
-Filename format:  `NAME@VERSION.sspkg`
+Filename format:  `ID@VERSION.sspkg`
 
 The collection should include at a minimum the following for a package called `MyPlugin@1.0.0.sspkg`:
 
@@ -30,6 +30,7 @@ The name of the entry DLL must match the name of the package.  SharpSite will at
 
 The manifest should include information Like the following:
 
+- unique id of the package
 - display name of the package
 - short description of the plugin for display on implemented sites
 - version number of the package
@@ -54,6 +55,7 @@ A package is required to either have a `LICENSE` file embedded or provide an ent
 
 ```json
 { 
+	"id": "foo.theme",
 	"DisplayName": "Foo Theme",
 	"Description": "This is a theme that looks like foo and uses the foo.css framework",
 	"Version": "1.0.0-preview1",

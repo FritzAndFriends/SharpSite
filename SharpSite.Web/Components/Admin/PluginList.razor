@@ -18,12 +18,12 @@
 }
 else
 {
-	<ul>
+	<div class="d-flex flex-wrap gap-3">
 		@foreach (var plugin in AppState.Plugins)
 		{
-			<li>@plugin.Value.DisplayName - @plugin.Value.Version</li>
+			<PluginCard Plugin="plugin.Value" />
 		}
-	</ul>
+	</div>
 }
 
 @code {

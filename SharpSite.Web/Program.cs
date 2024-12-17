@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.FileProviders;
 using SharpSite.Abstractions;
 using SharpSite.Data.Postgres;
@@ -9,13 +10,17 @@ using SharpSite.Web.Locales;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Load plugins
-var appState = new ApplicationState();
+PluginManager.Initialize();
+
+// Load plugins for postgres
+#region Postgres Plugins
 var pg = new RegisterPostgresServices();
 pg.RegisterServices(builder);
 
 var pgSecurity = new RegisterPostgresSecurityServices();
 pgSecurity.RegisterServices(builder);
+#endregion
+
 
 // add the custom localization features for the application framework
 builder.ConfigureRequestLocalization();
@@ -23,23 +28,30 @@ builder.ConfigureRequestLocalization();
 // Add service defaults & Aspire components.
 builder.AddServiceDefaults();
 
+// Configure larger messages to allow upload of packages
+builder.Services.Configure<HubOptions>(options =>
+{
+	options.MaximumReceiveMessageSize = 1024 * 1024 * 10; // 1MB or use null
+	options.EnableDetailedErrors = true;
+});
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
 		.AddInteractiveServerComponents()
-		.AddHubOptions(options =>
+		.AddCircuitOptions(o =>
 		{
-			options.MaximumReceiveMessageSize = 1024 * 1024 * 10; // 10 MB
-			options.EnableDetailedErrors = true;
+			o.DetailedErrors = true;
 		});
+
 
 builder.Services.AddOutputCache();
 builder.Services.AddMemoryCache();
 
 builder.Services.AddSingleton<IEmailSender<SharpSiteUser>, IdentityNoOpEmailSender>();
 
+var appState = new ApplicationState();
 builder.Services.AddSingleton(appState);
-builder.Services.AddTransient<PluginManager>();
+builder.Services.AddSingleton<PluginManager>();
 
 var app = builder.Build();
 
@@ -88,5 +100,8 @@ await pgSecurity.RunAtStartup(app.Services);
 // Use DI to get the logger
 var pluginManager = app.Services.GetRequiredService<PluginManager>();
 pluginManager.LoadPluginsAtStartup();
+
+// Load application state
+await appState.Load();
 
 app.Run();
