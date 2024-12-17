@@ -198,4 +198,13 @@
   <data name="sharpsite_addnewplugin" xml:space="preserve">
     <value>Voeg plugin toe</value>
   </data>
+  <data name="sharpsite_update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="sharpsite_remove" xml:space="preserve">
+    <value>Verwijder</value>
+  </data>
+  <data name="sharpsite_plugin_icon" xml:space="preserve">
+    <value>Plugin icoon</value>
+  </data>
 </root>
