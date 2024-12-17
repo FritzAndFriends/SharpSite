@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -164,5 +164,47 @@
   </data>
   <data name="sharpsite_unhandled_exception" xml:space="preserve">
     <value>Er is een onverwachte fout opgetreden.</value>
+  </data>
+  <data name="sharpsite_home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="sharpsite_postsadmin" xml:space="preserve">
+    <value>Post Beheerder</value>
+  </data>
+  <data name="sharpsite_pageadmin" xml:space="preserve">
+    <value>Pagina Beheerder</value>
+  </data>
+  <data name="sharpsite_edit" xml:space="preserve">
+    <value>Wijzig</value>
+  </data>
+  <data name="sharpsite_delete" xml:space="preserve">
+    <value>Verwijderen</value>
+  </data>
+  <data name="sharpsite_newpage" xml:space="preserve">
+    <value>Nieuwe Pagina</value>
+  </data>
+  <data name="sharpsite_editpage" xml:space="preserve">
+    <value>Wijzig pagina</value>
+  </data>
+  <data name="sharpsite_pluginmanagement" xml:space="preserve">
+    <value>Plugin beheer</value>
+  </data>
+  <data name="sharpsite_installedplugins" xml:space="preserve">
+    <value>Geïnstalleerde plugins</value>
+  </data>
+  <data name="sharpsite_nopluginsinstalled" xml:space="preserve">
+    <value>Geen plugins geïnstalleerd</value>
+  </data>
+  <data name="sharpsite_addnewplugin" xml:space="preserve">
+    <value>Voeg plugin toe</value>
+  </data>
+  <data name="sharpsite_update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="sharpsite_remove" xml:space="preserve">
+    <value>Verwijder</value>
+  </data>
+  <data name="sharpsite_plugin_icon" xml:space="preserve">
+    <value>Plugin icoon</value>
   </data>
 </root>

@@ -62,6 +62,12 @@ dotnet dev-certs https --check --trust
 dotnet run
 ```
 
+## Default User
+
+The default user that is built and initialized in SharpSite is an Administrator and has these credentials:
+- username: `admin@localhost`
+- password: `Admin123!`
+
 ## Coding Guidelines
 
 - Follow the C# coding conventions as outlined in the [Microsoft C# Coding Conventions](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions).
