@@ -2,6 +2,12 @@
 
 Thank you for your interest in contributing to SharpSite! Your contributions are valuable and help improve the project for everyone. Here's how you can get started:
 
+
+## Prerequisites
+
+- [.NET 9 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
+
+
 ## Getting Started
 
 1. Fork the repository to your GitHub account.
@@ -20,7 +26,8 @@ git checkout -b feature_your-feature-name
 ## Development Setup
 
 1. Ensure you have .NET 9 SDK installed on your machine.
-2. Install the necessary dependencies.  From the root folder, run this command:
+2. Configure Docker or Podman on your machine.  We will use this with .NET Aspire.  More details about configuring and using .NET Aspire can be found at: https://learn.microsoft.com/dotnet/aspire/fundamentals/setup-tooling
+3. Install the necessary dependencies.  From the root folder, run this command:
 
 ```
 dotnet restore
@@ -32,11 +39,34 @@ dotnet restore
 dotnet build
 ```
 
-4. Run the project locally with .NET Aspire from the **SharpSite.AppHost** folder:
+4. Install development certificates for local development.
+
+Generate a new HTTPS development certificate:
+```bash
+dotnet dev-certs https --trust
+```
+
+Export the HTTPS development certificate:
+```bash
+dotnet dev-certs https -ep path/to/certificate.pfx -p yourpassword
+```
+
+Verify the HTTPS development certificate:
+```bash
+dotnet dev-certs https --check --trust
+```
+
+5. Run the project locally with .NET Aspire from the **SharpSite.AppHost** folder:
 
 ```
 dotnet run
 ```
+
+## Default User
+
+The default user that is built and initialized in SharpSite is an Administrator and has these credentials:
+- username: `admin@localhost`
+- password: `Admin123!`
 
 ## Coding Guidelines
 

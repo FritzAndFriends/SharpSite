@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Identity;
-using SharpSite.Abstractions;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.FileProviders;
 using SharpSite.Data.Postgres;
 using SharpSite.Security.Postgres;
 using SharpSite.Web;
@@ -8,11 +8,17 @@ using SharpSite.Web.Locales;
 
 var builder = WebApplication.CreateBuilder(args);
 
+PluginManager.Initialize();
+
+// Load plugins for postgres
+#region Postgres Plugins
 var pg = new RegisterPostgresServices();
 pg.RegisterServices(builder);
 
 var pgSecurity = new RegisterPostgresSecurityServices();
 pgSecurity.RegisterServices(builder);
+#endregion
+
 
 // add the custom localization features for the application framework
 builder.ConfigureRequestLocalization();
@@ -20,14 +26,28 @@ builder.ConfigureRequestLocalization();
 // Add service defaults & Aspire components.
 builder.AddServiceDefaults();
 
+// Configure larger messages to allow upload of packages
+builder.Services.Configure<HubOptions>(options =>
+{
+	options.MaximumReceiveMessageSize = 1024 * 1024 * 10; // 1MB or use null
+	options.EnableDetailedErrors = true;
+});
+
 // Add services to the container.
 builder.Services.AddRazorComponents()
-		.AddInteractiveServerComponents();
+		.AddInteractiveServerComponents()
+		.AddCircuitOptions(o =>
+		{
+			o.DetailedErrors = true;
+		});
+
 
 builder.Services.AddOutputCache();
 builder.Services.AddMemoryCache();
 
-builder.Services.AddSingleton<IEmailSender<SharpSiteUser>, IdentityNoOpEmailSender>();
+var appState = new ApplicationState();
+builder.Services.AddSingleton(appState);
+builder.Services.AddSingleton<PluginManager>();
 
 var app = builder.Build();
 
@@ -40,14 +60,27 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+
+var pluginRoot = new PhysicalFileProvider(
+	Path.Combine(app.Environment.ContentRootPath, @"plugins/_wwwroot"));
 app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions()
+{
+	FileProvider = pluginRoot,
+	RequestPath = "/plugins"
+
+});
+
 app.UseAntiforgery();
 
 app.UseOutputCache();
 
 app.MapRazorComponents<App>()
 		.AddInteractiveServerRenderMode()
-		.AddAdditionalAssemblies(typeof(SharpSite.Security.Postgres.PgSharpSiteUser).Assembly);
+		.AddAdditionalAssemblies(
+		typeof(SharpSite.Security.Postgres.PgSharpSiteUser).Assembly
+		//typeof(Sample.FirstThemePlugin.Theme).Assembly
+		);
 
 pgSecurity.MapEndpoints(app);
 
@@ -59,5 +92,12 @@ app.MapDefaultEndpoints();
 app.UseRequestLocalization();
 
 await pgSecurity.RunAtStartup(app.Services);
+
+// Use DI to get the logger
+var pluginManager = app.Services.GetRequiredService<PluginManager>();
+pluginManager.LoadPluginsAtStartup();
+
+// Load application state
+await appState.Load();
 
 app.Run();

@@ -1,0 +1,8 @@
+﻿.plugin-card {
+    width: 14rem;
+}
+
+.plugin-icon {
+    aspect-ratio: 1;
+    object-fit: cover;
+}
