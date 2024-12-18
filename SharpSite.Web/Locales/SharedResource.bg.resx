@@ -173,18 +173,6 @@
     <value>Постове админ</value>
     <comment>Линк до постове на админ</comment>
   </data>
-  <data name="sharpsite_pluginmanagement" xml:space="preserve">
-    <value>Управление на допълнителните модули за SharpSite - плъгини</value>
-  </data>
-  <data name="sharpsite_installedplugins" xml:space="preserve">
-    <value>Инсталирани плъгини.</value>
-  </data>
-  <data name="sharpsite_nopluginsinstalled" xml:space="preserve">
-    <value>Не са инсталирани никакви допълнения. SharpSite.</value>
-  </data>
-  <data name="sharpsite_addnewplugin" xml:space="preserve">
-    <value>Добавете нов приставка (плъгин) на SharpSite.</value>
-  </data>
   <data name="sharpsite_pageadmin" xml:space="preserve">
     <value>SharpSite е уеб сайт за управление на съдържанието с отворен код, изграден с помощта на C# и Blazor. Вие превеждате текст, който ще бъде показан на потребител на уеб сайта. Текстът за превод е "Администраторска страница".</value>
   </data>
@@ -200,6 +188,18 @@
   <data name="sharpsite_editpage" xml:space="preserve">
     <value>Редактиране на страницата</value>
   </data>
+  <data name="sharpsite_pluginmanagement" xml:space="preserve">
+    <value>Управление на допълнителните модули за SharpSite - плъгини</value>
+  </data>
+  <data name="sharpsite_installedplugins" xml:space="preserve">
+    <value>Инсталирани плъгини.</value>
+  </data>
+  <data name="sharpsite_nopluginsinstalled" xml:space="preserve">
+    <value>Не са инсталирани никакви допълнения. SharpSite.</value>
+  </data>
+  <data name="sharpsite_addnewplugin" xml:space="preserve">
+    <value>Добавете нов приставка (плъгин) на SharpSite.</value>
+  </data>
   <data name="sharpsite_update" xml:space="preserve">
     <value>Актуализиране</value>
   </data>
@@ -208,5 +208,9 @@
   </data>
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Икона на добавката.</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="sharpsite_pagenotfound_withrequestedpage" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value>Заявената страница {0} не е налична.</value>
   </data>
 </root>

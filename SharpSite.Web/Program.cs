@@ -75,6 +75,9 @@ app.UseAntiforgery();
 
 app.UseOutputCache();
 
+// add error handlers for page not found
+app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}");
+
 app.MapRazorComponents<App>()
 		.AddInteractiveServerRenderMode()
 		.AddAdditionalAssemblies(

@@ -207,4 +207,7 @@
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Ikon ya kidukizi</value>
   </data>
+  <data name="sharpsite_pagenotfound_withrequestedpage" xml:space="preserve">
+    <value>Ukurasa ulioombwa {0} haupo mikononi mwetu.</value>
+  </data>
 </root>
