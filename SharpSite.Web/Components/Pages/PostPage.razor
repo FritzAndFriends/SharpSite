@@ -15,14 +15,14 @@
 	@* TODO:  This should be replaced with a name the Site Admin gives to this site *@
 	<meta property="og:site_name" content="SharpSite" />
 	<meta name="twitter:card" content="summary" />
-@* 	
-	
+	@* 	
+
 	site is the Twitter handle of the site
 	creator is the Twitter handle of the author
 
 	<meta name="twitter:site" content="@Localizer["sharpsite_twitter"]" />
 	<meta name="twitter:creator" content="@Localizer["sharpsite_twitter"]" /> 
-	
+
 	*@
 	<meta name="twitter:title" content="@Post?.Title" />
 	<meta name="twitter:description" content="@Post?.Description" />
@@ -30,7 +30,7 @@
 	<meta name="twitter:url" content="@NavigationManager.Uri" />
 	<meta name="twitter:label1" content="Published" />
 	<meta name="twitter:data1" content="@Post?.PublishedDate.LocalDateTime" />
-@* 	<meta name="twitter:label2" content="@Localizer["sharpsite_author"]" />
+	@* 	<meta name="twitter:label2" content="@Localizer["sharpsite_author"]" />
 	<meta name="twitter:data2" content="@Post?.Author" />
 	<meta name="twitter:label3" content="@Localizer["sharpsite_category"]" />
 	<meta name="twitter:data3" content="@Post?.Category" />
@@ -48,7 +48,7 @@
 }
 else
 {
-	<p>@Localizer["sharpsite_pagenotfound"]</p>
+	<PageNotFound />
 }
 
 <hr />
@@ -62,9 +62,5 @@ else
 	protected override async Task OnInitializedAsync()
 	{
 		Post = await PostService.GetPost(UrlDate.ToString(), Slug);
-
-		// todo: 404 if Post is null
-
-
 	}
 }
