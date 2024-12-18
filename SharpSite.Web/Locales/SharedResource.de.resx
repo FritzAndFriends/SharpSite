@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -190,13 +190,13 @@
     <value>Plugin-Verwaltung</value>
   </data>
   <data name="sharpsite_installedplugins" xml:space="preserve">
-    <value>Installierte Plugins</value>
+    <value>Installierte PlugIns</value>
   </data>
   <data name="sharpsite_nopluginsinstalled" xml:space="preserve">
     <value>Es sind keine Plugins installiert.</value>
   </data>
   <data name="sharpsite_addnewplugin" xml:space="preserve">
-    <value>Neues Plugin hinzufügen</value>
+    <value>Plugin hinzufügen</value>
   </data>
   <data name="sharpsite_update" xml:space="preserve">
     <value>Aktualisieren</value>
@@ -205,6 +205,6 @@
     <value>Entfernen</value>
   </data>
   <data name="sharpsite_plugin_icon" xml:space="preserve">
-    <value>Symbol des Plugins</value>
+    <value>Plugin Symbol</value>
   </data>
 </root>
