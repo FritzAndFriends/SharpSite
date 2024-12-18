@@ -207,4 +207,7 @@
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Icône du plugin</value>
   </data>
+  <data name="sharpsite_pagenotfound_withrequestedpage" xml:space="preserve">
+    <value>La page demandée {0} n'est pas disponible.</value>
+  </data>
 </root>

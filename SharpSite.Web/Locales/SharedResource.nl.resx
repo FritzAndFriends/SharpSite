@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -206,5 +206,8 @@
   </data>
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Plugin icoon</value>
+  </data>
+  <data name="sharpsite_pagenotfound_withrequestedpage" xml:space="preserve">
+    <value>De opgevraagde pagina {0} is niet beschikbaar.</value>
   </data>
 </root>

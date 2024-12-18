@@ -45,14 +45,16 @@
 	<h1>@Post.Title</h1>
 	<h6>@Post.PublishedDate.LocalDateTime</h6>
 	<p>@((MarkupString)Markdown.ToHtml(Post.Content))</p>
+
+	<hr />
+	<a href="/">@Localizer["sharpsite_backtohome"]</a>
+
 }
 else
 {
-	<PageNotFound />
+	<PageNotFound PageRequested="@(new Uri(NavigationManager.Uri).AbsolutePath)" />
 }
 
-<hr />
-<a href="/">@Localizer["sharpsite_backtohome"]</a>
 
 @code {
 	[Parameter] public int UrlDate { get; set; }
