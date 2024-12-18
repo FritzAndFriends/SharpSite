@@ -173,18 +173,6 @@
     <value>Posts admin</value>
     <comment>Link text to the Posts Admin page</comment>
   </data>
-  <data name="sharpsite_pluginmanagement" xml:space="preserve">
-    <value>Plugin Management</value>
-  </data>
-  <data name="sharpsite_installedplugins" xml:space="preserve">
-    <value>Installed Plugins</value>
-  </data>
-  <data name="sharpsite_nopluginsinstalled" xml:space="preserve">
-    <value>No plugins are installed.</value>
-  </data>
-  <data name="sharpsite_addnewplugin" xml:space="preserve">
-    <value>Add New Plugin</value>
-  </data>
   <data name="sharpsite_pageadmin" xml:space="preserve">
     <value>Page Admin</value>
     <comment>Link text and title for the Page Admin page</comment>
@@ -205,6 +193,18 @@
     <value>Edit Page</value>
     <comment>Label for editing a page on the Page Edit page</comment>
   </data>
+  <data name="sharpsite_pluginmanagement" xml:space="preserve">
+    <value>Plugin Management</value>
+  </data>
+  <data name="sharpsite_installedplugins" xml:space="preserve">
+    <value>Installed Plugins</value>
+  </data>
+  <data name="sharpsite_nopluginsinstalled" xml:space="preserve">
+    <value>No plugins are installed.</value>
+  </data>
+  <data name="sharpsite_addnewplugin" xml:space="preserve">
+    <value>Add New Plugin</value>
+  </data>
   <data name="sharpsite_update" xml:space="preserve">
     <value>Update</value>
   </data>
@@ -213,5 +213,26 @@
   </data>
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Icon of the plugin</value>
+  </data>
+  <data name="sharpsite_logo" xml:space="preserve">
+    <value>Sharpsite logo</value>
+  </data>
+  <data name="sharpsite_navmenu" xml:space="preserve">
+    <value>Navigation menu</value>
+  </data>
+  <data name="sharpsite_usersadmin" xml:space="preserve">
+    <value>User list</value>
+  </data>
+  <data name="sharpsite_appearanceadmin" xml:space="preserve">
+    <value>Theme selector</value>
+  </data>
+  <data name="sharpsite_navadmin" xml:space="preserve">
+    <value>Admin navigation</value>
+  </data>
+  <data name="sharpsite_navmain" xml:space="preserve">
+    <value>Main navigation</value>
+  </data>
+  <data name="sharpsite_admin" xml:space="preserve">
+    <value>Site admin</value>
   </data>
 </root>

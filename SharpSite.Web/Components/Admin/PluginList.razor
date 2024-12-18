@@ -2,8 +2,10 @@
 @attribute [Authorize(Roles = Constants.Roles.Admin)]
 @inject ApplicationState AppState
 
-<h4>
-	@Localizer["sharpsite_installedplugins"]</h4>
+<PageTitle>@Localizer["sharpsite_installedplugins"]</PageTitle>
+
+<h3>
+	@Localizer["sharpsite_installedplugins"]</h3>
 
 @* Add a button that links to the add plugin page With the text add new plugin  *@
 <div class="my-4">
