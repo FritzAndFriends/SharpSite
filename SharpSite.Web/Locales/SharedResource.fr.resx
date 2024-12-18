@@ -186,4 +186,25 @@
   <data name="sharpsite_editpage" xml:space="preserve">
     <value>Modifier la page</value>
   </data>
+  <data name="sharpsite_pluginmanagement" xml:space="preserve">
+    <value>Gestionnaire de plugin pour SharpSite.</value>
+  </data>
+  <data name="sharpsite_installedplugins" xml:space="preserve">
+    <value>Plugins installés</value>
+  </data>
+  <data name="sharpsite_nopluginsinstalled" xml:space="preserve">
+    <value>Aucun plugin n'est installé.</value>
+  </data>
+  <data name="sharpsite_addnewplugin" xml:space="preserve">
+    <value>Ajouter un nouveau plugin</value>
+  </data>
+  <data name="sharpsite_update" xml:space="preserve">
+    <value>Mise à jour</value>
+  </data>
+  <data name="sharpsite_remove" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="sharpsite_plugin_icon" xml:space="preserve">
+    <value>Icône du plugin</value>
+  </data>
 </root>
