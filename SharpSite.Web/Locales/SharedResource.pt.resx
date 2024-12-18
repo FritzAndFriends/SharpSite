@@ -101,7 +101,7 @@
     <value>Sobre o SharpSite</value>
   </data>
   <data name="sharpsite_about_description" xml:space="preserve">
-    <value>SharpSite é um motor de blog simples escrito em C # usando Blazor.</value>
+    <value>SharpSite é um motor de blog simples escrito em C# usando Blazor.</value>
   </data>
   <data name="sharpsite_about_packages" xml:space="preserve">
     <value>Pacotes Utilizados</value>
