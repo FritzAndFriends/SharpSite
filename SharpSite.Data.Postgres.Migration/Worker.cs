@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
-using OpenTelemetry.Trace;
 using SharpSite.Security.Postgres;
 using System.Diagnostics;
 
@@ -30,7 +29,7 @@ public class Worker(
 			}
 			catch (Exception ex)
 			{
-				activity?.RecordException(ex);
+				activity?.AddException(ex);
 				throw;
 			}
 
@@ -50,7 +49,7 @@ public class Worker(
 			}
 			catch (Exception ex)
 			{
-				activity?.RecordException(ex);
+				activity?.AddException(ex);
 				throw;
 			}
 
