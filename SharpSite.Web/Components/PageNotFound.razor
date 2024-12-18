@@ -1,3 +1,4 @@
+@using System.Net
 <PageTitle>@Localizer["sharpsite_pagenotfound"]</PageTitle>
 
 <p>@Localizer["sharpsite_pagenotfound"]</p>
@@ -11,8 +12,18 @@
 @code 
 {
 
+	[CascadingParameter]
+	public HttpContext? HttpContext { get; set; }
+
 	[Parameter]
 	public string? PageRequested { get; set; }
+
+	protected override void OnInitialized()
+	{
+		if (HttpContext is not null)
+			HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
+		base.OnInitialized();
+	}
 
 
 }
