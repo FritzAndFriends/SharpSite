@@ -10,7 +10,7 @@ public static class Configuration
 		"fr",
 		"it",
 		"nl",
-		//"pt",
+		"pt",
 		//"sv",
 		"sw",
 		"de",
