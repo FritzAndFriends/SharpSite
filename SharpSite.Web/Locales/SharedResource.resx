@@ -198,4 +198,13 @@
   <data name="sharpsite_addnewplugin" xml:space="preserve">
     <value>Add New Plugin</value>
   </data>
+  <data name="sharpsite_update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="sharpsite_remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="sharpsite_plugin_icon" xml:space="preserve">
+    <value>Icon of the plugin</value>
+  </data>
 </root>
