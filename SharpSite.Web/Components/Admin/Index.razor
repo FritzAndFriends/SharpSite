@@ -1,41 +1,62 @@
 ﻿@page "/admin"
 @using Microsoft.AspNetCore.SignalR
 @using Microsoft.Extensions.Options
+@using System.ComponentModel.DataAnnotations
 @inject IOptions<HubOptions> HubOptions
 @inject ApplicationState ApplicationState
 @rendermode InteractiveServer
 @attribute [Authorize(Roles = Constants.Roles.AllUsers)]
 
-<h3>Index</h3>
+<PageTitle>SharpSite Admin Panel</PageTitle>
 
 <p>Welcome to the SharpSite Admin Panel</p>
 
 <p>Here you can manage your plugins and users</p>
 
-<AuthorizeView Roles="@Constants.Roles.Admin">
-	<p>Maximum upload size:
+<AuthorizeView Roles="@Constants.Roles.Admin" Context="AuthorizeContext">
+	<h3>Site Settings</h3>
 
-	<InputNumber @bind-Value="MaxSizeMB" />MB
-	<button @onclick="ChangeMaxSize">Change Max Size</button>
-	</p>
+	<EditForm Model="Model">
+		<DataAnnotationsValidator />
+
+		<label for="maxsize">Maximum upload size:</label>
+
+		<InputNumber id="maxsize" @bind-Value="Model.MaxSizeMB" /> MB
+		<p>
+			<ValidationMessage For="@(() => Model.MaxSizeMB)" />
+		</p>
+		<button class="btn btn-primary" @onclick="ChangeMaxSize">Save Settings</button>
+
+
+	</EditForm>
+
 </AuthorizeView>
-
 @code {
 
-	private long MaxSizeMB = 0;
+	private ViewModel Model = new();
 
 	protected override void OnInitialized()
 	{
-		MaxSizeMB = ApplicationState.MaximumUploadSizeMB;
+		Model.MaxSizeMB = ApplicationState.MaximumUploadSizeMB;
 		base.OnInitialized();
 	}
 
 	private async Task ChangeMaxSize(MouseEventArgs e)
 	{
+
 		HubOptions.Value
-		.MaximumReceiveMessageSize = 1024 * 1024 * MaxSizeMB;
-		ApplicationState.MaximumUploadSizeMB = MaxSizeMB;
+		.MaximumReceiveMessageSize = 1024 * 1024 * Model.MaxSizeMB;
+		ApplicationState.MaximumUploadSizeMB = Model.MaxSizeMB;
+
 		await ApplicationState.Save();
 
 	}
+
+	public class ViewModel
+	{
+		[Range(1, 100), Required]
+		public long MaxSizeMB { get; set; }
+	}
+
+
 }
