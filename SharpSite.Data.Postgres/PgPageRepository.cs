@@ -32,7 +32,7 @@ public class PgPageRepository : IPageRepository
 
 	public async Task DeletePage(int id)
 	{
-		// delete the page identified with a given Id
+		// delete the page identified with a given id
 		var page = Context.Pages.Find(id);
 
 		if (page == null)
@@ -74,7 +74,7 @@ public class PgPageRepository : IPageRepository
 	public async Task<Page?> GetPage(int id)
 	{
 		
-		// get the page with a given Id
+		// get the page with a given id
 		var page = await Context.Pages
 			.AsNoTracking()
 			.FirstOrDefaultAsync(p => p.Id == id);

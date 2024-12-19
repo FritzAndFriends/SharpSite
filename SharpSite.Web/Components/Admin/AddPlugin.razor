@@ -1,5 +1,4 @@
 ﻿@page "/admin/addplugin"
-@using SharpSite.Plugins
 @attribute [Authorize(Roles = Constants.Roles.Admin)]
 @rendermode @(new InteractiveServerRenderMode(false))
 @inject PluginManager PluginManager
@@ -54,9 +53,6 @@
 @code {
 
 
-
-
-
 	private string ErrorMessage = string.Empty;
 
 	private async Task OnInputFileChange(InputFileChangeEventArgs e)
@@ -75,6 +71,7 @@
 		}
 		catch (Exception ex)
 		{
+			Logger.LogError($"{ex.Message}");
 			ErrorMessage = ex.Message;
 
 		}

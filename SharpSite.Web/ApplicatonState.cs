@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace SharpSite.Web;
 
-public class ApplicationState: IApplicationState
+public class ApplicationState
 {
 	public record CurrentThemeRecord(string IdVersion);
 
