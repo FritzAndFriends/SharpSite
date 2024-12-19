@@ -1,8 +1,10 @@
 ﻿@page "/admin/addplugin"
+@using SharpSite.Plugins
 @attribute [Authorize(Roles = Constants.Roles.Admin)]
 @rendermode @(new InteractiveServerRenderMode(false))
 @inject PluginManager PluginManager
 @inject NavigationManager NavigationManager
+@inject ILogger<AddPlugin> Logger
 
 <h3>Add a Plugin to SharpSite</h3>
 
@@ -12,12 +14,12 @@
 						 accept=".sspkg" OnChange="OnInputFileChange" />
 </div>
 
-  @if (PluginManager.Manifest != null)
+@if (PluginManager.Manifest != null)
 {
 	@* add the id field from the manifest*@
 	<div class="form-group">
 		<label for="pluginId">Plugin Id</label>
-		<input type="text" class="form-control" id="pluginId" value="@PluginManager.Manifest.id" readonly />
+		<input type="text" class="form-control" id="pluginId" value="@PluginManager.Manifest.Id" readonly />
 	</div>
 	<div class="form-group">
 		<label for="pluginName">Plugin Name</label>
@@ -52,13 +54,24 @@
 @code {
 
 
+
+
+
 	private string ErrorMessage = string.Empty;
 
 	private async Task OnInputFileChange(InputFileChangeEventArgs e)
 	{
 		try
 		{
-			await PluginManager.HandleUploadedPlugin(e.File);
+			var uploadedFile = e.File;
+			var uploadedFileName = e.File.Name;
+
+			PluginManager.ValidatePlugin(uploadedFileName);
+			using var stream = uploadedFile.OpenReadStream();
+			var plugin = await Plugin.LoadFromStream(stream, uploadedFileName);
+
+			PluginManager.HandleUploadedPlugin(plugin);
+			await Task.Yield();
 		}
 		catch (Exception ex)
 		{
