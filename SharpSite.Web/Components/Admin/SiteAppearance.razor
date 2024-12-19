@@ -4,10 +4,11 @@
 @attribute [Authorize(Roles = Constants.Roles.Admin)]
 @rendermode @(new InteractiveServerRenderMode(false))
 
-
+@* NOTE: This does not work. Is it the render mode? *@
+<PageTitle>@Localizer["sharpsite_appearanceadmin"]</PageTitle>
 @* generate a theme selector combobox based on the list of availablethemeplugins *@
-<h3>Theme Selector</h3>
-<select class="form-select" @bind="SelectedTheme">
+<h3 id="site-appearance-title">@Localizer["sharpsite_appearanceadmin"]</h3>
+<select class="form-select" @bind="SelectedTheme" aria-labelledby="site-appearance-title">
 	<option value="">Select a Theme</option>
 	@foreach (var plugin in AvailableThemePlugins)
 	{
