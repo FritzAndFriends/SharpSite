@@ -1,8 +1,41 @@
 ﻿@page "/admin"
+@using Microsoft.AspNetCore.SignalR
+@using Microsoft.Extensions.Options
+@inject IOptions<HubOptions> HubOptions
+@inject ApplicationState ApplicationState
+@rendermode InteractiveServer
 @attribute [Authorize(Roles = Constants.Roles.AllUsers)]
 
 <h3>Index</h3>
 
+<p>Welcome to the SharpSite Admin Panel</p>
+
+<p>Here you can manage your plugins and users</p>
+
+<AuthorizeView Roles="@Constants.Roles.Admin">
+	<p>Maximum upload size:
+
+	<InputNumber @bind-Value="MaxSizeMB" />MB
+	<button @onclick="ChangeMaxSize">Change Max Size</button>
+	</p>
+</AuthorizeView>
+
 @code {
 
+	private long MaxSizeMB = 0;
+
+	protected override void OnInitialized()
+	{
+		MaxSizeMB = ApplicationState.MaximumUploadSizeMB;
+		base.OnInitialized();
+	}
+
+	private async Task ChangeMaxSize(MouseEventArgs e)
+	{
+		HubOptions.Value
+		.MaximumReceiveMessageSize = 1024 * 1024 * MaxSizeMB;
+		ApplicationState.MaximumUploadSizeMB = MaxSizeMB;
+		await ApplicationState.Save();
+
+	}
 }

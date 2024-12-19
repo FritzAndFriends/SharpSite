@@ -11,6 +11,11 @@ public class ApplicationState
 
 	public CurrentThemeRecord? CurrentTheme { get; set; }
 
+	/// <summary>
+	/// Maximum file upload size in megabytes.
+	/// </summary>
+	public long MaximumUploadSizeMB { get; set; } = 10; // 10MB
+
 	[JsonIgnore]
 	public Type? ThemeType
 	{
@@ -69,6 +74,7 @@ public class ApplicationState
 			if (state is not null)
 			{
 				CurrentTheme = state.CurrentTheme;
+				MaximumUploadSizeMB = state.MaximumUploadSizeMB;
 			}
 		}
 	}
