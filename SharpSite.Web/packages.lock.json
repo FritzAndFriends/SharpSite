@@ -108,15 +108,6 @@
         "resolved": "2.14.1",
         "contentHash": "lQKvtaTDOXnoVJ20ibTuSIOf2i0uO0MPbDhd1jm238I+U/2ZnRENj0cktKZhtchBMtCUSRQ5v4xBCUbKNmyVMw=="
       },
-      "Microsoft.AspNetCore.Components": {
-        "type": "Transitive",
-        "resolved": "9.0.0",
-        "contentHash": "xKzY0LRqWrwuPVzKIF9k1kC21NrLmIE2qPhhKlInEAdYqNe8qcMoPWZy7fo1uScHkz5g73nTqDDra3+aAV7mTQ==",
-        "dependencies": {
-          "Microsoft.AspNetCore.Authorization": "9.0.0",
-          "Microsoft.AspNetCore.Components.Analyzers": "9.0.0"
-        }
-      },
       "Microsoft.AspNetCore.Components.Analyzers": {
         "type": "Transitive",
         "resolved": "9.0.0",
@@ -787,6 +778,13 @@
           "SharpSite.Abstractions": "[1.0.0, )"
         }
       },
+      "sharpsite.plugins": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.AspNetCore.Components": "[9.0.0, )",
+          "SharpSite.Abstractions": "[1.0.0, )"
+        }
+      },
       "sharpsite.security.postgres": {
         "type": "Project",
         "dependencies": {
@@ -844,6 +842,16 @@
           "Microsoft.AspNetCore.Metadata": "9.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "9.0.0",
           "Microsoft.Extensions.Options": "9.0.0"
+        }
+      },
+      "Microsoft.AspNetCore.Components": {
+        "type": "CentralTransitive",
+        "requested": "[9.0.0, )",
+        "resolved": "9.0.0",
+        "contentHash": "xKzY0LRqWrwuPVzKIF9k1kC21NrLmIE2qPhhKlInEAdYqNe8qcMoPWZy7fo1uScHkz5g73nTqDDra3+aAV7mTQ==",
+        "dependencies": {
+          "Microsoft.AspNetCore.Authorization": "9.0.0",
+          "Microsoft.AspNetCore.Components.Analyzers": "9.0.0"
         }
       },
       "Microsoft.AspNetCore.Components.Authorization": {
