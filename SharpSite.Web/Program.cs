@@ -19,6 +19,11 @@ var pgSecurity = new RegisterPostgresSecurityServices();
 pgSecurity.RegisterServices(builder);
 #endregion
 
+// Configure applicatin state and the PluginManager
+var appState = new ApplicationState();
+await appState.Load();
+builder.Services.AddSingleton(appState);
+builder.Services.AddSingleton<PluginManager>();
 
 // add the custom localization features for the application framework
 builder.ConfigureRequestLocalization();
@@ -29,7 +34,7 @@ builder.AddServiceDefaults();
 // Configure larger messages to allow upload of packages
 builder.Services.Configure<HubOptions>(options =>
 {
-	options.MaximumReceiveMessageSize = 1024 * 1024 * 10; // 1MB or use null
+	options.MaximumReceiveMessageSize = 1024 * 1024 * appState.MaximumUploadSizeMB; // 1MB or use null
 	options.EnableDetailedErrors = true;
 });
 
@@ -44,10 +49,6 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddOutputCache();
 builder.Services.AddMemoryCache();
-
-var appState = new ApplicationState();
-builder.Services.AddSingleton(appState);
-builder.Services.AddSingleton<PluginManager>();
 
 var app = builder.Build();
 
@@ -96,8 +97,5 @@ await pgSecurity.RunAtStartup(app.Services);
 // Use DI to get the logger
 var pluginManager = app.Services.GetRequiredService<PluginManager>();
 pluginManager.LoadPluginsAtStartup();
-
-// Load application state
-await appState.Load();
 
 app.Run();

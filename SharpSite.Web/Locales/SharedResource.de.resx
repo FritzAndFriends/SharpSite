@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -206,5 +206,42 @@
   </data>
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Plugin Symbol</value>
+  </data>
+  <data name="sharpsite_admin_headertext" xml:space="preserve">
+    <value>Willkommen beim SharpSite Admin Panel.</value>
+  </data>
+  <data name="sharpsite_sitesettings" xml:space="preserve">
+    <value>Website-Einstellungen</value>
+  </data>
+  <data name="sharpsite_maxupload_label" xml:space="preserve">
+    <value>Maximale Upload-Größe:</value>
+  </data>
+  <data name="sharpsite_logo" xml:space="preserve">
+    <value>Sharpsite-Logo</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navmenu" xml:space="preserve">
+    <value>Navigationsmenü</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_usersadmin" xml:space="preserve">
+    <value>Benutzerliste</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_appearanceadmin" xml:space="preserve">
+    <value>Thema-Auswahl</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navadmin" xml:space="preserve">
+    <value>Admin-Navigation</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navmain" xml:space="preserve">
+    <value>Hauptnavigation</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin" xml:space="preserve">
+    <value>Website-Administrator</value>
+    <comment>AI generated translation</comment>
   </data>
 </root>

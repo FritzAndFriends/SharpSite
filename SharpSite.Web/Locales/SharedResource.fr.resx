@@ -207,4 +207,41 @@
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Icône du plugin</value>
   </data>
+  <data name="sharpsite_admin_headertext" xml:space="preserve">
+    <value>Bienvenue sur le panneau d'administration SharpSite.</value>
+  </data>
+  <data name="sharpsite_sitesettings" xml:space="preserve">
+    <value>Paramètres du site</value>
+  </data>
+  <data name="sharpsite_maxupload_label" xml:space="preserve">
+    <value>Taille maximale de téléchargement :</value>
+  </data>
+  <data name="sharpsite_logo" xml:space="preserve">
+    <value>Logo Sharpsite</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navmenu" xml:space="preserve">
+    <value>Menu de navigation</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_usersadmin" xml:space="preserve">
+    <value>Liste d'utilisateurs</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_appearanceadmin" xml:space="preserve">
+    <value>Sélecteur de thème</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navadmin" xml:space="preserve">
+    <value>Navigation de l'administrateur</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navmain" xml:space="preserve">
+    <value>Navigation principale</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin" xml:space="preserve">
+    <value>Administrateur de site</value>
+    <comment>AI generated translation</comment>
+  </data>
 </root>
