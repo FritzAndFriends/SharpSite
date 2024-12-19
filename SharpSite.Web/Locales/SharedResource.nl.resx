@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -206,5 +206,42 @@
   </data>
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Plugin icoon</value>
+  </data>
+  <data name="sharpsite_admin_headertext" xml:space="preserve">
+    <value>Welkom bij het SharpSite beheerderspaneel.</value>
+  </data>
+  <data name="sharpsite_sitesettings" xml:space="preserve">
+    <value>Site-instellingen</value>
+  </data>
+   <data name="sharpsite_maxupload_label" xml:space="preserve">
+    <value>Maximale upload grootte:</value>
+  </data>
+  <data name="sharpsite_logo" xml:space="preserve">
+    <value>Sharpsite logo</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navmenu" xml:space="preserve">
+    <value>Navigatiemenu</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_usersadmin" xml:space="preserve">
+    <value>Gebruikerslijst</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_appearanceadmin" xml:space="preserve">
+    <value>Thema selectie</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navadmin" xml:space="preserve">
+    <value>Beheer navigatie</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navmain" xml:space="preserve">
+    <value>Hoofdnavigatie</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin" xml:space="preserve">
+    <value>Sitebeheerder</value>
+    <comment>AI generated translation</comment>
   </data>
 </root>

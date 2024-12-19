@@ -1,0 +1,57 @@
+@using Microsoft.AspNetCore.SignalR
+@using Microsoft.Extensions.Options
+@using System.ComponentModel.DataAnnotations
+@inject IOptions<HubOptions> HubOptions
+@inject ApplicationState ApplicationState
+@rendermode @(new InteractiveServerRenderMode(true))
+
+<AuthorizeView Roles="@Constants.Roles.Admin" Context="AuthorizeContext">
+	<h3>
+		@Localizer["sharpsite_sitesettings"]</h3>
+
+	<EditForm Model="Model">
+		<DataAnnotationsValidator />
+
+		<label for="maxsize">
+			@Localizer["sharpsite_maxupload_label"]</label>
+
+		<InputNumber id="maxsize" @bind-Value="Model.MaxSizeMB" /> MB
+		<p>
+			<ValidationMessage For="@(() => Model.MaxSizeMB)" />
+		</p>
+		<button class="btn btn-primary" @onclick="ChangeMaxSize">@Localizer["sharpsite_save"]</button>
+
+
+	</EditForm>
+
+</AuthorizeView>
+
+@code {
+
+	private ViewModel Model = new();
+
+	protected override void OnInitialized()
+	{
+		Model.MaxSizeMB = ApplicationState.MaximumUploadSizeMB;
+		base.OnInitialized();
+	}
+
+	private async Task ChangeMaxSize(MouseEventArgs e)
+	{
+
+		HubOptions.Value
+		.MaximumReceiveMessageSize = 1024 * 1024 * Model.MaxSizeMB;
+		ApplicationState.MaximumUploadSizeMB = Model.MaxSizeMB;
+
+		await ApplicationState.Save();
+
+	}
+
+	public class ViewModel
+	{
+		[Range(1, 100), Required]
+		public long MaxSizeMB { get; set; }
+	}
+
+
+}

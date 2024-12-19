@@ -1,6 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
-
-<ul class="nav nav-pills flex-column">
+﻿<ul class="nav nav-pills flex-column">
 
 	<AuthorizeView Roles="@Constants.Roles.AllUsers">
 		<li class="nav-item">
@@ -24,7 +22,7 @@
 	</li>
 
 	<AuthorizeView Roles="@Constants.Roles.Admin">
-		<li class="nav-iten">
+		<li class="nav-item">
 			<NavLink class="nav-link" href="/admin/users">
 				User Admin
 			</NavLink>
@@ -40,7 +38,7 @@
 	</AuthorizeView>
 
 	<AuthorizeView Roles="@Constants.Roles.Admin">
-		<li class="nav-iten">
+		<li class="nav-item">
 			<NavLink class="nav-link" href="/admin/plugins">
 				@Localizer["sharpsite_pluginmanagement"]
 			</NavLink>

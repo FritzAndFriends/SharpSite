@@ -173,18 +173,6 @@
     <value>Постове админ</value>
     <comment>Линк до постове на админ</comment>
   </data>
-  <data name="sharpsite_pluginmanagement" xml:space="preserve">
-    <value>Управление на допълнителните модули за SharpSite - плъгини</value>
-  </data>
-  <data name="sharpsite_installedplugins" xml:space="preserve">
-    <value>Инсталирани плъгини.</value>
-  </data>
-  <data name="sharpsite_nopluginsinstalled" xml:space="preserve">
-    <value>Не са инсталирани никакви допълнения. SharpSite.</value>
-  </data>
-  <data name="sharpsite_addnewplugin" xml:space="preserve">
-    <value>Добавете нов приставка (плъгин) на SharpSite.</value>
-  </data>
   <data name="sharpsite_pageadmin" xml:space="preserve">
     <value>SharpSite е уеб сайт за управление на съдържанието с отворен код, изграден с помощта на C# и Blazor. Вие превеждате текст, който ще бъде показан на потребител на уеб сайта. Текстът за превод е "Администраторска страница".</value>
   </data>
@@ -200,6 +188,18 @@
   <data name="sharpsite_editpage" xml:space="preserve">
     <value>Редактиране на страницата</value>
   </data>
+  <data name="sharpsite_pluginmanagement" xml:space="preserve">
+    <value>Управление на допълнителните модули за SharpSite - плъгини</value>
+  </data>
+  <data name="sharpsite_installedplugins" xml:space="preserve">
+    <value>Инсталирани плъгини.</value>
+  </data>
+  <data name="sharpsite_nopluginsinstalled" xml:space="preserve">
+    <value>Не са инсталирани никакви допълнения. SharpSite.</value>
+  </data>
+  <data name="sharpsite_addnewplugin" xml:space="preserve">
+    <value>Добавете нов приставка (плъгин) на SharpSite.</value>
+  </data>
   <data name="sharpsite_update" xml:space="preserve">
     <value>Актуализиране</value>
   </data>
@@ -208,5 +208,42 @@
   </data>
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Икона на добавката.</value>
+  </data>
+  <data name="sharpsite_admin_headertext" xml:space="preserve">
+    <value>Добре дошли в административната панел на SharpSite.</value>
+  </data>
+  <data name="sharpsite_sitesettings" xml:space="preserve">
+    <value>Настройки на сайта</value>
+  </data>
+   <data name="sharpsite_maxupload_label" xml:space="preserve">
+    <value>Максимален размер на качване:</value>
+  </data>
+  <data name="sharpsite_logo" xml:space="preserve">
+    <value>Логото на Sharpsite</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navmenu" xml:space="preserve">
+    <value>Навигационно меню</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_usersadmin" xml:space="preserve">
+    <value>Списък на потребителите.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_appearanceadmin" xml:space="preserve">
+    <value>Избор на тема</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navadmin" xml:space="preserve">
+    <value>Административна навигация (Admin navigation)</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navmain" xml:space="preserve">
+    <value>Главно меню</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin" xml:space="preserve">
+    <value>Администратор на сайта</value>
+    <comment>AI generated translation</comment>
   </data>
 </root>
