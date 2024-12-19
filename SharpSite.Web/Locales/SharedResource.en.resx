@@ -235,4 +235,13 @@
   <data name="sharpsite_admin" xml:space="preserve">
     <value>Site admin</value>
   </data>
+  <data name="sharpsite_admin_headertext" xml:space="preserve">
+    <value>Welcome to the SharpSite Admin Panel</value>
+  </data>
+  <data name="sharpsite_sitesettings" xml:space="preserve">
+    <value>Site Settings</value>
+  </data>
+  <data name="sharpsite_maxupload_label" xml:space="preserve">
+    <value>Maximum upload size:</value>
+  </data>
 </root>

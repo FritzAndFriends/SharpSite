@@ -4,28 +4,28 @@
 @using System.ComponentModel.DataAnnotations
 @inject IOptions<HubOptions> HubOptions
 @inject ApplicationState ApplicationState
-@rendermode InteractiveServer
+@rendermode @(new InteractiveServerRenderMode(false))
 @attribute [Authorize(Roles = Constants.Roles.AllUsers)]
 
 <PageTitle>@Localizer["sharpsite_admin"]</PageTitle>
 
-<p>Welcome to the SharpSite Admin Panel</p>
-
-<p>Here you can manage your plugins and users</p>
+<p>@Localizer["sharpsite_admin_headertext"]</p>
 
 <AuthorizeView Roles="@Constants.Roles.Admin" Context="AuthorizeContext">
-	<h3>Site Settings</h3>
+	<h3>
+		@Localizer["sharpsite_sitesettings"]</h3>
 
 	<EditForm Model="Model">
 		<DataAnnotationsValidator />
 
-		<label for="maxsize">Maximum upload size:</label>
+		<label for="maxsize">
+			@Localizer["sharpsite_maxupload_label"]</label>
 
 		<InputNumber id="maxsize" @bind-Value="Model.MaxSizeMB" /> MB
 		<p>
 			<ValidationMessage For="@(() => Model.MaxSizeMB)" />
 		</p>
-		<button class="btn btn-primary" @onclick="ChangeMaxSize">Save Settings</button>
+		<button class="btn btn-primary" @onclick="ChangeMaxSize">@Localizer["sharpsite_save"]</button>
 
 
 	</EditForm>
