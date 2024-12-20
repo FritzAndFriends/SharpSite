@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.FileProviders;
 using SharpSite.Data.Postgres;
 using SharpSite.Security.Postgres;
