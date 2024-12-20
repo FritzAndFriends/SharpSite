@@ -303,6 +303,7 @@
   <data name="sharpsite_admin_layout_h1" xml:space="preserve">
     <value>Manage SharpSite</value>
     <comment>Admin layout heading 1</comment>
+  </data>
   <data name="sharpsite_theme_blank_option" xml:space="preserve">
     <value>Select a theme</value>
     <comment>Blank option for theme select element</comment>
