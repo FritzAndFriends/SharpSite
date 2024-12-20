@@ -209,5 +209,114 @@
   </data>
   <data name="sharpsite_pagenotfound_withrequestedpage" xml:space="preserve">
     <value>A página {0} solicitada não está disponível.</value>
+	</data>
+  <data name="sharpsite_logo" xml:space="preserve">
+    <value>Logotipo do Sharpsite</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navmenu" xml:space="preserve">
+    <value>Menu de navegação</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_userlist" xml:space="preserve">
+    <value>Lista de usuários</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_theme_selector" xml:space="preserve">
+    <value>Seletor de tema.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navadmin" xml:space="preserve">
+    <value>Navegação do administrador</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navmain" xml:space="preserve">
+    <value>Navegação principal</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin" xml:space="preserve">
+    <value>Administração do site</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin_headertext" xml:space="preserve">
+    <value>Bem-vindo ao Painel de Administração do SharpSite.</value>
+  </data>
+  <data name="sharpsite_sitesettings" xml:space="preserve">
+    <value>Configurações do site</value>
+  </data>
+  <data name="sharpsite_maxupload_label" xml:space="preserve">
+    <value>Tamanho máximo de upload:</value>
+  </data>
+  <data name="sharpsite_home_page" xml:space="preserve">
+    <value>Página inicial do SharpSite</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_logout" xml:space="preserve">
+    <value>Sair</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_login" xml:space="preserve">
+    <value>Login (Iniciar sessão)</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_generaladmin" xml:space="preserve">
+    <value>Geral</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_add" xml:space="preserve">
+    <value>Adicionar um plugin ao SharpSite.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_id" xml:space="preserve">
+    <value>Identificador do plugin</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_name" xml:space="preserve">
+    <value>Nome do Plugin</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_version" xml:space="preserve">
+    <value>Versão do Plugin</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_description" xml:space="preserve">
+    <value>Descrição do Plugin</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_author" xml:space="preserve">
+    <value>Autor do plugin</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_website" xml:space="preserve">
+    <value>Website de plugin.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_accept" xml:space="preserve">
+    <value>Aceitar</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_reject" xml:space="preserve">
+    <value>Rejeitar</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_file" xml:space="preserve">
+    <value>Plugin de Arquivo</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin_layout_h2" xml:space="preserve">
+    <value>Gerenciamento de Site</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin_layout_h1" xml:space="preserve">
+    <value>Gerenciar SharpSite</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_theme_blank_option" xml:space="preserve">
+    <value>Selecione um tema.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_site_appearance_admin" xml:space="preserve">
+    <value>Aparência do site.</value>
+    <comment>AI generated translation</comment>
   </data>
 </root>

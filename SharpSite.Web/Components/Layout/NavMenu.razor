@@ -7,13 +7,13 @@
 
 
 <div class="top-row ps-3 navbar navbar-dark">
-	<a href="/"><img src="/logo.webp" /></a>
+	<a href="/" aria-label="@Localizer["sharpsite_home"]"><img src="/logo.webp" alt="@Localizer["sharpsite_logo"]"/></a>
 </div>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
+<input type="checkbox" title="@Localizer["sharpsite_navmenu"]" class="navbar-toggler" aria-label="@Localizer["sharpsite_navmenu"]"/>
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-	<nav class="flex-column">
+	<div class="flex-column">
 		<div class="nav-item px-3">
 			<NavLink class="nav-link" href="" Match="NavLinkMatch.All">
 				<span class="bi bi-house-door-fill" aria-hidden="true"></span> @Localizer["sharpsite_home"]
@@ -44,7 +44,7 @@
 		<AuthorizeView Roles="@Constants.Roles.AllUsers">
 			<div class="nav-item px-3">
 				<NavLink class="nav-link" href="/admin" Match="NavLinkMatch.All">
-					<span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> Site Admin
+					<span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @Localizer["sharpsite_admin"]
 				</NavLink>
 			</div>
 		</AuthorizeView>
@@ -63,13 +63,13 @@
 						<AntiforgeryToken />
 						<input type="hidden" name="ReturnUrl" value="@currentUrl" />
 						<button type="submit" class="nav-link">
-							<span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
+							<span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> @Localizer["sharpsite_logout"]
 						</button>
 					</form>
 				</Authorized>
 				<NotAuthorized>
 					<NavLink class="nav-link" href="/Account/Login" Match="NavLinkMatch.All">
-						<span class="bi bi-house-door-fill" aria-hidden="true"></span>Login
+						<span class="bi bi-house-door-fill" aria-hidden="true"></span> @Localizer["sharpsite_login"]
 					</NavLink>
 				</NotAuthorized>
 			</AuthorizeView>
@@ -77,7 +77,7 @@
 		</div>
 
 		<LanguagePicker />
-	</nav>
+	</div>
 </div>
 
 @code {

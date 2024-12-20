@@ -1,53 +1,6 @@
 ﻿@page "/admin/site"
-@inject ApplicationState AppState
-@inject NavigationManager NavigationManager
 @attribute [Authorize(Roles = Constants.Roles.Admin)]
-@rendermode @(new InteractiveServerRenderMode(false))
 
+<PageTitle>@Localizer["sharpsite_site_appearance_admin"]</PageTitle>
 
-@* generate a theme selector combobox based on the list of availablethemeplugins *@
-<h3>Theme Selector</h3>
-<select class="form-select" @bind="SelectedTheme">
-	<option value="">Select a Theme</option>
-	@foreach (var plugin in AvailableThemePlugins)
-	{
-		<option 
-		value="@plugin.IdVersionToString()">@plugin.DisplayName</option>
-	}
-</select>
-
-<button class="btn btn-primary my-3" @onclick="ChangeTheme">Change Theme</button>
-
-@code {
-
-	PluginManifest[] AvailableThemePlugins = Array.Empty<PluginManifest>();
-
-	string SelectedTheme = string.Empty;
-
-	protected override void OnInitialized()
-	{
-
-		SelectedTheme = AppState.CurrentTheme is not null ? AppState.CurrentTheme.IdVersion : string.Empty;
-
-		AvailableThemePlugins = AppState.Plugins.Values
-			.Where(p => p.Features.Contains(PluginFeatures.Theme))
-			.ToArray();
-
-		base.OnInitialized();
-	}
-	private async Task ChangeTheme()
-	{
-
-		if (string.IsNullOrWhiteSpace(SelectedTheme))
-		{
-			AppState.CurrentTheme = null;
-		}
-		else
-		{
-			AppState.SetTheme(AvailableThemePlugins.First(p => p.IdVersionToString() == SelectedTheme));
-		}
-		await AppState.Save();
-		NavigationManager.NavigateTo("/admin", true);
-
-	}
-}
+<ThemeSelect />
