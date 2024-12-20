@@ -207,4 +207,113 @@
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Icona del connector</value>
   </data>
+  <data name="sharpsite_logo" xml:space="preserve">
+    <value>Logotip de Sharpsite</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navmenu" xml:space="preserve">
+    <value>Menú de navegació</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_userlist" xml:space="preserve">
+    <value>Llista d'usuaris.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_theme_selector" xml:space="preserve">
+    <value>Selector de tema</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navadmin" xml:space="preserve">
+    <value>Navegació d'administrador</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navmain" xml:space="preserve">
+    <value>Navegació principal</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin" xml:space="preserve">
+    <value>Administrador del lloc web</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin_headertext" xml:space="preserve">
+    <value>Benvingut al panell d'administració de SharpSite.</value>
+  </data>
+  <data name="sharpsite_sitesettings" xml:space="preserve">
+    <value>Configuració del lloc web</value>
+  </data>
+  <data name="sharpsite_maxupload_label" xml:space="preserve">
+    <value>Mida màxima de càrrega:</value>
+  </data>
+  <data name="sharpsite_home_page" xml:space="preserve">
+    <value>Pàgina d'inici de SharpSite.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_logout" xml:space="preserve">
+    <value>Tancar sessió</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_login" xml:space="preserve">
+    <value>Iniciar sessió</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_generaladmin" xml:space="preserve">
+    <value>General</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_add" xml:space="preserve">
+    <value>Afegiu un connector a SharpSite.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_id" xml:space="preserve">
+    <value>Identificador del complement.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_name" xml:space="preserve">
+    <value>Nom del connector</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_version" xml:space="preserve">
+    <value>Versió del connector</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_description" xml:space="preserve">
+    <value>Descripció del connector de complement</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_author" xml:space="preserve">
+    <value>Autor del connector de complementos</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_website" xml:space="preserve">
+    <value>Lloc web del connector.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_accept" xml:space="preserve">
+    <value>Acceptar</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_reject" xml:space="preserve">
+    <value>Rebutjar</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_file" xml:space="preserve">
+    <value>Fitxer del connector del programari complementari</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin_layout_h2" xml:space="preserve">
+    <value>Gestió del lloc web</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin_layout_h1" xml:space="preserve">
+    <value>Gestionar SharpSite</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_theme_blank_option" xml:space="preserve">
+    <value>Selecciona un tema</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_site_appearance_admin" xml:space="preserve">
+    <value>Aparença del lloc web</value>
+    <comment>AI generated translation</comment>
+  </data>
 </root>

@@ -206,5 +206,109 @@
   </data>
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Icon of the plugin</value>
+    <comment>Alt text for the icon of a plugin</comment>
+  </data>
+  <data name="sharpsite_logo" xml:space="preserve">
+    <value>Sharpsite logo</value>
+    <comment>Alt text for Sharpsite logo image</comment>
+  </data>
+  <data name="sharpsite_navmenu" xml:space="preserve">
+    <value>Navigation menu</value>
+  </data>
+  <data name="sharpsite_userlist" xml:space="preserve">
+    <value>User list</value>
+  </data>
+  <data name="sharpsite_theme_selector" xml:space="preserve">
+    <value>Theme selector</value>
+  </data>
+  <data name="sharpsite_navadmin" xml:space="preserve">
+    <value>Admin navigation</value>
+  </data>
+  <data name="sharpsite_navmain" xml:space="preserve">
+    <value>Main navigation</value>
+  </data>
+  <data name="sharpsite_admin" xml:space="preserve">
+    <value>Site admin</value>
+  </data>
+  <data name="sharpsite_admin_headertext" xml:space="preserve">
+    <value>Welcome to the SharpSite Admin Panel</value>
+    <comment>Welcoming text for the top of the front page of the admin section of SharpSite</comment>
+  </data>
+  <data name="sharpsite_sitesettings" xml:space="preserve">
+    <value>Site Settings</value>
+    <comment>Header text for the collection of configuration options that control how the SharpSite website behaves</comment>
+  </data>
+  <data name="sharpsite_maxupload_label" xml:space="preserve">
+    <value>Maximum upload size:</value>
+    <comment>Label for the form field that defines the maximum upload size for files</comment>
+  </data>
+  <data name="sharpsite_home_page" xml:space="preserve">
+    <value>SharpSite Home Page</value>
+  </data>
+  <data name="sharpsite_logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="sharpsite_login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="sharpsite_useradmin" xml:space="preserve">
+    <value>User Admin</value>
+  </data>
+  <data name="sharpsite_generaladmin" xml:space="preserve">
+    <value>General</value>
+    <comment>The index page of admin pages</comment>
+  </data>
+  <data name="sharpsite_plugin_add" xml:space="preserve">
+    <value>Add a Plugin to SharpSite</value>
+    <comment>Header text for adding a new plugin to SharpSite</comment>
+  </data>
+  <data name="sharpsite_plugin_id" xml:space="preserve">
+    <value>Plugin Id</value>
+    <comment>Label for plugin id</comment>
+  </data>
+  <data name="sharpsite_plugin_name" xml:space="preserve">
+    <value>Plugin Name</value>
+    <comment>Label for plugin name</comment>
+  </data>
+  <data name="sharpsite_plugin_version" xml:space="preserve">
+    <value>Plugin Version</value>
+    <comment>Label for plugin version</comment>
+  </data>
+  <data name="sharpsite_plugin_description" xml:space="preserve">
+    <value>Plugin Description</value>
+    <comment>Label for plugin description</comment>
+  </data>
+  <data name="sharpsite_plugin_author" xml:space="preserve">
+    <value>Plugin Author</value>
+    <comment>Label for plugin author</comment>
+  </data>
+  <data name="sharpsite_plugin_website" xml:space="preserve">
+    <value>Plugin Website</value>
+    <comment>Label for plugin website</comment>
+  </data>
+  <data name="sharpsite_accept" xml:space="preserve">
+    <value>Accept</value>
+  </data>
+  <data name="sharpsite_reject" xml:space="preserve">
+    <value>Reject</value>
+  </data>
+  <data name="sharpsite_plugin_file" xml:space="preserve">
+    <value>Plugin File</value>
+    <comment>Label for plugin file</comment>
+  </data>
+  <data name="sharpsite_admin_layout_h2" xml:space="preserve">
+    <value>Site Management</value>
+    <comment>Admin layout heading 2</comment>
+  </data>
+  <data name="sharpsite_admin_layout_h1" xml:space="preserve">
+    <value>Manage SharpSite</value>
+    <comment>Admin layout heading 1</comment>
+  </data>
+  <data name="sharpsite_theme_blank_option" xml:space="preserve">
+    <value>Select a theme</value>
+    <comment>Blank option for theme select element</comment>
+  </data>
+  <data name="sharpsite_site_appearance_admin" xml:space="preserve">
+    <value>Site appearance</value>
   </data>
 </root>

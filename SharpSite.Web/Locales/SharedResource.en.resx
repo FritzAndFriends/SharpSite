@@ -170,20 +170,8 @@
     <comment>home page link</comment>
   </data>
   <data name="sharpsite_postsadmin" xml:space="preserve">
-    <value>Posts admin</value>
+    <value>Posts Admin</value>
     <comment>Link text to the Posts Admin page</comment>
-  </data>
-  <data name="sharpsite_pluginmanagement" xml:space="preserve">
-    <value>Plugin Management</value>
-  </data>
-  <data name="sharpsite_installedplugins" xml:space="preserve">
-    <value>Installed Plugins</value>
-  </data>
-  <data name="sharpsite_nopluginsinstalled" xml:space="preserve">
-    <value>No plugins are installed.</value>
-  </data>
-  <data name="sharpsite_addnewplugin" xml:space="preserve">
-    <value>Add New Plugin</value>
   </data>
   <data name="sharpsite_pageadmin" xml:space="preserve">
     <value>Page Admin</value>
@@ -205,6 +193,18 @@
     <value>Edit Page</value>
     <comment>Label for editing a page on the Page Edit page</comment>
   </data>
+  <data name="sharpsite_pluginmanagement" xml:space="preserve">
+    <value>Plugin Management</value>
+  </data>
+  <data name="sharpsite_installedplugins" xml:space="preserve">
+    <value>Installed Plugins</value>
+  </data>
+  <data name="sharpsite_nopluginsinstalled" xml:space="preserve">
+    <value>No plugins are installed.</value>
+  </data>
+  <data name="sharpsite_addnewplugin" xml:space="preserve">
+    <value>Add New Plugin</value>
+  </data>
   <data name="sharpsite_update" xml:space="preserve">
     <value>Update</value>
   </data>
@@ -213,5 +213,89 @@
   </data>
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Icon of the plugin</value>
+  </data>
+  <data name="sharpsite_logo" xml:space="preserve">
+    <value>Sharpsite logo</value>
+  </data>
+  <data name="sharpsite_navmenu" xml:space="preserve">
+    <value>Navigation menu</value>
+  </data>
+  <data name="sharpsite_userlist" xml:space="preserve">
+    <value>User list</value>
+  </data>
+  <data name="sharpsite_theme_selector" xml:space="preserve">
+    <value>Theme selector</value>
+  </data>
+  <data name="sharpsite_navadmin" xml:space="preserve">
+    <value>Admin navigation</value>
+  </data>
+  <data name="sharpsite_navmain" xml:space="preserve">
+    <value>Main navigation</value>
+  </data>
+  <data name="sharpsite_admin" xml:space="preserve">
+    <value>Site admin</value>
+  </data>
+  <data name="sharpsite_admin_headertext" xml:space="preserve">
+    <value>Welcome to the SharpSite Admin Panel</value>
+  </data>
+  <data name="sharpsite_sitesettings" xml:space="preserve">
+    <value>Site Settings</value>
+  </data>
+  <data name="sharpsite_maxupload_label" xml:space="preserve">
+    <value>Maximum upload size:</value>
+  </data>
+  <data name="sharpsite_home_page" xml:space="preserve">
+    <value>SharpSite Home Page</value>
+  </data>
+  <data name="sharpsite_logout" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="sharpsite_login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="sharpsite_generaladmin" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="sharpsite_plugin_add" xml:space="preserve">
+    <value>Add a Plugin to SharpSite</value>
+  </data>
+  <data name="sharpsite_plugin_id" xml:space="preserve">
+    <value>Plugin Id</value>
+  </data>
+  <data name="sharpsite_plugin_name" xml:space="preserve">
+    <value>Plugin Name</value>
+  </data>
+  <data name="sharpsite_plugin_version" xml:space="preserve">
+    <value>Plugin Version</value>
+  </data>
+  <data name="sharpsite_plugin_description" xml:space="preserve">
+    <value>Plugin Description</value>
+  </data>
+  <data name="sharpsite_plugin_author" xml:space="preserve">
+    <value>Plugin Author</value>
+  </data>
+  <data name="sharpsite_plugin_website" xml:space="preserve">
+    <value>Plugin Website</value>
+  </data>
+  <data name="sharpsite_accept" xml:space="preserve">
+    <value>Accept</value>
+  </data>
+  <data name="sharpsite_reject" xml:space="preserve">
+    <value>Reject</value>
+  </data>
+  <data name="sharpsite_plugin_file" xml:space="preserve">
+    <value>Plugin File</value>
+  </data>
+  <data name="sharpsite_admin_layout_h2" xml:space="preserve">
+    <value>Site Management</value>
+  </data>
+  <data name="sharpsite_admin_layout_h1" xml:space="preserve">
+    <value>Manage SharpSite</value>
+  </data>
+  <data name="sharpsite_theme_blank_option" xml:space="preserve">
+    <value>Select a theme</value>
+  </data>
+  <data name="sharpsite_site_appearance_admin" xml:space="preserve">
+    <value>Site appearance</value>
   </data>
 </root>

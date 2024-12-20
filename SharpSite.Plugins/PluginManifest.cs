@@ -1,9 +1,11 @@
-﻿namespace SharpSite.Abstractions;
+﻿using System.Text.Json.Serialization;
 
+namespace SharpSite.Plugins;
 
 public class PluginManifest
 {
-	public required string id { get; set; }
+	[JsonPropertyName("id")]
+	public required string Id { get; set; }
 	public required string DisplayName { get; set; }
 	public required string Description { get; set; }
 	public required string Version { get; set; }
@@ -21,7 +23,7 @@ public class PluginManifest
 
 	public string IdVersionToString()
 	{
-		return $"{id}@{Version}";
+		return $"{Id}@{Version}";
 	}
 
 }
