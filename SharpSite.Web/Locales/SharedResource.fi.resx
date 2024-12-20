@@ -294,6 +294,7 @@
   </data>
   <data name="sharpsite_admin_layout_h1" xml:space="preserve">
     <value>SharpSiten hallinta</value>
+  </data>
   <data name="sharpsite_theme_blank_option" xml:space="preserve">
     <value>Valitse teema</value>
   </data>
