@@ -1,5 +1,6 @@
 ﻿using SharpSite.Abstractions;
 using SharpSite.Abstractions.Theme;
+using SharpSite.Plugins;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -25,7 +26,7 @@ public class ApplicationState
 			var themeManifest = Plugins.Values.FirstOrDefault(p => p.IdVersionToString() == CurrentTheme.IdVersion);
 			if (themeManifest is not null)
 			{
-				var pluginAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == themeManifest.id);
+				var pluginAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == themeManifest.Id);
 				var themeType = pluginAssembly?.GetTypes().FirstOrDefault(t => typeof(IHasStylesheets).IsAssignableFrom(t));
 				return themeType!;
 			}
@@ -55,8 +56,8 @@ public class ApplicationState
 
 	public void SetTheme(PluginManifest manifest)
 	{
-		// identify the pluginAssembly in memory that's named after the manifest.id
-		var pluginAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == manifest.id);
+		// identify the pluginAssembly in memory that's named after the manifest.Id
+		var pluginAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.GetName().Name == manifest.Id);
 
 		var themeType = pluginAssembly?.GetTypes().FirstOrDefault(t => typeof(IHasStylesheets).IsAssignableFrom(t));
 		if (themeType is not null) CurrentTheme = new(manifest.IdVersionToString());
