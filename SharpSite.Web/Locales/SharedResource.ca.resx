@@ -207,4 +207,42 @@
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Icona del connector</value>
   </data>
+  <data name="sharpsite_admin_headertext" xml:space="preserve">
+    <value>Benvingut al panell d'administració de SharpSite.</value>
+  </data>
+  <data name="sharpsite_sitesettings" xml:space="preserve">
+    <value>Configuració del lloc web</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="sharpsite_maxupload_label" xml:space="preserve">
+    <value>Mida màxima de càrrega:</value>
+  </data>
+  <data name="sharpsite_logo" xml:space="preserve">
+    <value>Logotip de Sharpsite</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navmenu" xml:space="preserve">
+    <value>Menú de navegació</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_usersadmin" xml:space="preserve">
+    <value>Llista d'usuaris.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_appearanceadmin" xml:space="preserve">
+    <value>Selector de tema</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navadmin" xml:space="preserve">
+    <value>Navegació d'administrador</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navmain" xml:space="preserve">
+    <value>Navegació principal</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin" xml:space="preserve">
+    <value>Administrador del lloc web</value>
+    <comment>AI generated translation</comment>
+  </data>
 </root>

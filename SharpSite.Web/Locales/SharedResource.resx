@@ -230,4 +230,16 @@
   <data name="sharpsite_admin" xml:space="preserve">
     <value>Site admin</value>
   </data>
+  <data name="sharpsite_admin_headertext" xml:space="preserve">
+    <value>Welcome to the SharpSite Admin Panel</value>
+    <comment>Welcoming text for the top of the front page of the admin section of SharpSite</comment>
+  </data>
+  <data name="sharpsite_sitesettings" xml:space="preserve">
+    <value>Site Settings</value>
+    <comment>Header text for the collection of configuration options that control how the SharpSite website behaves</comment>
+  </data>
+  <data name="sharpsite_maxupload_label" xml:space="preserve">
+    <value>Maximum upload size:</value>
+    <comment>Label for the form field that defines the maximum upload size for files</comment>
+  </data>
 </root>
