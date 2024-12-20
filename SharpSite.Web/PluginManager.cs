@@ -11,9 +11,8 @@ using System.Text.RegularExpressions;
 
 namespace SharpSite.Web;
 
-public class PluginManager(ApplicationState AppState, ILogger<PluginManager> logger) : IDisposable
+public class PluginManager(PluginAssemblyManager pluginAssemblyManager, ApplicationState AppState, ILogger<PluginManager> logger) : IDisposable
 {
-	private readonly PluginAssemblyManager pluginAssemblyManager = new PluginAssemblyManager();
 	private Plugin? plugin;
 	private bool disposedValue;
 

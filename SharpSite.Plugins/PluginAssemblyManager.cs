@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 using System.Reflection;
 
 namespace SharpSite.Plugins;
 
-public class PluginAssemblyManager: IDisposable
+public class PluginAssemblyManager(ILogger<PluginAssemblyManager> logger): IDisposable
 {
+	private readonly ILogger<PluginAssemblyManager> _logger = logger;
+
 	private bool disposed = false;
 	private readonly Dictionary<string, PluginAssembly> _pluginAssemblies = new Dictionary<string, PluginAssembly>();
 
@@ -12,25 +15,27 @@ public class PluginAssemblyManager: IDisposable
 
 	public void AddAssembly(PluginAssembly assembly)
 	{
+		_logger.LogInformation("Assembly {AssemblyManifestId} being added", assembly.Manifest.Id);
 		if (!_pluginAssemblies.ContainsKey(assembly.Manifest.Id))
 		{
+			_logger.LogInformation("Plugins does not have plugin assenbly with id {AssemblyManifestId}", assembly.Manifest.Id);
 			_pluginAssemblies.Add(assembly.Manifest.Id, assembly);
+
 		}
 		else 
 		{
-			var oldAssembly = _pluginAssemblies[assembly.Manifest.Id];
-			oldAssembly.UnloadContext();
+			_logger.LogInformation("Plugins does have plugin assenbly with id {AssemblyManifestId}", assembly.Manifest.Id);
+			_pluginAssemblies[assembly.Manifest.Id].UnloadContext();
 			_pluginAssemblies[assembly.Manifest.Id] = assembly;
-			assembly.LoadContext();
 		}
+		assembly.LoadContext();
 	}
 
 	public void RemoveAssembly(PluginAssembly assembly)
 	{
 		if (_pluginAssemblies.ContainsKey(assembly.Manifest.Id))
 		{
-			var oldAssembly = _pluginAssemblies[assembly.Manifest.Id];
-			oldAssembly.UnloadContext();
+			assembly.UnloadContext();
 			_pluginAssemblies.Remove(assembly.Manifest.Id);
 		}
 	}

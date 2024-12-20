@@ -186,9 +186,6 @@
   <data name="sharpsite_editpage" xml:space="preserve">
     <value>Kurasa Hariri</value>
   </data>
-  <data name="sharpsite_update" xml:space="preserve">
-    <value>Back to Home</value>
-  </data>
   <data name="sharpsite_pluginmanagement" xml:space="preserve">
     <value>Usimamizi wa Programu-Jalizi.</value>
   </data>
@@ -201,10 +198,122 @@
   <data name="sharpsite_addnewplugin" xml:space="preserve">
     <value>Ongeza Plugini Mpya</value>
   </data>
+  <data name="sharpsite_update" xml:space="preserve">
+    <value>Back to Home</value>
+  </data>
   <data name="sharpsite_remove" xml:space="preserve">
     <value>Ondoa</value>
   </data>
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Ikon ya kidukizi</value>
+  </data>
+  <data name="sharpsite_logo" xml:space="preserve">
+    <value>Logo ya Sharpsite</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navmenu" xml:space="preserve">
+    <value>Menyu ya urambazaji</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_userlist" xml:space="preserve">
+    <value>Orodha ya watumiaji</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_theme_selector" xml:space="preserve">
+    <value>Kuchagua Mandhari (Theme Selector)</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navadmin" xml:space="preserve">
+    <value>Uongozi wa Admin</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navmain" xml:space="preserve">
+    <value>Mwongozo mkuu</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin" xml:space="preserve">
+    <value>Msimamizi wa tovuti (or simply "Msimamizi")</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin_headertext" xml:space="preserve">
+    <value>Karibu kwenye Jukwaa la Utawala wa SharpSite</value>
+  </data>
+  <data name="sharpsite_sitesettings" xml:space="preserve">
+    <value>Mipangilio ya Tovuti.</value>
+  </data>
+  <data name="sharpsite_maxupload_label" xml:space="preserve">
+    <value>Ukubwa wa juu wa kupakia:</value>
+  </data>
+  <data name="sharpsite_home_page" xml:space="preserve">
+    <value>Ukurasa wa Nyumbani wa SharpSite</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_logout" xml:space="preserve">
+    <value>Ondoka</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_login" xml:space="preserve">
+    <value>Ingia</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_generaladmin" xml:space="preserve">
+    <value>Jenerali</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_add" xml:space="preserve">
+    <value>Ongeza Plugin kwa SharpSite</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_id" xml:space="preserve">
+    <value>Kitambulisho cha Plugin</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_name" xml:space="preserve">
+    <value>Jina la Plugini</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_version" xml:space="preserve">
+    <value>Toleo la Plugin</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_description" xml:space="preserve">
+    <value>Maelezo ya Plugini</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_author" xml:space="preserve">
+    <value>Mwandishi wa Plugin</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_website" xml:space="preserve">
+    <value>Tovuti ya Plugini</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_accept" xml:space="preserve">
+    <value>Kubali</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_reject" xml:space="preserve">
+    <value>Kataa</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_file" xml:space="preserve">
+    <value>Faili la programu iliyounganishwa</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin_layout_h2" xml:space="preserve">
+    <value>Usimamizi wa Tovuti (Note: Assuming that "Site Management" refers to website management)</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin_layout_h1" xml:space="preserve">
+    <value>Dhibiti SharpSite.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_theme_blank_option" xml:space="preserve">
+    <value>Chagua mandhari</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_site_appearance_admin" xml:space="preserve">
+    <value>Muonekano wa tovuti</value>
+    <comment>AI generated translation</comment>
   </data>
 </root>
