@@ -5,6 +5,7 @@ using SharpSite.Security.Postgres;
 using SharpSite.Web;
 using SharpSite.Web.Components;
 using SharpSite.Web.Locales;
+using SharpSite.Plugins;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,7 @@ pgSecurity.RegisterServices(builder);
 var appState = new ApplicationState();
 await appState.Load();
 builder.Services.AddSingleton(appState);
+builder.Services.AddSingleton<PluginAssemblyManager>();
 builder.Services.AddSingleton<PluginManager>();
 
 // add the custom localization features for the application framework
@@ -30,7 +32,6 @@ builder.ConfigureRequestLocalization();
 
 // Add service defaults & Aspire components.
 builder.AddServiceDefaults();
-
 // Configure larger messages to allow upload of packages
 builder.Services.Configure<HubOptions>(options =>
 {
