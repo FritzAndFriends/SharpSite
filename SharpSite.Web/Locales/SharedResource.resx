@@ -218,7 +218,7 @@
   <data name="sharpsite_usersadmin" xml:space="preserve">
     <value>User list</value>
   </data>
-  <data name="sharpsite_appearanceadmin" xml:space="preserve">
+  <data name="sharpsite_theme_selector" xml:space="preserve">
     <value>Theme selector</value>
   </data>
   <data name="sharpsite_navadmin" xml:space="preserve">
@@ -241,5 +241,12 @@
   <data name="sharpsite_maxupload_label" xml:space="preserve">
     <value>Maximum upload size:</value>
     <comment>Label for the form field that defines the maximum upload size for files</comment>
+  </data>
+  <data name="sharpsite_theme_blank_option" xml:space="preserve">
+    <value>Select a theme</value>
+    <comment>Blank option for theme select element</comment>
+  </data>
+  <data name="sharpsite_site_appearance_admin" xml:space="preserve">
+    <value>Site appearance</value>
   </data>
 </root>

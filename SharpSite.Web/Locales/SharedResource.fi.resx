@@ -207,15 +207,6 @@
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Lisäosan kuvake</value>
   </data>
-  <data name="sharpsite_admin_headertext" xml:space="preserve">
-    <value>Tervetuloa SharpSite Hallintapaneeliin.</value>
-  </data>
-  <data name="sharpsite_sitesettings" xml:space="preserve">
-    <value>Sivuston asetukset</value>
-  </data>
- <data name="sharpsite_maxupload_label" xml:space="preserve">
-    <value>Suurin ladattavan tiedoston koko:</value>
-  </data>
   <data name="sharpsite_logo" xml:space="preserve">
     <value>Sharpsite-logo</value>
     <comment>AI generated translation</comment>
@@ -228,7 +219,7 @@
     <value>Käyttäjäluettelo</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_appearanceadmin" xml:space="preserve">
+  <data name="sharpsite_theme_selector" xml:space="preserve">
     <value>Teeman valitsin</value>
     <comment>AI generated translation</comment>
   </data>
@@ -243,5 +234,20 @@
   <data name="sharpsite_admin" xml:space="preserve">
     <value>Sivuston hallinnointi</value>
     <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin_headertext" xml:space="preserve">
+    <value>Tervetuloa SharpSite Hallintapaneeliin.</value>
+  </data>
+  <data name="sharpsite_sitesettings" xml:space="preserve">
+    <value>Sivuston asetukset</value>
+  </data>
+  <data name="sharpsite_maxupload_label" xml:space="preserve">
+    <value>Suurin ladattavan tiedoston koko:</value>
+  </data>
+  <data name="sharpsite_theme_blank_option" xml:space="preserve">
+    <value>Valitse teema</value>
+  </data>
+  <data name="sharpsite_site_appearance_admin" xml:space="preserve">
+    <value>Sivun ulkonäkö</value>
   </data>
 </root>
