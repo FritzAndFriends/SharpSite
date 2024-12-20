@@ -209,15 +209,6 @@
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Икона на добавката.</value>
   </data>
-  <data name="sharpsite_admin_headertext" xml:space="preserve">
-    <value>Добре дошли в административната панел на SharpSite.</value>
-  </data>
-  <data name="sharpsite_sitesettings" xml:space="preserve">
-    <value>Настройки на сайта</value>
-  </data>
-   <data name="sharpsite_maxupload_label" xml:space="preserve">
-    <value>Максимален размер на качване:</value>
-  </data>
   <data name="sharpsite_logo" xml:space="preserve">
     <value>Логото на Sharpsite</value>
     <comment>AI generated translation</comment>
@@ -226,11 +217,11 @@
     <value>Навигационно меню</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_usersadmin" xml:space="preserve">
+  <data name="sharpsite_userlist" xml:space="preserve">
     <value>Списък на потребителите.</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_appearanceadmin" xml:space="preserve">
+  <data name="sharpsite_theme_selector" xml:space="preserve">
     <value>Избор на тема</value>
     <comment>AI generated translation</comment>
   </data>
@@ -245,5 +236,14 @@
   <data name="sharpsite_admin" xml:space="preserve">
     <value>Администратор на сайта</value>
     <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin_headertext" xml:space="preserve">
+    <value>Добре дошли в административната панел на SharpSite.</value>
+  </data>
+  <data name="sharpsite_sitesettings" xml:space="preserve">
+    <value>Настройки на сайта</value>
+  </data>
+  <data name="sharpsite_maxupload_label" xml:space="preserve">
+    <value>Максимален размер на качване:</value>
   </data>
 </root>

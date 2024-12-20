@@ -5,10 +5,10 @@
 @inject NavigationManager NavigationManager
 @inject ILogger<AddPlugin> Logger
 
-<h3>Add a Plugin to SharpSite</h3>
+<h3>@Localizer["sharpsite_plugin_add"]</h3>
 
 <div class="form-group">
-	<label for="pluginFile">Plugin File</label>
+	<label for="pluginFile">@Localizer["sharpsite_plugin_file"]</label>
 	<InputFile class="form-control-file" id="pluginFile"
 						 accept=".sspkg" OnChange="OnInputFileChange" />
 </div>
@@ -17,34 +17,34 @@
 {
 	@* add the id field from the manifest*@
 	<div class="form-group">
-		<label for="pluginId">Plugin Id</label>
+    <label for="pluginId">@Localizer["sharpsite_plugin_id"]</label>
 		<input type="text" class="form-control" id="pluginId" value="@PluginManager.Manifest.Id" readonly />
 	</div>
 	<div class="form-group">
-		<label for="pluginName">Plugin Name</label>
+		<label for="pluginName">@Localizer["sharpsite_plugin_name"]</label>
 		<input type="text" class="form-control" id="pluginName" value="@PluginManager.Manifest.DisplayName" readonly />
 	</div>
 	<div class="form-group">
-		<label for="pluginVersion">Plugin Version</label>
+		<label for="pluginVersion">@Localizer["sharpsite_plugin_version"]</label>
 		<input type="text" class="form-control" id="pluginVersion" value="@PluginManager.Manifest.Version" readonly />
 	</div>
 	<div class="form-group">
-		<label for="pluginDescription">Plugin Description</label>
+		<label for="pluginDescription">@Localizer["sharpsite_plugin_description"]</label>
 		<input type="text" class="form-control" id="pluginDescription" value="@PluginManager.Manifest.Description" readonly />
 	</div>
 	<div class="form-group">
-		<label for="pluginAuthor">Plugin Author</label>
+		<label for="pluginAuthor">@Localizer["sharpsite_plugin_author"]</label>
 		<input type="text" class="form-control" id="pluginAuthor" value="@PluginManager.Manifest.Author" readonly />
 	</div>
 	<div class="form-group">
-		<label for="pluginWebsite">Plugin Website</label>
+		<label for="pluginWebsite">@Localizer["sharpsite_plugin_website"]</label>
 		<input type="text" class="form-control" id="pluginWebsite" value="@PluginManager.Manifest.AuthorWebsite" readonly />
 	</div>
 
 	@* add an accept and reject button *@
 	<div class="form-group">
-		<button class="btn btn-primary" @onclick="SavePlugin">Accept</button>
-		<button class="btn btn-danger" @onclick="RejectPlugin">Reject</button>
+		<button class="btn btn-primary" @onclick="SavePlugin">@Localizer["sharpsite_accept"]</button>
+		<button class="btn btn-danger" @onclick="RejectPlugin">@Localizer["sharpsite_reject"]</button>
 	</div>
 
 }

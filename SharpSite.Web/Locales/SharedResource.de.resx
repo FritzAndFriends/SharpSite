@@ -207,15 +207,6 @@
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Plugin Symbol</value>
   </data>
-  <data name="sharpsite_admin_headertext" xml:space="preserve">
-    <value>Willkommen beim SharpSite Admin Panel.</value>
-  </data>
-  <data name="sharpsite_sitesettings" xml:space="preserve">
-    <value>Website-Einstellungen</value>
-  </data>
-  <data name="sharpsite_maxupload_label" xml:space="preserve">
-    <value>Maximale Upload-Größe:</value>
-  </data>
   <data name="sharpsite_logo" xml:space="preserve">
     <value>Sharpsite-Logo</value>
     <comment>AI generated translation</comment>
@@ -224,11 +215,11 @@
     <value>Navigationsmenü</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_usersadmin" xml:space="preserve">
+  <data name="sharpsite_userlist" xml:space="preserve">
     <value>Benutzerliste</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_appearanceadmin" xml:space="preserve">
+  <data name="sharpsite_theme_selector" xml:space="preserve">
     <value>Thema-Auswahl</value>
     <comment>AI generated translation</comment>
   </data>
@@ -243,5 +234,14 @@
   <data name="sharpsite_admin" xml:space="preserve">
     <value>Website-Administrator</value>
     <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin_headertext" xml:space="preserve">
+    <value>Willkommen beim SharpSite Admin Panel.</value>
+  </data>
+  <data name="sharpsite_sitesettings" xml:space="preserve">
+    <value>Website-Einstellungen</value>
+  </data>
+  <data name="sharpsite_maxupload_label" xml:space="preserve">
+    <value>Maximale Upload-Größe:</value>
   </data>
 </root>

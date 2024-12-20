@@ -187,7 +187,7 @@
     <value>Muokkaa sivua</value>
   </data>
   <data name="sharpsite_pluginmanagement" xml:space="preserve">
-    <value>Pluginien hallinta</value>
+    <value>Laajennusten hallinta</value>
   </data>
   <data name="sharpsite_installedplugins" xml:space="preserve">
     <value>Asennetut lisäosat</value>
@@ -207,15 +207,6 @@
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Lisäosan kuvake</value>
   </data>
-  <data name="sharpsite_admin_headertext" xml:space="preserve">
-    <value>Tervetuloa SharpSite Hallintapaneeliin.</value>
-  </data>
-  <data name="sharpsite_sitesettings" xml:space="preserve">
-    <value>Sivuston asetukset</value>
-  </data>
- <data name="sharpsite_maxupload_label" xml:space="preserve">
-    <value>Suurin ladattavan tiedoston koko:</value>
-  </data>
   <data name="sharpsite_logo" xml:space="preserve">
     <value>Sharpsite-logo</value>
     <comment>AI generated translation</comment>
@@ -224,11 +215,11 @@
     <value>Navigointivalikko</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_usersadmin" xml:space="preserve">
+  <data name="sharpsite_userlist" xml:space="preserve">
     <value>Käyttäjäluettelo</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_appearanceadmin" xml:space="preserve">
+  <data name="sharpsite_theme_selector" xml:space="preserve">
     <value>Teeman valitsin</value>
     <comment>AI generated translation</comment>
   </data>
@@ -243,5 +234,71 @@
   <data name="sharpsite_admin" xml:space="preserve">
     <value>Sivuston hallinnointi</value>
     <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin_headertext" xml:space="preserve">
+    <value>Tervetuloa SharpSite Hallintapaneeliin.</value>
+  </data>
+  <data name="sharpsite_sitesettings" xml:space="preserve">
+    <value>Sivuston asetukset</value>
+  </data>
+  <data name="sharpsite_maxupload_label" xml:space="preserve">
+    <value>Suurin ladattavan tiedoston koko:</value>
+  </data>
+  <data name="sharpsite_home_page" xml:space="preserve">
+    <value>SharpSite kotisivu</value>
+  </data>
+  <data name="sharpsite_logout" xml:space="preserve">
+    <value>Kirjaudu ulos</value>
+  </data>
+  <data name="sharpsite_login" xml:space="preserve">
+    <value>Kirjaudu sisään</value>
+  </data>
+  <data name="sharpsite_useradmin" xml:space="preserve">
+    <value>Käyttäjien hallinta</value>
+  </data>
+  <data name="sharpsite_generaladmin" xml:space="preserve">
+    <value>Yleiset</value>
+  </data>
+  <data name="sharpsite_plugin_add" xml:space="preserve">
+    <value>Lisää laajennus SharpSiteen</value>
+  </data>
+  <data name="sharpsite_plugin_id" xml:space="preserve">
+    <value>Laajennuksen id</value>
+  </data>
+  <data name="sharpsite_plugin_name" xml:space="preserve">
+    <value>Laajennuksen nimi</value>
+  </data>
+  <data name="sharpsite_plugin_version" xml:space="preserve">
+    <value>Laajennuksen versio</value>
+  </data>
+  <data name="sharpsite_plugin_description" xml:space="preserve">
+    <value>Laajennuksen kuvaus</value>
+  </data>
+  <data name="sharpsite_plugin_author" xml:space="preserve">
+    <value>Laajennuksen tekijä</value>
+  </data>
+  <data name="sharpsite_plugin_website" xml:space="preserve">
+    <value>Laajennuksen verkkosivu</value>
+  </data>
+  <data name="sharpsite_accept" xml:space="preserve">
+    <value>Hyväksy</value>
+  </data>
+  <data name="sharpsite_reject" xml:space="preserve">
+    <value>Hylkää</value>
+  </data>
+  <data name="sharpsite_plugin_file" xml:space="preserve">
+    <value>Laajennustiedosto</value>
+  </data>
+  <data name="sharpsite_admin_layout_h2" xml:space="preserve">
+    <value>Sivuston hallinta</value>
+  </data>
+  <data name="sharpsite_admin_layout_h1" xml:space="preserve">
+    <value>SharpSiten hallinta</value>
+  </data>
+  <data name="sharpsite_theme_blank_option" xml:space="preserve">
+    <value>Valitse teema</value>
+  </data>
+  <data name="sharpsite_site_appearance_admin" xml:space="preserve">
+    <value>Sivun ulkonäkö</value>
   </data>
 </root>
