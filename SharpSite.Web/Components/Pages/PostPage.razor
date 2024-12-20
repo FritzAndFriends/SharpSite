@@ -4,6 +4,8 @@
 @inject IStringLocalizer<SharedResource> Localizer
 @inject NavigationManager NavigationManager
 
+@using SharpSite.Web.Components.Layout
+
 <HeadContent>
 	@* add typical og and social media meta tags for discovery *@
 	<meta property="og:title" content="@Post?.Title" />
@@ -39,7 +41,7 @@
 	<meta name="twitter:label5" content="@Localizer["sharpsite_keywords"]" />
 	<meta name="twitter:data5" content="@Post?.Keywords" /> *@
 </HeadContent>
-
+<Theme />
 @if (Post is not null)
 {
 	<h1>@Post.Title</h1>
