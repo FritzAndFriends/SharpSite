@@ -232,15 +232,6 @@ Rimuovi.</value>
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Icona del plugin</value>
   </data>
-  <data name="sharpsite_admin_headertext" xml:space="preserve">
-    <value>Benvenuti nel pannello di amministrazione di SharpSite.</value>
-  </data>
-  <data name="sharpsite_sitesettings" xml:space="preserve">
-    <value>Impostazioni del sito</value>
-  </data>
-  <data name="sharpsite_maxupload_label" xml:space="preserve">
-    <value>Dimensione massima di caricamento:</value>
-  </data>
   <data name="sharpsite_logo" xml:space="preserve">
     <value>Logo di Sharpsite</value>
     <comment>AI generated translation</comment>
@@ -253,7 +244,7 @@ Rimuovi.</value>
     <value>Lista degli utenti</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_appearanceadmin" xml:space="preserve">
+  <data name="sharpsite_theme_selector" xml:space="preserve">
     <value>Selettore di temi</value>
     <comment>AI generated translation</comment>
   </data>
@@ -268,5 +259,14 @@ Rimuovi.</value>
   <data name="sharpsite_admin" xml:space="preserve">
     <value>Amministratore del sito</value>
     <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin_headertext" xml:space="preserve">
+    <value>Benvenuti nel pannello di amministrazione di SharpSite.</value>
+  </data>
+  <data name="sharpsite_sitesettings" xml:space="preserve">
+    <value>Impostazioni del sito</value>
+  </data>
+  <data name="sharpsite_maxupload_label" xml:space="preserve">
+    <value>Dimensione massima di caricamento:</value>
   </data>
 </root>
