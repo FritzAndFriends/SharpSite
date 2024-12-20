@@ -1,5 +1,6 @@
 @page "/{urldate:int}/{slug}"
 @using Markdig
+@using SharpSite.Web.Components.Layout
 @inject IPostRepository PostService
 @inject IStringLocalizer<SharedResource> Localizer
 @inject NavigationManager NavigationManager
@@ -39,6 +40,8 @@
 	<meta name="twitter:label5" content="@Localizer["sharpsite_keywords"]" />
 	<meta name="twitter:data5" content="@Post?.Keywords" /> *@
 </HeadContent>
+
+<Theme />
 
 @if (Post is not null)
 {
