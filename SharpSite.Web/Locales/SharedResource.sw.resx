@@ -207,15 +207,6 @@
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Ikon ya kidukizi</value>
   </data>
-  <data name="sharpsite_admin_headertext" xml:space="preserve">
-    <value>Karibu kwenye Jukwaa la Utawala wa SharpSite</value>
-  </data>
-  <data name="sharpsite_sitesettings" xml:space="preserve">
-    <value>Mipangilio ya Tovuti.</value>
-  </data>
-  <data name="sharpsite_maxupload_label" xml:space="preserve">
-    <value>Ukubwa wa juu wa kupakia:</value>
-  </data>
   <data name="sharpsite_logo" xml:space="preserve">
     <value>Logo ya Sharpsite</value>
     <comment>AI generated translation</comment>
@@ -224,7 +215,7 @@
     <value>Menyu ya urambazaji</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_usersadmin" xml:space="preserve">
+  <data name="sharpsite_userlist" xml:space="preserve">
     <value>Orodha ya watumiaji</value>
     <comment>AI generated translation</comment>
   </data>
@@ -243,5 +234,14 @@
   <data name="sharpsite_admin" xml:space="preserve">
     <value>Msimamizi wa tovuti (or simply "Msimamizi")</value>
     <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin_headertext" xml:space="preserve">
+    <value>Karibu kwenye Jukwaa la Utawala wa SharpSite</value>
+  </data>
+  <data name="sharpsite_sitesettings" xml:space="preserve">
+    <value>Mipangilio ya Tovuti.</value>
+  </data>
+  <data name="sharpsite_maxupload_label" xml:space="preserve">
+    <value>Ukubwa wa juu wa kupakia:</value>
   </data>
 </root>
