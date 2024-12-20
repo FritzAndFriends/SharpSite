@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.FileProviders;
 using SharpSite.Data.Postgres;
 using SharpSite.Security.Postgres;
@@ -76,6 +76,9 @@ app.UseStaticFiles(new StaticFileOptions()
 app.UseAntiforgery();
 
 app.UseOutputCache();
+
+// add error handlers for page not found
+app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}");
 
 app.MapRazorComponents<App>()
 		.AddInteractiveServerRenderMode()
