@@ -219,7 +219,7 @@
     <value>Orodha ya watumiaji</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_appearanceadmin" xml:space="preserve">
+  <data name="sharpsite_theme_selector" xml:space="preserve">
     <value>Kuchagua Mandhari (Theme Selector)</value>
     <comment>AI generated translation</comment>
   </data>

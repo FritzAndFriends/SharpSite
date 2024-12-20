@@ -244,7 +244,7 @@ Rimuovi.</value>
     <value>Lista degli utenti</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_appearanceadmin" xml:space="preserve">
+  <data name="sharpsite_theme_selector" xml:space="preserve">
     <value>Selettore di temi</value>
     <comment>AI generated translation</comment>
   </data>

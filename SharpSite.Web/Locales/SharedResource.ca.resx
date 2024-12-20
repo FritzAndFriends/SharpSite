@@ -219,7 +219,7 @@
     <value>Llista d'usuaris.</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_appearanceadmin" xml:space="preserve">
+  <data name="sharpsite_theme_selector" xml:space="preserve">
     <value>Selector de tema</value>
     <comment>AI generated translation</comment>
   </data>

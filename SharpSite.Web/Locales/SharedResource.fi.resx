@@ -219,7 +219,7 @@
     <value>Käyttäjäluettelo</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_appearanceadmin" xml:space="preserve">
+  <data name="sharpsite_theme_selector" xml:space="preserve">
     <value>Teeman valitsin</value>
     <comment>AI generated translation</comment>
   </data>
@@ -294,5 +294,10 @@
   </data>
   <data name="sharpsite_admin_layout_h1" xml:space="preserve">
     <value>SharpSiten hallinta</value>
+  <data name="sharpsite_theme_blank_option" xml:space="preserve">
+    <value>Valitse teema</value>
+  </data>
+  <data name="sharpsite_site_appearance_admin" xml:space="preserve">
+    <value>Sivun ulkonäkö</value>
   </data>
 </root>
