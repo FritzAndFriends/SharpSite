@@ -215,7 +215,7 @@
     <value>Menu de navigation</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_usersadmin" xml:space="preserve">
+  <data name="sharpsite_userlist" xml:space="preserve">
     <value>Liste d'utilisateurs</value>
     <comment>AI generated translation</comment>
   </data>

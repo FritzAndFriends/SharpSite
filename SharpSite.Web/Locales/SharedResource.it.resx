@@ -240,7 +240,7 @@ Rimuovi.</value>
     <value>Menu di navigazione</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_usersadmin" xml:space="preserve">
+  <data name="sharpsite_userlist" xml:space="preserve">
     <value>Lista degli utenti</value>
     <comment>AI generated translation</comment>
   </data>

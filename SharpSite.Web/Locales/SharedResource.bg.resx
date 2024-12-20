@@ -217,7 +217,7 @@
     <value>Навигационно меню</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_usersadmin" xml:space="preserve">
+  <data name="sharpsite_userlist" xml:space="preserve">
     <value>Списък на потребителите.</value>
     <comment>AI generated translation</comment>
   </data>

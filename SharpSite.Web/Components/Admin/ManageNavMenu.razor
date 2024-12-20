@@ -3,7 +3,7 @@
 	<AuthorizeView Roles="@Constants.Roles.AllUsers">
 		<li class="nav-item">
 			<NavLink class="nav-link" href="/admin" Match="NavLinkMatch.All">
-				General
+				@Localizer["sharpsite_generaladmin"]
 			</NavLink>
 		</li>
 	</AuthorizeView>
@@ -24,7 +24,7 @@
 	<AuthorizeView Roles="@Constants.Roles.Admin">
 		<li class="nav-item">
 			<NavLink class="nav-link" href="/admin/users">
-				User Admin
+				@Localizer["sharpsite_useradmin"]
 			</NavLink>
 		</li>
 	</AuthorizeView>
