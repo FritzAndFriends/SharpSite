@@ -4,7 +4,9 @@
 @using Microsoft.AspNetCore.Components.QuickGrid
 @inject IUserRepository UserRepository
 
-<h3>User List</h3>
+<PageTitle>@Localizer["sharpsite_useradmin"]</PageTitle>
+
+<h3>@Localizer["sharpsite_userlist"]</h3>
 
 <QuickGrid Items="GridUsers" TGridItem="SharpSiteUser" Pagination="@pagination">
 	<PropertyColumn Property="@(u => u.UserName)" Title="Username" />

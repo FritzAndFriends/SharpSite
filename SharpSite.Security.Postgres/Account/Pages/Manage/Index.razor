@@ -2,7 +2,6 @@
 
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Identity
-@using SharpSite.Abstractions
 
 
 @inject UserManager<PgSharpSiteUser> UserManager
@@ -55,9 +54,9 @@
 		user = await UserAccessor.GetRequiredUserAsync(HttpContext);
 		username = user.UserName; //await UserManager.GetUserNameAsync(user);
 		phoneNumber = user.PhoneNumber; // await UserManager.GetPhoneNumberAsync(user);
-		Input.DisplayName ??= user.DisplayName;
+		Input.DisplayName = user.DisplayName;
 
-		Input.PhoneNumber ??= phoneNumber;
+		Input.PhoneNumber = phoneNumber;
 	}
 
 	private async Task OnValidSubmitAsync()

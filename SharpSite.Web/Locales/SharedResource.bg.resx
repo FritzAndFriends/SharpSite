@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!--
-    Microsoft ResX Schema
-
+  <!-- 
+    Microsoft ResX Schema 
+    
     Version 2.0
-
-    The primary goals of this format is to allow a simple XML format
-    that is mostly human readable. The generation and parsing of the
-    various data types are done through the TypeConverter classes
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
     associated with the data types.
-
+    
     Example:
-
+    
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,79 +26,79 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
-    There are any number of "resheader" rows that contain simple
+                
+    There are any number of "resheader" rows that contain simple 
     name/value pairs.
-
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
-    text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
     mimetype set.
-
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
-
-    Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
     read any of the formats listed below.
-
+    
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
+    
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
+    value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -117,60 +117,207 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-	<data name="sharpsite_about" xml:space="preserve">
+  <data name="sharpsite_about" xml:space="preserve">
     <value>За SharpSite</value>
   </data>
-	<data name="sharpsite_about_description" xml:space="preserve">
+  <data name="sharpsite_about_description" xml:space="preserve">
     <value>SharpSite е лесна система за блогове създадена с помоща на C# Blazor.</value>
   </data>
-	<data name="sharpsite_about_packages" xml:space="preserve">
+  <data name="sharpsite_about_packages" xml:space="preserve">
     <value>Използвани пакети</value>
   </data>
-	<data name="sharpsite_backtohome" xml:space="preserve">
+  <data name="sharpsite_backtohome" xml:space="preserve">
     <value>Към начало</value>
   </data>
-	<data name="sharpsite_editpost" xml:space="preserve">
+  <data name="sharpsite_editpost" xml:space="preserve">
     <value>Редактирай пост</value>
   </data>
-	<data name="sharpsite_editpost_content" xml:space="preserve">
+  <data name="sharpsite_editpost_content" xml:space="preserve">
     <value>Съдържание</value>
   </data>
-	<data name="sharpsite_editpost_description" xml:space="preserve">
+  <data name="sharpsite_editpost_description" xml:space="preserve">
     <value>Описание</value>
   </data>
-	<data name="sharpsite_editpost_publishdate" xml:space="preserve">
+  <data name="sharpsite_editpost_publishdate" xml:space="preserve">
     <value>Публикуван</value>
   </data>
-	<data name="sharpsite_editpost_title" xml:space="preserve">
+  <data name="sharpsite_editpost_title" xml:space="preserve">
     <value>Заглваие</value>
   </data>
-	<data name="sharpsite_loading" xml:space="preserve">
+  <data name="sharpsite_loading" xml:space="preserve">
     <value>Зареждане</value>
   </data>
-	<data name="sharpsite_newpost" xml:space="preserve">
+  <data name="sharpsite_newpost" xml:space="preserve">
     <value>Нов пост</value>
   </data>
-	<data name="sharpsite_pagenotfound" xml:space="preserve">
+  <data name="sharpsite_pagenotfound" xml:space="preserve">
     <value>Страницата не е намерена</value>
   </data>
-	<data name="sharpsite_postlist_publisheddate" xml:space="preserve">
+  <data name="sharpsite_postlist_publisheddate" xml:space="preserve">
     <value>Публикуван</value>
   </data>
-	<data name="sharpsite_postlist_title" xml:space="preserve">
+  <data name="sharpsite_postlist_title" xml:space="preserve">
     <value>Заглавие</value>
   </data>
-	<data name="sharpsite_save" xml:space="preserve">
+  <data name="sharpsite_save" xml:space="preserve">
     <value>Запази</value>
   </data>
-	<data name="sharpsite_unhandled_exception" xml:space="preserve">
+  <data name="sharpsite_unhandled_exception" xml:space="preserve">
     <value>Грешка в приложението.</value>
   </data>
-	<data name="sharpsite_home" xml:space="preserve">
+  <data name="sharpsite_home" xml:space="preserve">
     <value>Начало</value>
     <comment>Линк до начална страница</comment>
   </data>
-	<data name="sharpsite_postsadmin" xml:space="preserve">
+  <data name="sharpsite_postsadmin" xml:space="preserve">
     <value>Постове админ</value>
     <comment>Линк до постове на админ</comment>
+  </data>
+  <data name="sharpsite_pageadmin" xml:space="preserve">
+    <value>SharpSite е уеб сайт за управление на съдържанието с отворен код, изграден с помощта на C# и Blazor. Вие превеждате текст, който ще бъде показан на потребител на уеб сайта. Текстът за превод е "Администраторска страница".</value>
+  </data>
+  <data name="sharpsite_edit" xml:space="preserve">
+    <value>Редакция</value>
+  </data>
+  <data name="sharpsite_delete" xml:space="preserve">
+    <value>Изтрийте</value>
+  </data>
+  <data name="sharpsite_newpage" xml:space="preserve">
+    <value>SharpSite - Нова страница</value>
+  </data>
+  <data name="sharpsite_editpage" xml:space="preserve">
+    <value>Редактиране на страницата</value>
+  </data>
+  <data name="sharpsite_pluginmanagement" xml:space="preserve">
+    <value>Управление на допълнителните модули за SharpSite - плъгини</value>
+  </data>
+  <data name="sharpsite_installedplugins" xml:space="preserve">
+    <value>Инсталирани плъгини.</value>
+  </data>
+  <data name="sharpsite_nopluginsinstalled" xml:space="preserve">
+    <value>Не са инсталирани никакви допълнения. SharpSite.</value>
+  </data>
+  <data name="sharpsite_addnewplugin" xml:space="preserve">
+    <value>Добавете нов приставка (плъгин) на SharpSite.</value>
+  </data>
+  <data name="sharpsite_update" xml:space="preserve">
+    <value>Актуализиране</value>
+  </data>
+  <data name="sharpsite_remove" xml:space="preserve">
+    <value>Изтриване</value>
+  </data>
+  <data name="sharpsite_plugin_icon" xml:space="preserve">
+    <value>Икона на добавката.</value>
+  </data>
+  <data name="sharpsite_logo" xml:space="preserve">
+    <value>Логото на Sharpsite</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navmenu" xml:space="preserve">
+    <value>Навигационно меню</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_userlist" xml:space="preserve">
+    <value>Списък на потребителите.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_theme_selector" xml:space="preserve">
+    <value>Избор на тема</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navadmin" xml:space="preserve">
+    <value>Административна навигация (Admin navigation)</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_navmain" xml:space="preserve">
+    <value>Главно меню</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin" xml:space="preserve">
+    <value>Администратор на сайта</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin_headertext" xml:space="preserve">
+    <value>Добре дошли в административната панел на SharpSite.</value>
+  </data>
+  <data name="sharpsite_sitesettings" xml:space="preserve">
+    <value>Настройки на сайта</value>
+  </data>
+  <data name="sharpsite_maxupload_label" xml:space="preserve">
+    <value>Максимален размер на качване:</value>
+  </data>
+  <data name="sharpsite_home_page" xml:space="preserve">
+    <value>Начална страница на SharpSite</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_logout" xml:space="preserve">
+    <value>Изходният код е известен просто като SharpSite, система за управление на съдържанието, на база на Blazor и е написан на C#. 
+
+Излизане.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_login" xml:space="preserve">
+    <value>Вход</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_generaladmin" xml:space="preserve">
+    <value>Основен</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_add" xml:space="preserve">
+    <value>Добавяне на модул към SharpSite.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_id" xml:space="preserve">
+    <value>Идентификатор на допълнение (Plugin Id)</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_name" xml:space="preserve">
+    <value>Име на добавката.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_version" xml:space="preserve">
+    <value>Версия на плъгина</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_description" xml:space="preserve">
+    <value>Описание на плъгинa.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_author" xml:space="preserve">
+    <value>Автор на допълнение (Plugin)</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_website" xml:space="preserve">
+    <value>Уебсайт на плъгин (Plugin Website)</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_accept" xml:space="preserve">
+    <value>Приемам</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_reject" xml:space="preserve">
+    <value>Отхвърляне</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_plugin_file" xml:space="preserve">
+    <value>Допълнение за файлови разширения (Plugin File)</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin_layout_h2" xml:space="preserve">
+    <value>Управление на сайта</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_admin_layout_h1" xml:space="preserve">
+    <value>Управление на SharpSite.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_theme_blank_option" xml:space="preserve">
+    <value>Изберете тема</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_site_appearance_admin" xml:space="preserve">
+    <value>Изглед на сайта</value>
+    <comment>AI generated translation</comment>
   </data>
 </root>

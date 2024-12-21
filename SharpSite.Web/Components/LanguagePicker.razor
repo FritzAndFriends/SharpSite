@@ -11,7 +11,7 @@
             <a onclick="location.href = '@SetCulture(culture.Name)'" 
 							role="button"
 							title="@culture.NativeName"
-							class="text-decoration-none ">
+							class="text-decoration-none" href="#">
                 <span class="badge rounded-pill mx-1 @(culture.ToString() == CultureInfo.CurrentCulture.ToString()?"bg-primary":"bg-primary-dark")">@culture</span>
             </a>
         }

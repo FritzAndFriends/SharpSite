@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -33,7 +32,7 @@ public class PgPageRepository : IPageRepository
 
 	public async Task DeletePage(int id)
 	{
-		// delete the page identified with a given id
+		// delete the page identified with a given Id
 		var page = Context.Pages.Find(id);
 
 		if (page == null)
@@ -75,7 +74,7 @@ public class PgPageRepository : IPageRepository
 	public async Task<Page?> GetPage(int id)
 	{
 		
-		// get the page with a given id
+		// get the page with a given Id
 		var page = await Context.Pages
 			.AsNoTracking()
 			.FirstOrDefaultAsync(p => p.Id == id);

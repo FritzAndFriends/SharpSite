@@ -1,0 +1,9 @@
+﻿@page "/admin/site"
+@using SharpSite.Plugins
+@inject ApplicationState AppState
+@inject NavigationManager NavigationManager
+@attribute [Authorize(Roles = Constants.Roles.Admin)]
+
+<PageTitle>@Localizer["sharpsite_site_appearance_admin"]</PageTitle>
+
+<ThemeSelect />
