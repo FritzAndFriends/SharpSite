@@ -3,9 +3,9 @@
 @rendermode @(new InteractiveServerRenderMode(true))
 
 @* generate a theme selector combobox based on the list of availablethemeplugins *@
-<h3 id="site-appearance-title">@Localizer["sharpsite_theme_selector"]</h3>
+<h3 id="site-appearance-title">@Localizer[SharedResource.sharpsite_theme_selector]</h3>
 <select class="form-select" @bind="SelectedTheme" aria-labelledby="site-appearance-title">
-	<option value="">@Localizer["sharpsite_theme_blank_option"]</option>
+	<option value="">@Localizer[SharedResource.sharpsite_theme_blank_option]</option>
 	@foreach (var plugin in AvailableThemePlugins)
 	{
 		<option 

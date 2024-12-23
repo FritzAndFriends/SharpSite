@@ -2,12 +2,13 @@
 <PageTitle>@Localizer["sharpsite_pagenotfound"]</PageTitle>
 
 <p>@Localizer["sharpsite_pagenotfound"]</p>
+<p>@Localizer[SharedResource.sharpsite_pagenotfound]</p>
 
 @if (!string.IsNullOrEmpty(PageRequested))
 {
 	<p>@string.Format(Localizer["sharpsite_pagenotfound_withrequestedpage"], PageRequested)</p>
 }
-<p><a href="/">@Localizer["sharpsite_backtohome"]</a></p>
+<p><a href="/">@SharedResource.sharpsite_backtohome</a></p>
 
 @code 
 {
