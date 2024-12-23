@@ -1,4 +1,4 @@
-﻿namespace SharpSite.Abstractions;
+﻿namespace SharpSite.Abstractions.Base;
 
 /// <summary>
 /// Interface for services that need to run at startup of the web application.

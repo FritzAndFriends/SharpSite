@@ -277,11 +277,28 @@
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.Hosting.Abstractions": "[9.0.0, )",
+          "SharpSite.Abstractions.Base": "[1.0.0, )",
+          "SharpSite.Abstractions.FileStorage": "[1.0.0, )",
           "SharpSite.Abstractions.Theme": "[1.0.0, )"
         }
       },
+      "sharpsite.abstractions.base": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.Extensions.Hosting.Abstractions": "[9.0.0, )"
+        }
+      },
+      "sharpsite.abstractions.filestorage": {
+        "type": "Project",
+        "dependencies": {
+          "SharpSite.Abstractions.Base": "[1.0.0, )"
+        }
+      },
       "sharpsite.abstractions.theme": {
-        "type": "Project"
+        "type": "Project",
+        "dependencies": {
+          "SharpSite.Abstractions.Base": "[1.0.0, )"
+        }
       },
       "Microsoft.Extensions.Caching.Memory": {
         "type": "CentralTransitive",
