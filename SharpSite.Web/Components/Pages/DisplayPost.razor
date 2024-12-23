@@ -21,7 +21,7 @@
 	<p>@((MarkupString)Markdown.ToHtml(Post.Content))</p>
 
 	<hr />
-	<a href="/">@Localizer["sharpsite_backtohome"]</a>
+	<a href="/">@Localizer[SharedResource.sharpsite_backtohome]</a>
 
 }
 else
@@ -30,8 +30,6 @@ else
 	<PageNotFound PageRequested="@(new Uri(NavigationManager.Uri).AbsolutePath)" />
 }
 
-<hr />
-<a href="/">@Localizer[SharedResource.sharpsite_backtohome]</a>
 
 @code {
 	[Parameter] public int UrlDate { get; set; }

@@ -376,6 +376,15 @@ namespace SharpSite.Web.Locales {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The page requested {0} is not available.
+        /// </summary>
+        internal static string sharpsite_pagenotfound_withrequestedpage {
+            get {
+                return ResourceManager.GetString("sharpsite_pagenotfound_withrequestedpage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add a Plugin to SharpSite.
         /// </summary>
         internal static string sharpsite_plugin_add {
