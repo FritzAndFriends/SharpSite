@@ -4,10 +4,14 @@
 @inject IStringLocalizer<SharedResource> Localizer
 @inject NavigationManager NavigationManager
 
-<SeoHeaderTags 
-	Title="@Post?.Title" 
-	Description="@Post?.Description" 
-	PublishedDate="@Post?.PublishedDate" />
+<SectionContent SectionName="Head">
+
+	<SeoHeaderTags 
+		Title="@Post?.Title" 
+		Description="@Post?.Description" 
+		PublishedDate="@Post?.PublishedDate" />
+
+</SectionContent>
 
 @if (Post is not null)
 {
