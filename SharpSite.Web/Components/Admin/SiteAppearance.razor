@@ -1,6 +1,6 @@
 ﻿@page "/admin/site"
 @using SharpSite.Plugins
-@inject ApplicationState AppState
+@inject IThemeManager ApplicationStateManager
 @inject NavigationManager NavigationManager
 @attribute [Authorize(Roles = Constants.Roles.Admin)]
 

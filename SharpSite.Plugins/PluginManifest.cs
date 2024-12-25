@@ -1,8 +1,9 @@
-﻿using System.Text.Json.Serialization;
+﻿using SharpSite.Abstractions;
+using System.Text.Json.Serialization;
 
 namespace SharpSite.Plugins;
 
-public class PluginManifest
+public class PluginManifest: IPluginManifest
 {
 	[JsonPropertyName("id")]
 	public required string Id { get; set; }
@@ -19,17 +20,7 @@ public class PluginManifest
 	public string? Source { get; set; }
 	public string? KnownLicense { get; set; }
 	public string[]? Tags { get; set; }
-	public required PluginFeatures[] Features { get; set; }
-
-	public string IdVersionToString()
-	{
-		return $"{Id}@{Version}";
-	}
-
-}
-
-public enum PluginFeatures
-{
-	Theme
+	public required string[] Features { get; set; }
+	public string IdVersion => $"{Id}@{Version}";
 }
 

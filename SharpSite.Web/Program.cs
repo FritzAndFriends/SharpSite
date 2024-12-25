@@ -6,12 +6,15 @@ using SharpSite.Web;
 using SharpSite.Web.Components;
 using SharpSite.Web.Locales;
 using SharpSite.Plugins;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.Extensions.Options;
+using SharpSite.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 PluginManager.Initialize();
 
-// Load plugins for postgres
+// LoadStateAtStartup plugins for postgres
 #region Postgres Plugins
 var pg = new RegisterPostgresServices();
 pg.RegisterServices(builder);
@@ -20,24 +23,31 @@ var pgSecurity = new RegisterPostgresSecurityServices();
 pgSecurity.RegisterServices(builder);
 #endregion
 
-// Configure applicatin state and the PluginManager
-var appState = new ApplicationState();
-await appState.Load();
-builder.Services.AddSingleton(appState);
-builder.Services.AddSingleton<PluginAssemblyManager>();
-builder.Services.AddSingleton<PluginManager>();
+#region Theme / Generic Plugins
+var pluginManagers = new RegisterPluginServices();
+pluginManagers.RegisterServices(builder);
+#endregion
 
 // add the custom localization features for the application framework
 builder.ConfigureRequestLocalization();
 
 // Add service defaults & Aspire components.
 builder.AddServiceDefaults();
+
+builder.Services
+	.AddOptions<HubOptions>()
+	.Bind(builder.Configuration.GetSection(ConfigurationSections.HubOptionsConfigurationSection));
+
 // Configure larger messages to allow upload of packages
-builder.Services.Configure<HubOptions>(options =>
-{
-	options.MaximumReceiveMessageSize = 1024 * 1024 * appState.MaximumUploadSizeMB; // 1MB or use null
-	options.EnableDetailedErrors = true;
-});
+builder.Services
+	.Configure<HubOptions>(options =>
+	{
+		if (options.MaximumReceiveMessageSize == null)
+		{
+			options.MaximumReceiveMessageSize = 1024 * 1024 * 10; // 10MB or use null
+		}
+		options.EnableDetailedErrors = true;
+	});
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -94,9 +104,6 @@ app.MapDefaultEndpoints();
 app.UseRequestLocalization();
 
 await pgSecurity.RunAtStartup(app.Services);
-
-// Use DI to get the logger
-var pluginManager = app.Services.GetRequiredService<PluginManager>();
-await pluginManager.LoadPluginsAtStartup();
+await pluginManagers.RunAtStartup(app.Services);
 
 app.Run();

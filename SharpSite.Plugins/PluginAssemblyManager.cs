@@ -1,19 +1,20 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
+using SharpSite.Abstractions;
 using System.Reflection;
 
 namespace SharpSite.Plugins;
 
-public class PluginAssemblyManager(ILogger<PluginAssemblyManager> logger): IDisposable
+public class PluginAssemblyManager(ILogger<PluginAssemblyManager> logger): IPluginAssemblyManager, IDisposable
 {
 	private readonly ILogger<PluginAssemblyManager> _logger = logger;
 
 	private bool disposed = false;
-	private readonly Dictionary<string, PluginAssembly> _pluginAssemblies = new Dictionary<string, PluginAssembly>();
+	private readonly Dictionary<string, IPluginAssembly> _pluginAssemblies = new Dictionary<string, IPluginAssembly>();
 
-	public IReadOnlyDictionary<string, PluginAssembly> Assemblies => _pluginAssemblies;
+	public IReadOnlyDictionary<string, IPluginAssembly> Assemblies => _pluginAssemblies;
 
-	public void AddAssembly(PluginAssembly assembly)
+	public void AddAssembly(IPluginAssembly assembly)
 	{
 		_logger.LogInformation("Assembly {AssemblyManifestId} being added", assembly.Manifest.Id);
 		if (!_pluginAssemblies.ContainsKey(assembly.Manifest.Id))
@@ -31,7 +32,7 @@ public class PluginAssemblyManager(ILogger<PluginAssemblyManager> logger): IDisp
 		assembly.LoadContext();
 	}
 
-	public void RemoveAssembly(PluginAssembly assembly)
+	public void RemoveAssembly(IPluginAssembly assembly)
 	{
 		if (_pluginAssemblies.ContainsKey(assembly.Manifest.Id))
 		{

@@ -1,18 +1,32 @@
-﻿using Microsoft.AspNetCore.Components.Forms;
+﻿using Microsoft.Extensions.Logging;
 using SharpSite.Abstractions;
-using SharpSite.Plugins;
-using SharpSite.Security.Postgres.Account.Pages;
-using System.IO;
 using System.IO.Compression;
-using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
 
-namespace SharpSite.Web;
+namespace SharpSite.Plugins;
 
-public class PluginManager(PluginAssemblyManager pluginAssemblyManager, ApplicationState AppState, ILogger<PluginManager> logger) : IDisposable
+public class PluginManager(IPluginAssemblyManager pluginAssemblyManager, ILogger<PluginManager> logger) : IPluginManager, IDisposable
 {
+	/// <summary>
+	/// List of the plugins that are currently loaded.
+	/// </summary>
+	private Dictionary<string, IPluginManifest> Plugins { get; } = new();
+
+	IReadOnlyDictionary<string, IPluginManifest> IPluginManager.Plugins => Plugins;
+
+	public void AddPlugin(string pluginName, IPluginManifest manifest)
+	{
+		if (!Plugins.ContainsKey(pluginName))
+		{
+			Plugins.Add(pluginName, manifest);
+		}
+		else
+		{
+			Plugins[pluginName] = manifest;
+		}
+	}
+
 	private Plugin? plugin;
 	private bool disposedValue;
 
@@ -95,21 +109,16 @@ public class PluginManager(PluginAssemblyManager pluginAssemblyManager, Applicat
 			logger.LogInformation("Assembly {AssemblyName} loaded at runtime.", pluginDll);
 		}
 		// Add plugin to the list of plugins in ApplicationState
-		AppState.AddPlugin(Manifest.Id, Manifest);
+		AddPlugin(Manifest.Id, Manifest);
 		logger.LogInformation("Plugin {PluginName} loaded at runtime.", Manifest);
-
-		if (Manifest.Features.Contains(PluginFeatures.Theme))
-		{
-			AppState.SetTheme(Manifest);
-		}
-
+	
 		logger.LogInformation("Plugin {PluginName} saved and registered.", plugin.Name);
 		// Add your logic to save the plugin here
 
 		CleanupCurrentUploadedPlugin();
 	}
 
-	public async Task LoadPluginsAtStartup()
+	public async Task LoadAtStartup()
 	{
 
 		foreach (var pluginFolder in Directory.GetDirectories("plugins"))
@@ -137,7 +146,7 @@ public class PluginManager(PluginAssemblyManager pluginAssemblyManager, Applicat
 				logger.LogInformation("Assembly {AssemblyName} loaded at startup.", pluginDll);
 			}
 
-			AppState.AddPlugin(key, manifest!);
+			AddPlugin(key, manifest!);
 			logger.LogInformation("Plugin {PluginName} loaded at startup.", pluginName);
 
 		}

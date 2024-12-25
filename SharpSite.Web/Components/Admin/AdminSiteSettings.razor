@@ -2,7 +2,7 @@
 @using Microsoft.Extensions.Options
 @using System.ComponentModel.DataAnnotations
 @inject IOptions<HubOptions> HubOptions
-@inject ApplicationState ApplicationState
+@inject IConfiguration Configuration
 @rendermode @(new InteractiveServerRenderMode(true))
 
 <AuthorizeView Roles="@Constants.Roles.Admin" Context="AuthorizeContext">
@@ -15,9 +15,9 @@
 		<label for="maxsize">
 			@Localizer["sharpsite_maxupload_label"]</label>
 
-		<InputNumber id="maxsize" @bind-Value="Model.MaxSizeMB" /> MB
+		<InputNumber id="maxsize" @bind-Value="Model.MaximumUploadSizeMB" /> MB
 		<p>
-			<ValidationMessage For="@(() => Model.MaxSizeMB)" />
+			<ValidationMessage For="@(() => Model.MaximumUploadSizeMB)" />
 		</p>
 		<button class="btn btn-primary" @onclick="ChangeMaxSize">@Localizer["sharpsite_save"]</button>
 
@@ -27,31 +27,37 @@
 </AuthorizeView>
 
 @code {
-
-	private ViewModel Model = new();
+	private ViewModel Model = new ViewModel();
 
 	protected override void OnInitialized()
 	{
-		Model.MaxSizeMB = ApplicationState.MaximumUploadSizeMB;
+		Model.MaximumUploadSizeMB = HubOptions.Value.MaximumReceiveMessageSize / (1024 * 1024);
 		base.OnInitialized();
 	}
 
-	private async Task ChangeMaxSize(MouseEventArgs e)
+	private void ChangeMaxSize(MouseEventArgs e)
 	{
-
-		HubOptions.Value
-		.MaximumReceiveMessageSize = 1024 * 1024 * Model.MaxSizeMB;
-		ApplicationState.MaximumUploadSizeMB = Model.MaxSizeMB;
-
-		await ApplicationState.Save();
-
+		Configuration[ConfigurationSections.HubOptionsConfigurationSection + ":MaximumReceiveMessageSize"] = Model.MaximumReceiveMessageSize.ToString();
+		HubOptions.Value.MaximumReceiveMessageSize = Model.MaximumReceiveMessageSize;
+		StateHasChanged();
 	}
 
 	public class ViewModel
 	{
+		private const long MB = 1024 * 1024;
+
+		public const string Upload = "Upload";
+
+		public long? MaximumReceiveMessageSize
+		{
+			get => MaximumUploadSizeMB * MB;
+			set => MaximumReceiveMessageSize = MaximumUploadSizeMB * MB;
+		}
+
+		/// <summary>
+		/// Maximum file upload size in megabytes.
+		/// </summary>
 		[Range(1, 100), Required]
-		public long MaxSizeMB { get; set; }
+		public long? MaximumUploadSizeMB;
 	}
-
-
 }

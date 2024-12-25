@@ -1,6 +1,6 @@
 ﻿@page "/admin/plugins"
 @attribute [Authorize(Roles = Constants.Roles.Admin)]
-@inject ApplicationState AppState
+@inject IPluginManager PluginManager
 
 <PageTitle>@Localizer["sharpsite_installedplugins"]</PageTitle>
 
@@ -13,7 +13,7 @@
 </div>
 
 
-@if (AppState.Plugins.Count == 0)
+@if (PluginManager.Plugins.Count == 0)
 {
 	<p>
 		@Localizer["sharpsite_nopluginsinstalled"]</p>
@@ -21,9 +21,9 @@
 else
 {
 	<div class="d-flex flex-wrap gap-3">
-		@foreach (var plugin in AppState.Plugins)
+		@foreach (var plugin in PluginManager.Plugins.Values)
 		{
-			<PluginCard Plugin="plugin.Value" />
+			<PluginCard Plugin="plugin" />
 		}
 	</div>
 }

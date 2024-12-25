@@ -5,7 +5,7 @@ using System.Runtime.Loader;
 
 namespace SharpSite.Plugins;
 
-public class PluginAssembly
+public class PluginAssembly : IPluginAssembly
 {
 	private readonly Plugin _plugin;
 	private readonly PluginManifest _pluginMainfest;
@@ -14,7 +14,9 @@ public class PluginAssembly
 
 	public Assembly? Assembly => _assembly;
 
-	public PluginManifest Manifest => _pluginMainfest;
+	private PluginManifest Manifest => _pluginMainfest;
+
+	IPluginManifest IPluginAssembly.Manifest => Manifest;
 
 	public PluginAssembly(PluginManifest pluginMainfest, Plugin plugin)
 	{
