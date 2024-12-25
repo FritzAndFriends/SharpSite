@@ -7,19 +7,19 @@
 
 <AuthorizeView Roles="@Constants.Roles.Admin" Context="AuthorizeContext">
 	<h3>
-		@Localizer["sharpsite_sitesettings"]</h3>
+		@Localizer[SharedResource.sharpsite_sitesettings]</h3>
 
 	<EditForm Model="Model">
 		<DataAnnotationsValidator />
 
 		<label for="maxsize">
-			@Localizer["sharpsite_maxupload_label"]</label>
+			@Localizer[SharedResource.sharpsite_maxupload_label]</label>
 
-		<InputNumber id="maxsize" @bind-Value="Model.MaximumUploadSizeMB" /> MB
+		<InputNumber id="maxsize" @bind-Value="Model.MaxSizeMB" /> MB
 		<p>
-			<ValidationMessage For="@(() => Model.MaximumUploadSizeMB)" />
+			<ValidationMessage For="@(() => Model.MaxSizeMB)" />
 		</p>
-		<button class="btn btn-primary" @onclick="ChangeMaxSize">@Localizer["sharpsite_save"]</button>
+		<button class="btn btn-primary" @onclick="ChangeMaxSize">@Localizer[SharedResource.sharpsite_save]</button>
 
 
 	</EditForm>
@@ -27,23 +27,29 @@
 </AuthorizeView>
 
 @code {
-	private ViewModel Model = new ViewModel();
+
+	private ViewModel Model = new();
 
 	protected override void OnInitialized()
 	{
-		Model.MaximumUploadSizeMB = HubOptions.Value.MaximumReceiveMessageSize / (1024 * 1024);
+		Model.MaxSizeMB = HubOptions.Value.MaximumReceiveMessageSize / (1024 * 1024);
 		base.OnInitialized();
 	}
 
 	private void ChangeMaxSize(MouseEventArgs e)
 	{
 		Configuration[ConfigurationSections.HubOptionsConfigurationSection + ":MaximumReceiveMessageSize"] = Model.MaximumReceiveMessageSize.ToString();
+
 		HubOptions.Value.MaximumReceiveMessageSize = Model.MaximumReceiveMessageSize;
-		StateHasChanged();
+		Configuration.Save();
+
 	}
 
 	public class ViewModel
 	{
+		[Range(1, 100), Required]
+		public long? MaxSizeMB;
+
 		private const long MB = 1024 * 1024;
 
 		public const string Upload = "Upload";
@@ -53,11 +59,5 @@
 			get => MaximumUploadSizeMB * MB;
 			set => MaximumReceiveMessageSize = MaximumUploadSizeMB * MB;
 		}
-
-		/// <summary>
-		/// Maximum file upload size in megabytes.
-		/// </summary>
-		[Range(1, 100), Required]
-		public long? MaximumUploadSizeMB;
 	}
 }

@@ -1,4 +1,4 @@
-﻿@inject IThemeManager ApplicationStateManager
+﻿@inject IThemeManager ThemeManager
 @using SharpSite.Abstractions.Theme
 
 @foreach (var item in (Stylesheets))
@@ -15,8 +15,8 @@
 	protected override void OnInitialized()
 	{
 
-		ThemeComponent = ApplicationStateManager.ThemeType is not null && ApplicationStateManager.ThemeType != null
-			? Activator.CreateInstance(ApplicationStateManager.ThemeType) as IHasStylesheets
+		ThemeComponent = ThemeManager.ThemeType is not null && ThemeManager.ThemeType != null
+			? Activator.CreateInstance(ThemeManager.ThemeType) as IHasStylesheets
 			: null;
 
 		Stylesheets = ThemeComponent?.Stylesheets ?? [];
@@ -26,7 +26,7 @@
 
 	string FormatThemeStylesheetLocation(string stylesheet)
 	{
-		return $"/Plugins/{ApplicationStateManager.CurrentState.CurrentTheme}/{stylesheet}";
+		return $"/Plugins/{ThemeManager.CurrentState.CurrentTheme}/{stylesheet}";
 	}
 
 }

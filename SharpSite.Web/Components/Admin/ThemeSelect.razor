@@ -1,12 +1,12 @@
 ﻿@inject IPluginManager PluginManager
-@inject IThemeManager ApplicationStateManager
+@inject IThemeManager ThemeManager
 @inject NavigationManager NavigationManager
 @rendermode @(new InteractiveServerRenderMode(true))
 
 @* generate a theme selector combobox based on the list of availablethemeplugins *@
-<h3 id="site-appearance-title">@Localizer["sharpsite_theme_selector"]</h3>
+<h3 id="site-appearance-title">@Localizer[SharedResource.sharpsite_theme_selector]</h3>
 <select class="form-select" @bind="SelectedTheme" aria-labelledby="site-appearance-title">
-	<option value="">@Localizer["sharpsite_theme_blank_option"]</option>
+	<option value="">@Localizer[SharedResource.sharpsite_theme_blank_option]</option>
 	@foreach (var plugin in AvailableThemePlugins)
 	{
 		<option 
@@ -25,9 +25,9 @@
 	protected override void OnInitialized()
 	{
 
-		SelectedTheme = ApplicationStateManager.CurrentState.CurrentTheme is not null ? ApplicationStateManager.CurrentState.CurrentTheme.IdVersion : string.Empty;
+		SelectedTheme = ThemeManager.CurrentState.CurrentTheme is not null ? ThemeManager.CurrentState.CurrentTheme.IdVersion : string.Empty;
 
-		AvailableThemePlugins = ApplicationStateManager.Themes.Values.ToArray();
+		AvailableThemePlugins = ThemeManager.Themes.Values.ToArray();
 
 		base.OnInitialized();
 	}
@@ -36,13 +36,13 @@
 
 		if (string.IsNullOrWhiteSpace(SelectedTheme))
 		{
-			ApplicationStateManager.CurrentState.CurrentTheme = null;
+			ThemeManager.CurrentState.CurrentTheme = null;
 		}
 		else
 		{
-			ApplicationStateManager.SetTheme(AvailableThemePlugins.First(p => p.IdVersion == SelectedTheme));
+			ThemeManager.SetTheme(AvailableThemePlugins.First(p => p.IdVersion == SelectedTheme));
 		}
-		await ApplicationStateManager.SaveState();
+		await ThemeManager.SaveState();
 		NavigationManager.NavigateTo("/admin", true);
 
 	}

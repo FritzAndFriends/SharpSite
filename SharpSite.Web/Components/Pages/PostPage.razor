@@ -4,41 +4,14 @@
 @inject IStringLocalizer<SharedResource> Localizer
 @inject NavigationManager NavigationManager
 
-<HeadContent>
-	@* add typical og and social media meta tags for discovery *@
-	<meta property="og:title" content="@Post?.Title" />
-	<meta property="og:description" content="@Post?.Description" />
-	@* <meta property="og:image" content="@Post?.ImageUrl" /> *@
-	<meta property="og:url" content="@NavigationManager.Uri" />
-	<meta property="og:type" content="article" />
+<SectionContent SectionName="Head">
 
-	@* TODO:  This should be replaced with a name the Site Admin gives to this site *@
-	<meta property="og:site_name" content="SharpSite" />
-	<meta name="twitter:card" content="summary" />
-@* 	
-	
-	site is the Twitter handle of the site
-	creator is the Twitter handle of the author
+	<SeoHeaderTags 
+		Title="@Post?.Title" 
+		Description="@Post?.Description" 
+		PublishedDate="@Post?.PublishedDate" />
 
-	<meta name="twitter:site" content="@Localizer["sharpsite_twitter"]" />
-	<meta name="twitter:creator" content="@Localizer["sharpsite_twitter"]" /> 
-	
-	*@
-	<meta name="twitter:title" content="@Post?.Title" />
-	<meta name="twitter:description" content="@Post?.Description" />
-	@* <meta name="twitter:image" content="@Post?.ImageUrl" /> *@
-	<meta name="twitter:url" content="@NavigationManager.Uri" />
-	<meta name="twitter:label1" content="Published" />
-	<meta name="twitter:data1" content="@Post?.PublishedDate.LocalDateTime" />
-@* 	<meta name="twitter:label2" content="@Localizer["sharpsite_author"]" />
-	<meta name="twitter:data2" content="@Post?.Author" />
-	<meta name="twitter:label3" content="@Localizer["sharpsite_category"]" />
-	<meta name="twitter:data3" content="@Post?.Category" />
-	<meta name="twitter:label4" content="@Localizer["sharpsite_tags"]" />
-	<meta name="twitter:data4" content="@Post?.Tags" />
-	<meta name="twitter:label5" content="@Localizer["sharpsite_keywords"]" />
-	<meta name="twitter:data5" content="@Post?.Keywords" /> *@
-</HeadContent>
+</SectionContent>
 
 @if (Post is not null)
 {
@@ -49,12 +22,12 @@
 }
 else
 {
-	<PageTitle>@Localizer["sharpsite_pagenotfound"]</PageTitle>
-	<p>@Localizer["sharpsite_pagenotfound"]</p>
+	<PageTitle>@Localizer[SharedResource.sharpsite_pagenotfound]</PageTitle>
+	<p>@Localizer[SharedResource.sharpsite_pagenotfound]</p>
 }
 
 <hr />
-<a href="/">@Localizer["sharpsite_backtohome"]</a>
+<a href="/">@Localizer[SharedResource.sharpsite_backtohome]</a>
 
 @code {
 	[Parameter] public int UrlDate { get; set; }

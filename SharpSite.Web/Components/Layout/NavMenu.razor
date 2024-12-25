@@ -7,16 +7,16 @@
 
 
 <div class="top-row ps-3 navbar navbar-dark">
-	<a href="/" aria-label="@Localizer["sharpsite_home"]"><img src="/logo.webp" alt="@Localizer["sharpsite_logo"]"/></a>
+	<a href="/" aria-label="@Localizer[SharedResource.sharpsite_home]"><img src="/logo.webp" alt="@Localizer[SharedResource.sharpsite_logo]"/></a>
 </div>
 
-<input type="checkbox" title="@Localizer["sharpsite_navmenu"]" class="navbar-toggler" aria-label="@Localizer["sharpsite_navmenu"]"/>
+<input type="checkbox" title="@Localizer[SharedResource.sharpsite_navmenu]" class="navbar-toggler" aria-label="@Localizer[SharedResource.sharpsite_navmenu]"/>
 
 <div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
 	<div class="flex-column">
 		<div class="nav-item px-3">
 			<NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-				<span class="bi bi-house-door-fill" aria-hidden="true"></span> @Localizer["sharpsite_home"]
+				<span class="bi bi-house-door-fill" aria-hidden="true"></span> @Localizer[SharedResource.sharpsite_home]
 			</NavLink>
 		</div>
 
@@ -44,14 +44,14 @@
 		<AuthorizeView Roles="@Constants.Roles.AllUsers">
 			<div class="nav-item px-3">
 				<NavLink class="nav-link" href="/admin" Match="NavLinkMatch.All">
-					<span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @Localizer["sharpsite_admin"]
+					<span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @Localizer[SharedResource.sharpsite_admin]
 				</NavLink>
 			</div>
 		</AuthorizeView>
 
 		<div class="nav-item px-3">
 			<NavLink class="nav-link" href="/aboutSharpSite" Match="NavLinkMatch.All">
-				<span class="bi bi-house-door-fill" aria-hidden="true"></span>@Localizer["sharpsite_about"]
+				<span class="bi bi-house-door-fill" aria-hidden="true"></span>@Localizer[SharedResource.sharpsite_about]
 			</NavLink>
 		</div>
 
@@ -63,13 +63,13 @@
 						<AntiforgeryToken />
 						<input type="hidden" name="ReturnUrl" value="@currentUrl" />
 						<button type="submit" class="nav-link">
-							<span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> @Localizer["sharpsite_logout"]
+							<span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> @Localizer[SharedResource.sharpsite_logout]
 						</button>
 					</form>
 				</Authorized>
 				<NotAuthorized>
 					<NavLink class="nav-link" href="/Account/Login" Match="NavLinkMatch.All">
-						<span class="bi bi-house-door-fill" aria-hidden="true"></span> @Localizer["sharpsite_login"]
+						<span class="bi bi-house-door-fill" aria-hidden="true"></span> @Localizer[SharedResource.sharpsite_login]
 					</NavLink>
 				</NotAuthorized>
 			</AuthorizeView>
