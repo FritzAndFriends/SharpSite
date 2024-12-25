@@ -11,11 +11,14 @@ public class RegisterPluginServices : IRegisterServices, IRunAtStartup
 		builder.Services.AddSingleton<IPluginAssemblyManager, PluginAssemblyManager>();
 		builder.Services.AddSingleton<IPluginManager, PluginManager>();
 		builder.Services.AddSingleton<IApplicationStateManager, ApplicationStateManager>();
+
 		return builder;
 	}
 
 	public async Task RunAtStartup(IServiceProvider services)
 	{
+		PluginManager.Initialize();
+
 		var pluginManager = services.GetRequiredService<IPluginManager>();
 		await pluginManager.LoadAtStartup();
 

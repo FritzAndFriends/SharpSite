@@ -12,8 +12,6 @@ using SharpSite.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-PluginManager.Initialize();
-
 // LoadStateAtStartup plugins for postgres
 #region Postgres Plugins
 var pg = new RegisterPostgresServices();
