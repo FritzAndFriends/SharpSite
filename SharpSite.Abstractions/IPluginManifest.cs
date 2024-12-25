@@ -2,21 +2,21 @@
 
 public interface IPluginManifest
 {
-	public string Id { get; set; }
-	public string DisplayName { get; set; }
-	public string Description { get; set; }
-	public string Version { get; set; }
-	public string? Icon { get; set; }
-	public string Published { get; set; }
-	public string SupportedVersions { get; set; }
-	public string Author { get; set; }
-	public string Contact { get; set; }
-	public string ContactEmail { get; set; }
-	public string AuthorWebsite { get; set; }
-	public string? Source { get; set; }
-	public string? KnownLicense { get; set; }
-	public string[]? Tags { get; set; }
-	public string[] Features { get; set; }
+	public string Id { get; }
+	public string DisplayName { get; }
+	public string Description { get; }
+	public string Version { get; }
+	public string? Icon { get; }
+	public string Published { get; }
+	public string SupportedVersions { get; }
+	public string Author { get; }
+	public string Contact { get; }
+	public string ContactEmail { get; }
+	public string AuthorWebsite { get; }
+	public string? Source { get; }
+	public string? KnownLicense { get; }
+	public string[]? Tags { get; }
+	public string[] Features { get; }
 
 	public string IdVersion => $"{Id}@{Version}";
 }

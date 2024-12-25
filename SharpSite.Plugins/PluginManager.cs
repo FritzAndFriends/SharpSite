@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using SharpSite.Abstractions;
+using SharpSite.Plugins.Extensions;
 using System.IO.Compression;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -27,10 +28,10 @@ public class PluginManager(IPluginAssemblyManager pluginAssemblyManager, ILogger
 		}
 	}
 
-	private Plugin? plugin;
+	private IPlugin? plugin;
 	private bool disposedValue;
 
-	public PluginManifest? Manifest { get; private set; }
+	public IPluginManifest? Manifest { get; private set; }
 
 	public static void Initialize()
 	{
@@ -39,13 +40,13 @@ public class PluginManager(IPluginAssemblyManager pluginAssemblyManager, ILogger
 		Directory.CreateDirectory(Path.Combine("plugins", "_wwwroot"));
 	}
 
-	public void HandleUploadedPlugin(Plugin plugin)
+	public void HandleUploadedPlugin(IPlugin plugin)
 	{
 		ArgumentNullException.ThrowIfNull(plugin);
 
 		this.plugin = plugin;
 
-		using var currentUploadedPlugin = new MemoryStream(plugin.Bytes);
+		using var currentUploadedPlugin = new MemoryStream(plugin.Bytes.ToArray());
 		using var archive = new ZipArchive(currentUploadedPlugin, ZipArchiveMode.Read, true);
 		var manifestEntry = archive.GetEntry("manifest.json");
 
@@ -152,7 +153,7 @@ public class PluginManager(IPluginAssemblyManager pluginAssemblyManager, ILogger
 		}
 	}
 
-	private static async Task<(FileStream, DirectoryInfo, ZipArchive)> ExtractAndInstallPlugin(ILogger<PluginManager> logger, Plugin plugin, PluginManifest pluginManifest)
+	private static async Task<(FileStream, DirectoryInfo, ZipArchive)> ExtractAndInstallPlugin(ILogger<PluginManager> logger, IPlugin plugin, IPluginManifest pluginManifest)
 	{
 		DirectoryInfo pluginLibFolder;
 		ZipArchive archive;
@@ -161,7 +162,7 @@ public class PluginManager(IPluginAssemblyManager pluginAssemblyManager, ILogger
 		var filePath = Path.Combine(pluginFolder.FullName, $"{pluginManifest!.Id}@{pluginManifest.Version}.sspkg");
 
 		using var pluginAssemblyFileStream = File.OpenWrite(filePath);
-		await pluginAssemblyFileStream.WriteAsync(plugin.Bytes);
+		await pluginAssemblyFileStream.WriteAsync(plugin.Bytes.ToArray());
 		logger.LogInformation("Plugin saved to {FilePath}", filePath);
 
 		// Create a folder named after the plugin name under /plugins
@@ -169,7 +170,7 @@ public class PluginManager(IPluginAssemblyManager pluginAssemblyManager, ILogger
 
 		// Create the plugins/_wwwroot folder if it doesn't exist
 		var pluginWwwRootFolder = Directory.CreateDirectory(Path.Combine("plugins", "_wwwroot", $"{pluginManifest!.Id}@{pluginManifest.Version}"));
-		using var pluginMemoryStream = new MemoryStream(plugin.Bytes);
+		using var pluginMemoryStream = new MemoryStream(plugin.Bytes.ToArray());
 		archive = new ZipArchive(pluginMemoryStream, ZipArchiveMode.Read, true);
 		foreach (var entry in archive.Entries)
 		{

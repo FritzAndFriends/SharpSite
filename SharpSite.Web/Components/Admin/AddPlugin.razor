@@ -2,7 +2,7 @@
 @using SharpSite.Plugins
 @attribute [Authorize(Roles = Constants.Roles.Admin)]
 @rendermode @(new InteractiveServerRenderMode(false))
-@inject PluginManager PluginManager
+@inject IPluginManager PluginManager
 @inject NavigationManager NavigationManager
 @inject ILogger<AddPlugin> Logger
 

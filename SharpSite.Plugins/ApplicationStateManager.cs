@@ -5,9 +5,9 @@ using System.Text.Json.Serialization;
 
 namespace SharpSite.Plugins;
 
-public class ThemeManager(IPluginManager pluginManager) : IThemeManager
+public class ApplicationStateManager(IPluginManager pluginManager) : IApplicationStateManager
 {
-	IReadOnlyDictionary<string, IPluginManifest> IThemeManager.Themes => pluginManager.Plugins.Where(p => p.Value.Features.Contains(Enum.GetName(PluginFeatures.Theme)?.ToLowerInvariant())).ToDictionary();
+	IReadOnlyDictionary<string, IPluginManifest> IApplicationStateManager.Themes => pluginManager.Plugins.Where(p => p.Value.Features.Contains(Enum.GetName(PluginFeatures.Theme)?.ToLowerInvariant())).ToDictionary();
 
 	[JsonIgnore]
 	public Type? ThemeType
@@ -30,7 +30,7 @@ public class ThemeManager(IPluginManager pluginManager) : IThemeManager
 
 	private ApplicationState CurrentState { get; set; } = new ApplicationState();
 
-	IApplicationState IThemeManager.CurrentState => CurrentState;
+	IApplicationState IApplicationStateManager.CurrentState => CurrentState;
 
 	public void SetTheme(IPluginManifest manifest)
 	{

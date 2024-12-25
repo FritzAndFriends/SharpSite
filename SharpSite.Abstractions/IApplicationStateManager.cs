@@ -2,7 +2,7 @@
 
 namespace SharpSite.Abstractions;
 
-public interface IThemeManager: IStartupManager
+public interface IApplicationStateManager: IStartupManager
 {
 	IReadOnlyDictionary<string, IPluginManifest> Themes { get; }
 

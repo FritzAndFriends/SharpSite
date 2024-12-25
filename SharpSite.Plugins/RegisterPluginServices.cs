@@ -10,7 +10,7 @@ public class RegisterPluginServices : IRegisterServices, IRunAtStartup
 	{
 		builder.Services.AddSingleton<IPluginAssemblyManager, PluginAssemblyManager>();
 		builder.Services.AddSingleton<IPluginManager, PluginManager>();
-		builder.Services.AddSingleton<IThemeManager, ThemeManager>();
+		builder.Services.AddSingleton<IApplicationStateManager, ApplicationStateManager>();
 		return builder;
 	}
 
@@ -19,7 +19,7 @@ public class RegisterPluginServices : IRegisterServices, IRunAtStartup
 		var pluginManager = services.GetRequiredService<IPluginManager>();
 		await pluginManager.LoadAtStartup();
 
-		var themeManager = services.GetRequiredService<IThemeManager>();
+		var themeManager = services.GetRequiredService<IApplicationStateManager>();
 		await themeManager.LoadAtStartup();
 	}
 }

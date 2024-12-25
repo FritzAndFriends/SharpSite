@@ -7,18 +7,18 @@ namespace SharpSite.Plugins;
 
 public class PluginAssembly : IPluginAssembly
 {
-	private readonly Plugin _plugin;
-	private readonly PluginManifest _pluginMainfest;
+	private readonly IPlugin _plugin;
+	private readonly IPluginManifest _pluginMainfest;
 	private PluginAssemblyLoadContext? _loadContext;
 	private Assembly? _assembly;
 
 	public Assembly? Assembly => _assembly;
 
-	private PluginManifest Manifest => _pluginMainfest;
+	private IPluginManifest Manifest => _pluginMainfest;
 
 	IPluginManifest IPluginAssembly.Manifest => Manifest;
 
-	public PluginAssembly(PluginManifest pluginMainfest, Plugin plugin)
+	public PluginAssembly(IPluginManifest pluginMainfest, IPlugin plugin)
 	{
 		_plugin = plugin;
 		_pluginMainfest = pluginMainfest;
@@ -28,7 +28,7 @@ public class PluginAssembly : IPluginAssembly
 	{
 		if (_loadContext != null) return;
 		_loadContext = new PluginAssemblyLoadContext();
-		_assembly = _loadContext.Load(_plugin.Bytes);
+		_assembly = _loadContext.Load(_plugin.Bytes.ToArray());
 	}
 
 	public void UnloadContext()

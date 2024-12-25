@@ -2,11 +2,13 @@ using SharpSite.Abstractions;
 
 namespace SharpSite.Plugins;
 
-public class Plugin(MemoryStream stream, string pluginName)
+public class Plugin(MemoryStream stream, string pluginName): IPlugin
 {
-	public readonly string Name = pluginName;
+	public string Name { get; } = pluginName;
 
-	public readonly byte[] Bytes = stream.ToArray();
+	private readonly byte[] Bytes = stream.ToArray();
+
+	ReadOnlySpan<byte> IPlugin.Bytes => Bytes;
 
 	public static async Task<Plugin> LoadFromStream(Stream pluginContentStream,  string pluginName)
 	{
