@@ -8,6 +8,16 @@ namespace SharpSite.Abstractions;
 public interface IRegisterServices
 {
 
-	IHostApplicationBuilder RegisterServices(IHostApplicationBuilder services, bool disableRetry = false);
+	IHostApplicationBuilder RegisterServices(IHostApplicationBuilder builder, bool disableRetry = false);
+
+}
+
+/// <summary>
+/// Interface for services that need to register services with the web application.
+/// </summary>
+public interface IRegisterLoggingServices
+{
+
+	IHostApplicationBuilder RegisterServices(IHostBuilder host, IHostApplicationBuilder hostApplication);
 
 }

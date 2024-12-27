@@ -36,6 +36,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Source", "1. Source", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSite.Plugins", "SharpSite.Plugins\SharpSite.Plugins.csproj", "{284367AF-6D9E-4D65-BB33-3C9F53DFC216}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSite.Logging", "SharpSite.Logging\SharpSite.Logging.csproj", "{20FD81B8-A3A7-40BA-A913-C8FAD3CCB691}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,6 +84,10 @@ Global
 		{284367AF-6D9E-4D65-BB33-3C9F53DFC216}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{284367AF-6D9E-4D65-BB33-3C9F53DFC216}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{284367AF-6D9E-4D65-BB33-3C9F53DFC216}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20FD81B8-A3A7-40BA-A913-C8FAD3CCB691}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20FD81B8-A3A7-40BA-A913-C8FAD3CCB691}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20FD81B8-A3A7-40BA-A913-C8FAD3CCB691}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20FD81B8-A3A7-40BA-A913-C8FAD3CCB691}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +103,7 @@ Global
 		{9D1D0B4C-4384-44B6-8DA2-958D11942FE4} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{3D0E3E4D-A167-4E83-990F-8CC8C3392D5E} = {ED943946-A640-4B85-83C9-0FF6BCE8BA5A}
 		{284367AF-6D9E-4D65-BB33-3C9F53DFC216} = {ED943946-A640-4B85-83C9-0FF6BCE8BA5A}
+		{20FD81B8-A3A7-40BA-A913-C8FAD3CCB691} = {ED943946-A640-4B85-83C9-0FF6BCE8BA5A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62A15C13-360B-4791-89E9-1FDDFE483970}

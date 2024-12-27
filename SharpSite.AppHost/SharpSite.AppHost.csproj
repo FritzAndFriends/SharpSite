@@ -18,6 +18,7 @@
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.AppHost" />
     <PackageReference Include="Aspire.Hosting.PostgreSQL" />
+    <PackageReference Include="Aspire.Hosting.Seq" />
     <PackageReference Include="System.Text.Json" />
   </ItemGroup>
 

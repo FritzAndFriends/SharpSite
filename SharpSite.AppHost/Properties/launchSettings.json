@@ -9,6 +9,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DOTNET_ENVIRONMENT": "Development",
+        "SEQ_SERVER_API_ENDPOINT": "http://localhost:5341",
         "DOTNET_DASHBOARD_OTLP_ENDPOINT_URL": "https://localhost:21152",
         "DOTNET_RESOURCE_SERVICE_ENDPOINT_URL": "https://localhost:22241"
       }
@@ -21,6 +22,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "DOTNET_ENVIRONMENT": "Development",
+        "SEQ_SERVER_API_ENDPOINT": "http://localhost:5341",
         "DOTNET_DASHBOARD_OTLP_ENDPOINT_URL": "http://localhost:19001",
         "DOTNET_RESOURCE_SERVICE_ENDPOINT_URL": "http://localhost:20137"
       }
