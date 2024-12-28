@@ -10,7 +10,11 @@ public class ApplicationState
 {
 	public record CurrentThemeRecord(string IdVersion);
 
+	public record LocalizationRecord(string? DefaultCulture, string[]? SupportedCultures);
+
 	public CurrentThemeRecord? CurrentTheme { get; set; }
+
+	public LocalizationRecord? Localization { get; set; }
 
 	/// <summary>
 	/// Maximum file upload size in megabytes.
@@ -76,6 +80,7 @@ public class ApplicationState
 			{
 				CurrentTheme = state.CurrentTheme;
 				MaximumUploadSizeMB = state.MaximumUploadSizeMB;
+				Localization = state.Localization;
 			}
 		}
 	}

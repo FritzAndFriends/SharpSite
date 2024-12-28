@@ -253,6 +253,9 @@
   <data name="sharpsite_login" xml:space="preserve">
     <value>Login</value>
   </data>
+  <data name="sharpsite_useradmin" xml:space="preserve">
+    <value>User Admin</value>
+  </data>
   <data name="sharpsite_generaladmin" xml:space="preserve">
     <value>General</value>
   </data>
@@ -297,5 +300,50 @@
   </data>
   <data name="sharpsite_site_appearance_admin" xml:space="preserve">
     <value>Site appearance</value>
+  </data>
+  <data name="sharpsite_lang_supported_label" xml:space="preserve">
+    <value>Select the supported languages</value>
+  </data>
+  <data name="sharpsite_lang_default_label" xml:space="preserve">
+    <value>Select the default language</value>
+  </data>
+  <data name="sharpsite_lang_en" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="sharpsite_lang_bg" xml:space="preserve">
+    <value>Bulgarian</value>
+  </data>
+  <data name="sharpsite_lang_ca" xml:space="preserve">
+    <value>Catalan</value>
+  </data>
+  <data name="sharpsite_lang_es" xml:space="preserve">
+    <value>Spanish</value>
+  </data>
+  <data name="sharpsite_lang_fi" xml:space="preserve">
+    <value>Finnish</value>
+  </data>
+  <data name="sharpsite_lang_fr" xml:space="preserve">
+    <value>French</value>
+  </data>
+  <data name="sharpsite_lang_it" xml:space="preserve">
+    <value>Italian</value>
+  </data>
+  <data name="sharpsite_lang_nl" xml:space="preserve">
+    <value>Dutch</value>
+  </data>
+  <data name="sharpsite_lang_de" xml:space="preserve">
+    <value>German</value>
+  </data>
+  <data name="sharpsite_lang_sw" xml:space="preserve">
+    <value>Kiswahili</value>
+  </data>
+  <data name="sharpsite_lang_pt" xml:space="preserve">
+    <value>Portuguese</value>
+  </data>
+  <data name="sharpsite_lang_heading" xml:space="preserve">
+    <value>Language Settings</value>
+  </data>
+  <data name="sharpsite_lang_supported_help_text" xml:space="preserve">
+    <value>If no options are selected, it is equivalent to selecting all options.</value>
   </data>
 </root>

@@ -259,6 +259,141 @@ namespace SharpSite.Web.Locales {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bulgarian.
+        /// </summary>
+        internal static string sharpsite_lang_bg {
+            get {
+                return ResourceManager.GetString("sharpsite_lang_bg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Catalan.
+        /// </summary>
+        internal static string sharpsite_lang_ca {
+            get {
+                return ResourceManager.GetString("sharpsite_lang_ca", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to German.
+        /// </summary>
+        internal static string sharpsite_lang_de {
+            get {
+                return ResourceManager.GetString("sharpsite_lang_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the default language.
+        /// </summary>
+        internal static string sharpsite_lang_default_label {
+            get {
+                return ResourceManager.GetString("sharpsite_lang_default_label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to English.
+        /// </summary>
+        internal static string sharpsite_lang_en {
+            get {
+                return ResourceManager.GetString("sharpsite_lang_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Spanish.
+        /// </summary>
+        internal static string sharpsite_lang_es {
+            get {
+                return ResourceManager.GetString("sharpsite_lang_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finnish.
+        /// </summary>
+        internal static string sharpsite_lang_fi {
+            get {
+                return ResourceManager.GetString("sharpsite_lang_fi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to French.
+        /// </summary>
+        internal static string sharpsite_lang_fr {
+            get {
+                return ResourceManager.GetString("sharpsite_lang_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language Settings.
+        /// </summary>
+        internal static string sharpsite_lang_heading {
+            get {
+                return ResourceManager.GetString("sharpsite_lang_heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Italian.
+        /// </summary>
+        internal static string sharpsite_lang_it {
+            get {
+                return ResourceManager.GetString("sharpsite_lang_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dutch.
+        /// </summary>
+        internal static string sharpsite_lang_nl {
+            get {
+                return ResourceManager.GetString("sharpsite_lang_nl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Portuguese.
+        /// </summary>
+        internal static string sharpsite_lang_pt {
+            get {
+                return ResourceManager.GetString("sharpsite_lang_pt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If no options are selected, it is equivalent to selecting all options..
+        /// </summary>
+        internal static string sharpsite_lang_supported_help_text {
+            get {
+                return ResourceManager.GetString("sharpsite_lang_supported_help_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the supported languages.
+        /// </summary>
+        internal static string sharpsite_lang_supported_label {
+            get {
+                return ResourceManager.GetString("sharpsite_lang_supported_label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kiswahili.
+        /// </summary>
+        internal static string sharpsite_lang_sw {
+            get {
+                return ResourceManager.GetString("sharpsite_lang_sw", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading....
         /// </summary>
         internal static string sharpsite_loading {
