@@ -7,7 +7,7 @@ public static class Program_RobotsTxt
 
 	public static WebApplication MapRobotsTxt(this WebApplication app)
 	{
-		app.MapGet("/robots.txt", async (HttpContext context) =>
+		app.MapGet("/robots.txt", async (HttpContext context, ApplicationState appState) =>
 		{
 			context.Response.ContentType = "text/plain";
 
@@ -15,7 +15,6 @@ public static class Program_RobotsTxt
 			sb.AppendLine("User-agent: *");
 			sb.AppendLine("Disallow: /admin/");
 
-			var appState = app.Services.GetRequiredService<ApplicationState>();
 			if (!string.IsNullOrEmpty(appState.RobotsTxtCustomContent))
 			{
 				sb.AppendLine(appState.RobotsTxtCustomContent);
@@ -31,9 +30,7 @@ public static class Program_RobotsTxt
 			policy.Expire(TimeSpan.FromDays(30));
 		});
 
-
 		return app;
-
 	}
 
 }
