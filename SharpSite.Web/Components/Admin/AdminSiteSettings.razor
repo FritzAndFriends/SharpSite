@@ -28,7 +28,7 @@
 			<button class="btn btn-primary" @onclick="ChangeMaxSize">@Localizer[SharedResource.sharpsite_save]</button>
 		</div>
 
-		<div class="col-lg-8">
+		<div class="col-lg-8 mb-2">
 			<h4>@Localizer[SharedResource.sharpsite_lang_heading]</h4>
 			<div class="mb-2">
 				<label for="default-culture-select" class="form-label">
@@ -59,6 +59,21 @@
 			</div>
 			<button class="btn btn-primary mt-2" @onclick="ChangeCultureSettings">@Localizer[SharedResource.sharpsite_save]</button>
 		</div>
+
+		<div class="col-lg-8 mb-4">
+			<h4>Robots.txt</h4>
+			<p>
+				@Localizer[SharedResource.sharpsite_robotstxt_help_text]
+				<pre><code>User-agent: *</code>&#10;<code>Disallow: /Admin/</code>&#10;<code>Sitemap: &lt;your-domain&gt;/sitemap.xml</code></pre>
+			</p>
+			<label for="robots-txt-content-textarea" class="form-label">@Localizer[SharedResource.sharpsite_robotstxt_label]</label>
+			<InputTextArea id="robots-txt-content-textarea"
+			class="form-control"
+			rows="3"
+			@bind-Value="Model.RobotsTxtCustomContent"
+			placeholder="User-agent: Example-Bot&#10;Disallow: /&#10;Allow: /for-example-bot"></InputTextArea>
+			<button class="btn btn-primary mt-2" @onclick="ChangeRobotsTxtContent">@Localizer[SharedResource.sharpsite_save]</button>
+		</div>
 	</EditForm>
 
 </AuthorizeView>
@@ -73,6 +88,7 @@
 		Model.MaxSizeMB = ApplicationState.MaximumUploadSizeMB;
 		Model.DefaultCulture = ApplicationState.Localization?.DefaultCulture ?? "en";
 		Model.SupportedCultures = ApplicationState.Localization?.SupportedCultures;
+		Model.RobotsTxtCustomContent = ApplicationState.RobotsTxtCustomContent;
 
 		base.OnInitialized();
 
@@ -117,6 +133,14 @@
 
 	}
 
+	private async Task ChangeRobotsTxtContent(MouseEventArgs e)
+	{
+
+		ApplicationState.RobotsTxtCustomContent = string.IsNullOrEmpty(Model.RobotsTxtCustomContent) ? null : Model.RobotsTxtCustomContent;
+		await ApplicationState.Save();
+
+	}
+
 	private string GetLocalizerKey(string culture) =>
 		SharedResource.ResourceManager.GetString($"sharpsite_lang_{culture}") ??
 		throw new ArgumentException($"The culture '{culture}' is not implemented.", nameof(culture));
@@ -129,6 +153,8 @@
 		public string[]? SupportedCultures { get; set; }
 
 		public string? DefaultCulture { get; set; }
+
+		public string? RobotsTxtCustomContent { get; set; }
 	}
 
 }

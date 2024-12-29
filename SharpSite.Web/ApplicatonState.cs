@@ -16,6 +16,8 @@ public class ApplicationState
 
 	public LocalizationRecord? Localization { get; set; }
 
+	public string? RobotsTxtCustomContent { get; set; }
+
 	/// <summary>
 	/// Maximum file upload size in megabytes.
 	/// </summary>
@@ -81,6 +83,7 @@ public class ApplicationState
 				CurrentTheme = state.CurrentTheme;
 				MaximumUploadSizeMB = state.MaximumUploadSizeMB;
 				Localization = state.Localization;
+				RobotsTxtCustomContent = state.RobotsTxtCustomContent;
 			}
 		}
 	}

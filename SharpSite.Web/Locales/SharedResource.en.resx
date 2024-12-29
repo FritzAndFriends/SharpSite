@@ -346,4 +346,10 @@
   <data name="sharpsite_lang_supported_help_text" xml:space="preserve">
     <value>If no options are selected, it is equivalent to selecting all options.</value>
   </data>
+  <data name="sharpsite_robotstxt_label" xml:space="preserve">
+    <value>Add to Robots.txt file</value>
+  </data>
+  <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
+    <value>The file aleady contains the following:</value>
+  </data>
 </root>

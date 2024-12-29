@@ -15,6 +15,12 @@ public static class Program_RobotsTxt
 			sb.AppendLine("User-agent: *");
 			sb.AppendLine("Disallow: /admin/");
 
+			var appState = app.Services.GetRequiredService<ApplicationState>();
+			if (!string.IsNullOrEmpty(appState.RobotsTxtCustomContent))
+			{
+				sb.AppendLine(appState.RobotsTxtCustomContent);
+			}
+
 			// add a line for the sitemap using the base URL from the context
 			sb.AppendLine($"Sitemap: {context.Request.Scheme}://{context.Request.Host}/sitemap.xml");
 

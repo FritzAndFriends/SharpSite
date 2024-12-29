@@ -646,6 +646,24 @@ namespace SharpSite.Web.Locales {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The file aleady contains the following:.
+        /// </summary>
+        internal static string sharpsite_robotstxt_help_text {
+            get {
+                return ResourceManager.GetString("sharpsite_robotstxt_help_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Robots.txt Content.
+        /// </summary>
+        internal static string sharpsite_robotstxt_label {
+            get {
+                return ResourceManager.GetString("sharpsite_robotstxt_label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         internal static string sharpsite_save {

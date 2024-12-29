@@ -313,4 +313,10 @@
   <data name="sharpsite_lang_supported_help_text" xml:space="preserve">
     <value>Jos mitään vaihtoehtoa ei ole valittu, se vastaa kaikkien vaihtoehtojen valitsemista.</value>
   </data>
+  <data name="sharpsite_robotstxt_label" xml:space="preserve">
+    <value>Lisää Robots.txt tiedostoon</value>
+  </data>
+  <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
+    <value>Tiedosto sisältää jo seuraavan:</value>
+  </data>
 </root>
