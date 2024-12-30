@@ -1,28 +1,32 @@
-﻿using Microsoft.AspNetCore.Components.Forms;
-using SharpSite.Abstractions;
+﻿using SharpSite.Abstractions.Base;
+using SharpSite.Abstractions.FileStorage;
 using SharpSite.Plugins;
-using SharpSite.Security.Postgres.Account.Pages;
-using System.IO;
 using System.IO.Compression;
-using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Text.RegularExpressions;
 
 namespace SharpSite.Web;
 
-public class PluginManager(PluginAssemblyManager pluginAssemblyManager, ApplicationState AppState, ILogger<PluginManager> logger) : IDisposable
+public class PluginManager(
+	PluginAssemblyManager pluginAssemblyManager,
+	ApplicationState AppState,
+	ILogger<PluginManager> logger) : IPluginManager, IDisposable
 {
 	private Plugin? plugin;
 	private bool disposedValue;
 
 	public PluginManifest? Manifest { get; private set; }
 
+	private readonly static IServiceCollection _ServiceDescriptors = new ServiceCollection();
+
+	private static IServiceProvider? _ServiceProvider;
+
 	public static void Initialize()
 	{
 		Directory.CreateDirectory("plugins");
 		Directory.CreateDirectory(Path.Combine("plugins", "_uploaded"));
 		Directory.CreateDirectory(Path.Combine("plugins", "_wwwroot"));
+
 	}
 
 	public void HandleUploadedPlugin(Plugin plugin)
@@ -92,8 +96,13 @@ public class PluginManager(PluginAssemblyManager pluginAssemblyManager, Applicat
 			plugin = await Plugin.LoadFromStream(pluginAssemblyFileStream, key);
 			var pluginAssembly = new PluginAssembly(Manifest, plugin);
 			pluginAssemblyManager.AddAssembly(pluginAssembly);
+			RegisterWithServiceLocator(pluginAssembly);
+
 			logger.LogInformation("Assembly {AssemblyName} loaded at runtime.", pluginDll);
+
 		}
+
+
 		// Add plugin to the list of plugins in ApplicationState
 		AppState.AddPlugin(Manifest.Id, Manifest);
 		logger.LogInformation("Plugin {PluginName} loaded at runtime.", Manifest);
@@ -135,13 +144,69 @@ public class PluginManager(PluginAssemblyManager pluginAssemblyManager, Applicat
 				var pluginAssembly = new PluginAssembly(manifest, plugin);
 				pluginAssemblyManager.AddAssembly(pluginAssembly);
 				logger.LogInformation("Assembly {AssemblyName} loaded at startup.", pluginDll);
+
+				RegisterWithServiceLocator(pluginAssembly);
+
 			}
 
 			AppState.AddPlugin(key, manifest!);
 			logger.LogInformation("Plugin {PluginName} loaded at startup.", pluginName);
 
 		}
+
+		_ServiceProvider = _ServiceDescriptors.BuildServiceProvider();
+
 	}
+
+
+	private void RegisterWithServiceLocator(PluginAssembly pluginAssembly)
+	{
+
+		var types = pluginAssembly.Assembly!.GetTypes();
+
+		// TODO: is there a way to do this without reflection or analyzing every type?
+
+		foreach (var type in types)
+		{
+			// analyze the assembly for classes that are decorated with the PluginAttribute
+			// and register them with the service locator
+			var pluginAttributes = type.GetCustomAttributes(typeof(RegisterPluginAttribute), false);
+
+			// if pluginAttributes has a value, then the class is to be registered with the service locator
+			if (pluginAttributes.Length > 0)
+			{
+				var pluginAttribute = (RegisterPluginAttribute)pluginAttributes[0]!;
+
+				var knownInterface = pluginAttribute.RegisterType switch
+				{
+					PluginRegisterType.FileStorage => typeof(IHandleFileStorage),
+					_ => null
+				};
+
+				var serviceDescriptor = new ServiceDescriptor(type, knownInterface!, pluginAttribute.Scope switch
+				{
+					PluginServiceLocatorScope.Singleton => ServiceLifetime.Singleton,
+					PluginServiceLocatorScope.Scoped => ServiceLifetime.Scoped,
+					_ => ServiceLifetime.Transient
+				});
+				_ServiceDescriptors.Add(serviceDescriptor);
+			}
+			else if (typeof(ISharpSiteConfigurationSection).IsAssignableFrom(type))
+			{
+				var configurationSection = (ISharpSiteConfigurationSection)Activator.CreateInstance(type)!;
+
+				// we should only add the configuration section if it is not already present
+				if (!AppState.ConfigurationSections.ContainsKey(configurationSection.SectionName))
+				{
+					AppState.ConfigurationSections.Add(configurationSection.SectionName, configurationSection);
+				}
+			}
+
+		}
+
+
+	}
+
 
 	private static async Task<(FileStream, DirectoryInfo, ZipArchive)> ExtractAndInstallPlugin(ILogger<PluginManager> logger, Plugin plugin, PluginManifest pluginManifest)
 	{
@@ -226,4 +291,16 @@ public class PluginManager(PluginAssemblyManager pluginAssemblyManager, Applicat
 		Dispose(disposing: true);
 		GC.SuppressFinalize(this);
 	}
+
+	public DirectoryInfo CreateDirectoryInPluginsFolder(string name)
+	{
+		return Directory.CreateDirectory(Path.Combine("plugins", "_" + name));
+	}
+
+	public T? GetPluginProvidedService<T>()
+	{
+		return _ServiceProvider!.GetService<T>()!;
+	}
+
 }
+

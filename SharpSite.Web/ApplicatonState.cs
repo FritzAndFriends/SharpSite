@@ -1,4 +1,4 @@
-﻿using SharpSite.Abstractions;
+﻿using SharpSite.Abstractions.Base;
 using SharpSite.Abstractions.Theme;
 using SharpSite.Plugins;
 using System.Text.Json;
@@ -17,6 +17,8 @@ public class ApplicationState
 	public LocalizationRecord? Localization { get; set; }
 
 	public string? RobotsTxtCustomContent { get; set; }
+
+	internal Dictionary<string, ISharpSiteConfigurationSection> ConfigurationSections { get; set; } = new();
 
 	/// <summary>
 	/// Maximum file upload size in megabytes.

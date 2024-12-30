@@ -12,3 +12,11 @@ public interface IHasEndpoints
 {
 	void MapEndpoints(IServiceProvider services);
 }
+
+
+public interface IPluginManager
+{
+
+	DirectoryInfo CreateDirectoryInPluginsFolder(string name);
+
+}

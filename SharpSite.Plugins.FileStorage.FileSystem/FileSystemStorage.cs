@@ -1,9 +1,23 @@
-﻿using SharpSite.Abstractions.FileStorage;
+﻿using SharpSite.Abstractions.Base;
+using SharpSite.Abstractions.FileStorage;
 
 namespace SharpSite.Plugins.FileStorage.FileSystem;
 
-public class FileSystemStorage(FileSystemConfigurationSection configuration) : IHandleFileStorage
+// NOTE: This is a naive and insecure implementation of file storage. It is not recommended to use this in a production environment.
+
+[RegisterPlugin(PluginServiceLocatorScope.Singleton, PluginRegisterType.FileStorage)]
+public class FileSystemStorage : IHandleFileStorage
 {
+
+	private readonly DirectoryInfo _BaseFolder;
+
+	public FileSystemConfigurationSection Configuration { get; }
+
+	public FileSystemStorage(FileSystemConfigurationSection configuration, IPluginManager pluginManager)
+	{
+		Configuration = configuration;
+		_BaseFolder = pluginManager.CreateDirectoryInPluginsFolder(Configuration.BaseFolderName);
+	}
 
 	public async Task AddFile(FileData file)
 	{
@@ -16,7 +30,8 @@ public class FileSystemStorage(FileSystemConfigurationSection configuration) : I
 
 		file.Metadata.ValidateFileName();
 
-		var path = Path.Combine(configuration.BaseFolderName, file.Metadata.FileName);
+		// Create a new file in the BaseFolder with the filename submitted
+		var path = Path.Combine(_BaseFolder.FullName, file.Metadata.FileName);
 		using var fileStream = File.Create(path);
 		await file.File.CopyToAsync(fileStream);
 
@@ -26,7 +41,10 @@ public class FileSystemStorage(FileSystemConfigurationSection configuration) : I
 	{
 
 		// get the file from disk and return it with metadata
-		var path = Path.Combine(configuration.BaseFolderName, filename);
+		var path = Path.Combine(_BaseFolder.FullName, filename);
+
+		// handle a missing file by returning a placeholder
+		if (!File.Exists(path)) return Task.FromResult(FileData.Missing);
 
 		var memoryStream = new MemoryStream();
 		using (var file = File.Open(path, FileMode.Open))
@@ -41,7 +59,7 @@ public class FileSystemStorage(FileSystemConfigurationSection configuration) : I
 	public Task<IEnumerable<FileMetaData>> GetFiles(int page, int filesOnPage, out int totalFilesAvailable)
 	{
 
-		var files = Directory.GetFiles(configuration.BaseFolderName);
+		var files = Directory.GetFiles(_BaseFolder.FullName);
 		totalFilesAvailable = files.Length;
 		var filesOnPageArray = files.Skip((page - 1) * filesOnPage).Take(filesOnPage).Select(f => new FileMetaData(Path.GetFileName(f), File.GetCreationTime(f)));
 		return Task.FromResult(filesOnPageArray);
@@ -51,7 +69,7 @@ public class FileSystemStorage(FileSystemConfigurationSection configuration) : I
 	public Task RemoveFile(string filename)
 	{
 
-		var path = Path.Combine(configuration.BaseFolderName, filename);
+		var path = Path.Combine(_BaseFolder.FullName, filename);
 		File.Delete(path);
 		return Task.CompletedTask;
 

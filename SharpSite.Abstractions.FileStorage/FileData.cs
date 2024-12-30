@@ -2,9 +2,17 @@
 
 namespace SharpSite.Abstractions.FileStorage;
 
-public record FileData(Stream File, FileMetaData Metadata);
+public record FileData(Stream File, FileMetaData Metadata)
+{
 
-public record FileMetaData(string FileName, DateTimeOffset CreateDate)
+	/// <summary>
+	/// A placeholder for a missing file
+	/// </summary>
+	public static FileData Missing => new(Stream.Null, new FileMetaData(string.Empty, string.Empty, DateTimeOffset.MinValue));
+
+}
+
+public record FileMetaData(string FileName, string ContentType, DateTimeOffset CreateDate)
 {
 
 	public void ValidateFileName()

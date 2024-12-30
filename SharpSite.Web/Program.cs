@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.FileProviders;
 using SharpSite.Data.Postgres;
+using SharpSite.Plugins;
 using SharpSite.Security.Postgres;
 using SharpSite.Web;
 using SharpSite.Web.Components;
 using SharpSite.Web.Locales;
-using SharpSite.Plugins;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -98,5 +98,7 @@ await pgSecurity.RunAtStartup(app.Services);
 // Use DI to get the logger
 var pluginManager = app.Services.GetRequiredService<PluginManager>();
 await pluginManager.LoadPluginsAtStartup();
+
+app.MapFileApi(pluginManager);
 
 app.Run();
