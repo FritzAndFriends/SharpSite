@@ -1,6 +1,4 @@
-﻿using System.Collections.Frozen;
-
-namespace SharpSite.Web.Locales;
+﻿namespace SharpSite.Web.Locales;
 public static class Configuration
 {
 
@@ -18,21 +16,6 @@ public static class Configuration
 		"de",
 		"ca",
 	];
-	public readonly static FrozenDictionary<string, string> LocalizedCultureNames = new Dictionary<string, string>()
-	{
-		// NOTE: These should be checked by for correctness.
-		{ "bg", "Български" },
-		{ "ca", "Català" },
-		{ "de", "Deutsch" },
-		{ "en", "English" },
-		{ "es", "Español" },
-		{ "fi", "Suomi" },
-		{ "fr", "Français" },
-		{ "it", "Italiano" },
-		{ "nl", "Nederlands" },
-		{ "pt", "Português" },
-		{ "sw", "Kiswahili" },
-	}.ToFrozenDictionary();
 
 	/// <summary>
 	/// add the custom localization features for the application framework
