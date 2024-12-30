@@ -10,6 +10,11 @@ public static class FileApi
 	{
 
 		var fileProvider = pluginManager.GetPluginProvidedService<IHandleFileStorage>();
+		if (fileProvider is null) return app;
+
+		//{
+		//	throw new InvalidOperationException("No file storage plugin found");
+		//}
 
 		var filesGroup = app.MapGroup("/api/files");
 		filesGroup.MapGet("/", async (int page, int filesOnPage) =>
