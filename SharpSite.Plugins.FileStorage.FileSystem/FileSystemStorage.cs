@@ -6,7 +6,7 @@ namespace SharpSite.Plugins.FileStorage.FileSystem;
 // NOTE: This is a naive and insecure implementation of file storage. It is not recommended to use this in a production environment.
 
 [RegisterPlugin(PluginServiceLocatorScope.Singleton, PluginRegisterType.FileStorage)]
-public class FileSystemStorage : IHandleFileStorage
+public partial class FileSystemStorage : IHandleFileStorage
 {
 
 	private readonly DirectoryInfo _BaseFolder;
@@ -52,7 +52,10 @@ public class FileSystemStorage : IHandleFileStorage
 			file.CopyTo(memoryStream);
 			memoryStream.Position = 0;
 		}
-		var metadata = new FileMetaData(filename, File.GetCreationTime(path));
+
+		// Get the content type from the file extension
+		var contentType = MimeTypesMap.GetMimeType(Path.GetExtension(path));
+		var metadata = new FileMetaData(filename, contentType, File.GetCreationTime(path));
 		return Task.FromResult(new FileData(memoryStream, metadata));
 	}
 
@@ -61,7 +64,9 @@ public class FileSystemStorage : IHandleFileStorage
 
 		var files = Directory.GetFiles(_BaseFolder.FullName);
 		totalFilesAvailable = files.Length;
-		var filesOnPageArray = files.Skip((page - 1) * filesOnPage).Take(filesOnPage).Select(f => new FileMetaData(Path.GetFileName(f), File.GetCreationTime(f)));
+		var filesOnPageArray = files.Skip((page - 1) * filesOnPage)
+			.Take(filesOnPage)
+			.Select(f => new FileMetaData(Path.GetFileName(f), MimeTypesMap.GetMimeType(f), File.GetCreationTime(f)));
 		return Task.FromResult(filesOnPageArray);
 
 	}
