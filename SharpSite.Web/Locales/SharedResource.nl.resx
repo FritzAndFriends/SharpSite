@@ -316,4 +316,32 @@
     <value>Website uiterlijk</value>
     <comment>AI generated translation</comment>
   </data>
+  <data name="sharpsite_useradmin" xml:space="preserve">
+    <value>Gebruikersbeheerder</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_lang_supported_label" xml:space="preserve">
+    <value>Selecteer de ondersteunde talen</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_lang_default_label" xml:space="preserve">
+    <value>Kies de standaardtaal</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_lang_heading" xml:space="preserve">
+    <value>Taalinstellingen</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_lang_supported_help_text" xml:space="preserve">
+    <value>Als er geen opties zijn geselecteerd, is het hetzelfde als alle opties selecteren.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_robotstxt_label" xml:space="preserve">
+    <value>Voeg toe aan het Robots.txt bestand.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
+    <value>Het bestand bevat al het volgende:</value>
+    <comment>AI generated translation</comment>
+  </data>
 </root>

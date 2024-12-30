@@ -37,8 +37,9 @@
 				<InputSelect id="default-culture-select" @bind-Value="Model.DefaultCulture" class="form-select">
 					@foreach (var culture in Locales.Configuration.SupportedCultures.OrderBy(c => c))
 					{
+						var thisCulture = CultureInfo.GetCultureInfo(culture);
 						<option value="@culture" disabled="@(Model.SupportedCultures?.Length == 0 ? false : !Model.SupportedCultures?.Contains(culture))">
-							@Localizer[GetLocalizerKey(culture)] &#40;@Locales.Configuration.LocalizedCultureNames[@culture]&#41;
+							@thisCulture.DisplayName &#40; @thisCulture.NativeName &#41;
 						</option>
 					}
 				</InputSelect>
@@ -50,8 +51,9 @@
 				<select id="supported-cultures-select" multiple @onchange="OnCultureChanged" class="form-select">
 					@foreach (var culture in Locales.Configuration.SupportedCultures.OrderBy(c => c))
 					{
+						var thisCulture = CultureInfo.GetCultureInfo(culture);
 						<option value="@culture" selected="@(Model.SupportedCultures?.Contains(culture))">
-							@Localizer[GetLocalizerKey(culture)] &#40;@Locales.Configuration.LocalizedCultureNames[@culture]&#41;
+							@thisCulture.DisplayName &#40; @thisCulture.NativeName &#41;
 						</option>
 					}
 				</select>
@@ -140,10 +142,6 @@
 		await ApplicationState.Save();
 
 	}
-
-	private string GetLocalizerKey(string culture) =>
-		SharedResource.ResourceManager.GetString($"sharpsite_lang_{culture}") ??
-		throw new ArgumentException($"The culture '{culture}' is not implemented.", nameof(culture));
 
 	public class ViewModel
 	{
