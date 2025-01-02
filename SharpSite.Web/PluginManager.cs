@@ -97,6 +97,7 @@ public class PluginManager(
 			var pluginAssembly = new PluginAssembly(Manifest, plugin);
 			pluginAssemblyManager.AddAssembly(pluginAssembly);
 			RegisterWithServiceLocator(pluginAssembly);
+			await AppState.Save();
 
 			logger.LogInformation("Assembly {AssemblyName} loaded at runtime.", pluginDll);
 
@@ -223,13 +224,20 @@ public class PluginManager(
 		// Create a folder named after the plugin name under /plugins
 		pluginLibFolder = Directory.CreateDirectory(Path.Combine("plugins", $"{pluginManifest!.Id}@{pluginManifest.Version}"));
 
-		// Create the plugins/_wwwroot folder if it doesn't exist
-		var pluginWwwRootFolder = Directory.CreateDirectory(Path.Combine("plugins", "_wwwroot", $"{pluginManifest!.Id}@{pluginManifest.Version}"));
 		using var pluginMemoryStream = new MemoryStream(plugin.Bytes);
 		archive = new ZipArchive(pluginMemoryStream, ZipArchiveMode.Read, true);
+
+		// Create the plugins/_wwwroot folder if it doesn't exist
+		var hasWebContent = archive.Entries.Any(entry => entry.FullName.StartsWith("web/"));
+		DirectoryInfo? pluginWwwRootFolder = null;
+
+		if (hasWebContent)
+		{
+			pluginWwwRootFolder = Directory.CreateDirectory(Path.Combine("plugins", "_wwwroot", $"{pluginManifest!.Id}@{pluginManifest.Version}"));
+		}
+
 		foreach (var entry in archive.Entries)
 		{
-
 			// skip directory entries in the archive
 			if (string.IsNullOrEmpty(entry.Name)) continue;
 
@@ -237,7 +245,7 @@ public class PluginManager(
 			{
 				"manifest.json" => Path.Combine(pluginLibFolder.FullName, entry.Name),
 				var s when s.StartsWith("lib/") => Path.Combine(pluginLibFolder.FullName, entry.Name),
-				var s when s.StartsWith("web/") => Path.Combine(pluginWwwRootFolder.FullName, entry.Name),
+				var s when s.StartsWith("web/") => Path.Combine(pluginWwwRootFolder!.FullName, entry.Name),
 				_ => string.Empty
 			};
 
