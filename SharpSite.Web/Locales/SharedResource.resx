@@ -335,4 +335,12 @@
     <value>The file aleady contains the following:</value>
     <comment>Help text for robots.txt content admin setting</comment>
   </data>
+  <data name="sharpsite_language_label" xml:space="preserve">
+    <value>Language</value>
+    <comment>Label for language select</comment>
+  </data>
+  <data name="sharpsite_langauge_help_text" xml:space="preserve">
+    <value>This ensures assistive technologies use the correct language for the content.</value>
+    <comment>Help text for language select</comment>
+  </data>
 </root>

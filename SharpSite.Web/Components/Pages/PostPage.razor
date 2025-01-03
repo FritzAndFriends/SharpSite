@@ -16,9 +16,11 @@
 @if (Post is not null)
 {
 	<PageTitle>SharpSite &#124; @Post.Title</PageTitle>
-	<h1>@Post.Title</h1>
-	<h6>@Post.PublishedDate.LocalDateTime</h6>
-	<p>@((MarkupString)Markdown.ToHtml(Post.Content))</p>
+	<div lang="@Post.LanguageCode">
+		<h1>@Post.Title</h1>
+		<h6>@Post.PublishedDate.LocalDateTime</h6>
+		<p>@((MarkupString)Markdown.ToHtml(Post.Content))</p>
+	</div>
 }
 else
 {

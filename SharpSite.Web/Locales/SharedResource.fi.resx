@@ -319,4 +319,10 @@
   <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
     <value>Tiedosto sisältää jo seuraavan:</value>
   </data>
+  <data name="sharpsite_language_label" xml:space="preserve">
+    <value>Kieli</value>
+  </data>
+  <data name="sharpsite_langauge_help_text" xml:space="preserve">
+    <value>Tämä varmistaa, että avustavat teknologiat käyttävät sisällölle oikeaa kieltä.</value>
+  </data>
 </root>

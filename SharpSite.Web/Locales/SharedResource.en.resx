@@ -319,4 +319,10 @@
   <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
     <value>The file aleady contains the following:</value>
   </data>
+  <data name="sharpsite_language_label" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="sharpsite_langauge_help_text" xml:space="preserve">
+    <value>This ensures assistive technologies use the correct language for the content.</value>
+  </data>
 </root>
