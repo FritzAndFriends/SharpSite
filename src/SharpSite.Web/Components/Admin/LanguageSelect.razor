@@ -1,0 +1,29 @@
+﻿<div class="form-group mb-2">
+	<label for="language" class="form-label">@Localizer[SharedResource.sharpsite_language_label]</label>
+	<select class="form-select" id="language" @bind:get="Language" @bind:set="SetAsync">
+		@foreach (var culture in _Cultures)
+		{
+			<option value="@culture.Name">@culture.DisplayName (@culture.NativeName)</option>
+		}
+	</select>
+	<small class="text-muted">@Localizer[SharedResource.sharpsite_langauge_help_text]</small>
+</div>
+
+@code {
+	[Parameter]
+	public required string Language { get; set; }
+
+	[Parameter]
+	public EventCallback<string> LanguageChanged { get; set; }
+
+	private async Task SetAsync(string value) => await LanguageChanged.InvokeAsync(value);
+
+	private IEnumerable<CultureInfo> _Cultures { get; set; } = Enumerable.Empty<CultureInfo>();
+
+	protected override void OnInitialized()
+	{
+		_Cultures = CultureInfo.GetCultures(CultureTypes.NeutralCultures).Skip(1); // Skips Invariant Language.
+		base.OnInitialized();
+	}
+}
+
