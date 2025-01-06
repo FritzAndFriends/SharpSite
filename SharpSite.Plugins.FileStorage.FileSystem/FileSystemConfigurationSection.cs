@@ -8,8 +8,6 @@ public class FileSystemConfigurationSection : ISharpSiteConfigurationSection
 {
 	public string SectionName { get; } = "FileSystem Storage";
 
-	public Dictionary<string, string> Configuration { get; } = new();
-
 	[DisplayName("Base Folder Name"), Required, MaxLength(500)]
 	public string BaseFolderName { get; set; } = "UploadedFiles";
 

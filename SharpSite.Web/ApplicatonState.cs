@@ -1,8 +1,7 @@
-﻿using SharpSite.Abstractions.Base;
+﻿using Newtonsoft.Json;
+using SharpSite.Abstractions.Base;
 using SharpSite.Abstractions.Theme;
 using SharpSite.Plugins;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace SharpSite.Web;
 
@@ -18,7 +17,7 @@ public class ApplicationState
 
 	public string? RobotsTxtCustomContent { get; set; }
 
-	internal Dictionary<string, ISharpSiteConfigurationSection> ConfigurationSections { get; set; } = new();
+	public Dictionary<string, ISharpSiteConfigurationSection> ConfigurationSections { get; set; } = new();
 
 	/// <summary>
 	/// Maximum file upload size in megabytes.
@@ -79,9 +78,18 @@ public class ApplicationState
 		if (File.Exists(appStateFile))
 		{
 			var json = await File.ReadAllTextAsync(appStateFile);
-			var state = JsonSerializer.Deserialize<ApplicationState>(json);
+
+			// use Newtonsoft.json to deserialize the json string into the ApplicationState object
+			var state = JsonConvert.DeserializeObject<ApplicationState>(json,
+			 new JsonSerializerSettings
+			 {
+				 TypeNameHandling = TypeNameHandling.Auto,
+			 });
+
+
 			if (state is not null)
 			{
+				ConfigurationSections = state.ConfigurationSections;
 				CurrentTheme = state.CurrentTheme;
 				MaximumUploadSizeMB = state.MaximumUploadSizeMB;
 				Localization = state.Localization;
@@ -95,7 +103,11 @@ public class ApplicationState
 		// save application state to applicationState.json in the root of the plugins folder
 		var appStateFile = Path.Combine("plugins", "applicationState.json");
 
-		var json = JsonSerializer.Serialize(this);
+		var json = JsonConvert.SerializeObject(this,
+			 new JsonSerializerSettings
+			 {
+				 TypeNameHandling = TypeNameHandling.Auto,
+			 });
 		await File.WriteAllTextAsync(appStateFile, json);
 	}
 }

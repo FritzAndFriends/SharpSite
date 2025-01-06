@@ -26,13 +26,17 @@ else
 		<DataAnnotationsValidator />
 		@foreach (var prop in ConfigurationSection.GetType().GetProperties())
 		{
-			@if (prop.PropertyType == typeof(string))
+			@if (prop.Name == "SectionName") continue;
+			else if (prop.PropertyType == typeof(string))
 			{
 				var displayName = prop.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName ?? prop.Name;
 				<div class="form-group">
 					<label for="@prop.Name">@displayName</label>
-					<input type="text" class="form-control" id="@prop.Name" placeholder="@displayName" @onchange="@(args => ModifyProperty(prop.Name, args))" />
-					<ValidationMessage For="@(() => ConfigurationSection.GetType().GetProperty(prop.Name)!.GetValue(ConfigurationSection))" />
+					<input type="text" class="form-control" id="@prop.Name" 
+						placeholder="@displayName" 
+						value="@prop.GetValue(ConfigurationSection)"
+						@onchange="@(args => ModifyProperty(prop.Name, args))" />
+					@* <ValidationMessage For="@(() => ConfigurationSection.GetType().GetProperty(prop.Name)!.GetValue(ConfigurationSection))" /> *@
 				</div>
 			}
 		}
