@@ -13,7 +13,9 @@ public partial class FileSystemStorage : IHandleFileStorage
 
 	public FileSystemConfigurationSection Configuration { get; }
 
-	public FileSystemStorage(FileSystemConfigurationSection configuration, IPluginManager pluginManager)
+	public FileSystemStorage(
+		FileSystemConfigurationSection configuration,
+		IPluginManager pluginManager)
 	{
 		Configuration = configuration;
 		_BaseFolder = pluginManager.CreateDirectoryInPluginsFolder(Configuration.BaseFolderName);

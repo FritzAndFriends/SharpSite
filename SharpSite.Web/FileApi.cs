@@ -26,9 +26,11 @@ public static class FileApi
 					return Results.Ok(files);
 				});
 
-		filesGroup.MapGet("{*path}", async (IHandleFileStorage fileProvider, string path) =>
+		filesGroup.MapGet("{*path}", async (string path) =>
 		{
-			var fileInfo = await fileProvider.GetFile(path);
+
+			var fileProvider = pluginManager.GetPluginProvidedService<IHandleFileStorage>();
+			var fileInfo = await fileProvider!.GetFile(path);
 			if (fileInfo != FileData.Missing)
 			{
 				return Results.NotFound();
@@ -37,24 +39,27 @@ public static class FileApi
 		});
 
 		// Need to add a POST endpoint to upload files that is limited to members of the "Admin" role
-		filesGroup.MapPost("/", async (IHandleFileStorage fileProvider, FileData file) =>
+		filesGroup.MapPost("/", async (FileData file) =>
 		{
-			await fileProvider.AddFile(file);
+			var fileProvider = pluginManager.GetPluginProvidedService<IHandleFileStorage>();
+			await fileProvider!.AddFile(file);
 			return Results.Created($"/api/files/{file.Metadata.FileName}", file.Metadata);
 		}).RequireAuthorization(Constants.Roles.AllUsers);
 
 		// need to add a PUT endpoint to update files that is limited to members of the "Admin" role
-		filesGroup.MapPut("{*path}", async (IHandleFileStorage fileProvider, string path, FileData file) =>
+		filesGroup.MapPut("{*path}", async (string path, FileData file) =>
 		{
-			await fileProvider.RemoveFile(path);
+			var fileProvider = pluginManager.GetPluginProvidedService<IHandleFileStorage>();
+			await fileProvider!.RemoveFile(path);
 			await fileProvider.AddFile(file);
 			return Results.Created($"/api/files/{file.Metadata.FileName}", file.Metadata);
 		}).RequireAuthorization(Constants.Roles.AdminUsers);
 
 		// need to add a DELETE endpoint to remove files that is limited to members of the "Admin" role
-		filesGroup.MapDelete("{*path}", async (IHandleFileStorage fileProvider, string path) =>
+		filesGroup.MapDelete("{*path}", async (string path) =>
 		{
-			await fileProvider.RemoveFile(path);
+			var fileProvider = pluginManager.GetPluginProvidedService<IHandleFileStorage>();
+			await fileProvider!.RemoveFile(path);
 			return Results.NoContent();
 		}).RequireAuthorization(Constants.Roles.AdminUsers);
 

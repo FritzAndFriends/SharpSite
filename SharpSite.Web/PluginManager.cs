@@ -122,6 +122,8 @@ public class PluginManager(
 	public async Task LoadPluginsAtStartup()
 	{
 
+		_ServiceDescriptors.AddSingleton<IPluginManager>(this);
+
 		foreach (var pluginFolder in Directory.GetDirectories("plugins"))
 		{
 			var pluginName = Path.GetFileName(pluginFolder);
@@ -184,7 +186,7 @@ public class PluginManager(
 					_ => null
 				};
 
-				var serviceDescriptor = new ServiceDescriptor(type, knownInterface!, pluginAttribute.Scope switch
+				var serviceDescriptor = new ServiceDescriptor(knownInterface!, type, pluginAttribute.Scope switch
 				{
 					PluginServiceLocatorScope.Singleton => ServiceLifetime.Singleton,
 					PluginServiceLocatorScope.Scoped => ServiceLifetime.Scoped,
@@ -201,6 +203,9 @@ public class PluginManager(
 				{
 					AppState.ConfigurationSections.Add(configurationSection.SectionName, configurationSection);
 				}
+
+				_ServiceDescriptors.Add(new ServiceDescriptor(type, configurationSection));
+
 			}
 
 		}
@@ -307,7 +312,7 @@ public class PluginManager(
 
 	public T? GetPluginProvidedService<T>()
 	{
-		return _ServiceProvider!.GetService<T>()!;
+		return _ServiceProvider!.GetService<T>();
 	}
 
 }
