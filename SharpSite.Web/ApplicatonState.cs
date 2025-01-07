@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using SharpSite.Abstractions.Base;
 using SharpSite.Abstractions.Theme;
 using SharpSite.Plugins;
@@ -70,7 +72,7 @@ public class ApplicationState
 		if (themeType is not null) CurrentTheme = new(manifest.IdVersionToString());
 	}
 
-	public async Task Load()
+	public async Task Load(IServiceProvider services)
 	{
 		// load application state from applicationState.json in the root of the plugins folder
 		var appStateFile = Path.Combine("plugins", "applicationState.json");
@@ -86,7 +88,6 @@ public class ApplicationState
 				 TypeNameHandling = TypeNameHandling.Auto,
 			 });
 
-
 			if (state is not null)
 			{
 				ConfigurationSections = state.ConfigurationSections;
@@ -95,7 +96,23 @@ public class ApplicationState
 				Localization = state.Localization;
 				RobotsTxtCustomContent = state.RobotsTxtCustomContent;
 			}
+
+			await PostLoadConfiguration(services);
+
 		}
+	}
+
+	private Task PostLoadConfiguration(IServiceProvider services)
+	{
+
+		// Set the max upload size
+		var hubOptions = services.GetRequiredService<IOptions<HubOptions>>();
+		hubOptions.Value.MaximumReceiveMessageSize = 1024 * 1024 * MaximumUploadSizeMB;
+
+		// TODO: Provide an event that Plugins can register for to provide some additional actions to be taken after they are loaded
+
+		return Task.CompletedTask;
+
 	}
 
 	public async Task Save()
