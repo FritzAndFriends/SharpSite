@@ -96,7 +96,7 @@ public class PluginManager(
 			plugin = await Plugin.LoadFromStream(pluginAssemblyFileStream, key);
 			var pluginAssembly = new PluginAssembly(Manifest, plugin);
 			pluginAssemblyManager.AddAssembly(pluginAssembly);
-			RegisterWithServiceLocator(pluginAssembly);
+			await RegisterWithServiceLocator(pluginAssembly);
 			await AppState.Save();
 
 			logger.LogInformation("Assembly {AssemblyName} loaded at runtime.", pluginDll);
@@ -121,6 +121,22 @@ public class PluginManager(
 
 	public async Task LoadPluginsAtStartup()
 	{
+
+		AppState.ConfigurationSectionChanged += (sender, e) =>
+		{
+			// Update the registered ConfigurationSection in the service locator
+			if (_ServiceDescriptors.Any(descriptor => descriptor.ServiceType == e.GetType()))
+			{
+				var oldSectionDescriptor = _ServiceDescriptors.First(descriptor => descriptor.ServiceType == e.GetType());
+				var oldSection = (ISharpSiteConfigurationSection)oldSectionDescriptor.ImplementationInstance!;
+				e.OnConfigurationChanged(oldSection, this);
+				_ServiceDescriptors.Remove(oldSectionDescriptor);
+			}
+
+			var serviceDescriptor = new ServiceDescriptor(e.GetType(), e);
+			_ServiceDescriptors.Add(serviceDescriptor);
+			_ServiceProvider = _ServiceDescriptors.BuildServiceProvider();
+		};
 
 		_ServiceDescriptors.AddSingleton<IPluginManager>(this);
 
@@ -148,7 +164,7 @@ public class PluginManager(
 				pluginAssemblyManager.AddAssembly(pluginAssembly);
 				logger.LogInformation("Assembly {AssemblyName} loaded at startup.", pluginDll);
 
-				RegisterWithServiceLocator(pluginAssembly);
+				await RegisterWithServiceLocator(pluginAssembly);
 
 			}
 
@@ -162,7 +178,7 @@ public class PluginManager(
 	}
 
 
-	private void RegisterWithServiceLocator(PluginAssembly pluginAssembly)
+	private async Task RegisterWithServiceLocator(PluginAssembly pluginAssembly)
 	{
 
 		var types = pluginAssembly.Assembly!.GetTypes();
@@ -205,6 +221,11 @@ public class PluginManager(
 				}
 
 				_ServiceDescriptors.Add(new ServiceDescriptor(type, configurationSection));
+
+				if (AppState.Initialized)
+				{
+					await configurationSection.OnConfigurationChanged(null!, this);
+				}
 
 			}
 
@@ -305,9 +326,9 @@ public class PluginManager(
 		GC.SuppressFinalize(this);
 	}
 
-	public DirectoryInfo CreateDirectoryInPluginsFolder(string name)
+	public Task<DirectoryInfo> CreateDirectoryInPluginsFolder(string name)
 	{
-		return Directory.CreateDirectory(Path.Combine("plugins", "_" + name));
+		return Task.FromResult(Directory.CreateDirectory(Path.Combine("plugins", "_" + name)));
 	}
 
 	public T? GetPluginProvidedService<T>()
@@ -315,4 +336,27 @@ public class PluginManager(
 		return _ServiceProvider!.GetService<T>();
 	}
 
+	public Task<DirectoryInfo> MoveDirectoryInPluginsFolder(string oldName, string newName)
+	{
+
+		// check if the oldName directory exists
+		if (!Directory.Exists(Path.Combine("plugins", "_" + oldName)))
+		{
+			throw new DirectoryNotFoundException($"Directory {oldName} not found in plugins folder.");
+		}
+
+		// move the directory specified, which is prefixed with an underscore, to a new name
+		Directory.Move(
+			Path.Combine("plugins", "_" + oldName),
+			Path.Combine("plugins", "_" + newName)
+		);
+
+		return Task.FromResult(new DirectoryInfo(Path.Combine("plugins", "_" + newName)));
+
+	}
+
+	public DirectoryInfo GetDirectoryInPluginsFolder(string name)
+	{
+		return new DirectoryInfo(Path.Combine("plugins", "_" + name));
+	}
 }

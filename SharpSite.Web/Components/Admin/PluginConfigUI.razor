@@ -1,4 +1,5 @@
 ﻿@page "/admin/pluginconfig/{pluginName}"
+@using Newtonsoft.Json
 @using SharpSite.Abstractions.Base
 @attribute [Authorize(Roles = Constants.Roles.Admin)]
 @inject ApplicationState AppState
@@ -33,9 +34,9 @@ else
 				<div class="form-group">
 					<label for="@prop.Name">@displayName</label>
 					<input type="text" class="form-control" id="@prop.Name" 
-						placeholder="@displayName" 
-						value="@prop.GetValue(ConfigurationSection)"
-						@onchange="@(args => ModifyProperty(prop.Name, args))" />
+					placeholder="@displayName" 
+					value="@prop.GetValue(ConfigurationSection)"
+					@onchange="@(args => ModifyProperty(prop.Name, args))" />
 					@* <ValidationMessage For="@(() => ConfigurationSection.GetType().GetProperty(prop.Name)!.GetValue(ConfigurationSection))" /> *@
 				</div>
 			}
@@ -62,7 +63,23 @@ else
 		}
 		else
 		{
-			ConfigurationSection = AppState.ConfigurationSections[PluginName];
+
+			// use Newtonsoft.Json to serialize and then deserialize the configuration section
+			var theType = AppState.ConfigurationSections[PluginName].GetType();
+			var json = JsonConvert.SerializeObject(AppState.ConfigurationSections[PluginName],
+				new JsonSerializerSettings
+				 {
+					 TypeNameHandling = TypeNameHandling.Auto,
+				 });
+		
+			ConfigurationSection = (ISharpSiteConfigurationSection)JsonConvert.DeserializeObject(
+				json, 
+				theType,
+				new JsonSerializerSettings
+				 {
+					 TypeNameHandling = TypeNameHandling.Auto,
+				 })!;
+
 		}
 
 		base.OnInitialized();
@@ -90,7 +107,7 @@ else
 	private async Task SaveChanges()
 	{
 		// save the changes to the configuration section
-		AppState.ConfigurationSections[ConfigurationSection.SectionName] = ConfigurationSection;
+		AppState.SetConfigurationSection(ConfigurationSection);
 		await AppState.Save();
 	}
 }

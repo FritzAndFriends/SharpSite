@@ -17,6 +17,8 @@ public interface IHasEndpoints
 public interface IPluginManager
 {
 
-	DirectoryInfo CreateDirectoryInPluginsFolder(string name);
+	Task<DirectoryInfo> CreateDirectoryInPluginsFolder(string name);
+	DirectoryInfo GetDirectoryInPluginsFolder(string name);
+	Task<DirectoryInfo> MoveDirectoryInPluginsFolder(string oldName, string newName);
 
 }

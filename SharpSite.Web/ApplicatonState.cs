@@ -9,6 +9,13 @@ namespace SharpSite.Web;
 
 public class ApplicationState
 {
+
+	/// <summary>
+	/// Indicates whether the application state has been initialized from the applicationState.json file.
+	/// </summary>
+	[JsonIgnore]
+	internal bool Initialized { get; private set; } = false;
+
 	public record CurrentThemeRecord(string IdVersion);
 
 	public record LocalizationRecord(string? DefaultCulture, string[]? SupportedCultures);
@@ -19,7 +26,9 @@ public class ApplicationState
 
 	public string? RobotsTxtCustomContent { get; set; }
 
-	public Dictionary<string, ISharpSiteConfigurationSection> ConfigurationSections { get; set; } = new();
+	public Dictionary<string, ISharpSiteConfigurationSection> ConfigurationSections { get; private set; } = new();
+
+	public event EventHandler<ISharpSiteConfigurationSection>? ConfigurationSectionChanged;
 
 	/// <summary>
 	/// Maximum file upload size in megabytes.
@@ -72,7 +81,7 @@ public class ApplicationState
 		if (themeType is not null) CurrentTheme = new(manifest.IdVersionToString());
 	}
 
-	public async Task Load(IServiceProvider services)
+	public async Task Load(IServiceProvider services, PluginManager pluginManager)
 	{
 		// load application state from applicationState.json in the root of the plugins folder
 		var appStateFile = Path.Combine("plugins", "applicationState.json");
@@ -97,12 +106,35 @@ public class ApplicationState
 				RobotsTxtCustomContent = state.RobotsTxtCustomContent;
 			}
 
-			await PostLoadConfiguration(services);
+			Initialized = true;
+
+			if (ConfigurationSectionChanged is not null)
+			{
+				foreach (var section in ConfigurationSections)
+				{
+					ConfigurationSectionChanged.Invoke(this, section.Value);
+				}
+			}
+
+			await PostLoadApplicationState(services);
 
 		}
 	}
 
-	private Task PostLoadConfiguration(IServiceProvider services)
+	public void SetConfigurationSection(ISharpSiteConfigurationSection section)
+	{
+		if (ConfigurationSections.ContainsKey(section.SectionName))
+		{
+			ConfigurationSections[section.SectionName] = section;
+		}
+		else
+		{
+			ConfigurationSections.Add(section.SectionName, section);
+		}
+		ConfigurationSectionChanged?.Invoke(this, section);
+	}
+
+	private Task PostLoadApplicationState(IServiceProvider services)
 	{
 
 		// Set the max upload size

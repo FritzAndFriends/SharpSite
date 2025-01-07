@@ -18,7 +18,7 @@ public partial class FileSystemStorage : IHandleFileStorage
 		IPluginManager pluginManager)
 	{
 		Configuration = configuration;
-		_BaseFolder = pluginManager.CreateDirectoryInPluginsFolder(Configuration.BaseFolderName);
+		_BaseFolder = pluginManager.GetDirectoryInPluginsFolder(Configuration.BaseFolderName);
 	}
 
 	public async Task AddFile(FileData file)

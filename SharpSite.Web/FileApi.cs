@@ -9,8 +9,10 @@ public static class FileApi
 	public static WebApplication MapFileApi(this WebApplication app, PluginManager pluginManager)
 	{
 
+		// Don't add the File API if there is no file storage plugin configured
 		var fileProvider = pluginManager.GetPluginProvidedService<IHandleFileStorage>();
 		if (fileProvider is null) return app;
+		fileProvider = null;
 
 		//{
 		//	throw new InvalidOperationException("No file storage plugin found");
@@ -19,7 +21,9 @@ public static class FileApi
 		var filesGroup = app.MapGroup("/api/files");
 		filesGroup.MapGet("/", async (int page, int filesOnPage) =>
 				{
-					var files = await fileProvider.GetFiles(page, filesOnPage, out var totalFilesAvailable);
+
+					var fileProvider = pluginManager.GetPluginProvidedService<IHandleFileStorage>();
+					var files = await fileProvider!.GetFiles(page, filesOnPage, out var totalFilesAvailable);
 
 					// TODO: Add pagination metadata to the response
 
