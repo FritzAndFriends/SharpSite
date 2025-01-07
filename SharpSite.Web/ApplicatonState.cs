@@ -20,10 +20,13 @@ public class ApplicationState
 
 	public record LocalizationRecord(string? DefaultCulture, string[]? SupportedCultures);
 
+	[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 	public CurrentThemeRecord? CurrentTheme { get; set; }
 
+	[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 	public LocalizationRecord? Localization { get; set; }
 
+	[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 	public string? RobotsTxtCustomContent { get; set; }
 
 	public Dictionary<string, ISharpSiteConfigurationSection> ConfigurationSections { get; private set; } = new();
