@@ -29,6 +29,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" />
+    <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="PSC.Blazor.Components.MarkdownEditor" />
   </ItemGroup>
 

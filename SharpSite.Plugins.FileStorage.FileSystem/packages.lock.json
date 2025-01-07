@@ -60,6 +60,12 @@
           "Microsoft.Extensions.Hosting.Abstractions": "[9.0.0, )"
         }
       },
+      "sharpsite.abstractions.filestorage": {
+        "type": "Project",
+        "dependencies": {
+          "SharpSite.Abstractions.Base": "[1.0.0, )"
+        }
+      },
       "Microsoft.Extensions.Hosting.Abstractions": {
         "type": "CentralTransitive",
         "requested": "[9.0.0, )",
