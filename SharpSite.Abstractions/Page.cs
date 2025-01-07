@@ -18,4 +18,7 @@ public class Page
 
 	public required DateTimeOffset LastUpdate { get; set; } = DateTimeOffset.Now;
 
+	[Required, MaxLength(11)]
+	public string LanguageCode { get; set; } = "en";
+
 }

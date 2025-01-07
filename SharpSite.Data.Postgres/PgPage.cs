@@ -19,6 +19,10 @@ public class PgPage
 
 	public DateTimeOffset LastUpdate { get; set; } = DateTimeOffset.Now;
 
+
+	[Required, MaxLength(11)]
+	public string LanguageCode { get; set; } = "en";
+
 	public static explicit operator PgPage(Page page)
 	{
 
@@ -28,7 +32,8 @@ public class PgPage
 			Title = page.Title,
 			Slug = page.Slug,
 			Content = page.Content,
-			LastUpdate = page.LastUpdate
+			LastUpdate = page.LastUpdate,
+			LanguageCode = page.LanguageCode
 		};
 
 	}
@@ -41,7 +46,8 @@ public class PgPage
 			Title = page.Title,
 			Slug = page.Slug,
 			Content = page.Content,
-			LastUpdate = page.LastUpdate
+			LastUpdate = page.LastUpdate,
+			LanguageCode = page.LanguageCode
 		};
 	}
 

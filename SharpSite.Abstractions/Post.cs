@@ -30,6 +30,9 @@ public class Post
 	[Required]
 	public DateTimeOffset LastUpdate { get; set; } = DateTimeOffset.Now;
 
+	[Required, MaxLength(11)]
+	public string LanguageCode { get; set; } = "en";
+
 	public static string GetSlug(string title)
 	{
 		var slug = title.ToLower().Replace(" ", "-");
