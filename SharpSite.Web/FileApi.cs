@@ -43,13 +43,13 @@ public static class FileApi
 		});
 
 		// Need to add a POST endpoint to upload files that is limited to members of the "Admin" role
-		filesGroup.MapPost("/", async (FileData file, HttpContextAccessor context) =>
+		filesGroup.MapPost("/", async (FileData file, HttpContext context) =>
 		{
 			var fileProvider = pluginManager.GetPluginProvidedService<IHandleFileStorage>();
 			await fileProvider!.AddFile(file);
 
 			// generate the base of the URL using HttpContextAccessor to get the host and port
-			var path = $"{context.HttpContext!.Request.Scheme}://{context.HttpContext.Request.Host}/api/files/{file.Metadata.FileName}";
+			var path = $"{context.Request.Scheme}://{context.Request.Host}/api/files/{file.Metadata.FileName}";
 			return Results.Ok(path);
 		}).RequireAuthorization(Constants.Roles.AllUsers);
 

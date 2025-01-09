@@ -1,25 +1,80 @@
 @using PSC.Blazor.Components.MarkdownEditor
+@using PSC.Blazor.Components.MarkdownEditor.EventsArgs
+@using PSC.Blazor.Components.MarkdownEditor.Models
+@using SharpSite.Abstractions.FileStorage
+@inject PluginManager pluginManager
 
-<MarkdownEditor @bind-Value="@MyContent" HideIcons="@(["mde-tb-image"])"  />
+
+<MarkdownEditor @bind-Value="@MyContent"
+CustomImageUpload="@HandleImageUpload"
+ImageUploadChanged="@OnImageUploadChanged"
+ImageUploadStarted="@OnImageUploadStarted"
+ImageUploadProgressed="@OnImageUploadProgressed"
+ImageUploadEnded="@OnImageUploadEnded"
+UploadImage="true" />
 
 @code {
 
-		private string _Content = string.Empty;
-		private string MyContent
+	private string _Content = string.Empty;
+	private string MyContent
+	{
+		get => _Content;
+		set
 		{
-			get => _Content;
-			set
-			{
-				_Content = value;
-				ContentChanged.InvokeAsync(value);
-			}
+			_Content = value;
+			ContentChanged.InvokeAsync(value);
 		}
+	}
 
-		[Parameter, EditorRequired]
-		public string Content { get => _Content; set => _Content = value; }
-		
+	[Parameter, EditorRequired]
+	public string Content { get => _Content; set => _Content = value; }
 
-		[Parameter]
-		public EventCallback<string> ContentChanged { get; set; }
-		
+
+	[Parameter]
+	public EventCallback<string> ContentChanged { get; set; }
+
+	IHandleFileStorage? FileStorage;
+
+	protected override void OnInitialized()
+	{
+		FileStorage = pluginManager.GetPluginProvidedService<IHandleFileStorage>()s
+		base.OnInitialized();
+	}
+
+	Task<FileEntry> HandleImageUpload(MarkdownEditor editor, FileEntry file)
+	{
+		Console.WriteLine($"Image: {file.Name} Size: {file.Size}");
+
+		// TODO: Upload file here
+
+
+		FileStorage.AddFile()
+		return Task.FromResult(file);
+	}
+
+	Task OnImageUploadChanged(FileChangedEventArgs e)
+	{
+		this.StateHasChanged();
+		return Task.CompletedTask;
+	}
+
+	Task OnImageUploadStarted(FileStartedEventArgs e)
+	{
+		Console.WriteLine($"Started Image: {e.File.Name}");
+		return Task.CompletedTask;
+	}
+
+	Task OnImageUploadProgressed(FileProgressedEventArgs e)
+	{
+		Console.WriteLine($"Image: {e.File.Name} Progress: {(int)e.Percentage}");
+		return Task.CompletedTask;
+	}
+
+	Task OnImageUploadEnded(FileEndedEventArgs e)
+	{
+		Console.WriteLine($"Finished Image: {e.File.Name}, Success: {e.Success}");
+		Console.WriteLine($"Invalid reason: {e.FileInvalidReason}");
+		return Task.CompletedTask;
+	}
+
 }

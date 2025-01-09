@@ -10,16 +10,16 @@
 @if (Page != null)
 {
 	<div class="form-group">
-	<label for="title">@Localizer[SharedResource.sharpsite_editpost_title]</label>
+	<label for="title">@SharedResource.sharpsite_editpost_title</label>
 	<br/>
 	<input type="text" class="form-control" id="title" @bind="Page.Title" />
 </div>
 	<div class="form-group">
-	<label for="content">@Localizer[SharedResource.sharpsite_editpost_content]</label>
+	<label for="content">@SharedResource.sharpsite_editpost_content</label>
 	<br/>
 	<TextEditor @bind-Content="@Page.Content" />
 </div>
-	<button class="btn btn-primary my-2" @onclick="SavePage">@Localizer[SharedResource.sharpsite_save]</button>
+	<button class="btn btn-primary my-2" @onclick="SavePage">@SharedResource.sharpsite_save</button>
 }
 
 @code {
@@ -35,7 +35,7 @@
 		if (Id != 0)
 		{
 			Page = await PageRepository.GetPage(Id);
-			ThisPageTitle = Localizer["sharpsite_editpage"];
+			ThisPageTitle = SharedResource.sharpsite_editpage;
 		}
 		else
 		{
@@ -46,7 +46,7 @@
 					Content = "",
 					LastUpdate = DateTimeOffset.Now
 				};
-			ThisPageTitle = Localizer["sharpsite_newpage"];
+			ThisPageTitle = SharedResource.sharpsite_newpage;
 		}
 	}
 
