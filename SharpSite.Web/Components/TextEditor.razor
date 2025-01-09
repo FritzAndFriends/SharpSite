@@ -37,7 +37,7 @@ UploadImage="true" />
 
 	protected override void OnInitialized()
 	{
-		FileStorage = pluginManager.GetPluginProvidedService<IHandleFileStorage>()s
+		FileStorage = pluginManager.GetPluginProvidedService<IHandleFileStorage>();
 		base.OnInitialized();
 	}
 
@@ -45,10 +45,11 @@ UploadImage="true" />
 	{
 		Console.WriteLine($"Image: {file.Name} Size: {file.Size}");
 
-		// TODO: Upload file here
+		// COnvert the base64 string to a byte array and load it into a memory stream
+		var bytes = Convert.FromBase64String(file.ContentBase64);
+		var stream = new MemoryStream(bytes);
 
-
-		FileStorage.AddFile()
+		var fileName = FileStorage!.AddFile(new FileData(stream, new FileMetaData(file.Name, "", file.LastModified)));
 		return Task.FromResult(file);
 	}
 

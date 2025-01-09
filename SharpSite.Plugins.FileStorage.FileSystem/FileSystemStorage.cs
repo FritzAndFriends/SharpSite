@@ -21,7 +21,7 @@ public partial class FileSystemStorage : IHandleFileStorage
 		_BaseFolder = pluginManager.GetDirectoryInPluginsFolder(Configuration.BaseFolderName);
 	}
 
-	public async Task AddFile(FileData file)
+	public async Task<string> AddFile(FileData file)
 	{
 
 		ArgumentNullException.ThrowIfNull(file, nameof(file));
@@ -36,6 +36,8 @@ public partial class FileSystemStorage : IHandleFileStorage
 		var path = Path.Combine(_BaseFolder.FullName, file.Metadata.FileName);
 		using var fileStream = File.Create(path);
 		await file.File.CopyToAsync(fileStream);
+
+		return file.Metadata.FileName;
 
 	}
 
