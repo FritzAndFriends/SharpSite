@@ -3,14 +3,11 @@
 @using PSC.Blazor.Components.MarkdownEditor.Models
 @using SharpSite.Abstractions.FileStorage
 @inject PluginManager pluginManager
+@inject NavigationManager NavigationManager
 
 
 <MarkdownEditor @bind-Value="@MyContent"
 CustomImageUpload="@HandleImageUpload"
-ImageUploadChanged="@OnImageUploadChanged"
-ImageUploadStarted="@OnImageUploadStarted"
-ImageUploadProgressed="@OnImageUploadProgressed"
-ImageUploadEnded="@OnImageUploadEnded"
 UploadImage="true" />
 
 @code {
@@ -41,7 +38,7 @@ UploadImage="true" />
 		base.OnInitialized();
 	}
 
-	Task<FileEntry> HandleImageUpload(MarkdownEditor editor, FileEntry file)
+	async Task<FileEntry> HandleImageUpload(MarkdownEditor editor, FileEntry file)
 	{
 		Console.WriteLine($"Image: {file.Name} Size: {file.Size}");
 
@@ -49,33 +46,9 @@ UploadImage="true" />
 		var bytes = Convert.FromBase64String(file.ContentBase64);
 		var stream = new MemoryStream(bytes);
 
-		var fileName = FileStorage!.AddFile(new FileData(stream, new FileMetaData(file.Name, "", file.LastModified)));
-		return Task.FromResult(file);
-	}
-
-	Task OnImageUploadChanged(FileChangedEventArgs e)
-	{
-		this.StateHasChanged();
-		return Task.CompletedTask;
-	}
-
-	Task OnImageUploadStarted(FileStartedEventArgs e)
-	{
-		Console.WriteLine($"Started Image: {e.File.Name}");
-		return Task.CompletedTask;
-	}
-
-	Task OnImageUploadProgressed(FileProgressedEventArgs e)
-	{
-		Console.WriteLine($"Image: {e.File.Name} Progress: {(int)e.Percentage}");
-		return Task.CompletedTask;
-	}
-
-	Task OnImageUploadEnded(FileEndedEventArgs e)
-	{
-		Console.WriteLine($"Finished Image: {e.File.Name}, Success: {e.Success}");
-		Console.WriteLine($"Invalid reason: {e.FileInvalidReason}");
-		return Task.CompletedTask;
+		var fileName = await FileStorage!.AddFile(new FileData(stream, new FileMetaData(file.Name, "", file.LastModified)));
+		file.UploadUrl = new Uri(new Uri(NavigationManager.BaseUri), $"/api/files/{fileName}").ToString();
+		return file;
 	}
 
 }

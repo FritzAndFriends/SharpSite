@@ -41,6 +41,8 @@ public partial class FileSystemStorage : IHandleFileStorage
 
 	}
 
+
+	private static object _FileReadLock = new object();
 	public Task<FileData> GetFile(string filename)
 	{
 
@@ -51,8 +53,9 @@ public partial class FileSystemStorage : IHandleFileStorage
 		if (!File.Exists(path)) return Task.FromResult(FileData.Missing);
 
 		var memoryStream = new MemoryStream();
-		using (var file = File.Open(path, FileMode.Open))
+		lock (_FileReadLock)
 		{
+			using var file = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
 			file.CopyTo(memoryStream);
 			memoryStream.Position = 0;
 		}
