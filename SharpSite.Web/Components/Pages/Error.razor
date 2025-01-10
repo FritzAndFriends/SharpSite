@@ -1,12 +1,13 @@
 ﻿@page "/Error"
 @using System.Diagnostics
 @using System.Net
+@using Microsoft.AspNetCore.Diagnostics
 
 <PageTitle>Error</PageTitle>
 
-@if (StatusCode == HttpStatusCode.NotFound.ToString())
+@if (StatusCode == "404")
 {
-	<PageNotFound />
+	<PageNotFound PageRequested="@OriginalUrlRequested" />
 } else 
 {
 	<h1 class="text-danger">An error occurred while processing your request.</h1>
@@ -44,8 +45,16 @@
 	private string? requestId;
 	private bool ShowRequestId => !string.IsNullOrEmpty(requestId);
 
+	public string OriginalUrlRequested { get; set; } = string.Empty;
+
 	protected override void OnInitialized()
 	{
 		requestId = Activity.Current?.Id ?? HttpContext?.TraceIdentifier;
+
+		if (HttpContext is not null) {
+		 var feature = HttpContext.Features.Get<IStatusCodeReExecuteFeature>();
+     OriginalUrlRequested = feature?.OriginalPath ?? string.Empty;
+		}
+
 	}
 }

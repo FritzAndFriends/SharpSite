@@ -56,7 +56,6 @@ app.UseHttpsRedirection();
 
 app.ConfigurePluginFileSystem();
 
-app.UseAntiforgery();
 
 app.UseOutputCache();
 
@@ -72,6 +71,7 @@ app.MapRazorComponents<App>()
 		//typeof(Sample.FirstThemePlugin.Theme).Assembly
 		);
 
+app.UseAntiforgery();
 pgSecurity.MapEndpoints(app);
 
 app.MapSiteMap();
