@@ -23,7 +23,9 @@ public interface IHandleFileStorage
 	/// <summary>
 	/// Add a file to storage
 	/// </summary>
-	Task AddFile(FileData file);
+	/// <param name="file">The file to add</param>
+	/// <returns>The name of the file that was added</returns>
+	Task<string> AddFile(FileData file);
 
 	/// <summary>
 	/// Remove a file from storage

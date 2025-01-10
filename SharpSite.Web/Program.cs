@@ -21,6 +21,8 @@ var appState = builder.AddPluginManagerAndAppState();
 // add the custom localization features for the application framework
 builder.ConfigureRequestLocalization();
 
+builder.Services.AddHttpContextAccessor();
+
 // Add service defaults & Aspire components.
 builder.AddServiceDefaults();
 // Configure larger messages to allow upload of packages

@@ -30,24 +30,33 @@ public static class FileApi
 					return Results.Ok(files);
 				});
 
-		filesGroup.MapGet("{*path}", async (string path) =>
+		filesGroup.MapGet("/{*path}", async (string path, HttpContext context) =>
 		{
 
 			var fileProvider = pluginManager.GetPluginProvidedService<IHandleFileStorage>();
 			var fileInfo = await fileProvider!.GetFile(path);
-			if (fileInfo != FileData.Missing)
+			if (fileInfo == FileData.Missing)
 			{
 				return Results.NotFound();
 			}
-			return Results.File(fileInfo.File, fileInfo.Metadata.ContentType, fileInfo.Metadata.FileName, fileInfo.Metadata.CreateDate);
+
+			context.Response.Headers.Append("Cache-control", "max-age: 3600, public");
+			return Results.File(
+				fileInfo.File,
+				fileInfo.Metadata.ContentType,
+				fileInfo.Metadata.FileName,
+				fileInfo.Metadata.CreateDate);
 		});
 
 		// Need to add a POST endpoint to upload files that is limited to members of the "Admin" role
-		filesGroup.MapPost("/", async (FileData file) =>
+		filesGroup.MapPost("/", async (FileData file, HttpContext context) =>
 		{
 			var fileProvider = pluginManager.GetPluginProvidedService<IHandleFileStorage>();
 			await fileProvider!.AddFile(file);
-			return Results.Created($"/api/files/{file.Metadata.FileName}", file.Metadata);
+
+			// generate the base of the URL using HttpContextAccessor to get the host and port
+			var path = $"{context.Request.Scheme}://{context.Request.Host}/api/files/{file.Metadata.FileName}";
+			return Results.Ok(path);
 		}).RequireAuthorization(Constants.Roles.AllUsers);
 
 		// need to add a PUT endpoint to update files that is limited to members of the "Admin" role

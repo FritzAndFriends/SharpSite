@@ -114,7 +114,8 @@ public class PluginManager(
 		}
 
 		logger.LogInformation("Plugin {PluginName} saved and registered.", plugin.Name);
-		// Add your logic to save the plugin here
+
+		_ServiceProvider = _ServiceDescriptors.BuildServiceProvider();
 
 		CleanupCurrentUploadedPlugin();
 	}
