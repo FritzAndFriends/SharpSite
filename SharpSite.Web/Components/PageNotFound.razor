@@ -1,4 +1,7 @@
 @using System.Net
+@inject ILogger<PageNotFound> Logger
+
+
 <PageTitle>@Localizer[SharedResource.sharpsite_pagenotfound]</PageTitle>
 
 <h1>@Localizer[SharedResource.sharpsite_pagenotfound]</h1>
@@ -23,6 +26,12 @@
 		if (HttpContext is not null)
 			HttpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
 		base.OnInitialized();
+	}
+
+	protected override void OnParametersSet()
+	{
+		Logger.LogError("Page {0} requested and not available", PageRequested);
+		base.OnParametersSet();
 	}
 
 
