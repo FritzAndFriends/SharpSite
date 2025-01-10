@@ -259,6 +259,42 @@ namespace SharpSite.Web.Locales {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select the default language.
+        /// </summary>
+        internal static string sharpsite_lang_default_label {
+            get {
+                return ResourceManager.GetString("sharpsite_lang_default_label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language Settings.
+        /// </summary>
+        internal static string sharpsite_lang_heading {
+            get {
+                return ResourceManager.GetString("sharpsite_lang_heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If no options are selected, it is equivalent to selecting all options..
+        /// </summary>
+        internal static string sharpsite_lang_supported_help_text {
+            get {
+                return ResourceManager.GetString("sharpsite_lang_supported_help_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the supported languages.
+        /// </summary>
+        internal static string sharpsite_lang_supported_label {
+            get {
+                return ResourceManager.GetString("sharpsite_lang_supported_label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading....
         /// </summary>
         internal static string sharpsite_loading {
@@ -516,6 +552,24 @@ namespace SharpSite.Web.Locales {
         internal static string sharpsite_remove {
             get {
                 return ResourceManager.GetString("sharpsite_remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The file aleady contains the following:.
+        /// </summary>
+        internal static string sharpsite_robotstxt_help_text {
+            get {
+                return ResourceManager.GetString("sharpsite_robotstxt_help_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Robots.txt Content.
+        /// </summary>
+        internal static string sharpsite_robotstxt_label {
+            get {
+                return ResourceManager.GetString("sharpsite_robotstxt_label", resourceCulture);
             }
         }
         

@@ -362,4 +362,32 @@
     <value>Aspetto del sito</value>
     <comment>AI generated translation</comment>
   </data>
+  <data name="sharpsite_useradmin" xml:space="preserve">
+    <value>Amministratore Utente</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_lang_supported_label" xml:space="preserve">
+    <value>Seleziona le lingue supportate.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_lang_default_label" xml:space="preserve">
+    <value>Seleziona la lingua predefinita</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_lang_heading" xml:space="preserve">
+    <value>Impostazioni lingua</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_lang_supported_help_text" xml:space="preserve">
+    <value>Se nessuna opzione viene selezionata, equivale a selezionare tutte le opzioni.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_robotstxt_label" xml:space="preserve">
+    <value>Aggiungi al file Robots.txt</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
+    <value>Il file contiene già quanto segue:</value>
+    <comment>AI generated translation</comment>
+  </data>
 </root>

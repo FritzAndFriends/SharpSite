@@ -320,4 +320,32 @@
     <value>Aparença del lloc web</value>
     <comment>AI generated translation</comment>
   </data>
+  <data name="sharpsite_useradmin" xml:space="preserve">
+    <value>Administrador d'usuari</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_lang_supported_label" xml:space="preserve">
+    <value>Selecciona els idiomes suportats</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_lang_default_label" xml:space="preserve">
+    <value>Selecciona l'idioma per defecte.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_lang_heading" xml:space="preserve">
+    <value>Configuració d'idioma.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_lang_supported_help_text" xml:space="preserve">
+    <value>Si no es selecciona cap opció, és equivalent a seleccionar totes les opcions.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_robotstxt_label" xml:space="preserve">
+    <value>Afegiu al fitxer Robots.txt</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
+    <value>El fitxer ja conté el següent:</value>
+    <comment>AI generated translation</comment>
+  </data>
 </root>

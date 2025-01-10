@@ -63,6 +63,12 @@
           "Microsoft.Extensions.Options": "9.0.0"
         }
       },
+      "Newtonsoft.Json": {
+        "type": "Direct",
+        "requested": "[13.0.3, )",
+        "resolved": "13.0.3",
+        "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
+      },
       "PSC.Blazor.Components.MarkdownEditor": {
         "type": "Direct",
         "requested": "[8.0.5, )",
@@ -765,11 +771,28 @@
         "type": "Project",
         "dependencies": {
           "Microsoft.Extensions.Hosting.Abstractions": "[9.0.0, )",
+          "SharpSite.Abstractions.Base": "[1.0.0, )",
+          "SharpSite.Abstractions.FileStorage": "[1.0.0, )",
           "SharpSite.Abstractions.Theme": "[1.0.0, )"
         }
       },
+      "sharpsite.abstractions.base": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.Extensions.Hosting.Abstractions": "[9.0.0, )"
+        }
+      },
+      "sharpsite.abstractions.filestorage": {
+        "type": "Project",
+        "dependencies": {
+          "SharpSite.Abstractions.Base": "[1.0.0, )"
+        }
+      },
       "sharpsite.abstractions.theme": {
-        "type": "Project"
+        "type": "Project",
+        "dependencies": {
+          "SharpSite.Abstractions.Base": "[1.0.0, )"
+        }
       },
       "sharpsite.data.postgres": {
         "type": "Project",

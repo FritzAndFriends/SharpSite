@@ -323,4 +323,32 @@
     <value>Изглед на сайта</value>
     <comment>AI generated translation</comment>
   </data>
+  <data name="sharpsite_useradmin" xml:space="preserve">
+    <value>Потребителски администратор</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_lang_supported_label" xml:space="preserve">
+    <value>Изберете поддържаните езици.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_lang_default_label" xml:space="preserve">
+    <value>Изберете езика по подразбиране.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_lang_heading" xml:space="preserve">
+    <value>Настройки на езика</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_lang_supported_help_text" xml:space="preserve">
+    <value>Ако не се изберат опции, това е еквивалентно на избора на всички опции.</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_robotstxt_label" xml:space="preserve">
+    <value>Добавяне към файлът Robots.txt</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
+    <value>Файлът вече съдържа следното:</value>
+    <comment>AI generated translation</comment>
+  </data>
 </root>

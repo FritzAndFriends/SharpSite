@@ -344,4 +344,28 @@
   <data name="sharpsite_site_appearance_admin" xml:space="preserve">
     <value>Site appearance</value>
   </data>
+  <data name="sharpsite_lang_supported_label" xml:space="preserve">
+    <value>Select the supported languages</value>
+    <comment>Label for admin setting for supported localized languages for SharpSite</comment>
+  </data>
+  <data name="sharpsite_lang_default_label" xml:space="preserve">
+    <value>Select the default language</value>
+    <comment>Label for admin setting for the default localized language</comment>
+  </data>
+  <data name="sharpsite_lang_heading" xml:space="preserve">
+    <value>Language Settings</value>
+    <comment>Heading for the language/culture settings</comment>
+  </data>
+  <data name="sharpsite_lang_supported_help_text" xml:space="preserve">
+    <value>If no options are selected, it is equivalent to selecting all options.</value>
+    <comment>Help text for supported languages admin setting</comment>
+  </data>
+  <data name="sharpsite_robotstxt_label" xml:space="preserve">
+    <value>Robots.txt Content</value>
+    <comment>Label for robots.txt content admin setting</comment>
+  </data>
+  <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
+    <value>The file aleady contains the following:</value>
+    <comment>Help text for robots.txt content admin setting</comment>
+  </data>
 </root>

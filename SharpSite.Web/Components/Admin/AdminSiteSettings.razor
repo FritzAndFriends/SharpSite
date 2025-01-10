@@ -1,27 +1,81 @@
 @using Microsoft.AspNetCore.SignalR
 @using Microsoft.Extensions.Options
 @using System.ComponentModel.DataAnnotations
+@using Locales = SharpSite.Web.Locales
 @inject IOptions<HubOptions> HubOptions
+@inject IOptions<RequestLocalizationOptions> LocalizationOptions
 @inject ApplicationState ApplicationState
+@inject NavigationManager Navigation
 @rendermode @(new InteractiveServerRenderMode(true))
 
 <AuthorizeView Roles="@Constants.Roles.Admin" Context="AuthorizeContext">
 	<h3>
-		@Localizer[SharedResource.sharpsite_sitesettings]</h3>
+		@Localizer[SharedResource.sharpsite_sitesettings]
+	</h3>
 
 	<EditForm Model="Model">
 		<DataAnnotationsValidator />
 
-		<label for="maxsize">
-			@Localizer[SharedResource.sharpsite_maxupload_label]</label>
+		<div class="mb-2">
+			<label for="maxsize">
+				@Localizer[SharedResource.sharpsite_maxupload_label]
+			</label>
 
-		<InputNumber id="maxsize" @bind-Value="Model.MaxSizeMB" /> MB
-		<p>
-			<ValidationMessage For="@(() => Model.MaxSizeMB)" />
-		</p>
-		<button class="btn btn-primary" @onclick="ChangeMaxSize">@Localizer[SharedResource.sharpsite_save]</button>
+			<InputNumber id="maxsize" @bind-Value="Model.MaxSizeMB" /> MB
+			<p>
+				<ValidationMessage For="@(() => Model.MaxSizeMB)" />
+			</p>
+			<button class="btn btn-primary" @onclick="ChangeMaxSize">@Localizer[SharedResource.sharpsite_save]</button>
+		</div>
 
+		<div class="col-lg-8 mb-2">
+			<h4>@Localizer[SharedResource.sharpsite_lang_heading]</h4>
+			<div class="mb-2">
+				<label for="default-culture-select" class="form-label">
+					@Localizer[SharedResource.sharpsite_lang_default_label]
+				</label>
+				<InputSelect id="default-culture-select" @bind-Value="Model.DefaultCulture" class="form-select">
+					@foreach (var culture in Locales.Configuration.SupportedCultures.OrderBy(c => c))
+					{
+						var thisCulture = CultureInfo.GetCultureInfo(culture);
+						<option value="@culture" disabled="@(Model.SupportedCultures?.Length == 0 ? false : !Model.SupportedCultures?.Contains(culture))">
+							@thisCulture.DisplayName &#40; @thisCulture.NativeName &#41;
+						</option>
+					}
+				</InputSelect>
+			</div>
+			<div>
+				<label for="supported-cultures-select" class="form-label">
+					@Localizer[SharedResource.sharpsite_lang_supported_label]
+				</label>
+				<select id="supported-cultures-select" multiple @onchange="OnCultureChanged" class="form-select">
+					@foreach (var culture in Locales.Configuration.SupportedCultures.OrderBy(c => c))
+					{
+						var thisCulture = CultureInfo.GetCultureInfo(culture);
+						<option value="@culture" selected="@(Model.SupportedCultures?.Contains(culture))">
+							@thisCulture.DisplayName &#40; @thisCulture.NativeName &#41;
+						</option>
+					}
+				</select>
+				<small class="text-muted">@Localizer[SharedResource.sharpsite_lang_supported_help_text]</small>
+			</div>
+			<button class="btn btn-primary mt-2" @onclick="ChangeCultureSettings">@Localizer[SharedResource.sharpsite_save]</button>
+		</div>
 
+		<div class="col-lg-8 mb-4">
+			<h4>Robots.txt</h4>
+			<p>
+				@Localizer[SharedResource.sharpsite_robotstxt_help_text]
+				<pre><code>User-agent: *</code>&#10;<code>Disallow: /Admin/</code>&#10;<code>Sitemap: &lt;your-domain&gt;/sitemap.xml</code></pre>
+			</p>
+			<label for="robots-txt-content-textarea" class="form-label">@Localizer[SharedResource.sharpsite_robotstxt_label]</label>
+			<InputTextArea id="robots-txt-content-textarea"
+			class="form-control"
+			rows="3"
+			@bind-Value="Model.RobotsTxtCustomContent"
+			placeholder="User-agent: Example-Bot&#10;Disallow: /&#10;Allow: /for-example-bot"></InputTextArea>
+			<button class="btn btn-primary mt-2" @onclick="ChangeRobotsTxtContent">@Localizer[SharedResource.sharpsite_save]</button>
+		</div>
 	</EditForm>
 
 </AuthorizeView>
@@ -32,8 +86,14 @@
 
 	protected override void OnInitialized()
 	{
+
 		Model.MaxSizeMB = ApplicationState.MaximumUploadSizeMB;
+		Model.DefaultCulture = ApplicationState.Localization?.DefaultCulture ?? "en";
+		Model.SupportedCultures = ApplicationState.Localization?.SupportedCultures;
+		Model.RobotsTxtCustomContent = ApplicationState.RobotsTxtCustomContent;
+
 		base.OnInitialized();
+
 	}
 
 	private async Task ChangeMaxSize(MouseEventArgs e)
@@ -47,11 +107,52 @@
 
 	}
 
+	private void OnCultureChanged(ChangeEventArgs e)
+	{
+
+		string[]? selectedCultures = e.Value as string[];
+		Model.SupportedCultures = selectedCultures?.Length > 0 ? selectedCultures : null;
+		if (Model.SupportedCultures?.Length > 0 && !Model.SupportedCultures.Contains(Model.DefaultCulture))
+		{
+			Model.DefaultCulture = Model.SupportedCultures.First();
+		}
+
+	}
+
+	private async Task ChangeCultureSettings(MouseEventArgs e)
+	{
+
+		ApplicationState.Localization = new(Model.DefaultCulture, Model.SupportedCultures);
+		if (!string.IsNullOrEmpty(Model.DefaultCulture))
+		{
+			LocalizationOptions.Value.SetDefaultCulture(Model.DefaultCulture);
+		}
+		LocalizationOptions.Value.SupportedCultures = [];
+		LocalizationOptions.Value.AddSupportedCultures(ApplicationState.Localization.SupportedCultures ?? Locales.Configuration.SupportedCultures);
+
+		await ApplicationState.Save();
+		Navigation.Refresh();
+
+	}
+
+	private async Task ChangeRobotsTxtContent(MouseEventArgs e)
+	{
+
+		ApplicationState.RobotsTxtCustomContent = string.IsNullOrEmpty(Model.RobotsTxtCustomContent) ? null : Model.RobotsTxtCustomContent;
+		await ApplicationState.Save();
+
+	}
+
 	public class ViewModel
 	{
 		[Range(1, 100), Required]
 		public long MaxSizeMB { get; set; }
-	}
 
+		public string[]? SupportedCultures { get; set; }
+
+		public string? DefaultCulture { get; set; }
+
+		public string? RobotsTxtCustomContent { get; set; }
+	}
 
 }

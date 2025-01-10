@@ -1,15 +1,11 @@
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.FileProviders;
 using SharpSite.Data.Postgres;
 using SharpSite.Security.Postgres;
 using SharpSite.Web;
 using SharpSite.Web.Components;
 using SharpSite.Web.Locales;
-using SharpSite.Plugins;
 
 var builder = WebApplication.CreateBuilder(args);
-
-PluginManager.Initialize();
 
 // Load plugins for postgres
 #region Postgres Plugins
@@ -20,22 +16,18 @@ var pgSecurity = new RegisterPostgresSecurityServices();
 pgSecurity.RegisterServices(builder);
 #endregion
 
-// Configure applicatin state and the PluginManager
-var appState = new ApplicationState();
-await appState.Load();
-builder.Services.AddSingleton(appState);
-builder.Services.AddSingleton<PluginAssemblyManager>();
-builder.Services.AddSingleton<PluginManager>();
+var appState = builder.AddPluginManagerAndAppState();
 
 // add the custom localization features for the application framework
 builder.ConfigureRequestLocalization();
+
+builder.Services.AddHttpContextAccessor();
 
 // Add service defaults & Aspire components.
 builder.AddServiceDefaults();
 // Configure larger messages to allow upload of packages
 builder.Services.Configure<HubOptions>(options =>
 {
-	options.MaximumReceiveMessageSize = 1024 * 1024 * appState.MaximumUploadSizeMB; // 1MB or use null
 	options.EnableDetailedErrors = true;
 });
 
@@ -62,16 +54,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
-var pluginRoot = new PhysicalFileProvider(
-	Path.Combine(app.Environment.ContentRootPath, @"plugins/_wwwroot"));
-app.UseStaticFiles();
-app.UseStaticFiles(new StaticFileOptions()
-{
-	FileProvider = pluginRoot,
-	RequestPath = "/plugins"
-
-});
+app.ConfigurePluginFileSystem();
 
 app.UseAntiforgery();
 
@@ -79,6 +62,8 @@ app.UseOutputCache();
 
 // add error handlers for page not found
 app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}");
+
+var pluginManager = await app.ActivatePluginManager(appState);
 
 app.MapRazorComponents<App>()
 		.AddInteractiveServerRenderMode()
@@ -98,8 +83,6 @@ app.UseRequestLocalization();
 
 await pgSecurity.RunAtStartup(app.Services);
 
-// Use DI to get the logger
-var pluginManager = app.Services.GetRequiredService<PluginManager>();
-await pluginManager.LoadPluginsAtStartup();
+app.MapFileApi(pluginManager);
 
 app.Run();

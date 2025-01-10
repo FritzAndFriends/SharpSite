@@ -1,4 +1,5 @@
-﻿<ul class="nav nav-pills flex-column">
+﻿@inject ApplicationState AppState
+<ul class="nav nav-pills flex-column">
 
 	<AuthorizeView Roles="@Constants.Roles.AllUsers">
 		<li class="nav-item">
@@ -27,22 +28,26 @@
 				@Localizer[SharedResource.sharpsite_useradmin]
 			</NavLink>
 		</li>
-	</AuthorizeView>
-
-	<AuthorizeView Roles="@Constants.Roles.Admin">
 		<li class="nav-item">
 			<NavLink class="nav-link" href="/admin/site" Match="NavLinkMatch.All">
 				@Localizer[SharedResource.sharpsite_site_appearance_admin]
 			</NavLink>
 		</li>
-	</AuthorizeView>
-
-	<AuthorizeView Roles="@Constants.Roles.Admin">
 		<li class="nav-item">
 			<NavLink class="nav-link" href="/admin/plugins">
 				@Localizer[SharedResource.sharpsite_pluginmanagement]
 			</NavLink>
 		</li>
+
+		@foreach (var configSection in AppState.ConfigurationSections)
+		{
+			<li class="nav-item">
+				<NavLink class="nav-link" href="@($"/admin/pluginconfig/{configSection.Key}")">
+					@configSection.Key
+				</NavLink>
+			</li>
+		}
+
 	</AuthorizeView>
 
 </ul>
