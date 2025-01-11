@@ -79,6 +79,28 @@ dotnet dev-certs https --check --trust
 dotnet run
 ```
 
+## Keeping your local code up to date
+
+You should run a few commands periodically to ensure that your local code is updated with the current changes in the main repsitory.
+
+### Update your local code from the shared repository
+
+The sample command updates the **main** branch.  You can run this for other feature branches that you are tracking and working with
+
+```
+git checkout main
+git pull upstream
+```
+
+### Merge changes from another branch into your local working branch
+
+You should bring the latest commits from the shared branch into your feature branch to minimize the conflicts when you are ready to share your code with the rest of the project team.  This sample checks out your work in the **feature_MY-WORKING-BRANCH** branch and merges the latest updates from the **main** branch 
+
+```
+git checkout feature_MY-WORKING-BRANCH
+git merge main
+```
+
 ## Default User
 
 The default user that is built and initialized in SharpSite is an Administrator and has these credentials:
