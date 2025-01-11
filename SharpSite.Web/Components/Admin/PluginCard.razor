@@ -4,7 +4,11 @@
 		<span>&mdash;</span>
 		<small>@Plugin.Version</small>
 	</div>
-	<img src="@Plugin.Icon" alt="@Localizer[SharedResource.sharpsite_plugin_icon]" class="card-img-top"/>
+	<img 
+		src="@(string.IsNullOrEmpty(Plugin.Icon) ? "plugin-icon.webp" : Plugin.Icon)"
+		onerror="this.onerror=null;this.src='plugin-icon.webp';"
+		alt="@Localizer[SharedResource.sharpsite_plugin_icon]" 
+		class="card-img-top"/>
 	<div class="card-body">
 		<p class="card-text">@Plugin.Description</p>
 	</div>
