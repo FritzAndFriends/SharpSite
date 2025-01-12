@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SharpSite.Abstractions;
+using SharpSite.Abstractions.Base;
 using System.Diagnostics;
 using Constants = SharpSite.Abstractions.Constants;
 

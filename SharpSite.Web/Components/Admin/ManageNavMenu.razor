@@ -1,11 +1,10 @@
-﻿@using Microsoft.AspNetCore.Identity
-
+﻿@inject ApplicationState AppState
 <ul class="nav nav-pills flex-column">
 
 	<AuthorizeView Roles="@Constants.Roles.AllUsers">
 		<li class="nav-item">
 			<NavLink class="nav-link" href="/admin" Match="NavLinkMatch.All">
-				General
+				@Localizer[SharedResource.sharpsite_generaladmin]
 			</NavLink>
 		</li>
 	</AuthorizeView>
@@ -13,38 +12,42 @@
 	<AuthorizeView Roles="@Constants.Roles.Admin">
 		<li class="nav-item">
 			<NavLink class="nav-link" href="/admin/pages" Match="NavLinkMatch.All">
-				@Localizer["sharpsite_pageadmin"]
+				@Localizer[SharedResource.sharpsite_pageadmin]
 			</NavLink>
 		</li>
 	</AuthorizeView>
 	<li class="nav-item">
 		<NavLink class="nav-link" href="/admin/posts" Match="NavLinkMatch.All">
-			@Localizer["sharpsite_postsadmin"]
+			@Localizer[SharedResource.sharpsite_postsadmin]
 		</NavLink>
 	</li>
 
 	<AuthorizeView Roles="@Constants.Roles.Admin">
-		<li class="nav-iten">
+		<li class="nav-item">
 			<NavLink class="nav-link" href="/admin/users">
-				User Admin
+				@Localizer[SharedResource.sharpsite_useradmin]
 			</NavLink>
 		</li>
-	</AuthorizeView>
-
-	<AuthorizeView Roles="@Constants.Roles.Admin">
 		<li class="nav-item">
 			<NavLink class="nav-link" href="/admin/site" Match="NavLinkMatch.All">
-				Site Appearance
+				@Localizer[SharedResource.sharpsite_site_appearance_admin]
 			</NavLink>
 		</li>
-	</AuthorizeView>
-
-	<AuthorizeView Roles="@Constants.Roles.Admin">
-		<li class="nav-iten">
+		<li class="nav-item">
 			<NavLink class="nav-link" href="/admin/plugins">
-				@Localizer["sharpsite_pluginmanagement"]
+				@Localizer[SharedResource.sharpsite_pluginmanagement]
 			</NavLink>
 		</li>
+
+		@foreach (var configSection in AppState.ConfigurationSections)
+		{
+			<li class="nav-item">
+				<NavLink class="nav-link" href="@($"/admin/pluginconfig/{configSection.Key}")">
+					@configSection.Key
+				</NavLink>
+			</li>
+		}
+
 	</AuthorizeView>
 
 </ul>

@@ -67,8 +67,23 @@
         "resolved": "9.0.0",
         "contentHash": "N3qEBzmLMYiASUlKxxFIISP4AiwuPTHF5uCh+2CWSwwzAJiIYx0kBJsS30cp1nvhSySFAVi30jecD307jV+8Kg=="
       },
+      "sharpsite.abstractions.base": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.Extensions.Hosting.Abstractions": "[9.0.0, )"
+        }
+      },
+      "sharpsite.abstractions.filestorage": {
+        "type": "Project",
+        "dependencies": {
+          "SharpSite.Abstractions.Base": "[1.0.0, )"
+        }
+      },
       "sharpsite.abstractions.theme": {
-        "type": "Project"
+        "type": "Project",
+        "dependencies": {
+          "SharpSite.Abstractions.Base": "[1.0.0, )"
+        }
       }
     }
   }
