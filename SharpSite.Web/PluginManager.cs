@@ -288,7 +288,7 @@ public class PluginManager(
 
 	}
 
-	private void CleanupCurrentUploadedPlugin()
+	public void CleanupCurrentUploadedPlugin()
 	{
 		plugin = null;
 		Manifest = null;
