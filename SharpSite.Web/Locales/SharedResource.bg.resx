@@ -352,9 +352,12 @@
     <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
-    <value xml:space="preserve">Персонализиране на съдържанието "Страница не е намерена"</value>
+    <value xml:space="preserve">Персонализиране на съдържанието на страницата "Не е намерена"</value>
   </data>
   <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
-    <value xml:space="preserve">Персонализирайте съдържанието за страницата "Страницата не е намерена".</value>
+    <value xml:space="preserve">Персонализирайте съдържанието за страницата "страницата не е намерена"</value>
+  </data>
+  <data name="sharpsite_ChangeTheme">
+    <value xml:space="preserve">Промени Темата</value>
   </data>
 </root>

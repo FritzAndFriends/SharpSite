@@ -323,9 +323,12 @@
     <value>Tiedosto sisältää jo seuraavan:</value>
   </data>
   <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
-    <value xml:space="preserve">Mukauta sivua ei löytynyt -sisältöä</value>
+    <value xml:space="preserve">Mukauta Sivua ei löytynyt -sisältöä</value>
   </data>
   <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
-    <value xml:space="preserve">Mukauta sisältö "sivua ei löytynyt" -sivulle.</value>
+    <value xml:space="preserve">Mukauta sisältö "sivua ei löydy" -sivulle.</value>
+  </data>
+  <data name="sharpsite_ChangeTheme">
+    <value xml:space="preserve">Vaihda teemaa</value>
   </data>
 </root>

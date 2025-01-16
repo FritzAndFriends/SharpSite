@@ -323,12 +323,14 @@
   <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
     <value>The file already contains the following:</value>
   </data>
-	<data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
+  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
     <value>Customize Page Not Found content</value>
-    <comment>Header of the 'Customize 'Page Not Found' content editor component</comment>
   </data>
-	<data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
+  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
     <value>Customize the content for the "page not found" page</value>
-    <comment>Description of the task available in the component that allows customization of the 'Page Not Found' content</comment>
+  </data>
+   <data name="sharpsite_ChangeTheme" xml:space="preserve">
+    <value>Change Theme</value>
+    <comment>Text of the button used to change the theme of the website</comment>
   </data>
 </root>

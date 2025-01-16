@@ -348,9 +348,12 @@
     <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
-    <value xml:space="preserve">Personalizar conteúdo da Página Não Encontrada</value>
+    <value xml:space="preserve">Personalizar o conteúdo da página não encontrada.</value>
   </data>
   <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
-    <value xml:space="preserve">Personalize o conteúdo da página "página não encontrada".</value>
+    <value xml:space="preserve">Personalize o conteúdo para a página "página não encontrada"</value>
+  </data>
+  <data name="sharpsite_ChangeTheme">
+    <value xml:space="preserve">Alterar Tema</value>
   </data>
 </root>

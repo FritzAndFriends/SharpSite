@@ -348,9 +348,12 @@
     <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
-    <value xml:space="preserve">Pas de pagina niet gevonden inhoud aan</value>
+    <value xml:space="preserve">Aanpassen van Pagina Niet Gevonden inhoud.</value>
   </data>
   <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
     <value xml:space="preserve">Pas de inhoud aan voor de "pagina niet gevonden" pagina.</value>
+  </data>
+  <data name="sharpsite_ChangeTheme">
+    <value xml:space="preserve">Verander thema</value>
   </data>
 </root>

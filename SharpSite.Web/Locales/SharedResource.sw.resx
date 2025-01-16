@@ -348,9 +348,12 @@
     <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
-    <value xml:space="preserve">Kuibadilisha yaliyomo ya Ukurasa haupatikani (Page Not Found)</value>
+    <value xml:space="preserve">Sawazisha Yaliyopatikana Ukurasa wa Yaliyopatikana maudhui kwa SharpSite ni mfumo wa usimamizi wa yaliyomo wa chanzo wazi uliojengwa na C# na Blazor.</value>
   </data>
   <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
-    <value xml:space="preserve">Mipangilio maudhui ya ukurasa wa "ukurasa haupatikani"</value>
+    <value xml:space="preserve">Mbadilishe maudhui ya ukurasa wa "ukurasa haujapatikana" kulingana na mahitaji yako.</value>
+  </data>
+  <data name="sharpsite_ChangeTheme">
+    <value xml:space="preserve">Badili Mandhari</value>
   </data>
 </root>
