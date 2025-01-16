@@ -7,58 +7,52 @@
 
 <h3>@Localizer[SharedResource.sharpsite_plugin_add]</h3>
 
-<div class="form-group">
-	<label for="pluginFile">@Localizer[SharedResource.sharpsite_plugin_file]</label>
-	<InputFile class="form-control-file" id="pluginFile"
-						 accept=".sspkg" OnChange="OnInputFileChange" />
+<div class="mb-3 input-group">
+	<label class="input-group-text" for="pluginFile">@Localizer[SharedResource.sharpsite_plugin_file]</label>
+	<InputFile class="form-control" id="pluginFile" accept=".sspkg" OnChange="OnInputFileChange" />
 </div>
+
+@if (!string.IsNullOrEmpty(ErrorMessage))
+{
+	<div class="alert alert-danger">@ErrorMessage</div>
+}
 
 @if (PluginManager.Manifest != null)
 {
-	@* add the id field from the manifest*@
-	<div class="form-group">
-    <label for="pluginId">@Localizer[SharedResource.sharpsite_plugin_id]</label>
-		<input type="text" class="form-control" id="pluginId" value="@PluginManager.Manifest.Id" readonly />
-	</div>
-	<div class="form-group">
-		<label for="pluginName">@Localizer[SharedResource.sharpsite_plugin_name]</label>
-		<input type="text" class="form-control" id="pluginName" value="@PluginManager.Manifest.DisplayName" readonly />
-	</div>
-	<div class="form-group">
-		<label for="pluginVersion">@Localizer[SharedResource.sharpsite_plugin_version]</label>
-		<input type="text" class="form-control" id="pluginVersion" value="@PluginManager.Manifest.Version" readonly />
-	</div>
-	<div class="form-group">
-		<label for="pluginDescription">@Localizer[SharedResource.sharpsite_plugin_description]</label>
-		<input type="text" class="form-control" id="pluginDescription" value="@PluginManager.Manifest.Description" readonly />
-	</div>
-	<div class="form-group">
-		<label for="pluginAuthor">@Localizer[SharedResource.sharpsite_plugin_author]</label>
-		<input type="text" class="form-control" id="pluginAuthor" value="@PluginManager.Manifest.Author" readonly />
-	</div>
-	<div class="form-group">
-		<label for="pluginWebsite">@Localizer[SharedResource.sharpsite_plugin_website]</label>
-		<input type="text" class="form-control" id="pluginWebsite" value="@PluginManager.Manifest.AuthorWebsite" readonly />
-	</div>
-
-	@* add an accept and reject button *@
-	<div class="form-group">
-		<button class="btn btn-primary" @onclick="SavePlugin">@Localizer[SharedResource.sharpsite_accept]</button>
-		<button class="btn btn-danger" @onclick="RejectPlugin">@Localizer[SharedResource.sharpsite_reject]</button>
+	<div class="card mb-3">
+		<div class="card-body">
+			<div class="list-group">
+				<span class="list-group-item">@Localizer[SharedResource.sharpsite_plugin_id]</span>
+				<span class="list-group-item list-group-item-primary">@PluginManager.Manifest.Id</span>
+				<span class="list-group-item">@Localizer[SharedResource.sharpsite_plugin_name]</span>
+				<span class="list-group-item list-group-item-primary">@PluginManager.Manifest.DisplayName</span>
+				<span class="list-group-item">@Localizer[SharedResource.sharpsite_plugin_version]</span>
+				<span class="list-group-item list-group-item-primary">@PluginManager.Manifest.Version</span>
+				<span class="list-group-item">@Localizer[SharedResource.sharpsite_plugin_description]</span>
+				<span class="list-group-item list-group-item-primary">@PluginManager.Manifest.Description</span>
+				<span class="list-group-item">@Localizer[SharedResource.sharpsite_plugin_author]</span>
+				<span class="list-group-item list-group-item-primary">@PluginManager.Manifest.Author</span>
+				<span class="list-group-item">@Localizer[SharedResource.sharpsite_plugin_website]</span>
+				<span class="list-group-item list-group-item-primary">@PluginManager.Manifest.AuthorWebsite</span>
+			</div>
+		</div>
+		<div class="card-footer">
+			<button class="btn btn-primary me-2" @onclick="SavePlugin">@Localizer[SharedResource.sharpsite_accept]</button>
+			<button class="btn btn-danger" @onclick="RejectPlugin">@Localizer[SharedResource.sharpsite_reject]</button>
+		</div>
 	</div>
 
 }
 
-
 @code {
-
-
 	private string ErrorMessage = string.Empty;
 
 	private async Task OnInputFileChange(InputFileChangeEventArgs e)
 	{
+
 		try
 		{
+			ErrorMessage = string.Empty;
 			var uploadedFile = e.File;
 			var uploadedFileName = e.File.Name;
 
@@ -73,20 +67,20 @@
 		{
 			Logger.LogError($"{ex.Message}");
 			ErrorMessage = ex.Message;
-
 		}
 
 	}
-
 
 	private async Task SavePlugin()
 	{
 		await PluginManager.SavePlugin();
 		NavigationManager.NavigateTo("/admin/plugins");
 	}
+
 	private void RejectPlugin(MouseEventArgs e)
 	{
-		// Navigate back to the list of plugins
+		PluginManager.CleanupCurrentUploadedPlugin();
 		NavigationManager.NavigateTo("/admin/plugins");
 	}
 }
+
