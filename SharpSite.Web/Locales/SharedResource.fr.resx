@@ -207,6 +207,9 @@
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Icône du plugin</value>
   </data>
+  <data name="sharpsite_pagenotfound_withrequestedpage" xml:space="preserve">
+    <value>La page demandée {0} n'est pas disponible.</value>
+  </data>
   <data name="sharpsite_logo" xml:space="preserve">
     <value>Logo Sharpsite</value>
     <comment>AI generated translation</comment>
@@ -254,6 +257,10 @@
   </data>
   <data name="sharpsite_login" xml:space="preserve">
     <value>Connexion</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_useradmin" xml:space="preserve">
+    <value>Administrateur de l'utilisateur</value>
     <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_generaladmin" xml:space="preserve">
@@ -316,10 +323,6 @@
     <value>Apparence du site</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_useradmin" xml:space="preserve">
-    <value>Administrateur de l'utilisateur</value>
-    <comment>AI generated translation</comment>
-  </data>
   <data name="sharpsite_lang_supported_label" xml:space="preserve">
     <value>Sélectionnez les langues prises en charge.</value>
     <comment>AI generated translation</comment>
@@ -343,5 +346,14 @@
   <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
     <value>Le fichier contient déjà ce qui suit:</value>
     <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
+    <value xml:space="preserve">Personnaliser le contenu de la page introuvable</value>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
+    <value xml:space="preserve">Personnaliser le contenu de la page "page non trouvée".</value>
+  </data>
+  <data name="sharpsite_ChangeTheme">
+    <value xml:space="preserve">Changer de thème</value>
   </data>
 </root>

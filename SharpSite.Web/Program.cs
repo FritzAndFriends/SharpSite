@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR;
 using SharpSite.Data.Postgres;
 using SharpSite.Security.Postgres;
 using SharpSite.Web;
@@ -56,9 +56,11 @@ app.UseHttpsRedirection();
 
 app.ConfigurePluginFileSystem();
 
-app.UseAntiforgery();
 
 app.UseOutputCache();
+
+// add error handlers for page not found
+app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}");
 
 var pluginManager = await app.ActivatePluginManager(appState);
 
@@ -69,6 +71,7 @@ app.MapRazorComponents<App>()
 		//typeof(Sample.FirstThemePlugin.Theme).Assembly
 		);
 
+app.UseAntiforgery();
 pgSecurity.MapEndpoints(app);
 
 app.MapSiteMap();

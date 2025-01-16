@@ -11,7 +11,7 @@ public static class Configuration
 		"it",
 		"nl",
 		"pt",
-		//"sv",
+		"sv",
 		"sw",
 		"de",
 		"ca",

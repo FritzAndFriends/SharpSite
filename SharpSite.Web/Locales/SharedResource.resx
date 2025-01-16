@@ -208,6 +208,10 @@
     <value>Icon of the plugin</value>
     <comment>Alt text for the icon of a plugin</comment>
   </data>
+  <data name="sharpsite_pagenotfound_withrequestedpage" xml:space="preserve">
+    <value>The page requested {0} is not available</value>
+    <comment>C# formatted string that reports the page requested is not available on this website. Argument 0 is the page requested</comment>
+  </data>
   <data name="sharpsite_logo" xml:space="preserve">
     <value>Sharpsite logo</value>
     <comment>Alt text for Sharpsite logo image</comment>
@@ -332,7 +336,19 @@
     <comment>Label for robots.txt content admin setting</comment>
   </data>
   <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
-    <value>The file aleady contains the following:</value>
+    <value>The file already contains the following:</value>
     <comment>Help text for robots.txt content admin setting</comment>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
+    <value>Customize Page Not Found content</value>
+    <comment>Header of the 'Customize 'Page Not Found' content editor component</comment>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
+    <value>Customize the content for the "page not found" page</value>
+    <comment>Description of the task available in the component that allows customization of the 'Page Not Found' content</comment>
+  </data>
+  <data name="sharpsite_ChangeTheme" xml:space="preserve">
+    <value>Change Theme</value>
+    <comment>Text of the button used to change the theme of the website</comment>
   </data>
 </root>

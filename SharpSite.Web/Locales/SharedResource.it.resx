@@ -118,119 +118,128 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="sharpsite_about" xml:space="preserve">
-    <value>Riguardo SharpSite</value>
+    <value>A proposito di SharpSite.</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_about_description" xml:space="preserve">
-    <value>SharpSite è un semplice motore di blog scritto in C# utilizzando Blazor.</value>
+    <value>SharpSite è un motore di blog semplice scritto in C# con l'utilizzo di Blazor.</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_about_packages" xml:space="preserve">
     <value>Pacchetti utilizzati</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_backtohome" xml:space="preserve">
-    <value>SharpSite è un sito web di gestione dei contenuti open source costruito con C# e Blazor. 
-Stai traducendo il testo da presentare su un sito web a un utente.
-Il testo da tradurre sarà utilizzato come "SharpSite".
-Testo da tradurre: Torna alla home.</value>
+    <value>Torna alla home</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_editpost" xml:space="preserve">
-    <value>Modifica post su SharpSite.</value>
+    <value>Modifica il post</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_editpost_content" xml:space="preserve">
-    <value>SharpSite è un sito web di gestione dei contenuti open source costruito con C# e Blazor.
-Traduzione: Contenuto</value>
+    <value>Contenuto</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_editpost_description" xml:space="preserve">
     <value>SharpSite è un sistema di gestione dei contenuti open source per siti web costruito con C# e Blazor.</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_editpost_publishdate" xml:space="preserve">
-    <value>SharpSite è un sito web di gestione dei contenuti open source costruito con C# e Blazor. 
-Stai traducendo il testo da presentare agli utenti sul sito web.
-Il testo da tradurre è "Data di pubblicazione".</value>
+    <value>Data di pubblicazione</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_editpost_title" xml:space="preserve">
-    <value>SharpSite è un sito web di sistema di gestione dei contenuti open source costruito con C# e Blazor. Titolo.</value>
+    <value>Titolo</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_loading" xml:space="preserve">
-    <value>SharpSite è un sito web di gestione dei contenuti open source costruito con C# e Blazor. 
-Sto traducendo del testo da presentare agli utenti sul sito web.
-Il testo da tradurre è "Caricamento...".</value>
+    <value>Caricamento...</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_newpost" xml:space="preserve">
-    <value>SharpSite è un sito web di sistema di gestione dei contenuti open source costruito con C# e Blazor. 
-
-Nuovo post.</value>
+    <value>Nuovo post</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_pagenotfound" xml:space="preserve">
-    <value>SharpSite è un sito web di sistema di gestione dei contenuti open source costruito con C# e Blazor.
-Stai traducendo il testo per essere presentato su un sito web agli utenti.
-Il testo da tradurre è "Pagina non trovata".</value>
+    <value>Pagina non trovata.</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_postlist_publisheddate" xml:space="preserve">
     <value>Data di pubblicazione</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_postlist_title" xml:space="preserve">
-    <value>SharpSite è un sito web di gestione dei contenuti open source creato con C# e Blazor. Titolo.</value>
+    <value>Titolo</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_save" xml:space="preserve">
-    <value>SharpSite è un sito web di sistema di gestione dei contenuti open source costruito con C# e Blazor. 
-
-Salva.</value>
+    <value>Salva</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_unhandled_exception" xml:space="preserve">
-    <value>SharpSite è un sito web di sistema di gestione dei contenuti open source costruito con C# e Blazor. 
-Si è verificato un errore non gestito.</value>
+    <value>Si è verificato un errore non gestito.</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_home" xml:space="preserve">
-    <value>SharpSite è un sito web di gestione dei contenuti open source costruito con C# e Blazor. 
-Stai traducendo il testo da presentare su un sito web a un utente.
-Il testo da tradurre sarà utilizzato come "SharpSite".
-Testo da tradurre: Home.</value>
+    <value>Casa</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_postsadmin" xml:space="preserve">
-    <value>Gestione degli articoli</value>
+    <value>Amministrazione dei post su SharpSite</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_pageadmin" xml:space="preserve">
-    <value>SharpSite è un sito web di gestione dei contenuti open source costruito con C# e Blazor. 
-Stai traducendo il testo per essere presentato su un sito web agli utenti. 
-Il testo da tradurre sarà utilizzato come "SharpSite". 
-Testo da tradurre: Pagina di amministrazione.</value>
+    <value>Pagina Amministrativa</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_edit" xml:space="preserve">
     <value>Modifica</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_delete" xml:space="preserve">
-    <value>Cancellare</value>
+    <value>Elimina</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_newpage" xml:space="preserve">
-    <value>SharpSite è un sito web di sistema di gestione dei contenuti open source costruito con C# e Blazor. 
-
-Nuova pagina.</value>
+    <value>Nuova Pagina</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_editpage" xml:space="preserve">
     <value>Modifica Pagina</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_pluginmanagement" xml:space="preserve">
-    <value>SharpSite è un sistema di gestione dei contenuti open source per siti web costruito con C# e Blazor. Plugin Management.</value>
+    <value>Gestione dei plugin</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_installedplugins" xml:space="preserve">
-    <value>Plugin installati (SharpSite)</value>
+    <value>Plugin installati</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_nopluginsinstalled" xml:space="preserve">
-    <value>SharpSite non ha plugin installati.</value>
+    <value>Nessun plugin è installato.</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_addnewplugin" xml:space="preserve">
     <value>Aggiungi nuovo plugin.</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_update" xml:space="preserve">
-    <value>Aggiornamento</value>
+    <value>Aggiornare</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_remove" xml:space="preserve">
-    <value>SharpSite è un sito web di sistema di gestione dei contenuti open source costruito con C# e Blazor.
-
-Rimuovi.</value>
+    <value>Rimuovi</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Icona del plugin</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_pagenotfound_withrequestedpage" xml:space="preserve">
+    <value>La pagina richiesta {0} non è disponibile.</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_logo" xml:space="preserve">
     <value>Logo di Sharpsite</value>
@@ -279,6 +288,10 @@ Rimuovi.</value>
   </data>
   <data name="sharpsite_login" xml:space="preserve">
     <value>Accedi</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_useradmin" xml:space="preserve">
+    <value>Amministratore Utente</value>
     <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_generaladmin" xml:space="preserve">
@@ -341,10 +354,6 @@ Rimuovi.</value>
     <value>Aspetto del sito</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_useradmin" xml:space="preserve">
-    <value>Amministratore Utente</value>
-    <comment>AI generated translation</comment>
-  </data>
   <data name="sharpsite_lang_supported_label" xml:space="preserve">
     <value>Seleziona le lingue supportate.</value>
     <comment>AI generated translation</comment>
@@ -368,5 +377,14 @@ Rimuovi.</value>
   <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
     <value>Il file contiene già quanto segue:</value>
     <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
+    <value xml:space="preserve">Personalizza il contenuto della pagina non trovata.</value>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
+    <value xml:space="preserve">Personalizza il contenuto per la pagina "pagina non trovata".</value>
+  </data>
+  <data name="sharpsite_ChangeTheme">
+    <value xml:space="preserve">Cambia tema</value>
   </data>
 </root>

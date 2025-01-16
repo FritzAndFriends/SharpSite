@@ -38,6 +38,8 @@ public class ApplicationState
 	/// </summary>
 	public long MaximumUploadSizeMB { get; set; } = 10; // 10MB
 
+	public string PageNotFoundContent { get; set; } = string.Empty;
+
 	[JsonIgnore]
 	public Type? ThemeType
 	{
@@ -107,6 +109,7 @@ public class ApplicationState
 				MaximumUploadSizeMB = state.MaximumUploadSizeMB;
 				Localization = state.Localization;
 				RobotsTxtCustomContent = state.RobotsTxtCustomContent;
+				PageNotFoundContent = state.PageNotFoundContent;
 			}
 
 			Initialized = true;

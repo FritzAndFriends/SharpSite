@@ -151,6 +151,33 @@ namespace SharpSite.Web.Locales {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change Theme.
+        /// </summary>
+        internal static string sharpsite_ChangeTheme {
+            get {
+                return ResourceManager.GetString("sharpsite_ChangeTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customize the content for the &quot;page not found&quot; page.
+        /// </summary>
+        internal static string sharpsite_CustomizePageNotFoundDescription {
+            get {
+                return ResourceManager.GetString("sharpsite_CustomizePageNotFoundDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customize Page Not Found content.
+        /// </summary>
+        internal static string sharpsite_CustomizePageNotFoundHeader {
+            get {
+                return ResourceManager.GetString("sharpsite_CustomizePageNotFoundHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         internal static string sharpsite_delete {
@@ -412,6 +439,15 @@ namespace SharpSite.Web.Locales {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The page requested {0} is not available.
+        /// </summary>
+        internal static string sharpsite_pagenotfound_withrequestedpage {
+            get {
+                return ResourceManager.GetString("sharpsite_pagenotfound_withrequestedpage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add a Plugin to SharpSite.
         /// </summary>
         internal static string sharpsite_plugin_add {
@@ -547,7 +583,7 @@ namespace SharpSite.Web.Locales {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The file aleady contains the following:.
+        ///   Looks up a localized string similar to The file already contains the following:.
         /// </summary>
         internal static string sharpsite_robotstxt_help_text {
             get {

@@ -207,6 +207,9 @@
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Plugin icoon</value>
   </data>
+  <data name="sharpsite_pagenotfound_withrequestedpage" xml:space="preserve">
+    <value>De opgevraagde pagina {0} is niet beschikbaar.</value>
+  </data>
   <data name="sharpsite_logo" xml:space="preserve">
     <value>Sharpsite logo</value>
     <comment>AI generated translation</comment>
@@ -254,6 +257,10 @@
   </data>
   <data name="sharpsite_login" xml:space="preserve">
     <value>Aanmelden</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_useradmin" xml:space="preserve">
+    <value>Gebruikersbeheerder</value>
     <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_generaladmin" xml:space="preserve">
@@ -316,10 +323,6 @@
     <value>Website uiterlijk</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_useradmin" xml:space="preserve">
-    <value>Gebruikersbeheerder</value>
-    <comment>AI generated translation</comment>
-  </data>
   <data name="sharpsite_lang_supported_label" xml:space="preserve">
     <value>Selecteer de ondersteunde talen</value>
     <comment>AI generated translation</comment>
@@ -343,5 +346,14 @@
   <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
     <value>Het bestand bevat al het volgende:</value>
     <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
+    <value xml:space="preserve">Aanpassen van Pagina Niet Gevonden inhoud.</value>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
+    <value xml:space="preserve">Pas de inhoud aan voor de "pagina niet gevonden" pagina.</value>
+  </data>
+  <data name="sharpsite_ChangeTheme">
+    <value xml:space="preserve">Verander thema</value>
   </data>
 </root>
