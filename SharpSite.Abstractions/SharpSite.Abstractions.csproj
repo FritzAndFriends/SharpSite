@@ -11,6 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SharpSite.Abstractions.Base\SharpSite.Abstractions.Base.csproj" />
+    <ProjectReference Include="..\SharpSite.Abstractions.FileStorage\SharpSite.Abstractions.FileStorage.csproj" />
     <ProjectReference Include="..\SharpSite.Abstractions.Theme\SharpSite.Abstractions.Theme.csproj" />
   </ItemGroup>
 
