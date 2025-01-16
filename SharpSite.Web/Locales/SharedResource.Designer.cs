@@ -151,6 +151,24 @@ namespace SharpSite.Web.Locales {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Customize the content for the &quot;page not found&quot; page.
+        /// </summary>
+        internal static string sharpsite_CustomizePageNotFoundDescription {
+            get {
+                return ResourceManager.GetString("sharpsite_CustomizePageNotFoundDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Customize Page Not Found content.
+        /// </summary>
+        internal static string sharpsite_CustomizePageNotFoundHeader {
+            get {
+                return ResourceManager.GetString("sharpsite_CustomizePageNotFoundHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         internal static string sharpsite_delete {

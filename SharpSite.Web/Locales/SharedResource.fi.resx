@@ -322,4 +322,10 @@
   <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
     <value>Tiedosto sisältää jo seuraavan:</value>
   </data>
+  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
+    <value xml:space="preserve">Mukauta sivua ei löytynyt -sisältöä</value>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
+    <value xml:space="preserve">Mukauta sisältö "sivua ei löytynyt" -sivulle.</value>
+  </data>
 </root>

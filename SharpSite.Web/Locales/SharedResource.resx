@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!--
-    Microsoft ResX Schema
-
+  <!-- 
+    Microsoft ResX Schema 
+    
     Version 2.0
-
-    The primary goals of this format is to allow a simple XML format
-    that is mostly human readable. The generation and parsing of the
-    various data types are done through the TypeConverter classes
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
     associated with the data types.
-
+    
     Example:
-
+    
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,79 +26,79 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-
-    There are any number of "resheader" rows that contain simple
+                
+    There are any number of "resheader" rows that contain simple 
     name/value pairs.
-
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
-    text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
     mimetype set.
-
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
     extensible. For a given mimetype the value must be set accordingly:
-
-    Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
     read any of the formats listed below.
-
+    
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-
+    
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
+    value   : The object must be serialized with 
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
+    value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -119,119 +119,90 @@
   </resheader>
   <data name="sharpsite_about" xml:space="preserve">
     <value>About SharpSite</value>
-    <comment/>
   </data>
   <data name="sharpsite_about_description" xml:space="preserve">
     <value>SharpSite is a simple blog engine written in C# using Blazor.</value>
-    <comment/>
   </data>
   <data name="sharpsite_about_packages" xml:space="preserve">
     <value>Packages Used</value>
-    <comment/>
   </data>
   <data name="sharpsite_backtohome" xml:space="preserve">
     <value>Back to home</value>
-    <comment/>
   </data>
   <data name="sharpsite_editpost" xml:space="preserve">
     <value>Edit Post</value>
-    <comment/>
   </data>
   <data name="sharpsite_editpost_content" xml:space="preserve">
     <value>Content</value>
-    <comment/>
   </data>
   <data name="sharpsite_editpost_description" xml:space="preserve">
     <value>Description</value>
-    <comment/>
   </data>
   <data name="sharpsite_editpost_publishdate" xml:space="preserve">
     <value>Publish Date</value>
-    <comment/>
   </data>
   <data name="sharpsite_editpost_title" xml:space="preserve">
     <value>Title</value>
-    <comment/>
   </data>
   <data name="sharpsite_loading" xml:space="preserve">
     <value>Loading...</value>
-    <comment/>
   </data>
   <data name="sharpsite_newpost" xml:space="preserve">
     <value>New Post</value>
-    <comment/>
   </data>
   <data name="sharpsite_pagenotfound" xml:space="preserve">
     <value>Post not found</value>
-    <comment/>
   </data>
   <data name="sharpsite_postlist_publisheddate" xml:space="preserve">
     <value>Published Date</value>
-    <comment/>
   </data>
   <data name="sharpsite_postlist_title" xml:space="preserve">
     <value>Title</value>
-    <comment/>
   </data>
   <data name="sharpsite_save" xml:space="preserve">
     <value>Save</value>
-    <comment/>
   </data>
   <data name="sharpsite_unhandled_exception" xml:space="preserve">
     <value>An unhandled error has occurred.</value>
-    <comment/>
   </data>
   <data name="sharpsite_home" xml:space="preserve">
     <value>Home</value>
-    <comment/>
   </data>
   <data name="sharpsite_postsadmin" xml:space="preserve">
     <value>Posts Admin</value>
-    <comment/>
   </data>
   <data name="sharpsite_pageadmin" xml:space="preserve">
     <value>Page Admin</value>
-    <comment/>
   </data>
   <data name="sharpsite_edit" xml:space="preserve">
     <value>Edit</value>
-    <comment/>
   </data>
   <data name="sharpsite_delete" xml:space="preserve">
     <value>Delete</value>
-    <comment/>
   </data>
   <data name="sharpsite_newpage" xml:space="preserve">
     <value>New Page</value>
-    <comment/>
   </data>
   <data name="sharpsite_editpage" xml:space="preserve">
     <value>Edit Page</value>
-    <comment/>
   </data>
   <data name="sharpsite_pluginmanagement" xml:space="preserve">
     <value>Plugin management</value>
-    <comment/>
   </data>
   <data name="sharpsite_installedplugins" xml:space="preserve">
     <value>Installed plugins</value>
-    <comment/>
   </data>
   <data name="sharpsite_nopluginsinstalled" xml:space="preserve">
     <value>No plugins installed</value>
-    <comment/>
   </data>
   <data name="sharpsite_addnewplugin" xml:space="preserve">
     <value>Add New Plugin</value>
-    <comment/>
   </data>
   <data name="sharpsite_update" xml:space="preserve">
     <value>Update</value>
-    <comment/>
   </data>
   <data name="sharpsite_remove" xml:space="preserve">
     <value>Remove</value>
-    <comment/>
   </data>
   <data name="sharpsite_plugin_icon" xml:space="preserve">
     <value>Icon of the plugin</value>
@@ -367,5 +338,13 @@
   <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
     <value>The file aleady contains the following:</value>
     <comment>Help text for robots.txt content admin setting</comment>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
+    <value>Customize Page Not Found content</value>
+    <comment>Header of the 'Customize 'Page Not Found' content editor component</comment>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
+    <value>Customize the content for the "page not found" page</value>
+    <comment>Description of the task available in the component that allows customization of the 'Page Not Found' content</comment>
   </data>
 </root>

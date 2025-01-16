@@ -209,7 +209,7 @@
   </data>
   <data name="sharpsite_pagenotfound_withrequestedpage" xml:space="preserve">
     <value>Ukurasa ulioombwa {0} haupo mikononi mwetu.</value>
-	</data>
+  </data>
   <data name="sharpsite_logo" xml:space="preserve">
     <value>Logo ya Sharpsite</value>
     <comment>AI generated translation</comment>
@@ -257,6 +257,10 @@
   </data>
   <data name="sharpsite_login" xml:space="preserve">
     <value>Ingia</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_useradmin" xml:space="preserve">
+    <value>Mtumiaji Msimamizi</value>
     <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_generaladmin" xml:space="preserve">
@@ -319,10 +323,6 @@
     <value>Muonekano wa tovuti</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_useradmin" xml:space="preserve">
-    <value>Mtumiaji Msimamizi</value>
-    <comment>AI generated translation</comment>
-  </data>
   <data name="sharpsite_lang_supported_label" xml:space="preserve">
     <value>Chagua lugha zinazoungwa mkono.</value>
     <comment>AI generated translation</comment>
@@ -346,5 +346,11 @@
   <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
     <value>Faili tayari lina yafuatayo:</value>
     <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
+    <value xml:space="preserve">Kuibadilisha yaliyomo ya Ukurasa haupatikani (Page Not Found)</value>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
+    <value xml:space="preserve">Mipangilio maudhui ya ukurasa wa "ukurasa haupatikani"</value>
   </data>
 </root>

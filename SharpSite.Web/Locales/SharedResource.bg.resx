@@ -211,7 +211,7 @@
   </data>
   <data name="sharpsite_pagenotfound_withrequestedpage" xml:space="preserve">
     <value>Заявената страница {0} не е налична.</value>
-	</data>
+  </data>
   <data name="sharpsite_logo" xml:space="preserve">
     <value>Логото на Sharpsite</value>
     <comment>AI generated translation</comment>
@@ -261,6 +261,10 @@
   </data>
   <data name="sharpsite_login" xml:space="preserve">
     <value>Вход</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_useradmin" xml:space="preserve">
+    <value>Потребителски администратор</value>
     <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_generaladmin" xml:space="preserve">
@@ -323,10 +327,6 @@
     <value>Изглед на сайта</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_useradmin" xml:space="preserve">
-    <value>Потребителски администратор</value>
-    <comment>AI generated translation</comment>
-  </data>
   <data name="sharpsite_lang_supported_label" xml:space="preserve">
     <value>Изберете поддържаните езици.</value>
     <comment>AI generated translation</comment>
@@ -350,5 +350,11 @@
   <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
     <value>Файлът вече съдържа следното:</value>
     <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
+    <value xml:space="preserve">Персонализиране на съдържанието "Страница не е намерена"</value>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
+    <value xml:space="preserve">Персонализирайте съдържанието за страницата "Страницата не е намерена".</value>
   </data>
 </root>

@@ -189,22 +189,6 @@
     <value>Amministrazione dei post su SharpSite</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_pluginmanagement" xml:space="preserve">
-    <value>Gestione dei plugin</value>
-    <comment>AI generated translation</comment>
-  </data>
-  <data name="sharpsite_installedplugins" xml:space="preserve">
-    <value>Plugin installati</value>
-    <comment>AI generated translation</comment>
-  </data>
-  <data name="sharpsite_nopluginsinstalled" xml:space="preserve">
-    <value>Nessun plugin è installato.</value>
-    <comment>AI generated translation</comment>
-  </data>
-  <data name="sharpsite_addnewplugin" xml:space="preserve">
-    <value>Aggiungi nuovo plugin.</value>
-    <comment>AI generated translation</comment>
-  </data>
   <data name="sharpsite_pageadmin" xml:space="preserve">
     <value>Pagina Amministrativa</value>
     <comment>AI generated translation</comment>
@@ -226,16 +210,20 @@
     <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_pluginmanagement" xml:space="preserve">
-    <value>SharpSite è un sistema di gestione dei contenuti open source per siti web costruito con C# e Blazor. Plugin Management.</value>
+    <value>Gestione dei plugin</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_installedplugins" xml:space="preserve">
-    <value>Plugin installati (SharpSite)</value>
+    <value>Plugin installati</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_nopluginsinstalled" xml:space="preserve">
-    <value>SharpSite non ha plugin installati.</value>
+    <value>Nessun plugin è installato.</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_addnewplugin" xml:space="preserve">
     <value>Aggiungi nuovo plugin.</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_update" xml:space="preserve">
     <value>Aggiornare</value>
@@ -302,6 +290,10 @@
     <value>Accedi</value>
     <comment>AI generated translation</comment>
   </data>
+  <data name="sharpsite_useradmin" xml:space="preserve">
+    <value>Amministratore Utente</value>
+    <comment>AI generated translation</comment>
+  </data>
   <data name="sharpsite_generaladmin" xml:space="preserve">
     <value>Generale</value>
     <comment>AI generated translation</comment>
@@ -362,10 +354,6 @@
     <value>Aspetto del sito</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_useradmin" xml:space="preserve">
-    <value>Amministratore Utente</value>
-    <comment>AI generated translation</comment>
-  </data>
   <data name="sharpsite_lang_supported_label" xml:space="preserve">
     <value>Seleziona le lingue supportate.</value>
     <comment>AI generated translation</comment>
@@ -389,5 +377,11 @@
   <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
     <value>Il file contiene già quanto segue:</value>
     <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
+    <value xml:space="preserve">Personalizza il contenuto della pagina non trovata</value>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
+    <value xml:space="preserve">Personalizza il contenuto della pagina "pagina non trovata".</value>
   </data>
 </root>
