@@ -1,6 +1,7 @@
 @page "/{slug:minlength(5):required:nonfile}"
 @using Markdig
 @inject IPageRepository PageRepository
+@inject NavigationManager NavigationManager
 
 @if (Page is not null)
 {
@@ -9,7 +10,7 @@
 }
 else
 {
-	<PageNotFound />
+	<PageNotFound PageRequested="@(new Uri(NavigationManager.Uri).AbsolutePath)" />
 }
 
 @code {

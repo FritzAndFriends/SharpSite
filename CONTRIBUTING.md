@@ -1,7 +1,12 @@
 # Contributing to SharpSite
 
-Thank you for your interest in contributing to SharpSite! Your contributions are valuable and help improve the project for everyone. Here's how you can get started:
+Thank you for your interest in contributing to SharpSite! Your contributions are valuable and help improve the project for everyone.
 
+SharpSite's source code is organized with a release branch, release train system to group new features and fixes to the application.  You will see branches in the main repository with a name like **v0.5** that indicate these are the release branches the team is actively working on.  Developers that are working on features as part of this **v0.5** release will send pull-requests to the **v0.5** release and those changes are queued up in a **v0.5** pull request that merges the **v0.5** branch into **main**.  When work is completed for a release, this pull-request is completed and merged into the **main** branch.  A matching tag is applied to the **main** branch for the former branch number.
+
+When released versions need patches / fixes applied, there will be a similar fix-release branch with a name like **v0.5.1** that is based on the **v0.5** tag.  A similar working branch and pull-request is created to organize and apply the fixes
+
+Here's how you can get started working with the source code, submit features and code fixes:
 
 ## Prerequisites
 
@@ -17,7 +22,19 @@ Thank you for your interest in contributing to SharpSite! Your contributions are
 git clone https://github.com/YOUR-USERNAME/SharpSite.git
 ```
 
-3. Create a new branch for your feature or bugfix:
+3. Add an upstream reference to the main repository:
+
+```
+git remote add upstream git@github.com:FritzAndFriends/SharpSite.git
+```
+
+4. Checkout a copy of the release branch that you would like to contribute to.  If the case of milestone 0.5, the release branch is called **v0.5** you would execute this command:
+
+```
+git checkout --track upstream/v0.5
+```
+
+5. Create a new branch for your feature or bugfix.  By running this command from the **v0.5** branch that was checked out in step 4, it will be based on the **v0.5** branch the team is actively collaborating on:
 
 ```
 git checkout -b feature_your-feature-name
@@ -60,6 +77,28 @@ dotnet dev-certs https --check --trust
 
 ```
 dotnet run
+```
+
+## Keeping your local code up to date
+
+You should run a few commands periodically to ensure that your local code is updated with the current changes in the main repsitory.
+
+### Update your local code from the shared repository
+
+The sample command updates the **main** branch.  You can run this for other feature branches that you are tracking and working with
+
+```
+git checkout main
+git pull upstream
+```
+
+### Merge changes from another branch into your local working branch
+
+You should bring the latest commits from the shared branch into your feature branch to minimize the conflicts when you are ready to share your code with the rest of the project team.  This sample checks out your work in the **feature_MY-WORKING-BRANCH** branch and merges the latest updates from the **main** branch 
+
+```
+git checkout feature_MY-WORKING-BRANCH
+git merge main
 ```
 
 ## Default User
@@ -115,7 +154,7 @@ To add translations for a new locale, follow these steps:
 git push origin feature_your-feature-name
 ```
 
-4. Open a pull request against the `main` branch of the original repository.
+4. Open a pull request against the release branch (in the sample above, it was v0.5) of the [main repository](https://github.com/FritzAndFriends/SharpSite).  GitHub will typically prompt you with a banner at the top of the repository that offers to assist you in creating this pull request.  Make sure that it is merging into a **base** that is the release branch you are working from, in the sample case that branch is v0.5
 
 ## Reporting Issues
 

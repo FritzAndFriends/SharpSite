@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.FileProviders;
 using SharpSite.Data.Postgres;
 using SharpSite.Security.Postgres;
 using SharpSite.Web;
@@ -7,8 +6,6 @@ using SharpSite.Web.Components;
 using SharpSite.Web.Locales;
 
 var builder = WebApplication.CreateBuilder(args);
-
-PluginManager.Initialize();
 
 // Load plugins for postgres
 #region Postgres Plugins
@@ -19,17 +16,18 @@ var pgSecurity = new RegisterPostgresSecurityServices();
 pgSecurity.RegisterServices(builder);
 #endregion
 
+var appState = builder.AddPluginManagerAndAppState();
 
 // add the custom localization features for the application framework
 builder.ConfigureRequestLocalization();
 
+builder.Services.AddHttpContextAccessor();
+
 // Add service defaults & Aspire components.
 builder.AddServiceDefaults();
-
 // Configure larger messages to allow upload of packages
 builder.Services.Configure<HubOptions>(options =>
 {
-	options.MaximumReceiveMessageSize = 1024 * 1024 * 10; // 1MB or use null
 	options.EnableDetailedErrors = true;
 });
 
@@ -45,10 +43,6 @@ builder.Services.AddRazorComponents()
 builder.Services.AddOutputCache();
 builder.Services.AddMemoryCache();
 
-var appState = new ApplicationState();
-builder.Services.AddSingleton(appState);
-builder.Services.AddSingleton<PluginManager>();
-
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -60,20 +54,15 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.ConfigurePluginFileSystem();
 
-var pluginRoot = new PhysicalFileProvider(
-	Path.Combine(app.Environment.ContentRootPath, @"plugins/_wwwroot"));
-app.UseStaticFiles();
-app.UseStaticFiles(new StaticFileOptions()
-{
-	FileProvider = pluginRoot,
-	RequestPath = "/plugins"
-
-});
-
-app.UseAntiforgery();
 
 app.UseOutputCache();
+
+// add error handlers for page not found
+app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}");
+
+var pluginManager = await app.ActivatePluginManager(appState);
 
 app.MapRazorComponents<App>()
 		.AddInteractiveServerRenderMode()
@@ -82,6 +71,7 @@ app.MapRazorComponents<App>()
 		//typeof(Sample.FirstThemePlugin.Theme).Assembly
 		);
 
+app.UseAntiforgery();
 pgSecurity.MapEndpoints(app);
 
 app.MapSiteMap();
@@ -93,11 +83,6 @@ app.UseRequestLocalization();
 
 await pgSecurity.RunAtStartup(app.Services);
 
-// Use DI to get the logger
-var pluginManager = app.Services.GetRequiredService<PluginManager>();
-pluginManager.LoadPluginsAtStartup();
-
-// Load application state
-await appState.Load();
+app.MapFileApi(pluginManager);
 
 app.Run();
