@@ -1,18 +1,27 @@
 @using System.Net
+@using Markdig
 @inject ILogger<PageNotFound> Logger
+@inject ApplicationState AppState
 
 
 <PageTitle>@Localizer[SharedResource.sharpsite_pagenotfound]</PageTitle>
 
 <h1>@Localizer[SharedResource.sharpsite_pagenotfound]</h1>
 
-@if (!string.IsNullOrEmpty(PageRequested))
+@if (string.IsNullOrEmpty(AppState.PageNotFoundContent))
 {
-	<p>@string.Format(Localizer[SharedResource.sharpsite_pagenotfound_withrequestedpage], PageRequested)</p>
+	@if (!string.IsNullOrEmpty(PageRequested))
+	{
+		<p>@string.Format(Localizer[SharedResource.sharpsite_pagenotfound_withrequestedpage], PageRequested)</p>
+	}
+}
+else
+{
+	@((MarkupString)Markdown.ToHtml(AppState.PageNotFoundContent))
 }
 <p><a href="/">@Localizer[SharedResource.sharpsite_backtohome]</a></p>
 
-@code 
+@code
 {
 
 	[CascadingParameter]
