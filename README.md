@@ -59,7 +59,7 @@ To make it easy for folks to customize, we project that we will build the follow
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/mcNets"><img src="https://avatars.githubusercontent.com/u/24267381?v=4?s=100" width="100px;" alt="Joan Magnet"/><br /><sub><b>Joan Magnet</b></sub></a><br /><a href="#translation-mcnets" title="Translation">🌍</a></td>
     </tr>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/default-writer/c"><img src="https://avatars.githubusercontent.com/u/383256?v=4?s=100" width="100px;" alt="default-writer"/><br /><sub><b>default-writer</b></sub></a><br /><a href="https://github.com/FritzAndFriends/SharpSite/commits?author=default-writer" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/default-writer/c"><img src="https://avatars.githubusercontent.com/u/383256?v=4?s=100" width="100px;" alt="default-writer"/><br /><sub><b>default-writer</b></sub></a><br /><a href="https://github.com/FritzAndFriends/SharpSite/commits?author=default-writer" title="Documentation">📖</a> <a href="https://github.com/FritzAndFriends/SharpSite/commits?author=default-writer" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/degenone"><img src="https://avatars.githubusercontent.com/u/48437506?v=4?s=100" width="100px;" alt="Tero Kilpeläinen"/><br /><sub><b>Tero Kilpeläinen</b></sub></a><br /><a href="https://github.com/FritzAndFriends/SharpSite/commits?author=degenone" title="Code">💻</a></td>
     </tr>
   </tbody>
