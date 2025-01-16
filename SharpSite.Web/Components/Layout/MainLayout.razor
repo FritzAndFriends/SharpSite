@@ -3,12 +3,13 @@
 
 <HeadContent>
   <Theme />
+  <SectionOutlet SectionName="Head"  />
 </HeadContent>
 
 <div class="page">
-  <div class="sidebar">
+  <nav class="sidebar" role="navigation" aria-label="@Localizer[SharedResource.sharpsite_navmain]">
     <NavMenu />
-  </div>
+  </nav>
 
   <main>
 
@@ -19,7 +20,7 @@
 </div>
 
 <div id="blazor-error-ui">
-  @Localizer["sharpsite_unhandled_exception"]
+  @Localizer[SharedResource.sharpsite_unhandled_exception]
   <a href="" class="reload">Reload</a>
   <a class="dismiss">🗙</a>
 </div>
