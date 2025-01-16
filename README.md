@@ -8,26 +8,30 @@ An accessible CMS built with .NET 9 and Blazor that you are free to use.
 
 We want to make a content management system that anyone can customize easily and adapt to meet their website needs.  We think that anyone should be able to customize as little or much as they would like with simple HTML, markdown, C#, or Blazor code.
 
+## Features that are built and working
+
+- Authentication and authorization
+- User Management
+- Theming
+- Content creation like blog posts and custom pages
+- Extension model
+- Localization for system administration screens
+- RSS generation
+- Sitemap generation
+- Robots.txt customiztion 
+
 ## Features we would like to build
 
 To make it easy for folks to customize, we project that we will build the following high level features.
 
-- Authentication and authorization
-- user management
-- Theming
-- Content creation like blog posts
 - content versioning
 - Output Caching
 - Shippable in a Docker container
-- Extension model
-- Localization
 - Email notifications
 - Search
 - Basic form management - database table with CRUD screens that can be customized
 - tagging
 - categories
-- RSS generation
-- Sitemap generation
 - multiple database support
 - content scheduling
 - social media integration
@@ -41,6 +45,14 @@ To make it easy for folks to customize, we project that we will build the follow
 - Payments
 - Wordpress import wizard
 - Mobile app for editing 
+
+## User-Personas identified
+
+There are three key personas that we would like SharpSite to support:
+
+1. The non-technical user - this user does not know HTML or any coding and would like to setup a simple website with low to no coding required
+2. The web developer - this user knows some web coding techniques (HTML and CSS) and would like to do some minor customizations to the look and feel of the site
+3. The integrator - this user knows how to code (HTML, Blazor, and .NET) and would like to be able to completely customize the look and feel of their SharpSite installation   
 
 ## Contributors
 
@@ -59,7 +71,7 @@ To make it easy for folks to customize, we project that we will build the follow
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/mcNets"><img src="https://avatars.githubusercontent.com/u/24267381?v=4?s=100" width="100px;" alt="Joan Magnet"/><br /><sub><b>Joan Magnet</b></sub></a><br /><a href="#translation-mcnets" title="Translation">🌍</a></td>
     </tr>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/default-writer/c"><img src="https://avatars.githubusercontent.com/u/383256?v=4?s=100" width="100px;" alt="default-writer"/><br /><sub><b>default-writer</b></sub></a><br /><a href="https://github.com/FritzAndFriends/SharpSite/commits?author=default-writer" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/default-writer/c"><img src="https://avatars.githubusercontent.com/u/383256?v=4?s=100" width="100px;" alt="default-writer"/><br /><sub><b>default-writer</b></sub></a><br /><a href="https://github.com/FritzAndFriends/SharpSite/commits?author=default-writer" title="Documentation">📖</a> <a href="https://github.com/FritzAndFriends/SharpSite/commits?author=default-writer" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/degenone"><img src="https://avatars.githubusercontent.com/u/48437506?v=4?s=100" width="100px;" alt="Tero Kilpeläinen"/><br /><sub><b>Tero Kilpeläinen</b></sub></a><br /><a href="https://github.com/FritzAndFriends/SharpSite/commits?author=degenone" title="Code">💻</a></td>
     </tr>
   </tbody>

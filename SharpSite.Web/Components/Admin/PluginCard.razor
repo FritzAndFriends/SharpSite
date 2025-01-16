@@ -4,7 +4,10 @@
 		<span>&mdash;</span>
 		<small>@Plugin.Version</small>
 	</div>
-	<img src="@Plugin.Icon" alt="@Localizer[SharedResource.sharpsite_plugin_icon]" class="card-img-top"/>
+	<img src="@(string.IsNullOrEmpty(Plugin.Icon) ? DefaultPluginIcon : Plugin.Icon)"
+		onerror="this.onerror=null;this.src='@DefaultPluginIcon';"
+		alt="@Localizer[SharedResource.sharpsite_plugin_icon]" 
+		class="card-img-top"/>
 	<div class="card-body">
 		<p class="card-text">@Plugin.Description</p>
 	</div>
@@ -15,5 +18,8 @@
 </div>
 
 @code {
+
+	private const string DefaultPluginIcon = "plugin-icon.svg";
+
 	[Parameter, EditorRequired] public required PluginManifest Plugin { get; set; }
 }
