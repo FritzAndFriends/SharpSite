@@ -24,18 +24,8 @@
     <script src="_framework/blazor.web.js"></script>
 		<script src="/_content/PSC.Blazor.Components.MarkdownEditor/js/easymde.min.js"></script>
 		<script src="/_content/PSC.Blazor.Components.MarkdownEditor/js/markdownEditor.js"></script>
+    <script src="app.js"></script>
 
-    <script>
-        window.getSelectedText = function () {
-            const editor = document.querySelector('.EasyMDEContainer textarea');
-            if (editor) {
-                const start = editor.selectionStart;
-                const end = editor.selectionEnd;
-                return editor.value.substring(start, end);
-            }
-            return '';
-        };
-    </script>
 </body>
 
 </html>
