@@ -23,15 +23,18 @@ CustomButtonClicked="@OnCustomButtonClicked"
 		<MarkdownToolbarButton Action="MarkdownAction.UnorderedList" Name="Add Un-ordered-List" Icon="fa fa-list-ul" Title="Unordered List" />
 		<MarkdownToolbarButton Action="MarkdownAction.OrderedList" Name="Add Ordered-List" Icon="fa fa-list-ol" Title="ordered List" />
 
-		<MarkdownToolbarButton Separator Name="Align Left" Value="@("left")" Icon="fa fa-align-left" Title="Align Left" />
-		<MarkdownToolbarButton Name="Align Centre" Value="@("center")" Icon="fa fa-align-center" Title="Align Centre" />
-		<MarkdownToolbarButton Name="Align Right" Value="@("right")" Icon="fa fa-align-right" Title="Align Right" />
+		@if(AlignmentOptionsEnabled)
+		{
+			<MarkdownToolbarButton Separator Name="Align Left" Value="@("left")" Icon="fa fa-align-left" Title="Align Left" />
+			<MarkdownToolbarButton Name="Align Centre" Value="@("center")" Icon="fa fa-align-center" Title="Align Centre" />
+			<MarkdownToolbarButton Name="Align Right" Value="@("right")" Icon="fa fa-align-right" Title="Align Right" />
+		}
 
 		<MarkdownToolbarButton Separator Action="MarkdownAction.Link" Name="Add Link" Icon="fa fa-link" Title="Link" />
 		<MarkdownToolbarButton Action="MarkdownAction.Image" Name="Add Image" Icon="fa fa-image" Title="Image" />
 		<MarkdownToolbarButton Action="MarkdownAction.Table" Name="Add Table" Icon="fa fa-table" Title="Add Table" />
 		<MarkdownToolbarButton Separator Action="MarkdownAction.Preview" Name="preview" Icon="no-disable fa fa-eye" Title="Toggle Preview" />
-		<MarkdownToolbarButton Action="MarkdownAction.Code" Name="Code Block" Icon="no-disable fa fa-code" Title="Code Block" />
+		<MarkdownToolbarButton Action="MarkdownAction.Code" Name="Code Block" Icon="fa fa-code" Title="Code Block" />
 		<MarkdownToolbarButton Separator Action="MarkdownAction.Fullscreen" Name="Fullscreen" Icon="fa fa-arrows-alt" Title="Fullscreen" />
 		<MarkdownToolbarButton Separator Action="MarkdownAction.Guide" Name="Markdown Guide" Icon="fa fa-question-circle" Title="Markdown Guide" />
 	</Toolbar>
@@ -40,6 +43,9 @@ CustomButtonClicked="@OnCustomButtonClicked"
 @code {
  
     MarkdownEditor _TextEditor = null!;
+
+    [Parameter, EditorRequired]
+    public bool AlignmentOptionsEnabled { get; set; }
 
 	private string _Content = string.Empty;
 	private string MyContent
