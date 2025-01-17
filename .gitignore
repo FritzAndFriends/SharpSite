@@ -6,9 +6,9 @@
 # Exclude installed plugins from Sharpsite.web
 SharpSite.Web/plugins/
 artifacts/FirstPlugin/
+artifacts/FileSystemPlugin/
+src/SharpSite.Web/Locales/SharpTranslator/
 
-# Exclude Aspire package.lock.json
-SharpSite.AppHost/packages.lock.json
 
 # User-specific files
 *.rsuser

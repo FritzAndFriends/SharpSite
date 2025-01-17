@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Sdk Name="Aspire.AppHost.Sdk" Version="9.0.0" />
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>87040d9b-cd38-4531-b636-55bfacdceff5</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SharpSite.Web\SharpSite.Web.csproj" />
+    <ProjectReference Include="..\SharpSite.Data.Postgres\SharpSite.Data.Postgres.csproj" IsAspireProjectResource="false" />
+    <ProjectReference Include="..\SharpSite.Data.Postgres.Migration\SharpSite.Data.Postgres.Migration.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Hosting.AppHost" />
+    <PackageReference Include="Aspire.Hosting.PostgreSQL" />
+    <PackageReference Include="System.Text.Json" />
+  </ItemGroup>
+
+</Project>
