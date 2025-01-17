@@ -97,7 +97,7 @@ CustomButtonClicked="@OnCustomButtonClicked"
 		if (!string.IsNullOrEmpty(selectedText))
 		{
 			// Wrap the selected text with the chosen alignment
-			var wrappedText = $"<p style='text-align:{args.Value}'>{selectedText}</p>";
+			var wrappedText = $"<div style='text-align:{args.Value}'>{selectedText}</div>";
 
 			// Replace the selected text in the editor
 			MyContent = MyContent.Replace(selectedText, wrappedText);
