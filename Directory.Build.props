@@ -2,5 +2,6 @@
 <PropertyGroup>
   <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
 	<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+	<OutputPath>bin\Debug\</OutputPath>
 </PropertyGroup>
 </Project>
