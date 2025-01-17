@@ -1,16 +1,51 @@
 @using PSC.Blazor.Components.MarkdownEditor
+@using PSC.Blazor.Components.MarkdownEditor.Enums
 @using PSC.Blazor.Components.MarkdownEditor.EventsArgs
 @using PSC.Blazor.Components.MarkdownEditor.Models
 @using SharpSite.Abstractions.FileStorage
 @inject PluginManager pluginManager
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 
 
 <MarkdownEditor @bind-Value="@MyContent"
 CustomImageUpload="@HandleImageUpload"
-UploadImage="true" />
+UploadImage="true"
+CustomButtonClicked="@OnCustomButtonClicked"
+@ref="@_TextEditor">
+	<Toolbar>
+		<MarkdownToolbarButton Action="MarkdownAction.Bold" Name="Bold" Icon="fa fa-bold" Title="Bold" />
+		<MarkdownToolbarButton Action="MarkdownAction.Italic" Name="Italic" Icon="fa fa-italic" Title="Italic" />
+		<MarkdownToolbarButton Action="MarkdownAction.Strikethrough" Name="Strike Through" Icon="fa fa-strikethrough" Title="Strike Through" />
+		<MarkdownToolbarButton Action="MarkdownAction.HorizontalRule" Name="Horizontal Rule" Icon="fa fa-window-minimize" Title="Horizontal Rule" />
+		<MarkdownToolbarButton Separator Action="MarkdownAction.Heading" Name="Header" Icon="fa fa-header" Title="Heading" />
+		<MarkdownToolbarButton Action="MarkdownAction.Quote" Name="Add Quote" Icon="fa fa-quote-left" Title="Quote" />
+		<MarkdownToolbarButton Action="MarkdownAction.UnorderedList" Name="Add Un-ordered-List" Icon="fa fa-list-ul" Title="Unordered List" />
+		<MarkdownToolbarButton Action="MarkdownAction.OrderedList" Name="Add Ordered-List" Icon="fa fa-list-ol" Title="ordered List" />
+
+		@if(AlignmentOptionsEnabled)
+		{
+			<MarkdownToolbarButton Separator Name="Align Left" Value="@("left")" Icon="fa fa-align-left" Title="Align Left" />
+			<MarkdownToolbarButton Name="Align Centre" Value="@("center")" Icon="fa fa-align-center" Title="Align Centre" />
+			<MarkdownToolbarButton Name="Align Right" Value="@("right")" Icon="fa fa-align-right" Title="Align Right" />
+		}
+
+		<MarkdownToolbarButton Separator Action="MarkdownAction.Link" Name="Add Link" Icon="fa fa-link" Title="Link" />
+		<MarkdownToolbarButton Action="MarkdownAction.Image" Name="Add Image" Icon="fa fa-image" Title="Image" />
+		<MarkdownToolbarButton Action="MarkdownAction.Table" Name="Add Table" Icon="fa fa-table" Title="Add Table" />
+		<MarkdownToolbarButton Separator Action="MarkdownAction.Preview" Name="preview" Icon="no-disable fa fa-eye" Title="Toggle Preview" />
+		<MarkdownToolbarButton Action="MarkdownAction.Code" Name="Code Block" Icon="fa fa-code" Title="Code Block" />
+		<MarkdownToolbarButton Separator Action="MarkdownAction.Fullscreen" Name="Fullscreen" Icon="fa fa-arrows-alt" Title="Fullscreen" />
+		<MarkdownToolbarButton Separator Action="MarkdownAction.Guide" Name="Markdown Guide" Icon="fa fa-question-circle" Title="Markdown Guide" />
+	</Toolbar>
+</MarkdownEditor>
 
 @code {
+ 
+    MarkdownEditor _TextEditor = null!;
+
+    [Parameter, EditorRequired]
+    public bool AlignmentOptionsEnabled { get; set; }
 
 	private string _Content = string.Empty;
 	private string MyContent
@@ -42,7 +77,7 @@ UploadImage="true" />
 	{
 		Console.WriteLine($"Image: {file.Name} Size: {file.Size}");
 
-		// COnvert the base64 string to a byte array and load it into a memory stream
+		// Convert the base64 string to a byte array and load it into a memory stream
 		var bytes = Convert.FromBase64String(file.ContentBase64);
 		var stream = new MemoryStream(bytes);
 
@@ -51,4 +86,24 @@ UploadImage="true" />
 		return file;
 	}
 
+
+
+
+	private async Task OnCustomButtonClicked(MarkdownButtonEventArgs args)
+	{
+		// Get the selected text using JavaScript
+		var selectedText = await JSRuntime.InvokeAsync<string>("getSelectedText");
+
+		if (!string.IsNullOrEmpty(selectedText))
+		{
+			// Wrap the selected text with the chosen alignment
+			var wrappedText = $"<div style='text-align:{args.Value}'>{selectedText}</div>";
+
+			// Replace the selected text in the editor
+			MyContent = MyContent.Replace(selectedText, wrappedText);
+
+			// Update the editor
+            await _TextEditor.SetValueAsync(MyContent);
+		}
+	}
 }

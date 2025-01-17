@@ -17,7 +17,7 @@
 	<div class="form-group">
 	<label for="content">@SharedResource.sharpsite_editpost_content</label>
 	<br/>
-	<TextEditor @bind-Content="@Page.Content" />
+		<TextEditor @bind-Content="@Page.Content" AlignmentOptionsEnabled="true" />
 </div>
 	<button class="btn btn-primary my-2" @onclick="SavePage">@SharedResource.sharpsite_save</button>
 }
