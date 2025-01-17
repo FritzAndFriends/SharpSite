@@ -28,9 +28,8 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         global-json-file: global.json
-        cache: true
-        cache-dependency-path: '**/packages.lock.json'
+
     - name: Restore dependencies
-      run: dotnet restore --locked-mode
+      run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
