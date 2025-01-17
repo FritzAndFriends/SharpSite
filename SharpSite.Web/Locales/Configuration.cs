@@ -1,8 +1,8 @@
-namespace SharpSite.Web.Locales;
+﻿namespace SharpSite.Web.Locales;
 public static class Configuration
 {
 
-	public readonly static string[] SupportedCultures = {
+	public readonly static string[] SupportedCultures = [
 		"bg",
 		"en",
 		"es",
@@ -11,11 +11,11 @@ public static class Configuration
 		"it",
 		"nl",
 		"pt",
-		//"sv",
+		"sv",
 		"sw",
 		"de",
 		"ca",
-	};
+	];
 
 	/// <summary>
 	/// add the custom localization features for the application framework
@@ -24,12 +24,14 @@ public static class Configuration
 	public static void ConfigureRequestLocalization(this WebApplicationBuilder builder)
 	{
 
+		var appState = builder.Services.BuildServiceProvider().GetRequiredService<ApplicationState>();
+		var cultures = appState.Localization?.SupportedCultures ?? SupportedCultures;
+		var defaultCulture = appState.Localization?.DefaultCulture ?? "en";
 		builder.Services.Configure<RequestLocalizationOptions>(options =>
 		{
-
-			options.SetDefaultCulture("en")
-									.AddSupportedCultures(SupportedCultures)
-									.AddSupportedUICultures(SupportedCultures);
+			options.SetDefaultCulture(defaultCulture)
+									.AddSupportedCultures(cultures)
+									.AddSupportedUICultures(cultures);
 		});
 
 		builder.Services.AddLocalization(options =>
