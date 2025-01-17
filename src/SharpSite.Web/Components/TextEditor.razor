@@ -9,10 +9,10 @@
 
 
 <MarkdownEditor @bind-Value="@MyContent"
-CustomImageUpload="@HandleImageUpload"
-UploadImage="true"
-CustomButtonClicked="@OnCustomButtonClicked"
-@ref="@_TextEditor">
+								CustomImageUpload="@HandleImageUpload"
+								UploadImage="true"
+								CustomButtonClicked="@OnCustomButtonClicked"
+								@ref="@_TextEditor">
 	<Toolbar>
 		<MarkdownToolbarButton Action="MarkdownAction.Bold" Name="Bold" Icon="fa fa-bold" Title="Bold" />
 		<MarkdownToolbarButton Action="MarkdownAction.Italic" Name="Italic" Icon="fa fa-italic" Title="Italic" />
@@ -23,7 +23,7 @@ CustomButtonClicked="@OnCustomButtonClicked"
 		<MarkdownToolbarButton Action="MarkdownAction.UnorderedList" Name="Add Un-ordered-List" Icon="fa fa-list-ul" Title="Unordered List" />
 		<MarkdownToolbarButton Action="MarkdownAction.OrderedList" Name="Add Ordered-List" Icon="fa fa-list-ol" Title="ordered List" />
 
-		@if(AlignmentOptionsEnabled)
+		@if (AlignmentOptionsEnabled)
 		{
 			<MarkdownToolbarButton Separator Name="Align Left" Value="@("left")" Icon="fa fa-align-left" Title="Align Left" />
 			<MarkdownToolbarButton Name="Align Centre" Value="@("center")" Icon="fa fa-align-center" Title="Align Centre" />
@@ -41,11 +41,11 @@ CustomButtonClicked="@OnCustomButtonClicked"
 </MarkdownEditor>
 
 @code {
- 
-    MarkdownEditor _TextEditor = null!;
 
-    [Parameter, EditorRequired]
-    public bool AlignmentOptionsEnabled { get; set; }
+	MarkdownEditor _TextEditor = null!;
+
+	[Parameter, EditorRequired]
+	public bool AlignmentOptionsEnabled { get; set; }
 
 	private string _Content = string.Empty;
 	private string MyContent
@@ -92,7 +92,7 @@ CustomButtonClicked="@OnCustomButtonClicked"
 	private async Task OnCustomButtonClicked(MarkdownButtonEventArgs args)
 	{
 		// Get the selected text using JavaScript
-		var selectedText = await JSRuntime.InvokeAsync<string>("getSelectedText");
+		var selectedText = await JSRuntime.InvokeAsync<string>("getSelectedText", ".EasyMDEContainer textarea");
 
 		if (!string.IsNullOrEmpty(selectedText))
 		{
@@ -103,7 +103,7 @@ CustomButtonClicked="@OnCustomButtonClicked"
 			MyContent = MyContent.Replace(selectedText, wrappedText);
 
 			// Update the editor
-            await _TextEditor.SetValueAsync(MyContent);
+			await _TextEditor.SetValueAsync(MyContent);
 		}
 	}
 }
