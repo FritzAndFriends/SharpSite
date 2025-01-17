@@ -10,7 +10,6 @@
 
 <MarkdownEditor @bind-Value="@MyContent"
 CustomImageUpload="@HandleImageUpload"
-
 UploadImage="true"
 CustomButtonClicked="@OnCustomButtonClicked"
 @ref="@_TextEditor">
@@ -61,8 +60,6 @@ CustomButtonClicked="@OnCustomButtonClicked"
 	public EventCallback<string> ContentChanged { get; set; }
 
 	IHandleFileStorage? FileStorage;
-
-	string[] DefaultToolbarButtons = new[] { "bold","italic","heading","quote","unordered-list","ordered-list","link","image","code","preview","side-by-side","fullscreen"};
 
 	protected override void OnInitialized()
 	{
