@@ -26,6 +26,9 @@ public class PgPost
 	[Required]
 	public required DateTimeOffset LastUpdate { get; set; } = DateTimeOffset.Now;
 
+	[Required, MaxLength(11)]
+	public string LanguageCode { get; set; } = "en";
+
 	public static explicit operator PgPost(SharpSite.Abstractions.Post post)
 	{
 
@@ -37,6 +40,7 @@ public class PgPost
 			Content = post.Content,
 			Published = post.PublishedDate,
 			LastUpdate = post.LastUpdate,
+			LanguageCode = post.LanguageCode,
 		};
 
 	}
@@ -52,6 +56,7 @@ public class PgPost
 			Content = post.Content,
 			PublishedDate = post.Published,
 			LastUpdate = post.LastUpdate,
+			LanguageCode = post.LanguageCode,
 		};
 
 	}

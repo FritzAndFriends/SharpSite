@@ -5,8 +5,11 @@
 
 @if (Page is not null)
 {
-	<h1>@Page.Title</h1>
-	@((MarkupString)Markdown.ToHtml(Page.Content))
+	<PageTitle>@Page.Title</PageTitle>
+	<div lang="@Page.LanguageCode">
+		<h1>@Page.Title</h1>
+		@((MarkupString)Markdown.ToHtml(Page.Content))
+	</div>
 }
 else
 {
