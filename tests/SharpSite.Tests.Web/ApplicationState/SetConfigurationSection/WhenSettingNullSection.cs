@@ -3,11 +3,11 @@
 
 namespace SharpSite.Tests.Web.ApplicationState.SetConfigurationSection;
 
-public class GivenNullSection : BaseFixture
+public class WhenSettingNullSection : BaseFixture
 {
 
 	[Fact]
-	public void WhenSettingNullSection_ThenThrowsArgumentNullException()
+	public void ThenThrowsArgumentNullException()
 	{
 		// Act
 		Action act = () => ApplicationState.SetConfigurationSection(null!);

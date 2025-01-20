@@ -1,7 +1,7 @@
 ﻿using SUT = SharpSite.Web.ApplicationState;
 
 
-namespace SharpSite.Tests.Web.ApplicationState.SetConfigurationSection;
+namespace SharpSite.Tests.Web.ApplicationState;
 
 public abstract class BaseFixture
 {

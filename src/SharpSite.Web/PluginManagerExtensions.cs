@@ -43,7 +43,7 @@ public static class PluginManagerExtensions
 
 		var pluginManager = app.Services.GetRequiredService<PluginManager>();
 		await pluginManager.LoadPluginsAtStartup();
-		await appState.Load(app.Services, pluginManager);
+		await appState.Load(app.Services);
 
 		return pluginManager;
 
