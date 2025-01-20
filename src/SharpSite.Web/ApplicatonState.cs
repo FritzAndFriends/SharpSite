@@ -14,7 +14,7 @@ public class ApplicationState
 	/// Indicates whether the application state has been initialized from the applicationState.json file.
 	/// </summary>
 	[JsonIgnore]
-	internal bool Initialized { get; private set; } = false;
+	public bool Initialized { get; private set; } = false;
 
 	public record CurrentThemeRecord(string IdVersion);
 
@@ -86,17 +86,27 @@ public class ApplicationState
 		if (themeType is not null) CurrentTheme = new(manifest.IdVersionToString());
 	}
 
-	public async Task Load(IServiceProvider services, PluginManager pluginManager)
+	private string GetApplicationStateFileContents()
 	{
-		// load application state from applicationState.json in the root of the plugins folder
+		// read the applicationState.json file in the root of the plugins folder
 		var appStateFile = Path.Combine("plugins", "applicationState.json");
-
 		if (File.Exists(appStateFile))
 		{
-			var json = await File.ReadAllTextAsync(appStateFile);
+			return File.ReadAllText(appStateFile);
+		}
+		return string.Empty;
+	}
+
+	public async Task Load(IServiceProvider services, Func<string>? getApplicationStateContents = null)
+	{
+		// load application state from applicationState.json in the root of the plugins folder
+		var appStateContents = getApplicationStateContents is null ? GetApplicationStateFileContents() : getApplicationStateContents();
+
+		if (!string.IsNullOrEmpty(appStateContents))
+		{
 
 			// use Newtonsoft.json to deserialize the json string into the ApplicationState object
-			var state = JsonConvert.DeserializeObject<ApplicationState>(json,
+			var state = JsonConvert.DeserializeObject<ApplicationState>(appStateContents,
 			 new JsonSerializerSettings
 			 {
 				 TypeNameHandling = TypeNameHandling.Auto,
