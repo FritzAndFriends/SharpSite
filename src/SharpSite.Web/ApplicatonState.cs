@@ -129,6 +129,10 @@ public class ApplicationState
 
 	public void SetConfigurationSection(ISharpSiteConfigurationSection section)
 	{
+
+		// add a null check for the section argument
+		ArgumentNullException.ThrowIfNull(section, nameof(section));
+
 		if (ConfigurationSections.ContainsKey(section.SectionName))
 		{
 			ConfigurationSections[section.SectionName] = section;

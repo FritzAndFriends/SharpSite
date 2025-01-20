@@ -79,6 +79,14 @@ dotnet dev-certs https --check --trust
 dotnet run
 ```
 
+### Running unit tests locally
+
+To run the unit tests locally, you can do this at the command line with this command from the base folder of the repository:
+
+```bash
+dotnet test UnitTests.slnf
+```
+
 ## Keeping your local code up to date
 
 You should run a few commands periodically to ensure that your local code is updated with the current changes in the main repsitory.
@@ -112,6 +120,8 @@ The default user that is built and initialized in SharpSite is an Administrator 
 - Follow the C# coding conventions as outlined in the [Microsoft C# Coding Conventions](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions).
 - Keep code changes concise and focused.
 - Write clear, descriptive commit messages.
+- Add unit tests where appropriate 
+- Do not break unit tests or end-to-end tests
 
 ## Adding Translations
 
