@@ -7,11 +7,13 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - 'SharpSite.*/**'
+      - 'src/**'
+      - 'tests/**'
   pull_request:
     branches: [ "*" ]
     paths:
-      - 'SharpSite.*/**'
+      - 'src/**'
+      - 'tests/**'
   workflow_dispatch:
 
 jobs:
