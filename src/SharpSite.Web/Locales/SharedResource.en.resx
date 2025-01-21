@@ -329,14 +329,16 @@
   <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
     <value>Customize the content for the "page not found" page</value>
   </data>
-   <data name="sharpsite_ChangeTheme" xml:space="preserve">
+  <data name="sharpsite_ChangeTheme" xml:space="preserve">
     <value>Change Theme</value>
     <comment>Text of the button used to change the theme of the website</comment>
   </data>
   <data name="sharpsite_language_label" xml:space="preserve">
     <value>Language</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_langauge_help_text" xml:space="preserve">
     <value>This ensures assistive technologies use the correct language for the content.</value>
+    <comment>AI generated translation</comment>
   </data>
 </root>

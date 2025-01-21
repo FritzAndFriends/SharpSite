@@ -387,4 +387,12 @@
   <data name="sharpsite_ChangeTheme">
     <value xml:space="preserve">Cambia tema</value>
   </data>
+  <data name="sharpsite_language_label" xml:space="preserve">
+    <value>Lingua</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_langauge_help_text" xml:space="preserve">
+    <value>Questo garantisce che le tecnologie assistive utilizzino la lingua corretta per il contenuto.</value>
+    <comment>AI generated translation</comment>
+  </data>
 </root>

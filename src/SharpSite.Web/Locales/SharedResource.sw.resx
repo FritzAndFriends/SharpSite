@@ -356,4 +356,12 @@
   <data name="sharpsite_ChangeTheme">
     <value xml:space="preserve">Badili Mandhari</value>
   </data>
+  <data name="sharpsite_language_label" xml:space="preserve">
+    <value>Lugha</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_langauge_help_text" xml:space="preserve">
+    <value>Hii hufanya teknolojia za msaada kutumia lugha sahihi kwa maudhui.</value>
+    <comment>AI generated translation</comment>
+  </data>
 </root>
