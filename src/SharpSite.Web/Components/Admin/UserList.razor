@@ -14,7 +14,7 @@
 	<TemplateColumn Title="Role">
 		@if (context.UserName != editUserId)
 		{
-			<button class="btn-link btn" @onclick="() => editUserId = context.UserName!">@context.UserName</button>
+			<button class="btn-link btn p-0" @onclick="() => editUserId = context.UserName!">@context.Role</button>
 		}
 		else
 		{
