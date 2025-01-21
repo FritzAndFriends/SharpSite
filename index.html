@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sharp Site</title>
+    <title>SharpSite</title>
     <style>
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
@@ -16,12 +16,17 @@
         header { 
             background: #007BFF; 
             color: #fff; 
-            padding: 2rem 0; 
+            padding: 0; 
             text-align: center; 
+            height: 300px; /* Adjust the height as needed */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        header h1 { 
-            margin: 0; 
-            font-size: 2.5rem; 
+        header img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; 
         }
         section { 
             margin: 2rem auto; 
@@ -38,19 +43,6 @@
         a:hover { 
             text-decoration: underline; 
         }
-        .hero { 
-            background: url('https://source.unsplash.com/random/1600x900') no-repeat center center/cover; 
-            color: #fff; 
-            padding: 4rem 0; 
-            text-align: center; 
-        }
-        .hero h1 { 
-            font-size: 3rem; 
-            margin: 0; 
-        }
-        .hero p { 
-            font-size: 1.25rem; 
-        }
         .fade-in { 
             animation: fadeIn 2s ease-in-out; 
         }
@@ -58,22 +50,34 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
     </style>
 </head>
 <body>
-    <header class="hero">
-        <h1>Welcome to Sharp Site</h1>
-        <p>Your open-source content management system</p>
+    <header>
+        <img src="logo.webp" alt="SharpSite Logo">
     </header>
     <section class="fade-in">
-        <h2>About Sharp Site</h2>
-        <p>Sharp Site is an open-source content management system built with .NET and Blazor technologies. Developed live on Twitch, Sharp Site aims to provide a flexible and powerful platform for creating and managing web content.</p>
+        <h2>About SharpSite</h2>
+        <p>SharpSite is an open-source content management system built with .NET and Blazor technologies. Developed live on Twitch, SharpSite aims to provide a flexible and powerful platform for creating and managing web content.</p>
 
         <h2>Learn More</h2>
-        <p>If you're interested in learning more about Sharp Site, check out our <a href="https://github.com/fritzandfriends/sharpsite" target="_blank">GitHub repository</a> for documentation, code examples, and community discussions.</p>
+        <p>If you're interested in learning more about SharpSite, check out our <a href="https://github.com/fritzandfriends/sharpsite" target="_blank">GitHub repository</a> for documentation, code examples, and community discussions.</p>
 
         <h2>Live Stream</h2>
-        <p>Join us for live coding sessions on Twitch and YouTube, where we build and enhance Sharp Site in real-time. Follow us on <a href="https://twitch.tv/csharpfritz" target="_blank">Twitch</a> and <a href="https://youtube.com/csharpfritz" target="_blank">YouTube</a> to stay updated on our streaming schedule.</p>
+        <p>Join us for live coding sessions on Twitch and YouTube, where we build and enhance SharpSite in real-time. Follow us on <a href="https://twitch.tv/csharpfritz" target="_blank">Twitch</a> and <a href="https://youtube.com/csharpfritz" target="_blank">YouTube</a> to stay updated on our streaming schedule.</p>
     </section>
+    <footer>
+        <p>&copy; 2025 SharpSite. All rights reserved.</p>
+    </footer>
 </body>
 </html>
