@@ -124,13 +124,14 @@ public class ApplicationState
 
 			Initialized = true;
 
-			if (ConfigurationSectionChanged is not null)
-			{
-				foreach (var section in ConfigurationSections)
-				{
-					ConfigurationSectionChanged.Invoke(this, section.Value);
-				}
-			}
+			// This shouldn't be called while initializing
+			//if (ConfigurationSectionChanged is not null)
+			//{
+			//	foreach (var section in ConfigurationSections)
+			//	{
+			//		ConfigurationSectionChanged.Invoke(this, section.Value);
+			//	}
+			//}
 
 			await PostLoadApplicationState(services);
 
