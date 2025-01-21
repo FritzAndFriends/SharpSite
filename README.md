@@ -18,7 +18,7 @@ We want to make a content management system that anyone can customize easily and
 - Localization for system administration screens
 - RSS generation
 - Sitemap generation
-- Robots.txt customiztion 
+- Robots.txt customiztion
 
 ## Features we would like to build
 
@@ -44,15 +44,15 @@ To make it easy for folks to customize, we project that we will build the follow
 - Email mailing list management
 - Payments
 - Wordpress import wizard
-- Mobile app for editing 
+- Mobile app for editing
 
 ## User-Personas identified
 
 There are three key personas that we would like SharpSite to support:
 
 1. The non-technical user - this user does not know HTML or any coding and would like to setup a simple website with low to no coding required
-2. The web developer - this user knows some web coding techniques (HTML and CSS) and would like to do some minor customizations to the look and feel of the site
-3. The integrator - this user knows how to code (HTML, Blazor, and .NET) and would like to be able to completely customize the look and feel of their SharpSite installation   
+1. The web developer - this user knows some web coding techniques (HTML and CSS) and would like to do some minor customizations to the look and feel of the site
+1. The integrator - this user knows how to code (HTML, Blazor, and .NET) and would like to be able to completely customize the look and feel of their SharpSite installation
 
 ## Contributors
 
@@ -89,5 +89,3 @@ There are three key personas that we would like SharpSite to support:
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-
-
