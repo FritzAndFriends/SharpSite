@@ -1,0 +1,125 @@
+﻿@typeparam TEntity
+@using System.Reflection
+@using System.Linq.Expressions
+
+
+@if (Property != null)
+{
+    if (PropertyType == typeof(string))
+    {
+@*         var formType = Property.GetAttribute<FormControlAttribute>()?.Type;
+        if (formType == FormControlType.Textarea)
+        {
+            <InputTextArea class="form-control"
+                           rows="15"
+                           Value="@((string)PropertyValue!)"
+                           ValueExpression="ValueExpression<string>()"
+                           ValueChanged="(string val) => Property.SetValue(Entity, val)" />
+        }
+        else
+        { *@
+            <InputText class="form-control"
+                       value="@((string)PropertyValue!)"
+                       ValueExpression="ValueExpression<string>()"
+                       ValueChanged="(string val) => Property.SetValue(Entity, val)" />
+            <span class="text-danger"><ValidationMessage For="ValueExpression<string>()" /></span>
+@*         } *@
+    }
+    else if (PropertyType == typeof(int))
+    {
+        <InputNumber class="form-control"
+                     step="1"
+                     Value="(int)PropertyValue!"
+                     ValueExpression="ValueExpression<int>()"
+                     TValue="int"
+                     ValueChanged="(int val) => Property.SetValue(Entity, val)" />
+        <span class="text-danger"><ValidationMessage For="ValueExpression<int>()" /></span>
+    }
+    else if (PropertyType == typeof(int?))
+    {
+        <InputNumber class="form-control"
+                     step="1"
+                     Value="(int?)PropertyValue"
+                     ValueExpression="ValueExpression<int?>()"
+                     TValue="int?"
+                     ValueChanged="(int? val) => Property.SetValue(Entity, val)" />
+        <span class="text-danger"><ValidationMessage For="ValueExpression<int?>()" /></span>
+    }
+    else if (PropertyType == typeof(double))
+    {
+        <InputNumber class="form-control"
+                     Value="(double)PropertyValue!"
+                     ValueExpression="ValueExpression<double>()"
+                     TValue="double"
+                     ValueChanged="(double val) => Property.SetValue(Entity, val)" />
+        <span class="text-danger"><ValidationMessage For="ValueExpression<double>()" /></span>
+    }
+    else if (PropertyType == typeof(double?))
+    {
+        <InputNumber class="form-control"
+                     Value="(double?)PropertyValue"
+                     ValueExpression="ValueExpression<double?>()"
+                     TValue="double?"
+                     ValueChanged="(double? val) => Property.SetValue(Entity, val)" />
+        <span class="text-danger"><ValidationMessage For="ValueExpression<double?>()" /></span>
+    }
+    else if (PropertyType == typeof(bool))
+    {
+        <div>
+            <div class="btn-group">
+                <div @onclick="@(e => Property.SetValue(Entity, true))" class="btn btn-@((bool)PropertyValue! ? "primary" : "default")">Yes</div>
+                <div @onclick="@(e => Property.SetValue(Entity, false))" class="btn btn-@((bool)PropertyValue! ? "default" : "primary")">No</div>
+            </div>
+        </div>
+    }
+    else if (PropertyType == typeof(bool?))
+    {
+        <div>
+            <div class="btn-group">
+                <div @onclick="@(e => Property.SetValue(Entity, null))" class="btn btn-@((bool?)PropertyValue == null ? "primary" : "default")">N/A</div>
+                <div @onclick="@(e => Property.SetValue(Entity, true))" class="btn btn-@((bool?)PropertyValue == true ? "primary" : "default")">Yes</div>
+                <div @onclick="@(e => Property.SetValue(Entity, false))" class="btn btn-@((bool?)PropertyValue == false ? "primary" : "default")">No</div>
+            </div>
+        </div>
+    }
+    else if (PropertyType == typeof(decimal))
+    {
+        <InputNumber class="form-control"
+                     Value="(decimal)PropertyValue!"
+                     ValueExpression="ValueExpression<decimal>()"
+                     TValue="decimal"
+                     ValueChanged="(decimal val) => Property.SetValue(Entity, val)" />
+        <span class="text-danger"><ValidationMessage For="ValueExpression<decimal>()" /></span>
+    }
+    else if (PropertyType == typeof(decimal?))
+    {
+        <InputNumber class="form-control"
+                     Value="(decimal?)PropertyValue"
+                     ValueExpression="ValueExpression<decimal?>()"
+                     TValue="decimal?"
+                     ValueChanged="(decimal? val) => Property.SetValue(Entity, val)" />
+        <span class="text-danger"><ValidationMessage For="ValueExpression<decimal?>()" /></span>
+    }
+    else if (PropertyType?.IsEnum == true)
+    {
+        <EnumField Entity="@Entity" Property="@Property" />
+    }
+}
+
+@code {
+    [Parameter]
+    public TEntity? Entity { get; set; }
+
+    [Parameter]
+    public PropertyInfo? Property { get; set; }
+
+    private object? PropertyValue => Property?.GetValue(Entity);
+    private Type? PropertyType => Property?.PropertyType;
+
+    private Expression<Func<PropertyType>> ValueExpression<PropertyType>()
+    {
+        var constant = Expression.Constant(Entity);
+        var exp = Expression.Property(constant, Property!.Name);
+        return Expression.Lambda<Func<PropertyType>>(exp);
+    }
+}

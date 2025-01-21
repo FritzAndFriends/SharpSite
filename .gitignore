@@ -4,7 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
 # Exclude installed plugins from Sharpsite.web
-SharpSite.Web/plugins/
+src/SharpSite.Web/plugins/
 artifacts/FirstPlugin/
 artifacts/FileSystemPlugin/
 src/SharpSite.Web/Locales/SharpTranslator/
