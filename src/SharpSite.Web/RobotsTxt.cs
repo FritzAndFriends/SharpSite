@@ -9,21 +9,13 @@ public static class Program_RobotsTxt
 	{
 		app.MapGet("/robots.txt", async (HttpContext context, ApplicationState appState) =>
 		{
+
 			context.Response.ContentType = "text/plain";
 
-			var sb = new StringBuilder();
-			sb.AppendLine("User-agent: *");
-			sb.AppendLine("Disallow: /admin/");
+			var robotsTextContent = GenerateRobotsTxt($"i{context.Request.Scheme}://{context.Request.Host}", appState);
 
-			if (!string.IsNullOrEmpty(appState.RobotsTxtCustomContent))
-			{
-				sb.AppendLine(appState.RobotsTxtCustomContent);
-			}
+			await context.Response.WriteAsync(robotsTextContent);
 
-			// add a line for the sitemap using the base URL from the context
-			sb.AppendLine($"Sitemap: {context.Request.Scheme}://{context.Request.Host}/sitemap.xml");
-
-			await context.Response.WriteAsync(sb.ToString());
 		}).CacheOutput(policy =>
 		{
 			policy.Tag("robots");
@@ -33,4 +25,24 @@ public static class Program_RobotsTxt
 		return app;
 	}
 
+	internal static string GenerateRobotsTxt(string urlBase, ApplicationState appState)
+	{
+
+
+		var sb = new StringBuilder();
+		sb.AppendLine("User-agent: *");
+		sb.AppendLine("Disallow: /admin/");
+
+		if (!string.IsNullOrEmpty(appState.RobotsTxtCustomContent))
+		{
+			sb.AppendLine(appState.RobotsTxtCustomContent);
+		}
+
+		// add a line for the sitemap using the base URL from the context
+		sb.AppendLine($"Sitemap: {urlBase}/sitemap.xml");
+
+		return sb.ToString();
+
+
+	}
 }

@@ -11,6 +11,7 @@
     <Content Remove="plugins\**" />
     <EmbeddedResource Remove="plugins\**" />
     <None Remove="plugins\**" />
+		<InternalsVisibleTo Include="SharpSite.Tests.Web" />
   </ItemGroup>
 
   <ItemGroup>
