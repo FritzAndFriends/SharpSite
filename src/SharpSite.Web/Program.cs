@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
+using SharpSite.Abstractions;
 using SharpSite.Data.Postgres;
 using SharpSite.Security.Postgres;
 using SharpSite.Web;
@@ -42,6 +44,9 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddOutputCache();
 builder.Services.AddMemoryCache();
+
+// add an implementation of IEmailSender that does nothing for SharpSiteUser
+builder.Services.AddTransient<IEmailSender<SharpSiteUser>, IdentityNoOpEmailSender>();
 
 var app = builder.Build();
 
