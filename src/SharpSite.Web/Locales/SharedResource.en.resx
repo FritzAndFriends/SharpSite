@@ -333,4 +333,10 @@
     <value>Change Theme</value>
     <comment>Text of the button used to change the theme of the website</comment>
   </data>
+  <data name="sharpsite_language_label" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="sharpsite_langauge_help_text" xml:space="preserve">
+    <value>This ensures assistive technologies use the correct language for the content.</value>
+  </data>
 </root>

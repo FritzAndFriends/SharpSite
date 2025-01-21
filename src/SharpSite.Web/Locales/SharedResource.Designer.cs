@@ -322,6 +322,24 @@ namespace SharpSite.Web.Locales {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This ensures assistive technologies use the correct language for the content..
+        /// </summary>
+        internal static string sharpsite_langauge_help_text {
+            get {
+                return ResourceManager.GetString("sharpsite_langauge_help_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        internal static string sharpsite_language_label {
+            get {
+                return ResourceManager.GetString("sharpsite_language_label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading....
         /// </summary>
         internal static string sharpsite_loading {
