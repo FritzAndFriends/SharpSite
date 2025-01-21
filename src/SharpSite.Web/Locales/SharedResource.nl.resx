@@ -356,4 +356,12 @@
   <data name="sharpsite_ChangeTheme">
     <value xml:space="preserve">Verander thema</value>
   </data>
+  <data name="sharpsite_language_label" xml:space="preserve">
+    <value>Taal</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_langauge_help_text" xml:space="preserve">
+    <value>Dit zorgt ervoor dat hulpmiddelen voor toegankelijkheid de juiste taal gebruiken voor de inhoud.</value>
+    <comment>AI generated translation</comment>
+  </data>
 </root>
