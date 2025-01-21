@@ -1,1 +1,1 @@
-{"CurrentTheme":{"IdVersion":"Sample.FirstThemePlugin@0.1.0"},"ConfigurationSections":{"FileSystem Storage":{"$type":"SharpSite.Plugins.FileStorage.FileSystem.FileSystemConfigurationSection, SharpSite.Plugins.FileStorage.FileSystem","SectionName":"FileSystem Storage","BaseFolderName":"UploadedFiles"}},"MaximumUploadSizeMB":10,"PageNotFoundContent":"<div style='text-align:center'>This page doesn't exist\n\nGo away</div>"}
+{ }
