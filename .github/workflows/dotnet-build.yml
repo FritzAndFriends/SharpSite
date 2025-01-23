@@ -45,3 +45,36 @@ jobs:
           test-results/**/*.xml
           test-results/**/*.trx
           test-results/**/*.json 
+
+    - name: Set badge color
+      shell: bash
+      run: |
+       case ${{ fromJSON( steps.test-results.outputs.json ).conclusion }} in
+         success)
+           echo "BADGE_COLOR=31c653" >> $GITHUB_ENV
+           ;;
+         failure)
+           echo "BADGE_COLOR=800000" >> $GITHUB_ENV
+           ;;
+         neutral)
+           echo "BADGE_COLOR=696969" >> $GITHUB_ENV
+           ;;
+       esac
+    - name: Create badge
+      uses: emibcn/badge-action@808173dd03e2f30c980d03ee49e181626088eee8
+      with:
+       label: Tests
+       status: '${{ fromJSON( steps.test-results.outputs.json ).formatted.stats.tests }} tests, ${{ fromJSON( steps.test-results.outputs.json ).formatted.stats.runs }} runs: ${{ fromJSON( steps.test-results.outputs.json ).conclusion }}'
+       color: ${{ env.BADGE_COLOR }}
+       path: badge.svg
+
+    - name: Upload badge to Gist
+      # Upload only for master branch
+      if: >
+       github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'master' ||
+       github.event_name != 'workflow_run' && github.ref == 'refs/heads/master'
+      uses: andymckay/append-gist-action@6e8d64427fe47cbacf4ab6b890411f1d67c07f3e
+      with:
+        token: ${{ secrets.GIST_TOKEN }}
+        gistURL: https://gist.github.com/csharpfritz/6487a1f9b940712e183109b2a3d92611
+        file: badge.svg
