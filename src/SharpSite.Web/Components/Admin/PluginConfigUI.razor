@@ -21,8 +21,13 @@ else if (MissingPlugin)
 else
 {
 
-	@* dynamically generate a form based on the properties in the ConfigurationSection.  Use ComponentAttributes as much as possible to configure *@
-	@* the form elements. *@
+	if (!string.IsNullOrEmpty(StatusMessage))
+	{
+		<div class="alert @(StatusIsError ? "alert-danger" : "alert-info")" role="alert">
+			@StatusMessage
+		</div>
+	}
+
 	<EditForm EditContext="Context" OnValidSubmit="SaveChanges">
 		<DataAnnotationsValidator />
 		@foreach (var prop in ConfigurationSection.GetType().GetProperties())
@@ -34,20 +39,14 @@ else
 				<div class="form-group">
 					<label for="@prop.Name">@displayName</label>
 
-					<EditProperty Entity="ConfigurationSection" Property="prop"></EditProperty>
-
-					@* 					<input type="text" class="form-control" id="@prop.Name" 
-					placeholder="@displayName" 
-					value="@prop.GetValue(ConfigurationSection)"
-					@onchange="@(args => ModifyProperty(prop.Name, args))" />
-	 *@				
+					<EditProperty Entity="ConfigurationSection" Property="prop" OnPropertyChanged="StateHasChanged"></EditProperty>
 
 				</div>
 			}
 		}
 
 		<p>
-		<button type="submit" class="btn btn-primary mt-2" disabled="@(!Context.Validate())">Submit</button>
+			<button type="submit" class="btn btn-primary mt-2" disabled="@(!Context.Validate())">Submit</button>
 		</p>
 	</EditForm>
 
@@ -63,6 +62,10 @@ else
 	public ISharpSiteConfigurationSection ConfigurationSection { get; set; } = null!;
 
 	public required EditContext Context { get; set; }
+
+	public string StatusMessage { get; set; } = string.Empty;
+
+	public bool StatusIsError { get; set; } = false;
 
 	protected override void OnInitialized()
 	{
@@ -96,10 +99,24 @@ else
 
 	}
 
+
 	private async Task SaveChanges()
 	{
-		// save the changes to the configuration section
-		AppState.SetConfigurationSection(ConfigurationSection);
-		await AppState.Save();
+		try
+		{
+			// save the changes to the configuration section
+			AppState.SetConfigurationSection(ConfigurationSection);
+
+			await AppState.Save();
+
+			StatusMessage = "Configuration saved successfully.";
+			StatusIsError = false;
+		}
+		catch (Exception ex)
+		{
+			StatusMessage = $"Error saving configuration: {ex.Message}";
+			StatusIsError = true;
+		}
+
 	}
 }

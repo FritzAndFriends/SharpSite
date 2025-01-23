@@ -19,7 +19,17 @@ public class FileSystemConfigurationSection : ISharpSiteConfigurationSection
 		// check if the base folder name has changed, and if so, move the folder
 		if (oldConfig is not null && oldConfig.BaseFolderName != BaseFolderName)
 		{
-			await pluginManager.MoveDirectoryInPluginsFolder(oldConfig.BaseFolderName, BaseFolderName);
+
+			try
+			{
+				await pluginManager.MoveDirectoryInPluginsFolder(oldConfig.BaseFolderName, BaseFolderName);
+			}
+			catch (Exception)
+			{
+				// typically exiting folder does not exist, so we can just create it
+				await pluginManager.CreateDirectoryInPluginsFolder(BaseFolderName);
+			}
+
 		}
 		else
 		{
