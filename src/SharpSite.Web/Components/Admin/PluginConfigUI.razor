@@ -23,13 +23,7 @@ else
 
 	if (!string.IsNullOrEmpty(StatusMessage))
 	{
-		<div class="alert alert-info" role="alert">
-			@if (!string.IsNullOrEmpty(StatusMessage))
-			{
-				<div class="alert @(StatusIsError ? "alert-danger" : "alert-info")" role="alert">
-					@StatusMessage
-				</div>
-			}
+		<div class="alert @(StatusIsError ? "alert-danger" : "alert-info")" role="alert">
 			@StatusMessage
 		</div>
 	}
