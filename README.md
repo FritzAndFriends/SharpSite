@@ -3,6 +3,7 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END --> 
 [![.NET Build + Test](https://github.com/FritzAndFriends/SharpSite/actions/workflows/dotnet-build.yml/badge.svg)](https://github.com/FritzAndFriends/SharpSite/actions/workflows/dotnet-build.yml)
+[![Test Results]([https://gist.githubusercontent.com/EnricoMi/612cb538c14731f1a8fefe504f519395](https://gist.github.com/csharpfritz/6487a1f9b940712e183109b2a3d92611)/raw/badge.svg)]([https://gist.githubusercontent.com/EnricoMi/612cb538c14731f1a8fefe504f519395](https://gist.github.com/csharpfritz/6487a1f9b940712e183109b2a3d92611)/raw/badge.svg)
 
 An accessible CMS built with .NET 9 and Blazor that you are free to use.
 
