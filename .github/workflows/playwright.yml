@@ -26,6 +26,8 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           global-json-file: global.json
+      - name: Add .NET tools to PATH
+        run: echo "/github/home/.dotnet/tools" >> $GITHUB_PATH
       - name: Install .NET HTTPS Development Certificate
         run: |
           dotnet tool update -g linux-dev-certs
