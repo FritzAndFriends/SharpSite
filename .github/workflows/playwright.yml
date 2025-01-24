@@ -10,6 +10,8 @@ on:
     paths-ignore:
       - '**.md'
       - 'tests/**'
+  workflow_dispatch:      
+
 jobs:
   playwright:
     name: 'Playwright Tests'
@@ -17,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright/dotnet:v1.49.0-noble
-      options: --user 1001
+      # options: --user 1001
     steps:
       - uses: actions/checkout@v4
       - name: Setup dotnet
