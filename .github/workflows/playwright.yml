@@ -32,7 +32,7 @@ jobs:
       run: dotnet build
 
     - name: Install Playwright Browsers
-      run: pwsh e2e/SharpSite.E2E/bin/Debug/net9.0/playwright.ps1 install --with-deps
+      run: pwsh e2e/SharpSite.E2E/bin/Debug/net9.0/playwright.ps1 install chromium --with-deps
       
     - name: Run your tests
       run: pwsh ./build-and-test.ps1
@@ -68,7 +68,7 @@ jobs:
         label: e2e Tests
         status: '${{ fromJSON( steps.test-results.outputs.json ).formatted.stats.tests }} tests, ${{ fromJSON( steps.test-results.outputs.json ).formatted.stats.runs }} runs: ${{ fromJSON( steps.test-results.outputs.json ).conclusion }}'
         color: ${{ env.BADGE_COLOR }}
-        path: e2e-badge.svg
+        path: badge.svg
 
     - name: Upload badge to Gist
       # Upload only for main branch
@@ -79,5 +79,5 @@ jobs:
       with:
         token: ${{ secrets.GIST_TOKEN }}
         gistURL: https://gist.github.com/csharpfritz/cc3efb24011bb97d8790afff96a1138d
-        file: e2e-badge.svg
+        file: badge.svg
   

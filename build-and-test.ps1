@@ -1,8 +1,9 @@
 $websiteUrl = "http://localhost:5020"  # Adjust the URL as needed
 
+$env:ASPIRE_ALLOW_UNSECURED_TRANSPORT="true"
 
 # Run the .NET Aspire application in the background
-$dotnetRunProcess = Start-Process -FilePath "dotnet" -ArgumentList "run -v q --project src/SharpSite.AppHost/SharpSite.AppHost.csproj > $null" -NoNewWindow -PassThru
+$dotnetRunProcess = Start-Process -FilePath "dotnet" -ArgumentList "run -lp http --project src/SharpSite.AppHost/SharpSite.AppHost.csproj" -NoNewWindow -PassThru
 
 # Function to check if the website is running
 function Test-Website {
