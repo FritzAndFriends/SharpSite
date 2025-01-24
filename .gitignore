@@ -9,6 +9,8 @@ artifacts/FirstPlugin/
 artifacts/FileSystemPlugin/
 src/SharpSite.Web/Locales/SharpTranslator/
 
+# Playwright test results
+playwright-test-results/
 
 # User-specific files
 *.rsuser
