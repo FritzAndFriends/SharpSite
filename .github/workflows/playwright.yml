@@ -28,6 +28,8 @@ jobs:
           global-json-file: global.json
       - name: Add .NET tools to PATH
         run: echo "/github/home/.dotnet/tools" >> $GITHUB_PATH
+      - name: Switch to user 1001
+        run: sudo su -c "echo 'Switching to user 1001' && exec bash" -s /bin/bash 1001
       - name: Install .NET HTTPS Development Certificate
         run: |
           dotnet tool update -g linux-dev-certs
