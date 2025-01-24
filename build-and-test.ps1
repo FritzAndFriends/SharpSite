@@ -1,4 +1,4 @@
-$websiteUrl = "https://localhost:7166"  # Adjust the URL as needed
+$websiteUrl = "http://localhost:5020"  # Adjust the URL as needed
 
 # Run the .NET Aspire application in the background
 $dotnetRunProcess = Start-Process -FilePath "dotnet" -ArgumentList "run -v q --project src/SharpSite.AppHost/SharpSite.AppHost.csproj > $null" -NoNewWindow -PassThru
