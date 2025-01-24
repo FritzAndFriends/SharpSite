@@ -37,6 +37,7 @@ jobs:
       run: dotnet build --no-restore
     - name: Run Tests
       run: dotnet test UnitTests.slnf --no-build --logger trx --results-directory "test-results"
+
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action@v2
       id: test-results
@@ -64,7 +65,7 @@ jobs:
     - name: Create badge
       uses: emibcn/badge-action@808173dd03e2f30c980d03ee49e181626088eee8
       with:
-       label: Tests
+       label: Unit Tests
        status: '${{ fromJSON( steps.test-results.outputs.json ).formatted.stats.tests }} tests, ${{ fromJSON( steps.test-results.outputs.json ).formatted.stats.runs }} runs: ${{ fromJSON( steps.test-results.outputs.json ).conclusion }}'
        color: ${{ env.BADGE_COLOR }}
        path: badge.svg

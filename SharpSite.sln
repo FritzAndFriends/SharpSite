@@ -49,6 +49,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7. Tests", "7. Tests", "{32
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSite.Tests.Web", "tests\SharpSite.Tests.Web\SharpSite.Tests.Web.csproj", "{BA24379C-40D5-5EDF-63BE-CE5BC727E45D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "8. End-to-End", "8. End-to-End", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSite.E2E", "e2e\SharpSite.E2E\SharpSite.E2E.csproj", "{EFCFB571-6B0C-35CD-6664-160CA5B39244}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +115,10 @@ Global
 		{BA24379C-40D5-5EDF-63BE-CE5BC727E45D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA24379C-40D5-5EDF-63BE-CE5BC727E45D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA24379C-40D5-5EDF-63BE-CE5BC727E45D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFCFB571-6B0C-35CD-6664-160CA5B39244}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFCFB571-6B0C-35CD-6664-160CA5B39244}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFCFB571-6B0C-35CD-6664-160CA5B39244}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFCFB571-6B0C-35CD-6664-160CA5B39244}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -130,6 +138,7 @@ Global
 		{616A0E6E-1EF1-E084-7B5B-FB8550FC5D2B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{78190D3E-4EE1-4C41-72A9-E7A7FBFA5767} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{BA24379C-40D5-5EDF-63BE-CE5BC727E45D} = {3266CA51-9816-4037-9715-701EB6C2928A}
+		{EFCFB571-6B0C-35CD-6664-160CA5B39244} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62A15C13-360B-4791-89E9-1FDDFE483970}
