@@ -4,6 +4,8 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END --> 
 [![.NET Build + Test](https://github.com/FritzAndFriends/SharpSite/actions/workflows/dotnet-build.yml/badge.svg)](https://github.com/FritzAndFriends/SharpSite/actions/workflows/dotnet-build.yml)
 [![Test Results](https://gist.githubusercontent.com/csharpfritz/6487a1f9b940712e183109b2a3d92611/raw/badge.svg)](https://gist.githubusercontent.com/csharpfritz/6487a1f9b940712e183109b2a3d92611/raw/badge.svg)
+[![End-to-End Test Results](https://gist.githubusercontent.com/csharpfritz/cc3efb24011bb97d8790afff96a1138d/raw/badge.svg)](https://gist.githubusercontent.com/csharpfritz/cc3efb24011bb97d8790afff96a1138d/raw/badge.svg)
+
 
 
 An accessible CMS built with .NET 9 and Blazor that you are free to use.
