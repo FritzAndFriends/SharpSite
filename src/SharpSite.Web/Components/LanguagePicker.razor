@@ -2,28 +2,39 @@
 
 @inject IOptions<RequestLocalizationOptions> LocalizationOptions
 @inject NavigationManager Navigation
+@rendermode @(new InteractiveServerRenderMode(true))
 
 @if (LocalizationOptions.Value.SupportedCultures is not null && LocalizationOptions.Value.SupportedCultures.Count > 1)
 {
-	<div class="mt-3 mb-3 mx-5">
-		@foreach (var culture in LocalizationOptions.Value.SupportedCultures.OrderBy(c => c.IetfLanguageTag))
-		{
-			<a onclick="location.href = '@SetCulture(culture.Name)'"
-			   role="button"
-			   title="@culture.DisplayName ( @culture.NativeName )"
-			   class="text-decoration-none" href="#">
-				<span class="badge rounded-pill mx-1 @(culture.ToString() == CultureInfo.CurrentCulture.ToString() ? "bg-primary" : "bg-primary-dark")">@culture</span>
-			</a>
-		}
+	<div class="px-3">
+		<select id="supported-cultures-select" @bind="SelectedCulture" class="form-select valid">
+			@foreach (var culture in LocalizationOptions.Value.SupportedCultures.OrderBy(c => c.IetfLanguageTag))
+			{
+				<option value="@culture">
+					@culture.DisplayName &#40; @culture.NativeName &#41;
+				</option>
+			}
+		</select>
 	</div>
 }
 
 @code
 {
+	private string _selectedCulture = "en";
+
+	private string SelectedCulture 
+	{ 
+		get => _selectedCulture; 
+		set
+		{
+			_selectedCulture = value;
+			Navigation.NavigateTo(SetCulture(_selectedCulture));
+		} 
+	}
+
 	private string SetCulture(string culture)
 	{
 		const string cultureParamName = "culture";
-
 		var url = Navigation.GetUriWithQueryParameter(cultureParamName, culture);
 		return url;
 	}
