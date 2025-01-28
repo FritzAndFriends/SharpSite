@@ -20,7 +20,7 @@ function Test-Website {
 
 # Wait for the website to be running
 Write-Host "Waiting for the website to start..." -ForegroundColor Yellow
-$maxRetries = 30
+$maxRetries = 90
 $retryCount = 0
 while (-not (Test-Website -url $websiteUrl) -and $retryCount -lt $maxRetries) {
     Start-Sleep -Seconds 2
