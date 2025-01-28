@@ -1,6 +1,6 @@
 # SharpSite
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-11-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END --> 
 [![.NET Build + Test](https://github.com/FritzAndFriends/SharpSite/actions/workflows/dotnet-build.yml/badge.svg)](https://github.com/FritzAndFriends/SharpSite/actions/workflows/dotnet-build.yml)
 
@@ -76,6 +76,7 @@ There are three key personas that we would like SharpSite to support:
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/default-writer/c"><img src="https://avatars.githubusercontent.com/u/383256?v=4?s=100" width="100px;" alt="default-writer"/><br /><sub><b>default-writer</b></sub></a><br /><a href="https://github.com/FritzAndFriends/SharpSite/commits?author=default-writer" title="Documentation">📖</a> <a href="https://github.com/FritzAndFriends/SharpSite/commits?author=default-writer" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/degenone"><img src="https://avatars.githubusercontent.com/u/48437506?v=4?s=100" width="100px;" alt="Tero Kilpeläinen"/><br /><sub><b>Tero Kilpeläinen</b></sub></a><br /><a href="https://github.com/FritzAndFriends/SharpSite/commits?author=degenone" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/TheLankyScottishNerd"><img src="https://avatars.githubusercontent.com/u/8051530?v=4?s=100" width="100px;" alt="Declan McIlhatton"/><br /><sub><b>Declan McIlhatton</b></sub></a><br /><a href="#design-TheLankyScottishNerd" title="Design">🎨</a> <a href="https://github.com/FritzAndFriends/SharpSite/commits?author=TheLankyScottishNerd" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://www.simstools.com"><img src="https://avatars.githubusercontent.com/u/301535?v=4?s=100" width="100px;" alt="Occular Malice"/><br /><sub><b>Occular Malice</b></sub></a><br /><a href="https://github.com/FritzAndFriends/SharpSite/commits?author=bsimser" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
