@@ -101,6 +101,15 @@
         "design",
         "code"
       ]
+    },
+    {
+      "login": "bsimser",
+      "name": "Occular Malice",
+      "avatar_url": "https://avatars.githubusercontent.com/u/301535?v=4",
+      "profile": "https://www.simstools.com",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
