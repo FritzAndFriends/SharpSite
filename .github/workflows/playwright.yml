@@ -34,6 +34,9 @@ jobs:
     - name: Install Playwright Browsers
       run: pwsh e2e/SharpSite.E2E/bin/Debug/net9.0/playwright.ps1 install chromium --with-deps
       
+    - name: Pull Docker image for Database
+      run: docker pull postgres:17.2
+
     - name: Run your tests
       run: pwsh ./build-and-test.ps1
 
@@ -70,14 +73,12 @@ jobs:
         color: ${{ env.BADGE_COLOR }}
         path: badge.svg
 
-    - name: Upload badge to Gist
-      # Upload only for main branch
-      if: #>
-        always() #&& github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'v0.6' ||
-        #github.event_name != 'workflow_run' && github.ref == 'refs/heads/v0.6'
-      uses: andymckay/append-gist-action@6e8d64427fe47cbacf4ab6b890411f1d67c07f3e
-      with:
-        token: ${{ secrets.GIST_TOKEN }}
-        gistURL: https://gist.github.com/csharpfritz/cc3efb24011bb97d8790afff96a1138d
-        file: badge.svg
-  
+    - name: Upload badge to Azure Blob Storage
+      if: always()
+      shell: pwsh
+      run: |
+        az storage blob upload --account-name $env:AZURE_STORAGE_ACCOUNT --account-key $env:AZURE_STORAGE_KEY --container-name $env:AZURE_STORAGE_CONTAINER --file badge.svg --name playwright-badge.svg
+      env:
+        AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
+        AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
+        AZURE_STORAGE_CONTAINER: ${{ secrets.AZURE_STORAGE_CONTAINER }}

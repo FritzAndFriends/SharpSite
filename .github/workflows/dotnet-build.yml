@@ -70,13 +70,13 @@ jobs:
        color: ${{ env.BADGE_COLOR }}
        path: badge.svg
 
-    - name: Upload badge to Gist
-      # Upload only for master branch
-      if: >
-       github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'main' ||
-       github.event_name != 'workflow_run' && github.ref == 'refs/heads/main'
-      uses: andymckay/append-gist-action@6e8d64427fe47cbacf4ab6b890411f1d67c07f3e
-      with:
-        token: ${{ secrets.GIST_TOKEN }}
-        gistURL: https://gist.github.com/csharpfritz/6487a1f9b940712e183109b2a3d92611
-        file: badge.svg
+    - name: Upload badge to Azure Blob Storage
+      if: always()
+      shell: pwsh
+      env:
+        AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
+        AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
+        AZURE_STORAGE_CONTAINER: ${{ secrets.AZURE_STORAGE_CONTAINER }}
+      run: |
+        echo "Uploading badge to Azure Blob Storage in storage account $env:AZURE_STORAGE_ACCOUNT"
+        az storage blob upload --account-name $env:AZURE_STORAGE_ACCOUNT --account-key $env:AZURE_STORAGE_KEY --container-name $env:AZURE_STORAGE_CONTAINER --file badge.svg --name unittest-badge.svg
