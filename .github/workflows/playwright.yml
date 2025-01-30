@@ -34,6 +34,9 @@ jobs:
     - name: Install Playwright Browsers
       run: pwsh e2e/SharpSite.E2E/bin/Debug/net9.0/playwright.ps1 install chromium --with-deps
       
+    - name: Pull Docker image for Database
+      run: docker pull postgres:17.2
+
     - name: Run your tests
       run: pwsh ./build-and-test.ps1
 
@@ -73,7 +76,7 @@ jobs:
     - name: Upload badge to Azure Blob Storage
       # Upload only for main branch
       if: #>
-        always() && (github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'v0.6' ||
+        always() || (github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'v0.6' ||
         github.event_name != 'workflow_run' && github.ref == 'refs/heads/v0.6')
       run: 
         az storage blob upload --account-name ${{ secrets.AZURE_STORAGE_ACCOUNT }} --account-key ${{ secrets.AZURE_STORAGE_KEY }} --container-name ${{ secrets.AZURE_STORAGE_CONTAINER }} --file badge.svg --name playwright-badge.svg
