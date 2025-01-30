@@ -14,18 +14,28 @@ public static class PostgresExtensions
 	public static
 		(IResourceBuilder<PostgresDatabaseResource> db,
 		IResourceBuilder<ProjectResource> migrationSvc) AddPostgresServices(
-		this IDistributedApplicationBuilder builder)
+		this IDistributedApplicationBuilder builder,
+		bool testOnly = false)
 	{
 
 		var dbServer = builder.AddPostgres("database")
-			.WithImageTag(VERSIONS.POSTGRES)
-			.WithDataVolume($"{SharpSite.Data.Postgres.Constants.DBNAME}-data", false)
-			.WithLifetime(ContainerLifetime.Persistent)
-			.WithPgAdmin(config =>
-			{
-				config.WithImageTag(VERSIONS.PGADMIN);
-				config.WithLifetime(ContainerLifetime.Persistent);
-			});
+			.WithImageTag(VERSIONS.POSTGRES);
+
+		if (!testOnly)
+		{
+			dbServer.WithLifetime(ContainerLifetime.Persistent)
+				.WithDataVolume($"{SharpSite.Data.Postgres.Constants.DBNAME}-data", false)
+				.WithPgAdmin(config =>
+				{
+					config.WithImageTag(VERSIONS.PGADMIN);
+					config.WithLifetime(ContainerLifetime.Persistent);
+				});
+
+		}
+		else
+		{
+			dbServer.WithDataVolume();
+		}
 
 		var outdb = dbServer.AddDatabase(SharpSite.Data.Postgres.Constants.DBNAME);
 
