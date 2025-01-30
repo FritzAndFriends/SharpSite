@@ -74,7 +74,7 @@ jobs:
       if: always()
       shell: pwsh
       run: |
-        echo "Uploading badge to Azure Blob Storage in storage account $env:AZURE_STORAGE_ACCOUNTs
+        echo "Uploading badge to Azure Blob Storage in storage account $env:AZURE_STORAGE_ACCOUNT"
         az storage blob upload --account-name $env:AZURE_STORAGE_ACCOUNT --account-key $env:AZURE_STORAGE_KEY --container-name $env:AZURE_STORAGE_CONTAINER --file badge.svg --name unittest-badge.svg
       env:
         AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
