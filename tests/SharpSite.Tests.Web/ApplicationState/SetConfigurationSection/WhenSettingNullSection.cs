@@ -5,15 +5,13 @@ namespace SharpSite.Tests.Web.ApplicationState.SetConfigurationSection;
 
 public class WhenSettingNullSection : BaseFixture
 {
+    [Fact]
+    public async Task ThenThrowsArgumentNullException()
+    {
+        // Act
+        async Task Act() => await ApplicationState.SetConfigurationSection(null!);
 
-	[Fact]
-	public void ThenThrowsArgumentNullException()
-	{
-		// Act
-		Action act = () => ApplicationState.SetConfigurationSection(null!);
-
-		// Assert
-		Assert.Throws<ArgumentNullException>(act);
-
-	}
+        // Assert
+        await Assert.ThrowsAsync<ArgumentNullException>(Act);
+    }
 }

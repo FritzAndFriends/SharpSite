@@ -7,36 +7,39 @@ namespace SharpSite.Tests.Web.ApplicationState.SetConfigurationSection;
 
 public class WhenAddingNewSection : BaseFixture
 {
-	[Fact]
-	public void ThenSectionIsAdded()
-	{
-		// Arrange
-		var sectionMock = new Mock<ISharpSiteConfigurationSection>();
-		sectionMock.Setup(s => s.SectionName).Returns("TestSection");
-		var section = sectionMock.Object;
+    [Fact]
+    public async Task ThenSectionIsAdded()
+    {
+        // Arrange
+        var sectionMock = new Mock<ISharpSiteConfigurationSection>();
+        sectionMock.Setup(s => s.SectionName).Returns("TestSection");
+        var section = sectionMock.Object;
 
-		// Act
-		ApplicationState.SetConfigurationSection(section);
+        // Act
+        await ApplicationState.SetConfigurationSection(section);
 
-		// Assert
-		Assert.Contains(section, ApplicationState.ConfigurationSections.Values);
-	}
+        // Assert
+        Assert.Contains(section, ApplicationState.ConfigurationSections.Values);
+    }
 
-	[Fact]
-	public void ThenEventHandlerIsTriggered()
-	{
-		// Arrange
-		var sectionMock = new Mock<ISharpSiteConfigurationSection>();
-		sectionMock.Setup(s => s.SectionName).Returns("TestSection");
-		var section = sectionMock.Object;
-		var eventHandlerTriggered = false;
-		ApplicationState.ConfigurationSectionChanged += (sender, args) => eventHandlerTriggered = true;
+    [Fact]
+    public async Task ThenEventHandlerIsTriggered()
+    {
+        // Arrange
+        var sectionMock = new Mock<ISharpSiteConfigurationSection>();
+        sectionMock.Setup(s => s.SectionName).Returns("TestSection");
+        var section = sectionMock.Object;
+        var eventHandlerTriggered = false;
+        ApplicationState.ConfigurationSectionChanged += async (sender, args) =>
+        {
+            eventHandlerTriggered = true;
+            await Task.CompletedTask;
+        };
 
-		// Act
-		ApplicationState.SetConfigurationSection(section);
+        // Act
+        await ApplicationState.SetConfigurationSection(section);
 
-		// Assert
-		Assert.True(eventHandlerTriggered);
-
-	}
+        // Assert
+        Assert.True(eventHandlerTriggered);
+    }
 }
