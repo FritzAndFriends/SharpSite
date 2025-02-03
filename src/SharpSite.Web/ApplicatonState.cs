@@ -31,7 +31,7 @@ public class ApplicationState
 
 	public Dictionary<string, ISharpSiteConfigurationSection> ConfigurationSections { get; private set; } = new();
 
-	public event EventHandler<ISharpSiteConfigurationSection>? ConfigurationSectionChanged;
+	public event Func<ApplicationState, ISharpSiteConfigurationSection, Task>? ConfigurationSectionChanged;
 
 	/// <summary>
 	/// Maximum file upload size in megabytes.
@@ -138,7 +138,7 @@ public class ApplicationState
 		}
 	}
 
-	public void SetConfigurationSection(ISharpSiteConfigurationSection section)
+	public async Task SetConfigurationSection(ISharpSiteConfigurationSection section)
 	{
 
 		// add a null check for the section argument
@@ -152,7 +152,19 @@ public class ApplicationState
 		{
 			ConfigurationSections.Add(section.SectionName, section);
 		}
-		ConfigurationSectionChanged?.Invoke(this, section);
+
+		if (ConfigurationSectionChanged is not null)
+		{
+			try
+			{
+				await ConfigurationSectionChanged.Invoke(this, section);
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
 	}
 
 	private Task PostLoadApplicationState(IServiceProvider services)

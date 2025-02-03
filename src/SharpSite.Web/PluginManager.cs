@@ -2,6 +2,7 @@
 using SharpSite.Abstractions.FileStorage;
 using SharpSite.Plugins;
 using System.IO.Compression;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -18,7 +19,6 @@ public class PluginManager(
 	public PluginManifest? Manifest { get; private set; }
 
 	private readonly static IServiceCollection _ServiceDescriptors = new ServiceCollection();
-
 	private static IServiceProvider? _ServiceProvider;
 
 	public static void Initialize()
@@ -123,14 +123,14 @@ public class PluginManager(
 	public async Task LoadPluginsAtStartup()
 	{
 
-		AppState.ConfigurationSectionChanged += (sender, e) =>
+		AppState.ConfigurationSectionChanged += async (sender, e) =>
 		{
 			// Update the registered ConfigurationSection in the service locator
 			if (_ServiceDescriptors.Any(descriptor => descriptor.ServiceType == e.GetType()))
 			{
 				var oldSectionDescriptor = _ServiceDescriptors.First(descriptor => descriptor.ServiceType == e.GetType());
 				var oldSection = (ISharpSiteConfigurationSection)oldSectionDescriptor.ImplementationInstance!;
-				e.OnConfigurationChanged(oldSection, this);
+				await e.OnConfigurationChanged(oldSection, this);
 				_ServiceDescriptors.Remove(oldSectionDescriptor);
 			}
 
@@ -329,6 +329,10 @@ public class PluginManager(
 
 	public Task<DirectoryInfo> CreateDirectoryInPluginsFolder(string name)
 	{
+		if (!IsValidDirectory(name))
+		{
+			throw new InvalidFolderException($"Invalid path for folder: {name}");
+		}
 		return Task.FromResult(Directory.CreateDirectory(Path.Combine("plugins", "_" + name)));
 	}
 
@@ -345,6 +349,10 @@ public class PluginManager(
 		{
 			throw new DirectoryNotFoundException($"Directory {oldName} not found in plugins folder.");
 		}
+		if (!IsValidDirectory(newName))
+		{
+			throw new InvalidFolderException($"Invalid path for folder: {newName}");
+		}
 
 		// move the directory specified, which is prefixed with an underscore, to a new name
 		Directory.Move(
@@ -359,5 +367,52 @@ public class PluginManager(
 	public DirectoryInfo GetDirectoryInPluginsFolder(string name)
 	{
 		return new DirectoryInfo(Path.Combine("plugins", "_" + name));
+	}
+
+	private static readonly char[] _InvalidChars = Path.GetInvalidPathChars();
+	private static readonly string[] _InvalidPathSegments = ["~", "..", "/", "\\"];
+	private static readonly string[] _ReservedNames = [ "CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9" ];
+
+	private static bool IsValidDirectory(string name)
+	{
+
+		if (string.IsNullOrWhiteSpace(name))
+		{
+			return false;
+		}
+
+		if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && _ReservedNames.Contains(name, StringComparer.OrdinalIgnoreCase))
+		{
+			return false;
+		}
+
+		if (new DirectoryInfo(name).FullName.Length > 255) // Common maximum path length for cross-platform
+		{
+			return false;
+		}
+
+		foreach (char c in _InvalidChars)
+		{
+			if (name.Contains(c))
+			{
+				return false;
+			}
+		}
+
+		foreach (string s in _InvalidPathSegments)
+		{
+			if (name.Contains(s, StringComparison.OrdinalIgnoreCase))
+			{
+				return false;
+			}
+		}
+
+		if (name.EndsWith(' ') || name.EndsWith('.'))
+		{
+			return false;
+		}
+
+		return true;
+
 	}
 }
