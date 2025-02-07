@@ -9,7 +9,7 @@ if (Test-Path -Path $stopAspireFilePath) {
 }
 
 # Run the .NET Aspire application in the background
-$dotnetRunProcess = Start-Process -FilePath "dotnet" -ArgumentList "run -lp http --project src/SharpSite.AppHost/SharpSite.AppHost.csproj --testonly=true" -NoNewWindow -PassThru
+$dotnetRunProcess = Start-Process -FilePath "dotnet" -ArgumentList "run -lp http --project src/SharpSite.AppHost/SharpSite.AppHost.csproj" -NoNewWindow -PassThru -RedirectStandardOutput "output.log"
 
 # Function to check if the website is running
 function Test-Website {
@@ -26,7 +26,7 @@ function Test-Website {
 
 # Wait for the website to be running
 Write-Host "Waiting for the website to start..." -ForegroundColor Yellow
-$maxRetries = 30
+$maxRetries = 90
 $retryCount = 0
 while (-not (Test-Website -url $websiteUrl) -and $retryCount -lt $maxRetries) {
     Start-Sleep -Seconds 2
