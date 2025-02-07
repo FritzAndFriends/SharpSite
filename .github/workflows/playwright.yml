@@ -10,74 +10,74 @@ on:
     paths-ignore:
       - '**.md'
       - 'tests/**'
-  workflow_dispatch:      
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
 
 jobs:
   playwright:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     name: 'Playwright Tests'
     timeout-minutes: 60    
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-dotnet@v4
-      with:
-        global-json-file: global.json
-    - name: Install .NET HTTPS Development Certificate
-      # if: matrix.os == 'ubuntu-latest'
-      run: |
-        dotnet tool update -g linux-dev-certs
-        dotnet linux-dev-certs install
+      - uses: actions/checkout@v4
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - name: Add .NET tools to PATH
+        run: echo "/github/home/.dotnet/tools" >> $GITHUB_PATH
+      - name: Install .NET HTTPS Development Certificate
+        run: |
+          dotnet tool update -g linux-dev-certs
+          dotnet linux-dev-certs install
+      - name: Build .NET Solution
+        run: dotnet build
+      - name: Install Playwright Browsers
+        run: pwsh e2e/SharpSite.E2E/bin/Debug/net9.0/playwright.ps1 install chromium --with-deps
+      - name: Pull Docker image for Database
+        run: docker pull postgres:17.2
+      - name: Run your tests
+        run: pwsh ./build-and-test.ps1
 
-    - name: Build .NET Solution
-      run: dotnet build
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        id: test-results
+        if: always()
+        with:
+          files: |
+            playwright-test-results/**/*.xml
+            playwright-test-results/**/*.trx
+            playwright-test-results/**/*.json 
 
-    - name: Install Playwright Browsers
-      run: pwsh e2e/SharpSite.E2E/bin/Debug/net9.0/playwright.ps1 install chromium --with-deps
-      
-    - name: Run your tests
-      run: pwsh ./build-and-test.ps1
+      - name: Set badge color
+        shell: bash
+        run: |
+          case ${{ fromJSON( steps.test-results.outputs.json ).conclusion }} in
+            success)
+              echo "BADGE_COLOR=31c653" >> $GITHUB_ENV
+              ;;
+            failure)
+              echo "BADGE_COLOR=800000" >> $GITHUB_ENV
+              ;;
+            neutral)
+              echo "BADGE_COLOR=696969" >> $GITHUB_ENV
+              ;;
+          esac
+      - name: Create badge
+        uses: emibcn/badge-action@808173dd03e2f30c980d03ee49e181626088eee8
+        with:
+          label: Unit Tests
+          status: '${{ fromJSON( steps.test-results.outputs.json ).formatted.stats.tests }} tests, ${{ fromJSON( steps.test-results.outputs.json ).formatted.stats.runs }} runs: ${{ fromJSON( steps.test-results.outputs.json ).conclusion }}'
+          color: ${{ env.BADGE_COLOR }}
+          path: badge.svg
 
-
-    - name: Publish Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v2
-      id: test-results
-      if: always()
-      with:
-        files: |
-          playwright-test-results/**/*.trx
-
-    - name: Set badge color
-      if: always()
-      shell: bash
-      run: |
-        case ${{ fromJSON( steps.test-results.outputs.json ).conclusion }} in
-          success)
-            echo "BADGE_COLOR=31c653" >> $GITHUB_ENV
-            ;;
-          failure)
-            echo "BADGE_COLOR=800000" >> $GITHUB_ENV
-            ;;
-          neutral)
-            echo "BADGE_COLOR=696969" >> $GITHUB_ENV
-            ;;
-        esac
-    - name: Create badge
-      uses: emibcn/badge-action@808173dd03e2f30c980d03ee49e181626088eee8
-      if: always()
-      with:
-        label: e2e Tests
-        status: '${{ fromJSON( steps.test-results.outputs.json ).formatted.stats.tests }} tests, ${{ fromJSON( steps.test-results.outputs.json ).formatted.stats.runs }} runs: ${{ fromJSON( steps.test-results.outputs.json ).conclusion }}'
-        color: ${{ env.BADGE_COLOR }}
-        path: badge.svg
-
-    - name: Upload badge to Gist
-      # Upload only for main branch
-      if: #>
-        always() #&& github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'v0.6' ||
-        #github.event_name != 'workflow_run' && github.ref == 'refs/heads/v0.6'
-      uses: andymckay/append-gist-action@6e8d64427fe47cbacf4ab6b890411f1d67c07f3e
-      with:
-        token: ${{ secrets.GIST_TOKEN }}
-        gistURL: https://gist.github.com/csharpfritz/cc3efb24011bb97d8790afff96a1138d
-        file: badge.svg
-  
+      - name: Upload badge to Azure Blob Storage
+        if: always() && (github.ref == 'refs/heads/main' || github.base_ref == 'refs/heads/main')
+        shell: pwsh
+        run: |
+          az storage blob upload --account-name $env:AZURE_STORAGE_ACCOUNT --account-key $env:AZURE_STORAGE_KEY --container-name $env:AZURE_STORAGE_CONTAINER --file badge.svg --name playwright-badge.svg
+        env:
+          AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
+          AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
+          AZURE_STORAGE_CONTAINER: ${{ secrets.AZURE_STORAGE_CONTAINER }}

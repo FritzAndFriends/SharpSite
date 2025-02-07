@@ -105,7 +105,7 @@ else
 		try
 		{
 			// save the changes to the configuration section
-			AppState.SetConfigurationSection(ConfigurationSection);
+			await AppState.SetConfigurationSection(ConfigurationSection);
 
 			await AppState.Save();
 

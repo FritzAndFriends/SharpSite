@@ -1,4 +1,5 @@
 ﻿using SharpSite.Abstractions.Base;
+using SharpSite.Abstractions.FileStorage;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -24,6 +25,7 @@ public class FileSystemConfigurationSection : ISharpSiteConfigurationSection
 			{
 				await pluginManager.MoveDirectoryInPluginsFolder(oldConfig.BaseFolderName, BaseFolderName);
 			}
+			catch (InvalidFolderException) { throw; }
 			catch (Exception)
 			{
 				// typically exiting folder does not exist, so we can just create it

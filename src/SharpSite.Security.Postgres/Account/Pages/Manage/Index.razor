@@ -3,7 +3,6 @@
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Identity
 
-
 @inject UserManager<PgSharpSiteUser> UserManager
 @inject SignInManager<PgSharpSiteUser> SignInManager
 @inject IdentityUserAccessor UserAccessor
@@ -11,7 +10,7 @@
 
 <PageTitle>Profile</PageTitle>
 
-<h3>Profile</h3>
+<h3 aria-label="Manage Profile">Profile</h3>
 <StatusMessage />
 
 <div class="row">
@@ -46,17 +45,22 @@
 	[CascadingParameter]
 	private HttpContext HttpContext { get; set; } = default!;
 
-	[SupplyParameterFromForm]
-	private InputModel Input { get; set; } = new() { DisplayName = "" };
+	[Parameter, SupplyParameterFromForm(FormName="profile")]
+	public InputModel Input { get; set; } = new() { DisplayName = "" };
 
 	protected override async Task OnInitializedAsync()
 	{
 		user = await UserAccessor.GetRequiredUserAsync(HttpContext);
 		username = user.UserName; //await UserManager.GetUserNameAsync(user);
 		phoneNumber = user.PhoneNumber; // await UserManager.GetPhoneNumberAsync(user);
-		Input.DisplayName = user.DisplayName;
+																		// Input.DisplayName = user.DisplayName;
 
-		Input.PhoneNumber = phoneNumber;
+		if (string.IsNullOrEmpty(Input.PhoneNumber))
+		{
+			Input.DisplayName = user.DisplayName;
+			Input.PhoneNumber = phoneNumber;
+		}
+
 	}
 
 	private async Task OnValidSubmitAsync()
@@ -71,14 +75,15 @@
 		}
 
 		var thisUser = await UserManager.FindByIdAsync(user.Id);
-		thisUser!.DisplayName = Input.DisplayName;
+		thisUser!.DisplayName = Input.DisplayName!;
+		thisUser.PhoneNumber = Input.PhoneNumber;
 		var updateResult = await UserManager.UpdateAsync(thisUser);
 
 		await SignInManager.RefreshSignInAsync(user);
 		RedirectManager.RedirectToCurrentPageWithStatus("Your profile has been updated", HttpContext);
 	}
 
-	private sealed class InputModel
+	public sealed class InputModel
 	{
 		[Phone]
 		[Display(Name = "Phone number")]
@@ -86,7 +91,7 @@
 
 
 		[Display(Name = "Display Name"), Required, MaxLength(50)]
-		public required string DisplayName { get; set; }
+		public string? DisplayName { get; set; }
 
 	}
 }
