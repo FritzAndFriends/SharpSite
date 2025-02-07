@@ -15,7 +15,7 @@ on:
 
 jobs:
   playwright:
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    #if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     name: 'Playwright Tests'
     timeout-minutes: 60    
     runs-on: ubuntu-latest
