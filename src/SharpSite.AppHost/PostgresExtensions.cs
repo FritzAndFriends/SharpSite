@@ -23,7 +23,7 @@ public static class PostgresExtensions
 
 		if (!testOnly)
 		{
-			dbServer.WithLifetime(ContainerLifetime.Persistent)
+			dbServer = dbServer.WithLifetime(ContainerLifetime.Persistent)
 				.WithDataVolume($"{SharpSite.Data.Postgres.Constants.DBNAME}-data", false)
 				.WithPgAdmin(config =>
 				{
@@ -34,7 +34,8 @@ public static class PostgresExtensions
 		}
 		else
 		{
-			dbServer.WithDataVolume();
+			dbServer = dbServer
+				.WithLifetime(ContainerLifetime.Session);
 		}
 
 		var outdb = dbServer.AddDatabase(SharpSite.Data.Postgres.Constants.DBNAME);

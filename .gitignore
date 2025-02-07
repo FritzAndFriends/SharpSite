@@ -18,6 +18,7 @@ playwright-test-results/
 *.user
 *.userosscache
 *.sln.docstates
+stop-aspire
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

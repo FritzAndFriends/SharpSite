@@ -18,7 +18,37 @@ var (db, migrationSvc) = builder.AddPostgresServices(testOnly);
 
 builder.AddProject<Projects.SharpSite_Web>("webfrontend")
 	.WithReference(db)
-	.WaitFor(migrationSvc)
+	.WaitForCompletion(migrationSvc)
 	.WithExternalHttpEndpoints();
 
-builder.Build().Run();
+if (testOnly)
+{
+	// start the site with runasync and watch for a file to be created called 'stop-aspire' 
+	// to stop the site
+	var theSite = builder.Build();
+	var fileSystemWatcher = new FileSystemWatcher(".", "stop-aspire")
+	{
+		NotifyFilter = NotifyFilters.FileName | NotifyFilters.CreationTime
+	};
+
+	fileSystemWatcher.Created += async (sender, e) =>
+	{
+		if (e.Name == "stop-aspire")
+		{
+			Console.WriteLine("Stopping the site");
+			await theSite.StopAsync();
+			fileSystemWatcher.Dispose();
+		}
+	};
+
+	fileSystemWatcher.EnableRaisingEvents = true;
+
+	Console.WriteLine("Starting the site in test mode");
+	await theSite.RunAsync();
+
+} else {
+	builder.Build().Run();
+
+}
+
+
