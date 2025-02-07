@@ -2,6 +2,12 @@ $websiteUrl = "http://localhost:5020"  # Adjust the URL as needed
 
 $env:ASPIRE_ALLOW_UNSECURED_TRANSPORT="true"
 
+# Delete the stop-aspire file if it exists
+$stopAspireFilePath = Join-Path -Path "$PSScriptRoot/src/SharpSite.AppHost" -ChildPath "stop-aspire"
+if (Test-Path -Path $stopAspireFilePath) {
+	Remove-Item -Path $stopAspireFilePath -Force
+}
+
 # Run the .NET Aspire application in the background
 $dotnetRunProcess = Start-Process -FilePath "dotnet" -ArgumentList "run -lp http --project src/SharpSite.AppHost/SharpSite.AppHost.csproj --testonly=true" -NoNewWindow -PassThru
 
@@ -46,8 +52,10 @@ dotnet test ./e2e/SharpSite.E2E/SharpSite.E2E.csproj --logger trx --results-dire
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Playwright tests failed!" -ForegroundColor Red
 
-    # Stop the dotnet run process
-    Stop-Process -Id $dotnetRunProcess.Id -Force
+
+		# Create a file called stop-aspire
+		$stopAspireFilePath = Join-Path -Path "$PSScriptRoot/src/SharpSite.AppHost" -ChildPath "stop-aspire"
+		New-Item -Path $stopAspireFilePath -ItemType File -Force | Out-Null
 		Set-Location -Path "$PSScriptRoot"
     exit $LASTEXITCODE
 }
@@ -55,6 +63,7 @@ if ($LASTEXITCODE -ne 0) {
 Write-Host "Build and tests completed successfully!" -ForegroundColor Green
 
 # Stop the dotnet run process
-Stop-Process -Id $dotnetRunProcess.Id -Force
+	$stopAspireFilePath = Join-Path -Path "$PSScriptRoot/src/SharpSite.AppHost" -ChildPath "stop-aspire"
+	New-Item -Path $stopAspireFilePath -ItemType File -Force | Out-Null
 
 Set-Location -Path "$PSScriptRoot"
