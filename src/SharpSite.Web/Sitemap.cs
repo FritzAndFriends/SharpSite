@@ -11,51 +11,11 @@ public static class ProgramExtensions_Sitemap
 			IPostRepository postRepository,
 			IPageRepository pageRepository) =>
 		{
-
 			var host = context.Request.Host.Value;
-			var lastModDate = DateTime.Now.Date;
-
-			var baseXML = $"""
-				<?xml version="1.0" encoding="UTF-8"?>
-				<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-				  <url>
-				    <loc>https://{host}</loc>
-				    <lastmod>{lastModDate.ToString("yyyy-MM-dd")}</lastmod>
-				  </url>
-				""";
-
-			var sb = new StringBuilder(baseXML);
-
 			var posts = await postRepository.GetPosts();
-
-			foreach (var post in posts)
-			{
-				var newXml = $"""
-					<url>
-						<loc>https://{host}{post.ToUrl()}</loc>
-						<lastmod>{post.LastUpdate.ToString("yyyy-MM-dd")}</lastmod>
-					</url>
-				""";
-				sb.Append(newXml);
-			}
-
-			// append page URLs
 			var pages = await pageRepository.GetPages();
-			foreach (var page in pages)
-			{
-				var newXml = $"""
-					<url>
-						<loc>https://{host}/{page.Slug.ToLowerInvariant()}</loc>
-						<lastmod>{page.LastUpdate.ToString("yyyy-MM-dd")}</lastmod>
-					</url>
-				""";
-				sb.Append(newXml);
-			}
-
-			sb.Append("</urlset>");
-
 			context.Response.ContentType = "application/xml";
-			await context.Response.WriteAsync(sb.ToString());
+			await context.Response.WriteAsync(GenerateSitemap(host, posts, pages));
 		})
 		.CacheOutput(policy =>
 		{
@@ -66,4 +26,47 @@ public static class ProgramExtensions_Sitemap
 
 	}
 
+	internal static string GenerateSitemap(string? host, IEnumerable<Post> posts, IEnumerable<Page> pages)
+	{
+
+		var lastModDate = DateTime.Now.Date;
+
+		var baseXML = $"""
+				<?xml version="1.0" encoding="UTF-8"?>
+				<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+				  <url>
+				    <loc>https://{host}</loc>
+				    <lastmod>{lastModDate:yyyy-MM-dd}</lastmod>
+				  </url>
+				""";
+
+		var sb = new StringBuilder(baseXML);
+
+		foreach (var post in posts)
+		{
+			var newXml = $"""
+					<url>
+						<loc>https://{host}{post.ToUrl()}</loc>
+						<lastmod>{post.LastUpdate:yyyy-MM-dd}</lastmod>
+					</url>
+				""";
+			sb.Append(newXml);
+		}
+
+		foreach (var page in pages)
+		{
+			var newXml = $"""
+					<url>
+						<loc>https://{host}/{page.Slug.ToLowerInvariant()}</loc>
+						<lastmod>{page.LastUpdate:yyyy-MM-dd}</lastmod>
+					</url>
+				""";
+			sb.Append(newXml);
+		}
+
+		sb.Append("</urlset>");
+
+		return sb.ToString();
+
+	}
 }
