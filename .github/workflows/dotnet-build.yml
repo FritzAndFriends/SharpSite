@@ -34,3 +34,24 @@ jobs:
       run: dotnet restore --locked-mode
     - name: Build
       run: dotnet build --no-restore
+
+
+  publish-container:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        global-json-file: global.json
+        cache: true
+        cache-dependency-path: '**/packages.lock.json'
+    - name: Log in to GitHub Container Registry
+      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+    - name: Build Docker image
+      run: docker build -t ghcr.io/fritzandfriends/sharpsite:${{ github.sha }} .
+    - name: Push Docker image
+      run: docker push ghcr.io/fritzandfriends/sharpsite:${{ github.sha }}
