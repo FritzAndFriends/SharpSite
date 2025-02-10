@@ -9,7 +9,7 @@ if (Test-Path -Path $stopAspireFilePath) {
 }
 
 # Run the .NET Aspire application in the background
-$dotnetRunProcess = Start-Process -FilePath "dotnet" -ArgumentList "run -lp http --project src/SharpSite.AppHost/SharpSite.AppHost.csproj" -NoNewWindow -PassThru -RedirectStandardOutput "output.log"
+$dotnetRunProcess = Start-Process -FilePath "dotnet" -ArgumentList "run -lp http --project src/SharpSite.AppHost/SharpSite.AppHost.csproj --testonly=true" -NoNewWindow -PassThru -RedirectStandardOutput "output.log"
 
 # Function to check if the website is running
 function Test-Website {
