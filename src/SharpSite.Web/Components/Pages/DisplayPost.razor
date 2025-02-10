@@ -1,0 +1,45 @@
+@page "/{urldate:int}/{slug}"
+@using Markdig
+@inject IPostRepository PostService
+@inject IStringLocalizer<SharedResource> Localizer
+@inject NavigationManager NavigationManager
+
+<SectionContent SectionName="Head">
+
+	<SeoHeaderTags 
+		Title="@Post?.Title" 
+		Description="@Post?.Description" 
+		PublishedDate="@Post?.PublishedDate" />
+
+</SectionContent>
+
+@if (Post is not null)
+{
+	<PageTitle>SharpSite &#124; @Post.Title</PageTitle>
+	<div lang="@Post.LanguageCode">
+		<h1>@Post.Title</h1>
+		<h6>@Post.PublishedDate.LocalDateTime</h6>
+		<p>@((MarkupString)Markdown.ToHtml(Post.Content))</p>
+	</div>
+
+	<hr />
+	<a href="/">@Localizer[SharedResource.sharpsite_backtohome]</a>
+
+}
+else
+{
+	<PageTitle>@Localizer[SharedResource.sharpsite_pagenotfound]</PageTitle>
+	<PageNotFound PageRequested="@(new Uri(NavigationManager.Uri).AbsolutePath)" />
+}
+
+
+@code {
+	[Parameter] public int UrlDate { get; set; }
+	[Parameter] public required string Slug { get; set; }
+	private Post? Post { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		Post = await PostService.GetPost(UrlDate.ToString(), Slug);
+	}
+}

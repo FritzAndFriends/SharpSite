@@ -1,0 +1,97 @@
+﻿@page "/Account/Manage"
+
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<PgSharpSiteUser> UserManager
+@inject SignInManager<PgSharpSiteUser> SignInManager
+@inject IdentityUserAccessor UserAccessor
+@inject IdentityRedirectManager RedirectManager
+
+<PageTitle>Profile</PageTitle>
+
+<h3 aria-label="Manage Profile">Profile</h3>
+<StatusMessage />
+
+<div class="row">
+	<div class="col-xl-6">
+		<EditForm Model="Input" FormName="profile" OnValidSubmit="OnValidSubmitAsync" method="post">
+			<DataAnnotationsValidator />
+			<ValidationSummary class="text-danger" role="alert" />
+			<div class="form-floating mb-3">
+				<input type="text" value="@username" id="username" class="form-control" placeholder="Choose your username." disabled />
+				<label for="username" class="form-label">Username</label>
+			</div>
+			<div class="form-floating mb-3">
+				<InputText @bind-Value="Input.DisplayName" id="Input.DisplayName" class="form-control" placeholder="Enter your display name" />
+				<label for="Input.DisplayName" class="form-label">Display Name</label>
+				<ValidationMessage For="() => Input.DisplayName" class="text-danger" />
+			</div>
+			<div class="form-floating mb-3">
+				<InputText @bind-Value="Input.PhoneNumber" id="Input.PhoneNumber" class="form-control" placeholder="Enter your phone number" />
+				<label for="Input.PhoneNumber" class="form-label">Phone number</label>
+				<ValidationMessage For="() => Input.PhoneNumber" class="text-danger" />
+			</div>
+			<button type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+		</EditForm>
+	</div>
+</div>
+
+@code {
+	private PgSharpSiteUser user = default!;
+	private string? username;
+	private string? phoneNumber;
+
+	[CascadingParameter]
+	private HttpContext HttpContext { get; set; } = default!;
+
+	[Parameter, SupplyParameterFromForm(FormName="profile")]
+	public InputModel Input { get; set; } = new() { DisplayName = "" };
+
+	protected override async Task OnInitializedAsync()
+	{
+		user = await UserAccessor.GetRequiredUserAsync(HttpContext);
+		username = user.UserName; //await UserManager.GetUserNameAsync(user);
+		phoneNumber = user.PhoneNumber; // await UserManager.GetPhoneNumberAsync(user);
+																		// Input.DisplayName = user.DisplayName;
+
+		if (string.IsNullOrEmpty(Input.PhoneNumber))
+		{
+			Input.DisplayName = user.DisplayName;
+			Input.PhoneNumber = phoneNumber;
+		}
+
+	}
+
+	private async Task OnValidSubmitAsync()
+	{
+		if (Input.PhoneNumber != phoneNumber)
+		{
+			var setPhoneResult = await UserManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+			if (!setPhoneResult.Succeeded)
+			{
+				RedirectManager.RedirectToCurrentPageWithStatus("Error: Failed to set phone number.", HttpContext);
+			}
+		}
+
+		var thisUser = await UserManager.FindByIdAsync(user.Id);
+		thisUser!.DisplayName = Input.DisplayName!;
+		thisUser.PhoneNumber = Input.PhoneNumber;
+		var updateResult = await UserManager.UpdateAsync(thisUser);
+
+		await SignInManager.RefreshSignInAsync(user);
+		RedirectManager.RedirectToCurrentPageWithStatus("Your profile has been updated", HttpContext);
+	}
+
+	public sealed class InputModel
+	{
+		[Phone]
+		[Display(Name = "Phone number")]
+		public string? PhoneNumber { get; set; }
+
+
+		[Display(Name = "Display Name"), Required, MaxLength(50)]
+		public string? DisplayName { get; set; }
+
+	}
+}

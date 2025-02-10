@@ -1,0 +1,44 @@
+﻿@typeparam TEntity
+
+@using System.Reflection
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components
+
+@if (Property != null)
+{
+  <select class="form-control"
+          value="@Property.GetValue(Entity)"
+          @onchange="HandleOnChange">
+    @foreach (var value in Enum.GetValues(Property.PropertyType))
+    {
+      <option value="@value">@value</option>
+    }
+  </select>
+}
+
+@code {
+  [Parameter]
+  public TEntity? Entity { get; set; }
+  [Parameter]
+  public PropertyInfo? Property { get; set; }
+
+  private void HandleOnChange(ChangeEventArgs e)
+  {
+    var valueStr = e.Value?.ToString();
+
+    if (Property is null)
+    {
+      return;
+    }
+
+    if (string.IsNullOrWhiteSpace(valueStr))
+    {
+      return;
+    }
+
+    if (Enum.TryParse(Property.PropertyType, valueStr, out var parsed))
+    {
+      Property.SetValue(Entity, parsed);
+    }
+  }
+}
