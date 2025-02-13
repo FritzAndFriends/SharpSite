@@ -4,8 +4,8 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END --> 
 [![.NET Build + Test](https://github.com/FritzAndFriends/SharpSite/actions/workflows/dotnet-build.yml/badge.svg)](https://github.com/FritzAndFriends/SharpSite/actions/workflows/dotnet-build.yml)
-[![Test Results](https://fritzblog.blob.core.windows.net/githubartifacts/unittest-badge.svg)](https://fritzblog.blob.core.windows.net/githubartifacts/unittest-badge.svg)
-[![End-to-End Test Results](https://fritzblog.blob.core.windows.net/githubartifacts/playwright-badge.svg)](https://fritzblog.blob.core.windows.net/githubartifacts/playwright-badge.svg)
+[![Test Results](https://fritzblog.blob.core.windows.net/githubartifacts/unittest-badge.svg?0.6)](https://fritzblog.blob.core.windows.net/githubartifacts/unittest-badge.svg)
+[![End-to-End Test Results](https://fritzblog.blob.core.windows.net/githubartifacts/playwright-badge.svg?0.6)](https://fritzblog.blob.core.windows.net/githubartifacts/playwright-badge.svg)
 
 
 
