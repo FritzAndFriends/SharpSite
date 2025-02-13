@@ -1,9 +1,0 @@
-<h2><a href="@item.ToUrl()">@item.Title</a></h2>
-<h4>@item.PublishedDate.LocalDateTime.ToShortDateString()</h4>
-
-<p>@item.Description</p>
-
-@code {
-	[Parameter, EditorRequired] 
-	public required Post item { get; set; }
-}

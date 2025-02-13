@@ -7,15 +7,17 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - 'SharpSite.*/**'
+      - 'src/**'
+      - 'tests/**'
   pull_request:
     branches: [ "*" ]
     paths:
-      - 'SharpSite.*/**'
+      - 'src/**'
+      - 'tests/**'
   workflow_dispatch:
 
 jobs:
-  build:
+  test:
 
     runs-on: ubuntu-latest
 
@@ -28,13 +30,56 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         global-json-file: global.json
-        cache: true
-        cache-dependency-path: '**/packages.lock.json'
+
     - name: Restore dependencies
-      run: dotnet restore --locked-mode
+      run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+    - name: Run Tests
+      run: dotnet test UnitTests.slnf --no-build --logger trx --results-directory "test-results"
 
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      id: test-results
+      if: always()
+      with:
+        files: |
+          test-results/**/*.xml
+          test-results/**/*.trx
+          test-results/**/*.json 
+
+    - name: Set badge color
+      shell: bash
+      run: |
+       case ${{ fromJSON( steps.test-results.outputs.json ).conclusion }} in
+         success)
+           echo "BADGE_COLOR=31c653" >> $GITHUB_ENV
+           ;;
+         failure)
+           echo "BADGE_COLOR=800000" >> $GITHUB_ENV
+           ;;
+         neutral)
+           echo "BADGE_COLOR=696969" >> $GITHUB_ENV
+           ;;
+       esac
+    - name: Create badge
+      uses: emibcn/badge-action@808173dd03e2f30c980d03ee49e181626088eee8
+      with:
+       label: Unit Tests
+       status: '${{ fromJSON( steps.test-results.outputs.json ).formatted.stats.tests }} tests, ${{ fromJSON( steps.test-results.outputs.json ).formatted.stats.runs }} runs: ${{ fromJSON( steps.test-results.outputs.json ).conclusion }}'
+       color: ${{ env.BADGE_COLOR }}
+       path: badge.svg
+
+    - name: Upload badge to Azure Blob Storage
+      if: always() && (github.ref == 'refs/heads/main' || github.base_ref == 'refs/heads/main')
+      shell: pwsh
+      env:
+        AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
+        AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
+        AZURE_STORAGE_CONTAINER: ${{ secrets.AZURE_STORAGE_CONTAINER }}
+      run: |
+        echo "Uploading badge to Azure Blob Storage in storage account $env:AZURE_STORAGE_ACCOUNT"
+        az storage blob upload --account-name $env:AZURE_STORAGE_ACCOUNT --account-key $env:AZURE_STORAGE_KEY --container-name $env:AZURE_STORAGE_CONTAINER --file badge.svg --name unittest-badge.svg --overwrite true
 
   publish-container:
     runs-on: ubuntu-latest

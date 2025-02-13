@@ -1,0 +1,53 @@
+﻿@inject ApplicationState AppState
+<ul class="nav nav-pills flex-column">
+
+	<AuthorizeView Roles="@Constants.Roles.AllUsers">
+		<li class="nav-item">
+			<NavLink class="nav-link" href="/admin" Match="NavLinkMatch.All">
+				@Localizer[SharedResource.sharpsite_generaladmin]
+			</NavLink>
+		</li>
+	</AuthorizeView>
+
+	<AuthorizeView Roles="@Constants.Roles.Admin">
+		<li class="nav-item">
+			<NavLink class="nav-link" href="/admin/pages" Match="NavLinkMatch.All">
+				@Localizer[SharedResource.sharpsite_pageadmin]
+			</NavLink>
+		</li>
+	</AuthorizeView>
+	<li class="nav-item">
+		<NavLink class="nav-link" href="/admin/posts" Match="NavLinkMatch.All">
+			@Localizer[SharedResource.sharpsite_postsadmin]
+		</NavLink>
+	</li>
+
+	<AuthorizeView Roles="@Constants.Roles.Admin">
+		<li class="nav-item">
+			<NavLink class="nav-link" href="/admin/users">
+				@Localizer[SharedResource.sharpsite_useradmin]
+			</NavLink>
+		</li>
+		<li class="nav-item">
+			<NavLink class="nav-link" href="/admin/site" Match="NavLinkMatch.All">
+				@Localizer[SharedResource.sharpsite_site_appearance_admin]
+			</NavLink>
+		</li>
+		<li class="nav-item">
+			<NavLink class="nav-link" href="/admin/plugins">
+				@Localizer[SharedResource.sharpsite_pluginmanagement]
+			</NavLink>
+		</li>
+
+		@foreach (var configSection in AppState.ConfigurationSections)
+		{
+			<li class="nav-item">
+				<NavLink class="nav-link" href="@($"/admin/pluginconfig/{configSection.Key}")">
+					@configSection.Key
+				</NavLink>
+			</li>
+		}
+
+	</AuthorizeView>
+
+</ul>

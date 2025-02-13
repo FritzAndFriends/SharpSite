@@ -1,33 +1,44 @@
 # SharpSite
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
+[![Built With .NET](https://img.shields.io/badge/Built_With_.NET-512BD4?style=plastic&logo=DotNet&logoColor=white)](https://dot.net)<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END --> 
+[![.NET Build + Test](https://github.com/FritzAndFriends/SharpSite/actions/workflows/dotnet-build.yml/badge.svg)](https://github.com/FritzAndFriends/SharpSite/actions/workflows/dotnet-build.yml)
+[![Test Results](https://fritzblog.blob.core.windows.net/githubartifacts/unittest-badge.svg)](https://fritzblog.blob.core.windows.net/githubartifacts/unittest-badge.svg)
+[![End-to-End Test Results](https://fritzblog.blob.core.windows.net/githubartifacts/playwright-badge.svg)](https://fritzblog.blob.core.windows.net/githubartifacts/playwright-badge.svg)
+
+
+
 An accessible CMS built with .NET 9 and Blazor that you are free to use.
 
 ## Purpose
 
 We want to make a content management system that anyone can customize easily and adapt to meet their website needs.  We think that anyone should be able to customize as little or much as they would like with simple HTML, markdown, C#, or Blazor code.
 
+## Features that are built and working
+
+- Authentication and authorization
+- User Management
+- Theming
+- Content creation like blog posts and custom pages
+- Extension model
+- Localization for system administration screens
+- RSS generation
+- Sitemap generation
+- Robots.txt customiztion
+
 ## Features we would like to build
 
 To make it easy for folks to customize, we project that we will build the following high level features.
 
-- Authentication and authorization
-- user management
-- Theming
-- Content creation like blog posts
 - content versioning
 - Output Caching
 - Shippable in a Docker container
-- Extension model
-- Localization
 - Email notifications
 - Search
 - Basic form management - database table with CRUD screens that can be customized
 - tagging
 - categories
-- RSS generation
-- Sitemap generation
 - multiple database support
 - content scheduling
 - social media integration
@@ -40,7 +51,15 @@ To make it easy for folks to customize, we project that we will build the follow
 - Email mailing list management
 - Payments
 - Wordpress import wizard
-- Mobile app for editing 
+- Mobile app for editing
+
+## User-Personas identified
+
+There are three key personas that we would like SharpSite to support:
+
+1. The non-technical user - this user does not know HTML or any coding and would like to setup a simple website with low to no coding required
+1. The web developer - this user knows some web coding techniques (HTML and CSS) and would like to do some minor customizations to the look and feel of the site
+1. The integrator - this user knows how to code (HTML, Blazor, and .NET) and would like to be able to completely customize the look and feel of their SharpSite installation
 
 ## Contributors
 
@@ -59,8 +78,10 @@ To make it easy for folks to customize, we project that we will build the follow
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/mcNets"><img src="https://avatars.githubusercontent.com/u/24267381?v=4?s=100" width="100px;" alt="Joan Magnet"/><br /><sub><b>Joan Magnet</b></sub></a><br /><a href="#translation-mcnets" title="Translation">🌍</a></td>
     </tr>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/default-writer/c"><img src="https://avatars.githubusercontent.com/u/383256?v=4?s=100" width="100px;" alt="default-writer"/><br /><sub><b>default-writer</b></sub></a><br /><a href="https://github.com/FritzAndFriends/SharpSite/commits?author=default-writer" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/default-writer/c"><img src="https://avatars.githubusercontent.com/u/383256?v=4?s=100" width="100px;" alt="default-writer"/><br /><sub><b>default-writer</b></sub></a><br /><a href="https://github.com/FritzAndFriends/SharpSite/commits?author=default-writer" title="Documentation">📖</a> <a href="https://github.com/FritzAndFriends/SharpSite/commits?author=default-writer" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/degenone"><img src="https://avatars.githubusercontent.com/u/48437506?v=4?s=100" width="100px;" alt="Tero Kilpeläinen"/><br /><sub><b>Tero Kilpeläinen</b></sub></a><br /><a href="https://github.com/FritzAndFriends/SharpSite/commits?author=degenone" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/TheLankyScottishNerd"><img src="https://avatars.githubusercontent.com/u/8051530?v=4?s=100" width="100px;" alt="Declan McIlhatton"/><br /><sub><b>Declan McIlhatton</b></sub></a><br /><a href="#design-TheLankyScottishNerd" title="Design">🎨</a> <a href="https://github.com/FritzAndFriends/SharpSite/commits?author=TheLankyScottishNerd" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://www.simstools.com"><img src="https://avatars.githubusercontent.com/u/301535?v=4?s=100" width="100px;" alt="Occular Malice"/><br /><sub><b>Occular Malice</b></sub></a><br /><a href="https://github.com/FritzAndFriends/SharpSite/commits?author=bsimser" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
@@ -76,5 +97,3 @@ To make it easy for folks to customize, we project that we will build the follow
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-
-

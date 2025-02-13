@@ -1,0 +1,8 @@
+{
+  "solution": {
+    "path": "SharpSite.sln",
+    "projects": [
+      "tests\\SharpSite.Tests.Web\\SharpSite.Tests.Web.csproj"
+    ]
+  }
+}

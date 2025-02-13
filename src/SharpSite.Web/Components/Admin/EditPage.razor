@@ -1,0 +1,71 @@
+﻿@page "/admin/EditPage/{Id:int?}"
+@attribute [Authorize(Roles = Constants.Roles.AdminUsers)]
+@inject IPageRepository PageRepository
+@inject NavigationManager NavManager
+@rendermode InteractiveServer
+
+<PageTitle>@ThisPageTitle</PageTitle>
+<h1>@ThisPageTitle</h1>
+
+@if (Page != null)
+{
+	<div class="mb-2">
+		<label for="title">@Localizer[SharedResource.sharpsite_editpost_title]</label>
+		<br />
+		<input type="text" class="form-control" id="title" @bind="Page.Title" />
+	</div>
+	<div class="mb-2">
+		<label for="content">@Localizer[SharedResource.sharpsite_editpost_content]</label>
+		<br />
+			<TextEditor @bind-Content="@Page.Content" AlignmentOptionsEnabled="true" />
+	</div>
+	<LanguageSelect @bind-Language="@Page.LanguageCode" />
+	<button class="btn btn-primary mb-2" @onclick="SavePage">@Localizer[SharedResource.sharpsite_save]</button>
+}
+
+@code {
+	[Parameter]
+	public int Id { get; set; }
+
+	private Page? Page { get; set; }
+
+	private string ThisPageTitle = string.Empty;
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (Id != 0)
+		{
+			Page = await PageRepository.GetPage(Id);
+			ThisPageTitle = SharedResource.sharpsite_editpage;
+		}
+		else
+		{
+			Page = new Page()
+				{
+					Title = "",
+					Slug = "",
+					Content = "",
+					LastUpdate = DateTimeOffset.Now
+				};
+			ThisPageTitle = SharedResource.sharpsite_newpage;
+		}
+	}
+
+	private async Task SavePage()
+	{
+
+		if (Id == 0)
+		{
+			// format and set the slug based on the title
+			Page!.Slug = Page!.Title.ToLower().Replace(" ", "-");
+			Page!.LastUpdate = DateTimeOffset.Now;
+			await PageRepository.AddPage(Page!);
+		}
+		else
+		{
+			Page!.LastUpdate = DateTimeOffset.Now;
+			await PageRepository.UpdatePage(Page!);
+		}
+		NavManager.NavigateTo("/admin/Pages");
+	}
+}

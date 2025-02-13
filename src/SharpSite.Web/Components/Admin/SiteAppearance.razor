@@ -1,0 +1,8 @@
+﻿@page "/admin/site"
+@attribute [Authorize(Roles = Constants.Roles.Admin)]
+
+<PageTitle>@Localizer[SharedResource.sharpsite_site_appearance_admin]</PageTitle>
+
+<ThemeSelect />
+
+<ConfigurePageNotFound />

@@ -1,0 +1,65 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="plugins\**" />
+    <Content Remove="plugins\**" />
+    <EmbeddedResource Remove="plugins\**" />
+    <None Remove="plugins\**" />
+		<InternalsVisibleTo Include="SharpSite.Tests.Web" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SharpSite.Security.Postgres\SharpSite.Security.Postgres.csproj" />
+    <ProjectReference Include="..\SharpSite.ServiceDefaults\SharpSite.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\SharpSite.Data.Postgres\SharpSite.Data.Postgres.csproj" />
+    <ProjectReference Include="..\SharpSite.Plugins\SharpSite.Plugins.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="markdig" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" />
+    <PackageReference Include="Microsoft.Extensions.Localization" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" VersionOverride="9.0.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" />
+    <PackageReference Include="Newtonsoft.Json" />
+    <PackageReference Include="PSC.Blazor.Components.MarkdownEditor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="D:\SharpSite\SharpSite.Web\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Components\Admin\PluginCard.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Components\Admin\PluginCard.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Locales\SharedResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SharedResource.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Locales\SharedResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SharedResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+
+</Project>
