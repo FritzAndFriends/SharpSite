@@ -76,7 +76,7 @@ jobs:
         if: always() && (github.ref == 'refs/heads/main' || github.base_ref == 'refs/heads/main')
         shell: pwsh
         run: |
-          az storage blob upload --account-name $env:AZURE_STORAGE_ACCOUNT --account-key $env:AZURE_STORAGE_KEY --container-name $env:AZURE_STORAGE_CONTAINER --file badge.svg --name playwright-badge.svg
+          az storage blob upload --account-name $env:AZURE_STORAGE_ACCOUNT --account-key $env:AZURE_STORAGE_KEY --container-name $env:AZURE_STORAGE_CONTAINER --file badge.svg --name playwright-badge.svg --overwrite true
         env:
           AZURE_STORAGE_ACCOUNT: ${{ secrets.AZURE_STORAGE_ACCOUNT }}
           AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
