@@ -83,7 +83,7 @@ jobs:
 
   publish-container:
     runs-on: ubuntu-latest
-    needs: build
+    needs: test
     if: github.ref == 'refs/heads/main'
 
     steps:
