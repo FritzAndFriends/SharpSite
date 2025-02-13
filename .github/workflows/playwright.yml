@@ -51,6 +51,7 @@ jobs:
             playwright-test-results/**/*.json 
 
       - name: Set badge color
+        if: always()
         shell: bash
         run: |
           case ${{ fromJSON( steps.test-results.outputs.json ).conclusion }} in
@@ -65,6 +66,7 @@ jobs:
               ;;
           esac
       - name: Create badge
+        if: always()
         uses: emibcn/badge-action@808173dd03e2f30c980d03ee49e181626088eee8
         with:
           label: Unit Tests
