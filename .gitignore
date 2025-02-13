@@ -4,11 +4,13 @@
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
 # Exclude installed plugins from Sharpsite.web
-SharpSite.Web/plugins/
+src/SharpSite.Web/plugins/
 artifacts/FirstPlugin/
+artifacts/FileSystemPlugin/
+src/SharpSite.Web/Locales/SharpTranslator/
 
-# Exclude Aspire package.lock.json
-SharpSite.AppHost/packages.lock.json
+# Playwright test results
+playwright-test-results/
 
 # User-specific files
 *.rsuser
@@ -16,6 +18,7 @@ SharpSite.AppHost/packages.lock.json
 *.user
 *.userosscache
 *.sln.docstates
+stop-aspire
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -124,8 +127,6 @@ ipch/
 *.vspx
 *.sap
 
-# Visual Studio Trace Files
-*.e2e
 
 # TFS 2012 Local Workspace
 $tf/

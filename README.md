@@ -1,8 +1,13 @@
 # SharpSite
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-11-orange.svg?style=flat-square)](#contributors-)
+
+[![Built With .NET](https://img.shields.io/badge/Built_With_.NET-512BD4?style=plastic&logo=DotNet&logoColor=white)](https://dot.net)<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END --> 
 [![.NET Build + Test](https://github.com/FritzAndFriends/SharpSite/actions/workflows/dotnet-build.yml/badge.svg)](https://github.com/FritzAndFriends/SharpSite/actions/workflows/dotnet-build.yml)
+[![Test Results](https://fritzblog.blob.core.windows.net/githubartifacts/unittest-badge.svg)](https://fritzblog.blob.core.windows.net/githubartifacts/unittest-badge.svg)
+[![End-to-End Test Results](https://fritzblog.blob.core.windows.net/githubartifacts/playwright-badge.svg)](https://fritzblog.blob.core.windows.net/githubartifacts/playwright-badge.svg)
+
+
 
 An accessible CMS built with .NET 9 and Blazor that you are free to use.
 
@@ -20,7 +25,7 @@ We want to make a content management system that anyone can customize easily and
 - Localization for system administration screens
 - RSS generation
 - Sitemap generation
-- Robots.txt customiztion 
+- Robots.txt customiztion
 
 ## Features we would like to build
 
@@ -46,15 +51,15 @@ To make it easy for folks to customize, we project that we will build the follow
 - Email mailing list management
 - Payments
 - Wordpress import wizard
-- Mobile app for editing 
+- Mobile app for editing
 
 ## User-Personas identified
 
 There are three key personas that we would like SharpSite to support:
 
 1. The non-technical user - this user does not know HTML or any coding and would like to setup a simple website with low to no coding required
-2. The web developer - this user knows some web coding techniques (HTML and CSS) and would like to do some minor customizations to the look and feel of the site
-3. The integrator - this user knows how to code (HTML, Blazor, and .NET) and would like to be able to completely customize the look and feel of their SharpSite installation   
+1. The web developer - this user knows some web coding techniques (HTML and CSS) and would like to do some minor customizations to the look and feel of the site
+1. The integrator - this user knows how to code (HTML, Blazor, and .NET) and would like to be able to completely customize the look and feel of their SharpSite installation
 
 ## Contributors
 
@@ -92,5 +97,3 @@ There are three key personas that we would like SharpSite to support:
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-
-
