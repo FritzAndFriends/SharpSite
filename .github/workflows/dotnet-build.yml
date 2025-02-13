@@ -80,3 +80,38 @@ jobs:
       run: |
         echo "Uploading badge to Azure Blob Storage in storage account $env:AZURE_STORAGE_ACCOUNT"
         az storage blob upload --account-name $env:AZURE_STORAGE_ACCOUNT --account-key $env:AZURE_STORAGE_KEY --container-name $env:AZURE_STORAGE_CONTAINER --file badge.svg --name unittest-badge.svg --overwrite true
+
+  publish-container:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        global-json-file: global.json
+        cache: true
+        cache-dependency-path: '**/packages.lock.json'
+    - name: Log in to GitHub Container Registry
+      run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+    - name: Get current tag
+      id: get-tag
+      run: |
+        TAG=$(git describe --tags --exact-match 2>/dev/null || echo "")
+        echo "::set-output name=tag::$TAG"
+    - name: Build Docker image
+      run: |
+        docker build -t ghcr.io/fritzandfriends/sharpsite:${{ github.sha }} .
+        if [ "${{ steps.get-tag.outputs.tag }}" ]; then
+          docker tag ghcr.io/fritzandfriends/sharpsite:${{ github.sha }} ghcr.io/fritzandfriends/sharpsite:${{ steps.get-tag.outputs.tag }}
+        fi
+        docker tag ghcr.io/fritzandfriends/sharpsite:${{ github.sha }} ghcr.io/fritzandfriends/sharpsite:latest
+    - name: Push Docker image
+      run: |
+        docker push ghcr.io/fritzandfriends/sharpsite:${{ github.sha }}
+        if [ "${{ steps.get-tag.outputs.tag }}" ]; then
+          docker push ghcr.io/fritzandfriends/sharpsite:${{ steps.get-tag.outputs.tag }}
+        fi
+        docker push ghcr.io/fritzandfriends/sharpsite:latest
