@@ -1,0 +1,41 @@
+﻿@using Microsoft.Extensions.Options
+
+@inject IOptions<RequestLocalizationOptions> LocalizationOptions
+@inject NavigationManager Navigation
+@rendermode @(new InteractiveServerRenderMode(true))
+
+@if (LocalizationOptions.Value.SupportedCultures is not null && LocalizationOptions.Value.SupportedCultures.Count > 1)
+{
+	<div class="px-3">
+		<select id="supported-cultures-select" @bind="SelectedCulture" class="form-select valid">
+			@foreach (var culture in LocalizationOptions.Value.SupportedCultures.OrderBy(c => c.IetfLanguageTag))
+			{
+				<option value="@culture">
+					@culture.DisplayName &#40; @culture.NativeName &#41;
+				</option>
+			}
+		</select>
+	</div>
+}
+
+@code
+{
+	private string _selectedCulture = "en";
+
+	private string SelectedCulture 
+	{ 
+		get => _selectedCulture; 
+		set
+		{
+			_selectedCulture = value;
+			Navigation.NavigateTo(SetCulture(_selectedCulture));
+		} 
+	}
+
+	private string SetCulture(string culture)
+	{
+		const string cultureParamName = "culture";
+		var url = Navigation.GetUriWithQueryParameter(cultureParamName, culture);
+		return url;
+	}
+}

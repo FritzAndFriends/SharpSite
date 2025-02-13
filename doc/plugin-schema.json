@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "DisplayName": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "string"
+    },
+    "Version": {
+      "type": "string"
+    },
+    "Published": {
+      "type": "string"
+    },
+    "SupportedVersions": {
+      "type": "string"
+    },
+    "Author": {
+      "type": "string"
+    },
+    "Contact": {
+      "type": "string"
+    },
+    "ContactEmail": {
+      "type": "string"
+    },
+    "AuthorWebsite": {
+      "type": "string"
+    },
+    "Source": {
+      "type": "string"
+    },
+    "KnownLicense": {
+      "type": "string"
+    },
+    "Tags": {
+      "type": "array",
+      "items": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "Features": {
+      "type": "array",
+      "items": [
+        {
+          "type": "string"
+        }
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "DisplayName",
+    "Description",
+    "Version",
+    "Published",
+    "SupportedVersions",
+    "Author",
+    "Contact",
+    "ContactEmail",
+    "AuthorWebsite",
+    "Source",
+    "KnownLicense",
+    "Tags",
+    "Features"
+  ]
+}
