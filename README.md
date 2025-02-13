@@ -5,7 +5,7 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END --> 
 [![.NET Build + Test](https://github.com/FritzAndFriends/SharpSite/actions/workflows/dotnet-build.yml/badge.svg)](https://github.com/FritzAndFriends/SharpSite/actions/workflows/dotnet-build.yml)
 [![Test Results](https://fritzblog.blob.core.windows.net/githubartifacts/unittest-badge.svg?0.6)](https://fritzblog.blob.core.windows.net/githubartifacts/unittest-badge.svg)
-[![End-to-End Test Results](https://fritzblog.blob.core.windows.net/githubartifacts/playwright-badge.svg?0.6)](https://fritzblog.blob.core.windows.net/githubartifacts/playwright-badge.svg)
+[![End-to-End Test Results](https://fritzblog.blob.core.windows.net/githubartifacts/playwright-badge.svg?0.6.1)](https://fritzblog.blob.core.windows.net/githubartifacts/playwright-badge.svg)
 
 
 
