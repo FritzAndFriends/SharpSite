@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-SharpSite.Data.Postgres.Migration-289ae9dd-798a-46ac-a8f2-306177566084</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" VersionOverride="9.0.0-rc.2.24473.5" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SharpSite.Data.Postgres\SharpSite.Data.Postgres.csproj" />
+    <ProjectReference Include="..\SharpSite.Security.Postgres\SharpSite.Security.Postgres.csproj" />
+    <ProjectReference Include="..\SharpSite.ServiceDefaults\SharpSite.ServiceDefaults.csproj" />
+  </ItemGroup>
+</Project>
