@@ -17,6 +17,13 @@
 		<DataAnnotationsValidator />
 
 		<div class="mb-2">
+			<label for="sitename">@Localizer[SharedResource.sharpsite_sitenamelabel]</label>
+			<InputText id="sitename" @bind-Value="Model.SiteName"></InputText>
+			<p>
+				<ValidationMessage For="@(() => Model.SiteName)"/>
+			</p>
+
+
 			<label for="maxsize">
 				@Localizer[SharedResource.sharpsite_maxupload_label]
 			</label>
@@ -82,11 +89,12 @@
 
 @code {
 
-	private ViewModel Model = new();
+	private ViewModel Model = new() { SiteName = "Sharpsite" };
 
 	protected override void OnInitialized()
 	{
 
+		Model.SiteName = ApplicationState.SiteName;
 		Model.MaxSizeMB = ApplicationState.MaximumUploadSizeMB;
 		Model.DefaultCulture = ApplicationState.Localization?.DefaultCulture ?? "en";
 		Model.SupportedCultures = ApplicationState.Localization?.SupportedCultures;
@@ -102,6 +110,8 @@
 		HubOptions.Value
 		.MaximumReceiveMessageSize = 1024 * 1024 * Model.MaxSizeMB;
 		ApplicationState.MaximumUploadSizeMB = Model.MaxSizeMB;
+
+		ApplicationState.SiteName = Model.SiteName;
 
 		await ApplicationState.Save();
 
@@ -145,6 +155,10 @@
 
 	public class ViewModel
 	{
+
+		[Required, MaxLength(50)]
+		public required string SiteName { get; set; }
+
 		[Range(1, 100), Required]
 		public long MaxSizeMB { get; set; }
 

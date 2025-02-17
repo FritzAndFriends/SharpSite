@@ -33,6 +33,9 @@ public class ApplicationState
 
 	public event Func<ApplicationState, ISharpSiteConfigurationSection, Task>? ConfigurationSectionChanged;
 
+	public string SiteName { get; set; } = "SharpSite";
+
+
 	/// <summary>
 	/// Maximum file upload size in megabytes.
 	/// </summary>
@@ -118,8 +121,9 @@ public class ApplicationState
 				CurrentTheme = state.CurrentTheme;
 				MaximumUploadSizeMB = state.MaximumUploadSizeMB;
 				Localization = state.Localization;
-				RobotsTxtCustomContent = state.RobotsTxtCustomContent;
 				PageNotFoundContent = state.PageNotFoundContent;
+				RobotsTxtCustomContent = state.RobotsTxtCustomContent;
+				SiteName = state.SiteName;
 			}
 
 			Initialized = true;

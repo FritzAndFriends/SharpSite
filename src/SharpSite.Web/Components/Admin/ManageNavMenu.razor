@@ -1,4 +1,4 @@
-﻿@inject ApplicationState AppState
+﻿	@inject ApplicationState AppState
 <ul class="nav nav-pills flex-column">
 
 	<AuthorizeView Roles="@Constants.Roles.AllUsers">
@@ -61,7 +61,7 @@
 	</li>
 
 	<li class="nav-item">
-		<NavLink class="nav-link" href="/" Match="NavLinkMatch.All">Return to website</NavLink>
+		<NavLink class="nav-link" href="/" Match="NavLinkMatch.All">@SharedResource.sharpsite_returntowebsite</NavLink>
 	</li>
 
 
