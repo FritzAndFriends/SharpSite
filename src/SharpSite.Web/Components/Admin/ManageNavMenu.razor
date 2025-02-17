@@ -39,6 +39,11 @@
 			</NavLink>
 		</li>
 
+		@* Add a separator bar before the plugins configuration *@
+		<li class="nav-item">
+			<hr class="dropdown-divider" />
+		</li>
+
 		@foreach (var configSection in AppState.ConfigurationSections)
 		{
 			<li class="nav-item">
@@ -49,5 +54,15 @@
 		}
 
 	</AuthorizeView>
+
+	@* Add a separator bar before the return to site *@
+	<li class="nav-item">
+		<hr class="dropdown-divider" />
+	</li>
+
+	<li class="nav-item">
+		<NavLink class="nav-link" href="/" Match="NavLinkMatch.All">Return to website</NavLink>
+	</li>
+
 
 </ul>
