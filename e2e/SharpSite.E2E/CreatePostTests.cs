@@ -15,13 +15,15 @@ public class CreatePostTests : AuthenticatedPageTests
 		await Page.GetByPlaceholder("Title").FillAsync("Test Post");
 		await Page.GetByRole(AriaRole.Application).GetByRole(AriaRole.Textbox).FillAsync("This is a test");
 
+		await Page.GetByRole(AriaRole.Button, new() { Name = "Save" }).ClickAsync();
+
 		await Page.ScreenshotAsync(new()
 		{
-			Path = "create_new_post.png",
+			Path = "testpost-postlist.png",
 			FullPage = true,
 		});
 
-		await Page.GetByRole(AriaRole.Button, new() { Name = "Save" }).ClickAsync();
+		await Expect(Page.GetByRole(AriaRole.Cell, new() { Name = "Test post" })).ToBeVisibleAsync();
 
 		await Page.GotoAsync("/");
 		await Page.ScreenshotAsync(new()
