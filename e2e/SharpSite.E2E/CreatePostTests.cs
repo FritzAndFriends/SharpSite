@@ -2,6 +2,8 @@
 
 namespace SharpSite.E2E;
 
+
+[WithTestName]
 public class CreatePostTests : AuthenticatedPageTests
 {
 
@@ -11,19 +13,27 @@ public class CreatePostTests : AuthenticatedPageTests
 	{
 		await LoginAsDefaultAdmin();
 		await Page.GotoAsync("/admin/post");
+
+		await Page.ScreenshotAsync(new()
+		{
+			Path = "testpost-newpostpage.png",
+			FullPage = true,
+		});
+
 		await Page.GetByPlaceholder("Title").ClickAsync();
 		await Page.GetByPlaceholder("Title").FillAsync("Test Post");
 		await Page.GetByRole(AriaRole.Application).GetByRole(AriaRole.Textbox).FillAsync("This is a test");
 
 		await Page.GetByRole(AriaRole.Button, new() { Name = "Save" }).ClickAsync();
+		await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
+
+		await Expect(Page.GetByRole(AriaRole.Cell, new() { Name = "Test post" })).ToBeVisibleAsync();
 		await Page.ScreenshotAsync(new()
 		{
 			Path = "testpost-postlist.png",
 			FullPage = true,
 		});
-
-		await Expect(Page.GetByRole(AriaRole.Cell, new() { Name = "Test post" })).ToBeVisibleAsync();
 
 		await Page.GotoAsync("/");
 		await Page.ScreenshotAsync(new()
@@ -33,6 +43,8 @@ public class CreatePostTests : AuthenticatedPageTests
 		});
 
 		await Page.GetByRole(AriaRole.Link, new() { Name = "Test Post" }).ClickAsync();
+		await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
 
 		await Page.ScreenshotAsync(new()
 		{
@@ -43,7 +55,7 @@ public class CreatePostTests : AuthenticatedPageTests
 
 		var title = await Page.Locator("h1").InnerTextAsync();
 		Assert.Equal("Test Post", title);
-		await Logout();
+
 	}
 
 

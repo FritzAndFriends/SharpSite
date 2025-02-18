@@ -47,7 +47,7 @@ Write-Host "Website is running!" -ForegroundColor Green
 # Set-Location -Path "$PSScriptRoot/e2e/SharpSite.E2E"
 
 # Run Playwright tests using dotnet test
-dotnet test ./e2e/SharpSite.E2E/SharpSite.E2E.csproj --logger trx --results-directory "playwright-test-results" -- xUnit.MaxParallelThreads=1
+dotnet test ./e2e/SharpSite.E2E/SharpSite.E2E.csproj --logger trx --results-directory "playwright-test-results" -- xUnit.MaxParallelThreads=5
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Playwright tests failed!" -ForegroundColor Red
