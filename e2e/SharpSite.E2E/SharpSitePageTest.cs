@@ -18,7 +18,7 @@ public abstract class SharpSitePageTest : PageTest
 				Width = 1024,
 				Height = 768,
 			},
-			BaseURL = "http://localhost:5020",
+			BaseURL = "http://localhost:5020"
 		};
 	}
 
