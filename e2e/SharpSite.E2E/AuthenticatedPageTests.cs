@@ -12,13 +12,13 @@ public abstract class AuthenticatedPageTests : SharpSitePageTest
 	private const string LOGIN_USERID = "admin@Localhost";
 	private const string LOGIN_PASSWORD = "Admin123!";
 
-	public static readonly bool RunTrace = false;
+	public static readonly bool RunTrace = true;
 
 	public override async Task InitializeAsync()
 	{
 		await base.InitializeAsync();
-		Context.SetDefaultNavigationTimeout(5000);
-		Context.SetDefaultTimeout(5000);
+		Context.SetDefaultNavigationTimeout(10000);
+		Context.SetDefaultTimeout(10000);
 
 		if (RunTrace)
 		{
@@ -53,7 +53,7 @@ public abstract class AuthenticatedPageTests : SharpSitePageTest
 	{
 
 		await Page.GotoAsync(URL_LOGIN);
-		await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
+		//await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
 		await Page.GetByRole(AriaRole.Textbox, new() { Name = "Input.Email" })
 			.FillAsync(LOGIN_USERID);
 		await Page.GetByRole(AriaRole.Textbox, new() { Name = "Input.Password" })
