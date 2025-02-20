@@ -41,7 +41,7 @@
 	<LanguageSelect @bind-Language="@Post.LanguageCode" />
 
 	<div class="mb-2 mb-2">
-		<button type="submit" class="btn btn-primary" @onclick="SavePost">@Localizer[SharedResource.sharpsite_save]</button>
+		<button type="submit" name="saveS" class="btn btn-primary" @onclick="SavePost">@Localizer[SharedResource.sharpsite_save]</button>
 	</div>
 }
 
@@ -77,13 +77,13 @@
 			// flush the outputcache for the sitemap and rss
 			await FlushCache();
 
-			NavManager.NavigateTo("/");
+			NavManager.NavigateTo("/admin/posts");
 		}
 		else
 		{
 			await PostService.UpdatePost(Post);
 			await FlushCache();
-			NavManager.NavigateTo("/");
+			NavManager.NavigateTo("/admin/posts");
 		}
 
 	}

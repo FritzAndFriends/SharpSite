@@ -1,7 +1,7 @@
 ﻿using Microsoft.Playwright;
 using Microsoft.Playwright.Xunit;
 
-namespace SharpSite.E2E;
+namespace SharpSite.E2E.Abstractions;
 
 public abstract class SharpSitePageTest : PageTest
 {
@@ -18,7 +18,7 @@ public abstract class SharpSitePageTest : PageTest
 				Width = 1024,
 				Height = 768,
 			},
-			BaseURL = "http://localhost:5020",
+			BaseURL = "http://localhost:5020"
 		};
 	}
 
