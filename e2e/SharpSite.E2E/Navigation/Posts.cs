@@ -1,8 +1,8 @@
 ﻿using Microsoft.Playwright;
 
-namespace SharpSite.E2E;
+namespace SharpSite.E2E.Navigation;
 
-internal static class PostNavigationExtensions
+internal static class Posts
 {
 	public static async Task NavigateToPost(this IPage page, string postTitle)
 	{

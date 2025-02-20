@@ -1,6 +1,6 @@
 using Microsoft.Playwright;
 
-namespace SharpSite.E2E;
+namespace SharpSite.E2E.Abstractions;
 
 /// <summary>
 /// This class is used to test pages where we are logged in as a user.
@@ -64,7 +64,6 @@ public abstract class AuthenticatedPageTests : SharpSitePageTest
 		//	Path = ".auth.json"
 		//});
 		await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-		Console.WriteLine("Logged in as " + LOGIN_USERID);
 
 	}
 
