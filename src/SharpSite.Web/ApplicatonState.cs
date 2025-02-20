@@ -16,6 +16,8 @@ public class ApplicationState
 	[JsonIgnore]
 	public bool Initialized { get; private set; } = false;
 
+	public bool StartupCompleted { get; set; } = false;
+
 	public record CurrentThemeRecord(string IdVersion);
 
 	public record LocalizationRecord(string? DefaultCulture, string[]? SupportedCultures);
@@ -124,6 +126,7 @@ public class ApplicationState
 				PageNotFoundContent = state.PageNotFoundContent;
 				RobotsTxtCustomContent = state.RobotsTxtCustomContent;
 				SiteName = state.SiteName;
+				StartupCompleted = state.StartupCompleted;
 			}
 
 			Initialized = true;
