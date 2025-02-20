@@ -1,6 +1,7 @@
 ﻿using Microsoft.Playwright;
+using SharpSite.E2E.Abstractions;
 
-namespace SharpSite.E2E;
+namespace SharpSite.E2E.Fixtures;
 
 public class FirstWebsiteTests : SharpSitePageTest
 {

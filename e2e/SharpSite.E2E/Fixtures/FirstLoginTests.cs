@@ -1,7 +1,8 @@
 ﻿using Microsoft.Playwright;
+using SharpSite.E2E.Abstractions;
 using Xunit;
 
-namespace SharpSite.E2E;
+namespace SharpSite.E2E.Fixtures;
 
 
 public class FirstLoginTests : AuthenticatedPageTests
