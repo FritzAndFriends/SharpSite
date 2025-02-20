@@ -1,9 +1,10 @@
 ﻿using Microsoft.Playwright;
+using SharpSite.E2E.Abstractions;
+using SharpSite.E2E.Navigation;
 
-namespace SharpSite.E2E;
+namespace SharpSite.E2E.Fixtures;
 
 
-[WithTestName]
 public class CreatePostTests : AuthenticatedPageTests
 {
 
@@ -52,7 +53,7 @@ public class CreatePostTests : AuthenticatedPageTests
 		await Page.GetByRole(AriaRole.Button, new() { Name = "Save" }).ClickAsync();
 		await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
-		await Expect(Page.GetByRole(AriaRole.Cell, new() { Name = PostTitle })).ToBeVisibleAsync();
+		await Expect(Page.GetByRole(AriaRole.Cell, new() { Name = PostTitle, Exact = true })).ToBeVisibleAsync();
 
 		await Page.NavigateToPost(PostTitle);
 
@@ -68,4 +69,3 @@ public class CreatePostTests : AuthenticatedPageTests
 	}
 
 }
-
