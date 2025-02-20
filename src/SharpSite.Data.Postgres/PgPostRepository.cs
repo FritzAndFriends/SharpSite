@@ -19,7 +19,7 @@ public class PgPostRepository : IPostRepository
 	public async Task<Post> AddPost(Post post)
 	{
 		// add a post to the database
-		post.PublishedDate = DateTimeOffset.Now;
+		//post.PublishedDate = DateTimeOffset.Now;
 		post.LastUpdate = DateTimeOffset.Now;
 		await Context.Posts.AddAsync((PgPost)post);
 		await Context.SaveChangesAsync();
