@@ -364,4 +364,12 @@
     <value>Hii hufanya teknolojia za msaada kutumia lugha sahihi kwa maudhui.</value>
     <comment>AI generated translation</comment>
   </data>
+  <data name="sharpsite_sitenamelabel" xml:space="preserve">
+    <value>Jina la Tovuti:</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_returntowebsite" xml:space="preserve">
+    <value>Rudi kwenye tovuti</value>
+    <comment>AI generated translation</comment>
+  </data>
 </root>

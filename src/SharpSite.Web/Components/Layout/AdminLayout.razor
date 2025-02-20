@@ -1,0 +1,22 @@
+﻿@using SharpSite.Web.Components.Layout
+@inherits LayoutComponentBase
+@* @layout SharpSite.Web.Components.Layout.MainLayout *@
+
+<HeadContent>
+	<link rel="stylesheet" type="text/css" href="/css/admin.css" />
+</HeadContent>
+
+<div class="page">
+	<h2>@Localizer[SharedResource.sharpsite_admin_layout_h2]</h2>
+	<hr />
+	<div class="row" style="margin: 0">
+		<nav role="navigation" 
+				aria-label="@Localizer[SharedResource.sharpsite_navadmin]" 
+				class="col-lg-2">
+			<SharpSite.Web.Components.Admin.ManageNavMenu />
+		</nav>
+		<div class="col-lg-10">
+			@Body
+		</div>
+	</div>
+</div>

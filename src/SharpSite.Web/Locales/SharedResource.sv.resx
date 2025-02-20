@@ -400,4 +400,12 @@
     <value>Detta säkerställer att hjälpmedelstekniker använder rätt språk för innehållet.</value>
     <comment>AI generated translation</comment>
   </data>
+  <data name="sharpsite_sitenamelabel" xml:space="preserve">
+    <value>Webbplatsnamn:</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_returntowebsite" xml:space="preserve">
+    <value>Återgå till webbplatsen</value>
+    <comment>AI generated translation</comment>
+  </data>
 </root>

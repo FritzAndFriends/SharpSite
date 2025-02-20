@@ -16,6 +16,8 @@ public class ApplicationState
 	[JsonIgnore]
 	public bool Initialized { get; private set; } = false;
 
+	public bool StartupCompleted { get; set; } = false;
+
 	public record CurrentThemeRecord(string IdVersion);
 
 	public record LocalizationRecord(string? DefaultCulture, string[]? SupportedCultures);
@@ -32,6 +34,9 @@ public class ApplicationState
 	public Dictionary<string, ISharpSiteConfigurationSection> ConfigurationSections { get; private set; } = new();
 
 	public event Func<ApplicationState, ISharpSiteConfigurationSection, Task>? ConfigurationSectionChanged;
+
+	public string SiteName { get; set; } = "SharpSite";
+
 
 	/// <summary>
 	/// Maximum file upload size in megabytes.
@@ -118,8 +123,10 @@ public class ApplicationState
 				CurrentTheme = state.CurrentTheme;
 				MaximumUploadSizeMB = state.MaximumUploadSizeMB;
 				Localization = state.Localization;
-				RobotsTxtCustomContent = state.RobotsTxtCustomContent;
 				PageNotFoundContent = state.PageNotFoundContent;
+				RobotsTxtCustomContent = state.RobotsTxtCustomContent;
+				SiteName = state.SiteName;
+				StartupCompleted = state.StartupCompleted;
 			}
 
 			Initialized = true;

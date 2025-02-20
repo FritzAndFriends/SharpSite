@@ -337,4 +337,12 @@
   <data name="sharpsite_ChangeTheme">
     <value xml:space="preserve">Vaihda teemaa</value>
   </data>
+  <data name="sharpsite_sitenamelabel" xml:space="preserve">
+    <value>Sivuston nimi:</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_returntowebsite" xml:space="preserve">
+    <value>Palaa verkkosivustolle</value>
+    <comment>AI generated translation</comment>
+  </data>
 </root>

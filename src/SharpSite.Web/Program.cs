@@ -90,4 +90,30 @@ await pgSecurity.RunAtStartup(app.Services);
 
 app.MapFileApi(pluginManager);
 
+app.UseMiddleware<StartupConfigMiddleware>();
+
 app.Run();
+
+
+public class StartupConfigMiddleware(RequestDelegate next, ApplicationState AppState)
+{
+
+	public async Task Invoke(HttpContext context)
+	{
+
+		// Exit now if the app is already configured
+		if (!AppState.StartupCompleted &&
+			!context.Request.Path.Value!.StartsWith("/start") &&
+			!context.Request.Path.Value.EndsWith(".js") &&
+			!context.Request.Path.Value.EndsWith(".css") &&
+			!context.Request.Path.Value.Contains("/img/"))
+		{
+			Console.WriteLine("Redirecting for first start");
+			context.Response.Redirect("/start/step1");
+		}
+
+		await next(context);
+
+	}
+
+}

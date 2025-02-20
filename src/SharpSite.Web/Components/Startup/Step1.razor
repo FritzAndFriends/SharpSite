@@ -1,0 +1,27 @@
+﻿@page "/start/step1"
+@inject ApplicationState AppState
+@inject NavigationManager NavManager
+
+@* add the sharpsite logo *@
+<img src="/img/logo-500.webp" alt="SharpSite" style="min-width: 500px;" />
+
+
+<h1 class="h1">Welcome to your new website!</h1>
+
+<p>This is SharpSite, a fun and friendly website management tool.
+	It is designed to be easy to use and to help you create a website that you can be proud of.
+</p>
+
+
+@code {
+
+	protected override async Task OnInitializedAsync()
+	{
+
+		if (AppState.StartupCompleted) NavManager.NavigateTo("/", true);
+
+		await base.OnInitializedAsync();
+
+	}
+
+}

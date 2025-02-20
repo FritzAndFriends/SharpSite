@@ -359,4 +359,12 @@
     <value>Change Theme</value>
     <comment>Text of the button used to change the theme of the website</comment>
   </data>
+	<data name="sharpsite_sitenamelabel" xml:space="preserve">
+    <value>Site Name:</value>
+    <comment>Label on admin pages that allows customization of the website name</comment>
+  </data>
+	<data name="sharpsite_returntowebsite" xml:space="preserve">
+    <value>Return to website</value>
+    <comment>Link text on admin portal that returns the user to the public website</comment>
+  </data>
 </root>
