@@ -329,12 +329,15 @@
     <value>Tämä varmistaa, että avustavat teknologiat käyttävät sisällölle oikeaa kieltä.</value>
   </data>
   <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
-    <value xml:space="preserve">Mukauta Sivua ei löytynyt -sisältöä</value>
+    <value>Mukauta Sivua ei löytynyt -sisältöä</value>
   </data>
   <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
-    <value xml:space="preserve">Mukauta sisältö "sivua ei löydy" -sivulle.</value>
+    <value>Mukauta sisältö "sivua ei löydy" -sivulle.</value>
   </data>
-  <data name="sharpsite_ChangeTheme">
-    <value xml:space="preserve">Vaihda teemaa</value>
+  <data name="sharpsite_ChangeTheme" xml:space="preserve">
+    <value>Vaihda teemaa</value>
+  </data>
+  <data name="sharpsite_plugin_exists" xml:space="preserve">
+    <value>Laajennus '{0}' on jo asennettu.</value>
   </data>
 </root>

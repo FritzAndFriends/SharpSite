@@ -359,4 +359,8 @@
     <value>Change Theme</value>
     <comment>Text of the button used to change the theme of the website</comment>
   </data>
+  <data name="sharpsite_plugin_exists" xml:space="preserve">
+    <value>Plugin '{0}' is already installed.</value>
+    <comment>Error message to be desplayed when a plugin that already exists, is attempted to be uploaded.</comment>
+  </data>
 </root>

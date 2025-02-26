@@ -323,6 +323,14 @@
   <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
     <value>The file already contains the following:</value>
   </data>
+  <data name="sharpsite_language_label" xml:space="preserve">
+    <value>Language</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_langauge_help_text" xml:space="preserve">
+    <value>This ensures assistive technologies use the correct language for the content.</value>
+    <comment>AI generated translation</comment>
+  </data>
   <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
     <value>Customize Page Not Found content</value>
   </data>
@@ -333,12 +341,7 @@
     <value>Change Theme</value>
     <comment>Text of the button used to change the theme of the website</comment>
   </data>
-  <data name="sharpsite_language_label" xml:space="preserve">
-    <value>Language</value>
-    <comment>AI generated translation</comment>
-  </data>
-  <data name="sharpsite_langauge_help_text" xml:space="preserve">
-    <value>This ensures assistive technologies use the correct language for the content.</value>
-    <comment>AI generated translation</comment>
+  <data name="sharpsite_plugin_exists" xml:space="preserve">
+    <value>Plugin '{0}' is already installed.</value>
   </data>
 </root>
