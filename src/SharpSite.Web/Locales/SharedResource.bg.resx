@@ -351,15 +351,6 @@
     <value>Файлът вече съдържа следното:</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
-    <value xml:space="preserve">Персонализиране на съдържанието на страницата "Не е намерена"</value>
-  </data>
-  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
-    <value xml:space="preserve">Персонализирайте съдържанието за страницата "страницата не е намерена"</value>
-  </data>
-  <data name="sharpsite_ChangeTheme">
-    <value xml:space="preserve">Промени Темата</value>
-  </data>
   <data name="sharpsite_language_label" xml:space="preserve">
     <value>Език</value>
     <comment>AI generated translation</comment>
@@ -367,5 +358,26 @@
   <data name="sharpsite_langauge_help_text" xml:space="preserve">
     <value>Това гарантира, че помощните технологии използват правилния език за съдържанието.</value>
     <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
+    <value>Персонализиране на съдържанието на страницата "Не е намерена"</value>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
+    <value>Персонализирайте съдържанието за страницата "страницата не е намерена"</value>
+  </data>
+  <data name="sharpsite_ChangeTheme" xml:space="preserve">
+    <value>Промени Темата</value>
+  </data>
+  <data name="sharpsite_script_alert_page" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_script_alert_post" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_confirm" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_cancel" xml:space="preserve">
+    <value />
   </data>
 </root>

@@ -347,15 +347,6 @@
     <value>Het bestand bevat al het volgende:</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
-    <value xml:space="preserve">Aanpassen van Pagina Niet Gevonden inhoud.</value>
-  </data>
-  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
-    <value xml:space="preserve">Pas de inhoud aan voor de "pagina niet gevonden" pagina.</value>
-  </data>
-  <data name="sharpsite_ChangeTheme">
-    <value xml:space="preserve">Verander thema</value>
-  </data>
   <data name="sharpsite_language_label" xml:space="preserve">
     <value>Taal</value>
     <comment>AI generated translation</comment>
@@ -363,5 +354,26 @@
   <data name="sharpsite_langauge_help_text" xml:space="preserve">
     <value>Dit zorgt ervoor dat hulpmiddelen voor toegankelijkheid de juiste taal gebruiken voor de inhoud.</value>
     <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
+    <value>Aanpassen van Pagina Niet Gevonden inhoud.</value>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
+    <value>Pas de inhoud aan voor de "pagina niet gevonden" pagina.</value>
+  </data>
+  <data name="sharpsite_ChangeTheme" xml:space="preserve">
+    <value>Verander thema</value>
+  </data>
+  <data name="sharpsite_script_alert_page" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_script_alert_post" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_confirm" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_cancel" xml:space="preserve">
+    <value />
   </data>
 </root>
