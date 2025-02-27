@@ -151,11 +151,29 @@ namespace SharpSite.Web.Locales {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        internal static string sharpsite_cancel {
+            get {
+                return ResourceManager.GetString("sharpsite_cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change Theme.
         /// </summary>
         internal static string sharpsite_ChangeTheme {
             get {
                 return ResourceManager.GetString("sharpsite_ChangeTheme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm.
+        /// </summary>
+        internal static string sharpsite_confirm {
+            get {
+                return ResourceManager.GetString("sharpsite_confirm", resourceCulture);
             }
         }
         
@@ -493,6 +511,15 @@ namespace SharpSite.Web.Locales {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Plugin &apos;{0}&apos; is already installed..
+        /// </summary>
+        internal static string sharpsite_plugin_exists {
+            get {
+                return ResourceManager.GetString("sharpsite_plugin_exists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Plugin File.
         /// </summary>
         internal static string sharpsite_plugin_file {
@@ -633,6 +660,24 @@ namespace SharpSite.Web.Locales {
         internal static string sharpsite_save {
             get {
                 return ResourceManager.GetString("sharpsite_save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The markdown contains a script tag which will be executed once users load the page. Are you sure you want to proceed?.
+        /// </summary>
+        internal static string sharpsite_script_alert_page {
+            get {
+                return ResourceManager.GetString("sharpsite_script_alert_page", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The markdown contains a script tag which will be executed once users load the post. Are you sure you want to proceed?.
+        /// </summary>
+        internal static string sharpsite_script_alert_post {
+            get {
+                return ResourceManager.GetString("sharpsite_script_alert_post", resourceCulture);
             }
         }
         

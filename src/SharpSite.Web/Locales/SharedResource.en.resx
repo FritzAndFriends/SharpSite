@@ -323,6 +323,14 @@
   <data name="sharpsite_robotstxt_help_text" xml:space="preserve">
     <value>The file already contains the following:</value>
   </data>
+  <data name="sharpsite_language_label" xml:space="preserve">
+    <value>Language</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_langauge_help_text" xml:space="preserve">
+    <value>This ensures assistive technologies use the correct language for the content.</value>
+    <comment>AI generated translation</comment>
+  </data>
   <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
     <value>Customize Page Not Found content</value>
   </data>
@@ -333,13 +341,20 @@
     <value>Change Theme</value>
     <comment>Text of the button used to change the theme of the website</comment>
   </data>
-  <data name="sharpsite_language_label" xml:space="preserve">
-    <value>Language</value>
-    <comment>AI generated translation</comment>
+  <data name="sharpsite_script_alert_page" xml:space="preserve">
+    <value>The markdown contains a script tag which will be executed once users load the page. Are you sure you want to proceed?</value>
   </data>
-  <data name="sharpsite_langauge_help_text" xml:space="preserve">
-    <value>This ensures assistive technologies use the correct language for the content.</value>
-    <comment>AI generated translation</comment>
+  <data name="sharpsite_script_alert_post" xml:space="preserve">
+    <value>The markdown contains a script tag which will be executed once users load the post. Are you sure you want to proceed?</value>
+  </data>
+  <data name="sharpsite_confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="sharpsite_cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="sharpsite_plugin_exists" xml:space="preserve">
+    <value>Plugin '{0}' is already installed.</value>
   </data>
 	<data name="sharpsite_sitenamelabel" xml:space="preserve">
     <value>Site Name:</value>

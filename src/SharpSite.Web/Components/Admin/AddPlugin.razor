@@ -66,6 +66,7 @@
 		catch (Exception ex)
 		{
 			Logger.LogError($"{ex.Message}");
+			PluginManager.CleanupCurrentUploadedPlugin();
 			ErrorMessage = ex.Message;
 		}
 

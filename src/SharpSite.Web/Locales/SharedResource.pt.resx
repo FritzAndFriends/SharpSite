@@ -347,15 +347,6 @@
     <value>O arquivo já contém o seguinte:</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
-    <value xml:space="preserve">Personalizar o conteúdo da página não encontrada.</value>
-  </data>
-  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
-    <value xml:space="preserve">Personalize o conteúdo para a página "página não encontrada"</value>
-  </data>
-  <data name="sharpsite_ChangeTheme">
-    <value xml:space="preserve">Alterar Tema</value>
-  </data>
   <data name="sharpsite_language_label" xml:space="preserve">
     <value>Idioma</value>
     <comment>AI generated translation</comment>
@@ -371,5 +362,29 @@
   <data name="sharpsite_returntowebsite" xml:space="preserve">
     <value>Voltar ao site</value>
     <comment>AI generated translation</comment>
+	</data>
+  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
+    <value>Personalizar o conteúdo da página não encontrada.</value>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
+    <value>Personalize o conteúdo para a página "página não encontrada"</value>
+  </data>
+  <data name="sharpsite_ChangeTheme" xml:space="preserve">
+    <value>Alterar Tema</value>
+  </data>
+  <data name="sharpsite_script_alert_page" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_script_alert_post" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_confirm" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_cancel" xml:space="preserve">
+        <value />
+  </data>
+  <data name="sharpsite_plugin_exists" xml:space="preserve">
+    <value />
   </data>
 </root>

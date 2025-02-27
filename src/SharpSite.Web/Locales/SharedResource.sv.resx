@@ -381,6 +381,14 @@
     <value>Filen innehåller redan följande:</value>
     <comment>AI generated translation</comment>
   </data>
+  <data name="sharpsite_language_label" xml:space="preserve">
+    <value>Språk</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_langauge_help_text" xml:space="preserve">
+    <value>Detta säkerställer att hjälpmedelstekniker använder rätt språk för innehållet.</value>
+    <comment>AI generated translation</comment>
+  </data>
   <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
     <value>Anpassa innehållet för 'Sidan kan inte hittas' redigeringskomponenten</value>
     <comment>AI generated translation</comment>
@@ -389,16 +397,23 @@
     <value>Anpassa innehållet för "sida hittades inte"-sidan.</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_ChangeTheme">
-    <value xml:space="preserve">Byt tema</value>
+  <data name="sharpsite_ChangeTheme" xml:space="preserve">
+    <value>Byt tema</value>
   </data>
-  <data name="sharpsite_language_label" xml:space="preserve">
-    <value>Språk</value>
-    <comment>AI generated translation</comment>
+  <data name="sharpsite_script_alert_page" xml:space="preserve">
+    <value />
   </data>
-  <data name="sharpsite_langauge_help_text" xml:space="preserve">
-    <value>Detta säkerställer att hjälpmedelstekniker använder rätt språk för innehållet.</value>
-    <comment>AI generated translation</comment>
+  <data name="sharpsite_script_alert_post" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_confirm" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_cancel" xml:space="preserve">
+        <value />
+  </data>
+  <data name="sharpsite_plugin_exists" xml:space="preserve">
+    <value />
   </data>
   <data name="sharpsite_sitenamelabel" xml:space="preserve">
     <value>Webbplatsnamn:</value>

@@ -17,10 +17,14 @@
 	<div class="mb-2">
 		<label for="content">@Localizer[SharedResource.sharpsite_editpost_content]</label>
 		<br />
-			<TextEditor @bind-Content="@Page.Content" AlignmentOptionsEnabled="true" />
+		<TextEditor @bind-Content="@Page.Content" AlignmentOptionsEnabled="true" />
 	</div>
 	<LanguageSelect @bind-Language="@Page.LanguageCode" />
-	<button class="btn btn-primary mb-2" @onclick="SavePage">@Localizer[SharedResource.sharpsite_save]</button>
+	<ConfirmSaveButton
+		AlertMessage="@SharedResource.sharpsite_script_alert_page"
+		ConfirmationRequired="_ConfirmationRequired"
+		SaveCallback="SavePage"
+		CancelCallback="() => _ConfirmationRequired = false" />
 }
 
 @code {
@@ -30,6 +34,8 @@
 	private Page? Page { get; set; }
 
 	private string ThisPageTitle = string.Empty;
+
+	private bool _ConfirmationRequired = false;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -54,6 +60,12 @@
 	private async Task SavePage()
 	{
 
+		if (!_ConfirmationRequired && MarkdownHelper.ContainsScriptTag(Page!.Content))
+		{
+			_ConfirmationRequired = true;
+			return;
+		}
+
 		if (Id == 0)
 		{
 			// format and set the slug based on the title
@@ -67,5 +79,6 @@
 			await PageRepository.UpdatePage(Page!);
 		}
 		NavManager.NavigateTo("/admin/Pages");
+
 	}
 }
