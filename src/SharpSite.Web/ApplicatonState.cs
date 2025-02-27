@@ -1,23 +1,15 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using SharpSite.Abstractions;
 using SharpSite.Abstractions.Base;
 using SharpSite.Abstractions.Theme;
 using SharpSite.Plugins;
 
 namespace SharpSite.Web;
 
-public class ApplicationState
+public class ApplicationState : ApplicationStateModel
 {
-
-	/// <summary>
-	/// Indicates whether the application state has been initialized from the applicationState.json file.
-	/// </summary>
-	[JsonIgnore]
-	public bool Initialized { get; private set; } = false;
-
-	public bool StartupCompleted { get; set; } = false;
-
 	public record CurrentThemeRecord(string IdVersion);
 
 
@@ -30,22 +22,9 @@ public class ApplicationState
 	[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 	public LocalizationRecord? Localization { get; set; }
 
-	[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-	public string? RobotsTxtCustomContent { get; set; }
-
 	public Dictionary<string, ISharpSiteConfigurationSection> ConfigurationSections { get; private set; } = new();
 
 	public event Func<ApplicationState, ISharpSiteConfigurationSection, Task>? ConfigurationSectionChanged;
-
-	public string SiteName { get; set; } = "SharpSite";
-
-
-	/// <summary>
-	/// Maximum file upload size in megabytes.
-	/// </summary>
-	public long MaximumUploadSizeMB { get; set; } = 10; // 10MB
-
-	public string PageNotFoundContent { get; set; } = string.Empty;
 
 	[JsonIgnore]
 	public Type? ThemeType
