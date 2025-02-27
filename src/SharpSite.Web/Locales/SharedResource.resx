@@ -375,4 +375,8 @@
     <value>Cancel</value>
     <comment>To cancel an action</comment>
   </data>
+  <data name="sharpsite_plugin_exists" xml:space="preserve">
+    <value>Plugin '{0}' is already installed.</value>
+    <comment>Error message to be desplayed when a plugin that already exists, is attempted to be uploaded.</comment>
+  </data>
 </root>

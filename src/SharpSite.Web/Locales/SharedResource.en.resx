@@ -353,4 +353,7 @@
   <data name="sharpsite_cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="sharpsite_plugin_exists" xml:space="preserve">
+    <value>Plugin '{0}' is already installed.</value>
+  </data>
 </root>

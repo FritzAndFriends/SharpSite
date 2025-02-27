@@ -511,6 +511,15 @@ namespace SharpSite.Web.Locales {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Plugin &apos;{0}&apos; is already installed..
+        /// </summary>
+        internal static string sharpsite_plugin_exists {
+            get {
+                return ResourceManager.GetString("sharpsite_plugin_exists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Plugin File.
         /// </summary>
         internal static string sharpsite_plugin_file {
