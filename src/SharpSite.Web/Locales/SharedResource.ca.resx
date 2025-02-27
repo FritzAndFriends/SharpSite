@@ -347,15 +347,6 @@
     <value>El fitxer ja conté el següent:</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
-    <value xml:space="preserve">Personalitza el contingut de Pàgina no trobada.</value>
-  </data>
-  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
-    <value xml:space="preserve">Personalitzeu el contingut per a la pàgina "pàgina no trobada".</value>
-  </data>
-  <data name="sharpsite_ChangeTheme">
-    <value xml:space="preserve">Canvia el tema</value>
-  </data>
   <data name="sharpsite_language_label" xml:space="preserve">
     <value>Idioma</value>
     <comment>AI generated translation</comment>
@@ -363,5 +354,17 @@
   <data name="sharpsite_langauge_help_text" xml:space="preserve">
     <value>Això garanteix que les tecnologies d'assistència utilitzin el llenguatge correcte per al contingut.</value>
     <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
+    <value>Personalitza el contingut de Pàgina no trobada.</value>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
+    <value>Personalitzeu el contingut per a la pàgina "pàgina no trobada".</value>
+  </data>
+  <data name="sharpsite_ChangeTheme" xml:space="preserve">
+    <value>Canvia el tema</value>
+  </data>
+  <data name="sharpsite_plugin_exists" xml:space="preserve">
+    <value />
   </data>
 </root>
