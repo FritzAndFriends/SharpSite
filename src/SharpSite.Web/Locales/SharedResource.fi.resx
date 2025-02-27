@@ -337,6 +337,18 @@
   <data name="sharpsite_ChangeTheme" xml:space="preserve">
     <value>Vaihda teemaa</value>
   </data>
+  <data name="sharpsite_script_alert_page" xml:space="preserve">
+    <value>Markdown sisältää script -tagin, joka ajetaan, kun käyttäjät lataavat sivun. Oletko varma, että haluat jatkaa?</value>
+  </data>
+  <data name="sharpsite_script_alert_post" xml:space="preserve">
+    <value>Markdown sisältää script -tagin, joka ajetaan, kun käyttäjät lataavat postauksen. Oletko varma, että haluat jatkaa?</value>
+  </data>
+  <data name="sharpsite_confirm" xml:space="preserve">
+    <value>Vahvista</value>
+  </data>
+  <data name="sharpsite_cancel" xml:space="preserve">
+    <value>Peruuta</value>
+  </data>
   <data name="sharpsite_plugin_exists" xml:space="preserve">
     <value>Laajennus '{0}' on jo asennettu.</value>
   </data>

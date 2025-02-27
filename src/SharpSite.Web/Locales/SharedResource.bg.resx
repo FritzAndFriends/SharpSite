@@ -368,6 +368,18 @@
   <data name="sharpsite_ChangeTheme" xml:space="preserve">
     <value>Промени Темата</value>
   </data>
+  <data name="sharpsite_script_alert_page" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_script_alert_post" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_confirm" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_cancel" xml:space="preserve">
+    <value />
+  </data>
   <data name="sharpsite_plugin_exists" xml:space="preserve">
     <value />
   </data>
