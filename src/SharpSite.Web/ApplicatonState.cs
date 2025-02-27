@@ -18,6 +18,8 @@ public class ApplicationState
 
 	public record CurrentThemeRecord(string IdVersion);
 
+
+
 	public record LocalizationRecord(string? DefaultCulture, string[]? SupportedCultures);
 
 	[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
