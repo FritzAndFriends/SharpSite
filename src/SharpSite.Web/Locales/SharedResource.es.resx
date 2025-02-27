@@ -347,15 +347,6 @@
     <value>El archivo ya contiene lo siguiente:</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
-    <value xml:space="preserve">Personalizar el contenido de la página no encontrada.</value>
-  </data>
-  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
-    <value xml:space="preserve">Personalizar el contenido para la página de "página no encontrada".</value>
-  </data>
-  <data name="sharpsite_ChangeTheme">
-    <value xml:space="preserve">Cambiar Tema</value>
-  </data>
   <data name="sharpsite_language_label" xml:space="preserve">
     <value>Idioma</value>
     <comment>AI generated translation</comment>
@@ -363,5 +354,17 @@
   <data name="sharpsite_langauge_help_text" xml:space="preserve">
     <value>Esto asegura que las tecnologías de asistencia utilicen el idioma correcto para el contenido.</value>
     <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
+    <value>Personalizar el contenido de la página no encontrada.</value>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
+    <value>Personalizar el contenido para la página de "página no encontrada".</value>
+  </data>
+  <data name="sharpsite_ChangeTheme" xml:space="preserve">
+    <value>Cambiar Tema</value>
+  </data>
+  <data name="sharpsite_plugin_exists" xml:space="preserve">
+    <value />
   </data>
 </root>
