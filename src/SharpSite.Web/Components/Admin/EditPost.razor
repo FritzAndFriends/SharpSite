@@ -35,14 +35,16 @@
 
 	<div class="mb-2">
 		<label class="form-label" for="content">@Localizer[SharedResource.sharpsite_editpost_content]</label>
-			<TextEditor @bind-Content="@Post.Content" AlignmentOptionsEnabled="true" />
+		<TextEditor @bind-Content="@Post.Content" AlignmentOptionsEnabled="true" />
 	</div>
 
 	<LanguageSelect @bind-Language="@Post.LanguageCode" />
 
-	<div class="mb-2 mb-2">
-		<button type="submit" name="saveS" class="btn btn-primary" @onclick="SavePost">@Localizer[SharedResource.sharpsite_save]</button>
-	</div>
+	<ConfirmSaveButton
+		AlertMessage="@SharedResource.sharpsite_script_alert_page"
+		ConfirmationRequired="_ConfirmationRequired"
+		SaveCallback="SavePost"
+		CancelCallback="() => _ConfirmationRequired = false" />
 }
 
 @code {
@@ -50,6 +52,7 @@
 	[Parameter] public int? UrlDate { get; set; }
 
 	private Post? Post { get; set; }
+	private bool _ConfirmationRequired = false;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -66,25 +69,23 @@
 	private async Task SavePost()
 	{
 
-		Console.WriteLine("Save Post");
+		if (!_ConfirmationRequired && MarkdownHelper.ContainsScriptTag(Post!.Content))
+		{
+			_ConfirmationRequired = true;
+			return;
+		}
 
 		if (string.IsNullOrEmpty(Post!.Slug))
 		{
 			Post.Slug = Post.GetSlug(Post.Title);
-			Console.WriteLine(Post.Slug);
 			await PostService.AddPost(Post);
-
-			// flush the outputcache for the sitemap and rss
-			await FlushCache();
-
-			NavManager.NavigateTo("/admin/posts");
 		}
 		else
 		{
 			await PostService.UpdatePost(Post);
-			await FlushCache();
-			NavManager.NavigateTo("/admin/posts");
 		}
+		await FlushCache();
+		NavManager.NavigateTo("/admin/posts");
 
 	}
 
