@@ -21,8 +21,8 @@ public class CreatePostTests : AuthenticatedPageTests
 		await Page.GetByPlaceholder("Title").FillAsync(PostTitle);
 		await Page.GetByRole(AriaRole.Application).GetByRole(AriaRole.Textbox).FillAsync("This is a test");
 
-		await Page.GetByRole(AriaRole.Button, new() { Name = "Save" }).ClickAsync();
-		await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+		await Page.GetByRole(AriaRole.Button, new() { Name = "Save" }).BlazorClickAsync();
+		// await Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 
 
 		await Expect(Page.GetByRole(AriaRole.Cell, new() { Name = PostTitle, Exact = true })).ToBeVisibleAsync();
@@ -66,6 +66,16 @@ public class CreatePostTests : AuthenticatedPageTests
 		Assert.Equal(postDate, result.Date);
 
 
+	}
+
+}
+
+
+public static class Extensions {
+
+	public static async Task BlazorClickAsync(this ILocator locator) {
+		await locator.ClickAsync();
+		await locator.Page.WaitForLoadStateAsync(LoadState.DOMContentLoaded);
 	}
 
 }
