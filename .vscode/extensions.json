@@ -7,6 +7,7 @@
 		"editorconfig.editorconfig",
 		"github.vscode-github-actions",
 		"ms-dotnettools.csdevkit",
+		"ms-vscode.powershell",
 	],
 	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
 	"unwantedRecommendations": [
