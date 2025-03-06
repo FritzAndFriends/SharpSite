@@ -1,0 +1,26 @@
+﻿<div class="mb-2 mb-2">
+	@if (!ConfirmationRequired)
+	{
+		<button type="submit" class="btn btn-primary" @onclick="SaveCallback">@SharedResource.sharpsite_save</button>
+	}
+	else
+	{
+		<div class="alert alert-danger" role="alert">@AlertMessage</div>
+		<button type="submit" class="btn btn-primary" @onclick="SaveCallback">@SharedResource.sharpsite_confirm</button>
+		<button type="button" class="btn btn-danger" @onclick="CancelCallback">@SharedResource.sharpsite_cancel</button>
+	}
+</div>
+
+@code {
+	[Parameter, EditorRequired]
+	public required string AlertMessage { get; set; }
+
+	[Parameter, EditorRequired]
+	public required bool ConfirmationRequired { get; set; }
+
+	[Parameter, EditorRequired]
+	public required EventCallback SaveCallback { get; set; }
+
+	[Parameter, EditorRequired]
+	public required EventCallback CancelCallback { get; set; }
+}

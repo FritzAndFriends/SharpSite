@@ -1,0 +1,33 @@
+﻿:root {
+	--primary: steelblue;
+}
+
+.navbar {
+	background-color: var(--primary);
+}
+
+.nav-pills .nav-link.active {
+	background-color: var(--primary) !important;
+}
+
+
+.jumbotron {
+	background-color: var(--primary);
+	color: white;
+}
+
+.btn-primary {
+	background-color: var(--primary);
+	border-color: var(--primary);
+}
+
+	.btn-primary:hover {
+		background-color: darkblue;
+		border-color: darkblue;
+	}
+
+.footer {
+	background-color: var(--primary);
+	color: white;
+	padding: 20px 0;
+}

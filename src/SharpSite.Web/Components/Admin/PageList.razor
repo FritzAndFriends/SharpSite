@@ -1,4 +1,4 @@
-@page "/admin/Pages"
+@attribute [Route(RouteValues.AdminPageList)]
 @attribute [Authorize(Roles = Constants.Roles.AdminUsers)]
 @inject IPageRepository PageRepository
 @inject NavigationManager NavManager

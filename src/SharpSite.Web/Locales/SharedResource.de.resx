@@ -347,15 +347,6 @@
     <value>Die Datei enthält bereits Folgendes:</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
-    <value xml:space="preserve">Individualisiere Inhalte für die Seite "Nicht gefunden"</value>
-  </data>
-  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
-    <value xml:space="preserve">Passen Sie den Inhalt für die Seite "Seite nicht gefunden" an.</value>
-  </data>
-  <data name="sharpsite_ChangeTheme">
-    <value xml:space="preserve">Thema ändern</value>
-  </data>
   <data name="sharpsite_language_label" xml:space="preserve">
     <value>Sprache</value>
     <comment>AI generated translation</comment>
@@ -363,5 +354,37 @@
   <data name="sharpsite_langauge_help_text" xml:space="preserve">
     <value>Dies gewährleistet, dass assistive Technologien die richtige Sprache für den Inhalt verwenden.</value>
     <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_sitenamelabel" xml:space="preserve">
+    <value>Seitenname:</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_returntowebsite" xml:space="preserve">
+    <value>Zurück zur Website</value>
+    <comment>AI generated translation</comment>
+	</data>
+  <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
+    <value>Individualisiere Inhalte für die Seite "Nicht gefunden"</value>
+  </data>
+  <data name="sharpsite_CustomizePageNotFoundDescription" xml:space="preserve">
+    <value>Passen Sie den Inhalt für die Seite "Seite nicht gefunden" an.</value>
+  </data>
+  <data name="sharpsite_ChangeTheme" xml:space="preserve">
+    <value>Thema ändern</value>
+  </data>
+  <data name="sharpsite_script_alert_page" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_script_alert_post" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_confirm" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_cancel" xml:space="preserve">
+        <value />
+  </data>
+  <data name="sharpsite_plugin_exists" xml:space="preserve">
+    <value />
   </data>
 </root>

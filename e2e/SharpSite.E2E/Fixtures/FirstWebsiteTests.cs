@@ -1,6 +1,7 @@
 ﻿using Microsoft.Playwright;
+using SharpSite.E2E.Abstractions;
 
-namespace SharpSite.E2E;
+namespace SharpSite.E2E.Fixtures;
 
 public class FirstWebsiteTests : SharpSitePageTest
 {
@@ -11,6 +12,7 @@ public class FirstWebsiteTests : SharpSitePageTest
 		await Page.GotoAsync("/");
 		// Click the get started link.
 		await Page.GetByRole(AriaRole.Link, new() { Name = "About SharpSite" }).ClickAsync();
+		await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
 		// take a screenshot
 		await Page.ScreenshotAsync(new PageScreenshotOptions() { Path = "about-sharpsite.png" });
