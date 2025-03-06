@@ -1,21 +1,15 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using SharpSite.Abstractions;
 using SharpSite.Abstractions.Base;
 using SharpSite.Abstractions.Theme;
 using SharpSite.Plugins;
 
 namespace SharpSite.Web;
 
-public class ApplicationState
+public class ApplicationState : ApplicationStateModel
 {
-
-	/// <summary>
-	/// Indicates whether the application state has been initialized from the applicationState.json file.
-	/// </summary>
-	[JsonIgnore]
-	public bool Initialized { get; private set; } = false;
-
 	public record CurrentThemeRecord(string IdVersion);
 
 
@@ -25,22 +19,17 @@ public class ApplicationState
 	[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 	public CurrentThemeRecord? CurrentTheme { get; set; }
 
-	[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-	public LocalizationRecord? Localization { get; set; }
+	public string HasCustomLogo { get; set; } = string.Empty;
 
 	[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-	public string? RobotsTxtCustomContent { get; set; }
+	public LocalizationRecord? Localization { get; set; }
 
 	public Dictionary<string, ISharpSiteConfigurationSection> ConfigurationSections { get; private set; } = new();
 
 	public event Func<ApplicationState, ISharpSiteConfigurationSection, Task>? ConfigurationSectionChanged;
 
-	/// <summary>
-	/// Maximum file upload size in megabytes.
-	/// </summary>
-	public long MaximumUploadSizeMB { get; set; } = 10; // 10MB
-
-	public string PageNotFoundContent { get; set; } = string.Empty;
+	[JsonIgnore]
+	public int StartupStep { get; set; } = 0;
 
 	[JsonIgnore]
 	public Type? ThemeType
@@ -118,10 +107,13 @@ public class ApplicationState
 			{
 				ConfigurationSections = state.ConfigurationSections;
 				CurrentTheme = state.CurrentTheme;
-				MaximumUploadSizeMB = state.MaximumUploadSizeMB;
+				HasCustomLogo = state.HasCustomLogo;
 				Localization = state.Localization;
-				RobotsTxtCustomContent = state.RobotsTxtCustomContent;
+				MaximumUploadSizeMB = state.MaximumUploadSizeMB;
 				PageNotFoundContent = state.PageNotFoundContent;
+				RobotsTxtCustomContent = state.RobotsTxtCustomContent;
+				SiteName = state.SiteName;
+				StartupCompleted = state.StartupCompleted;
 			}
 
 			Initialized = true;

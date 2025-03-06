@@ -415,4 +415,12 @@
   <data name="sharpsite_plugin_exists" xml:space="preserve">
     <value />
   </data>
+  <data name="sharpsite_sitenamelabel" xml:space="preserve">
+    <value>Webbplatsnamn:</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_returntowebsite" xml:space="preserve">
+    <value>Återgå till webbplatsen</value>
+    <comment>AI generated translation</comment>
+  </data>
 </root>

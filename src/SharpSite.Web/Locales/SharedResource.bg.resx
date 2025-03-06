@@ -359,6 +359,14 @@
     <value>Това гарантира, че помощните технологии използват правилния език за съдържанието.</value>
     <comment>AI generated translation</comment>
   </data>
+  <data name="sharpsite_sitenamelabel" xml:space="preserve">
+    <value>Име на сайта:</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_returntowebsite" xml:space="preserve">
+    <value>Върни се на уебсайта</value>
+    <comment>AI generated translation</comment>
+	</data>
   <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
     <value>Персонализиране на съдържанието на страницата "Не е намерена"</value>
   </data>

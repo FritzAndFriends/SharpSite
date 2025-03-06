@@ -90,4 +90,6 @@ await pgSecurity.RunAtStartup(app.Services);
 
 app.MapFileApi(pluginManager);
 
+app.UseMiddleware<StartupConfigMiddleware>();
+
 app.Run();

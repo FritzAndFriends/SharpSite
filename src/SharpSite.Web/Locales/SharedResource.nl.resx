@@ -355,6 +355,14 @@
     <value>Dit zorgt ervoor dat hulpmiddelen voor toegankelijkheid de juiste taal gebruiken voor de inhoud.</value>
     <comment>AI generated translation</comment>
   </data>
+  <data name="sharpsite_sitenamelabel" xml:space="preserve">
+    <value>Website Naam:</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_returntowebsite" xml:space="preserve">
+    <value>Terug naar website</value>
+    <comment>AI generated translation</comment>
+	</data>
   <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
     <value>Aanpassen van Pagina Niet Gevonden inhoud.</value>
   </data>

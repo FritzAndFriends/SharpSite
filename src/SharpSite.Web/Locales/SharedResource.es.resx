@@ -355,6 +355,14 @@
     <value>Esto asegura que las tecnologías de asistencia utilicen el idioma correcto para el contenido.</value>
     <comment>AI generated translation</comment>
   </data>
+  <data name="sharpsite_sitenamelabel" xml:space="preserve">
+    <value>Nombre del sitio:</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_returntowebsite" xml:space="preserve">
+    <value>Volver al sitio web.</value>
+    <comment>AI generated translation</comment>
+	</data>
   <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
     <value>Personalizar el contenido de la página no encontrada.</value>
   </data>
