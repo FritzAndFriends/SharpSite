@@ -119,6 +119,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "lucyllewy",
+      "name": "Lucy Llewellyn",
+      "avatar_url": "https://avatars.githubusercontent.com/u/147548?v=4",
+      "profile": "https://lucyllewy.com/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
