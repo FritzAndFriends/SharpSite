@@ -18,7 +18,7 @@ public static class FileApi
 		//	throw new InvalidOperationException("No file storage plugin found");
 		//}
 
-		var filesGroup = app.MapGroup("/api/files");
+		var filesGroup = app.MapGroup(RouteValues.BaseFileApi);
 		filesGroup.MapGet("/", async (int page, int filesOnPage) =>
 				{
 
@@ -55,7 +55,7 @@ public static class FileApi
 			await fileProvider!.AddFile(file);
 
 			// generate the base of the URL using HttpContextAccessor to get the host and port
-			var path = $"{context.Request.Scheme}://{context.Request.Host}/api/files/{file.Metadata.FileName}";
+			var path = $"{context.Request.Scheme}://{context.Request.Host}{Path.Combine(RouteValues.BaseFileApi, "/", file.Metadata.FileName)}";
 			return Results.Ok(path);
 		}).RequireAuthorization(Constants.Roles.AllUsers);
 
@@ -65,7 +65,7 @@ public static class FileApi
 			var fileProvider = pluginManager.GetPluginProvidedService<IHandleFileStorage>();
 			await fileProvider!.RemoveFile(path);
 			await fileProvider.AddFile(file);
-			return Results.Created($"/api/files/{file.Metadata.FileName}", file.Metadata);
+			return Results.Created($"{Path.Combine(RouteValues.BaseFileApi, "/", file.Metadata.FileName)}", file.Metadata);
 		}).RequireAuthorization(Constants.Roles.AdminUsers);
 
 		// need to add a DELETE endpoint to remove files that is limited to members of the "Admin" role

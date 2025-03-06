@@ -47,7 +47,7 @@ Placeholder="Upload a logo for your website"
 
 @code {
 
-		Stream Logo { get; set; } = Stream.Null;
+	Stream Logo { get; set; } = Stream.Null;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -64,6 +64,7 @@ Placeholder="Upload a logo for your website"
 		await FileStorage.AddFile(new FileData(Logo, new FileMetaData("logo.png", "image/png", DateTimeOffset.Now)));
 		AppState.StartupCompleted = true;
 		AppState.StartupStep = 0;
+		AppState.HasCustomLogo = "logo.png"; 
 		await AppState.Save();
 		NavManager.NavigateTo($"/", false);
 	}

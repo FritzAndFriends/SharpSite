@@ -11,13 +11,13 @@
 
 	<AuthorizeView Roles="@Constants.Roles.Admin">
 		<li class="nav-item">
-			<NavLink class="nav-link" href="/admin/pages" Match="NavLinkMatch.All">
+			<NavLink class="nav-link" href="@RouteValues.AdminPageList" Match="NavLinkMatch.All">
 				@Localizer[SharedResource.sharpsite_pageadmin]
 			</NavLink>
 		</li>
 	</AuthorizeView>
 	<li class="nav-item">
-		<NavLink class="nav-link" href="/admin/posts" Match="NavLinkMatch.All">
+		<NavLink class="nav-link" href="@RouteValues.AdminPostList" Match="NavLinkMatch.All">
 			@Localizer[SharedResource.sharpsite_postsadmin]
 		</NavLink>
 	</li>

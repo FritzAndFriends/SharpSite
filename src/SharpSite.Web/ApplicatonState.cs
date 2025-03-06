@@ -19,6 +19,8 @@ public class ApplicationState : ApplicationStateModel
 	[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 	public CurrentThemeRecord? CurrentTheme { get; set; }
 
+	public string HasCustomLogo { get; set; } = string.Empty;
+
 	[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 	public LocalizationRecord? Localization { get; set; }
 
@@ -105,8 +107,9 @@ public class ApplicationState : ApplicationStateModel
 			{
 				ConfigurationSections = state.ConfigurationSections;
 				CurrentTheme = state.CurrentTheme;
-				MaximumUploadSizeMB = state.MaximumUploadSizeMB;
+				HasCustomLogo = state.HasCustomLogo;
 				Localization = state.Localization;
+				MaximumUploadSizeMB = state.MaximumUploadSizeMB;
 				PageNotFoundContent = state.PageNotFoundContent;
 				RobotsTxtCustomContent = state.RobotsTxtCustomContent;
 				SiteName = state.SiteName;
