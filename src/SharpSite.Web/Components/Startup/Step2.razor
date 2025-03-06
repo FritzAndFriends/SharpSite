@@ -1,0 +1,31 @@
+﻿@page "/start/step2"
+@inject ApplicationState AppState
+@inject NavigationManager NavManager
+
+@* add the sharpsite logo *@
+<img src="/img/logo-500.webp" alt="SharpSite" style="min-width: 500px;" />
+
+<h1 class="h1">Step 2 - Initial Appearance</h1>
+
+<p>
+	Let's next configure some things that are going to help with the initial appearance of your website
+</p>
+
+<p>
+	You can change these later, so don't worry if you want to make changes later.
+</p>
+
+@code {
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (AppState.StartupCompleted) NavManager.NavigateTo("/", true);
+		if (AppState.StartupStep < 2) NavManager.NavigateTo("/start/step1", false);
+		if (AppState.StartupStep != 2) NavManager.NavigateTo($"/start/step{AppState.StartupStep}", false);
+
+		await base.OnInitializedAsync();
+	}
+
+
+
+}

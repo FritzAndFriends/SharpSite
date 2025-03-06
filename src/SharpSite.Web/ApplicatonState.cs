@@ -27,6 +27,9 @@ public class ApplicationState : ApplicationStateModel
 	public event Func<ApplicationState, ISharpSiteConfigurationSection, Task>? ConfigurationSectionChanged;
 
 	[JsonIgnore]
+	public int StartupStep { get; set; } = 0;
+
+	[JsonIgnore]
 	public Type? ThemeType
 	{
 		get
