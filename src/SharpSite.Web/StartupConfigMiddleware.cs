@@ -11,6 +11,7 @@ public class StartupConfigMiddleware(RequestDelegate next, ApplicationState AppS
 		// Exit now if the app is already configured
 		if (!AppState.StartupCompleted &&
 			!context.Request.Path.Value!.StartsWith("/start") &&
+			!context.Request.Path.Value!.StartsWith("/_blazor") &&
 			!context.Request.Path.Value.EndsWith(".js") &&
 			!context.Request.Path.Value.EndsWith(".css") &&
 			!context.Request.Path.Value.Contains("/img/"))
