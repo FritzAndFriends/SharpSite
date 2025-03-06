@@ -1,7 +1,7 @@
 # SharpSite
 
 [![Built With .NET](https://img.shields.io/badge/Built_With_.NET-512BD4?style=plastic&logo=DotNet&logoColor=white)](https://dot.net)<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END --> 
 [![.NET Build + Test](https://github.com/FritzAndFriends/SharpSite/actions/workflows/dotnet-build.yml/badge.svg)](https://github.com/FritzAndFriends/SharpSite/actions/workflows/dotnet-build.yml)
 [![Test Results](https://fritzblog.blob.core.windows.net/githubartifacts/unittest-badge.svg?0.6)](https://fritzblog.blob.core.windows.net/githubartifacts/unittest-badge.svg)
@@ -83,6 +83,7 @@ There are three key personas that we would like SharpSite to support:
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/TheLankyScottishNerd"><img src="https://avatars.githubusercontent.com/u/8051530?v=4?s=100" width="100px;" alt="Declan McIlhatton"/><br /><sub><b>Declan McIlhatton</b></sub></a><br /><a href="#design-TheLankyScottishNerd" title="Design">🎨</a> <a href="https://github.com/FritzAndFriends/SharpSite/commits?author=TheLankyScottishNerd" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://www.simstools.com"><img src="https://avatars.githubusercontent.com/u/301535?v=4?s=100" width="100px;" alt="Occular Malice"/><br /><sub><b>Occular Malice</b></sub></a><br /><a href="https://github.com/FritzAndFriends/SharpSite/commits?author=bsimser" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/JustCallMeAD"><img src="https://avatars.githubusercontent.com/u/4316208?v=4?s=100" width="100px;" alt="JustCallMeAD"/><br /><sub><b>JustCallMeAD</b></sub></a><br /><a href="https://github.com/FritzAndFriends/SharpSite/commits?author=JustCallMeAD" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://lucyllewy.com/"><img src="https://avatars.githubusercontent.com/u/147548?v=4?s=100" width="100px;" alt="Lucy Llewellyn"/><br /><sub><b>Lucy Llewellyn</b></sub></a><br /><a href="https://github.com/FritzAndFriends/SharpSite/commits?author=lucyllewy" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
