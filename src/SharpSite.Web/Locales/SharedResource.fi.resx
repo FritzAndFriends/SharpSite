@@ -352,4 +352,12 @@
   <data name="sharpsite_plugin_exists" xml:space="preserve">
     <value>Laajennus '{0}' on jo asennettu.</value>
   </data>
+  <data name="sharpsite_sitenamelabel" xml:space="preserve">
+    <value>Sivuston nimi:</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_returntowebsite" xml:space="preserve">
+    <value>Palaa verkkosivustolle</value>
+    <comment>AI generated translation</comment>
+  </data>
 </root>

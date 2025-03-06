@@ -29,6 +29,7 @@ public static class PostgresExtensions
 				{
 					config.WithImageTag(VERSIONS.PGADMIN);
 					config.WithLifetime(ContainerLifetime.Persistent);
+					config.WithParentRelationship(dbServer);
 				});
 
 		}

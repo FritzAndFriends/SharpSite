@@ -628,6 +628,15 @@ namespace SharpSite.Web.Locales {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Return to website.
+        /// </summary>
+        internal static string sharpsite_returntowebsite {
+            get {
+                return ResourceManager.GetString("sharpsite_returntowebsite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The file already contains the following:.
         /// </summary>
         internal static string sharpsite_robotstxt_help_text {
@@ -678,6 +687,15 @@ namespace SharpSite.Web.Locales {
         internal static string sharpsite_site_appearance_admin {
             get {
                 return ResourceManager.GetString("sharpsite_site_appearance_admin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Site Name:.
+        /// </summary>
+        internal static string sharpsite_sitenamelabel {
+            get {
+                return ResourceManager.GetString("sharpsite_sitenamelabel", resourceCulture);
             }
         }
         

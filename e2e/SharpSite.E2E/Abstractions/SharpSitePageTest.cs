@@ -3,6 +3,7 @@ using Microsoft.Playwright.Xunit;
 
 namespace SharpSite.E2E.Abstractions;
 
+[Collection(WebsiteConfigurationFixtureCollection.TEST_COLLECTION_NAME)]
 public abstract class SharpSitePageTest : PageTest
 {
 
