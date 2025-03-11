@@ -1,4 +1,4 @@
-﻿@inject ApplicationState AppState
+﻿	@inject ApplicationState AppState
 <ul class="nav nav-pills flex-column">
 
 	<AuthorizeView Roles="@Constants.Roles.AllUsers">
@@ -11,13 +11,13 @@
 
 	<AuthorizeView Roles="@Constants.Roles.Admin">
 		<li class="nav-item">
-			<NavLink class="nav-link" href="/admin/pages" Match="NavLinkMatch.All">
+			<NavLink class="nav-link" href="@RouteValues.AdminPageList" Match="NavLinkMatch.All">
 				@Localizer[SharedResource.sharpsite_pageadmin]
 			</NavLink>
 		</li>
 	</AuthorizeView>
 	<li class="nav-item">
-		<NavLink class="nav-link" href="/admin/posts" Match="NavLinkMatch.All">
+		<NavLink class="nav-link" href="@RouteValues.AdminPostList" Match="NavLinkMatch.All">
 			@Localizer[SharedResource.sharpsite_postsadmin]
 		</NavLink>
 	</li>
@@ -39,6 +39,11 @@
 			</NavLink>
 		</li>
 
+		@* Add a separator bar before the plugins configuration *@
+		<li class="nav-item">
+			<hr class="dropdown-divider" />
+		</li>
+
 		@foreach (var configSection in AppState.ConfigurationSections)
 		{
 			<li class="nav-item">
@@ -49,5 +54,15 @@
 		}
 
 	</AuthorizeView>
+
+	@* Add a separator bar before the return to site *@
+	<li class="nav-item">
+		<hr class="dropdown-divider" />
+	</li>
+
+	<li class="nav-item">
+		<NavLink class="nav-link" href="/" Match="NavLinkMatch.All">@SharedResource.sharpsite_returntowebsite</NavLink>
+	</li>
+
 
 </ul>

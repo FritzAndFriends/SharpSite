@@ -359,4 +359,32 @@
     <value>Change Theme</value>
     <comment>Text of the button used to change the theme of the website</comment>
   </data>
+	<data name="sharpsite_sitenamelabel" xml:space="preserve">
+    <value>Site Name:</value>
+    <comment>Label on admin pages that allows customization of the website name</comment>
+  </data>
+	<data name="sharpsite_returntowebsite" xml:space="preserve">
+    <value>Return to website</value>
+    <comment>Link text on admin portal that returns the user to the public website</comment>
+	</data>
+  <data name="sharpsite_script_alert_page" xml:space="preserve">
+    <value>The markdown contains a script tag which will be executed once users load the page. Are you sure you want to proceed?</value>
+    <comment>Alert message that is showed when the markdown content for a page contains a script tag</comment>
+  </data>
+  <data name="sharpsite_script_alert_post" xml:space="preserve">
+    <value>The markdown contains a script tag which will be executed once users load the post. Are you sure you want to proceed?</value>
+    <comment>Alert message that is showed when the markdown content for a post contains a script tag</comment>
+  </data>
+  <data name="sharpsite_confirm" xml:space="preserve">
+    <value>Confirm</value>
+    <comment>To confirm an action</comment>
+  </data>
+  <data name="sharpsite_cancel" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>To cancel an action</comment>
+  </data>
+  <data name="sharpsite_plugin_exists" xml:space="preserve">
+    <value>Plugin '{0}' is already installed.</value>
+    <comment>Error message to be desplayed when a plugin that already exists, is attempted to be uploaded.</comment>
+  </data>
 </root>

@@ -1,0 +1,14 @@
+﻿.centered-content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	flex-direction: column;
+}
+
+	.centered-content > div {
+		max-width: 700px;
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+	}

@@ -1,4 +1,5 @@
 ﻿@inject NavigationManager NavigationManager
+@inject ApplicationState State
 
 
 	@* add typical og and social media meta tags for discovery *@
@@ -8,7 +9,7 @@
 	<meta property="og:type" content="article" />
 
 	@* TODO:  This should be replaced with a name the Site Admin gives to this site *@
-	<meta property="og:site_name" content="SharpSite" />
+	<meta property="og:site_name" content="@State.SiteName" />
 	<meta name="twitter:card" content="summary" />
 	@* 	
 
