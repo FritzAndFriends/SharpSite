@@ -1,6 +1,7 @@
 ﻿@page "/start/step1"
 @inject ApplicationState AppState
 @inject NavigationManager NavManager
+@inject PluginManager PluginManager
 @rendermode InteractiveServer
 
 @* add the sharpsite logo *@
@@ -39,11 +40,13 @@
 		await base.OnInitializedAsync();
 	}
 
-	private void SaveAndContinue(MouseEventArgs args)
+	private async Task SaveAndContinue(MouseEventArgs args)
 	{
 		
 		AppState.SiteName = WebsiteName;
 		AppState.StartupStep = 2;
+
+		await PluginManager.InstallDefaultPlugins();
 
 		NavManager.NavigateTo($"/start/step{AppState.StartupStep}", false);
 

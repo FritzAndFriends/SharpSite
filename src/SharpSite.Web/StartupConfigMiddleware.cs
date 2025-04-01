@@ -8,10 +8,17 @@ public class StartupConfigMiddleware(RequestDelegate next, ApplicationState AppS
 	public async Task Invoke(HttpContext context)
 	{
 
-		// Exit now if the app is already configured
-		if (!AppState.StartupCompleted &&
-			!context.Request.Path.Value!.StartsWith("/start") &&
-			!context.Request.Path.Value!.StartsWith("/_blazor") &&
+		// Check if the application is started and skip the middleware if it is.
+		if (AppState.StartupCompleted)
+		{
+			await next(context);
+			return;
+		}
+
+		// Redirect to the start page if the application is not started yet.
+		if (context.Request.Path.Value is not null &&
+			!context.Request.Path.Value.StartsWith("/start") &&
+			!context.Request.Path.Value.StartsWith("/_blazor") &&
 			!context.Request.Path.Value.EndsWith(".js") &&
 			!context.Request.Path.Value.EndsWith(".css") &&
 			!context.Request.Path.Value.Contains("/img/"))

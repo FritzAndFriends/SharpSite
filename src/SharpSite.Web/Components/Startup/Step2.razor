@@ -2,7 +2,7 @@
 @using SharpSite.Abstractions.FileStorage
 @inject ApplicationState AppState
 @inject NavigationManager NavManager
-@inject IHandleFileStorage FileStorage
+@inject PluginManager PluginManager
 @rendermode InteractiveServer
 
 @* add the sharpsite logo *@
@@ -38,12 +38,13 @@ Placeholder="Upload a logo for your website"
 }
 
 <p>
-	Once you have uploaded a logo, click the <strong>Next</strong> button to continue.
+	Once you have uploaded a logo, click the <strong>Finish</strong> button to continue.  If you don't want to upload a logo, just click the <strong>Skip and Finish</strong> button to continue.
 </p>
 
-@* add a button to continue to the next step *@
-<button class="btn btn-primary" @onclick="Finish">Finish</button>
-
+<div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+	<button class="btn btn-primary" @onclick="Finish">Finish</button>
+	<button class="btn btn-secondary" @onclick="SkipAndFinish">Skip and Finish</button>
+</div>
 
 @code {
 
@@ -61,10 +62,25 @@ Placeholder="Upload a logo for your website"
 	private async Task Finish(MouseEventArgs args)
 	{
 
+		var FileStorage = PluginManager.GetPluginProvidedService<IHandleFileStorage>();
+
+		if (FileStorage == null)
+		{
+			throw new Exception("FileStorage is not available.  Please contact support.");
+		}
+
 		await FileStorage.AddFile(new FileData(Logo, new FileMetaData("logo.png", "image/png", DateTimeOffset.Now)));
 		AppState.StartupCompleted = true;
 		AppState.StartupStep = 0;
 		AppState.HasCustomLogo = "logo.png"; 
+		await AppState.Save();
+		NavManager.NavigateTo($"/", false);
+	}
+
+	private async Task SkipAndFinish(MouseEventArgs args)
+	{
+		AppState.StartupCompleted = true;
+		AppState.StartupStep = 0;
 		await AppState.Save();
 		NavManager.NavigateTo($"/", false);
 	}

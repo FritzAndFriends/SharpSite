@@ -429,4 +429,32 @@ public class PluginManager(
 		}
 
 	}
+
+	public async Task InstallDefaultPlugins()
+	{
+	
+		var defaultPluginFolder = new DirectoryInfo("defaultplugins");
+		if (!defaultPluginFolder.Exists) return;
+
+		foreach (var file in defaultPluginFolder.GetFiles("*.sspkg"))
+		{
+
+			using var stream = File.OpenRead(file.FullName);
+			var plugin = await Plugin.LoadFromStream(stream, file.Name);
+
+			try {
+				HandleUploadedPlugin(plugin);
+				logger.LogInformation("Plugin {0} loaded from default plugins.", file.Name);
+				await SavePlugin();
+			} catch (PluginException ex) {
+				logger.LogError(ex, "Plugin {0} failed to load from default plugins.", file.Name);
+			}	finally {
+				// Cleanup the plugin after processing
+				CleanupCurrentUploadedPlugin();
+			}
+
+		}
+
+	}
+
 }
