@@ -42,8 +42,8 @@ Placeholder="Upload a logo for your website"
 </p>
 
 <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
-	<button class="btn btn-primary" @onclick="Finish">Finish</button>
-	<button class="btn btn-secondary" @onclick="SkipAndFinish">Skip and Finish</button>
+	<button class="btn btn-primary" @onclick="Next">Next</button>
+	<button class="btn btn-secondary" @onclick="Skip">Skip</button>
 </div>
 
 @code {
@@ -59,7 +59,7 @@ Placeholder="Upload a logo for your website"
 		await base.OnInitializedAsync();
 	}
 
-	private async Task Finish(MouseEventArgs args)
+	private async Task Next(MouseEventArgs args)
 	{
 
 		var FileStorage = PluginManager.GetPluginProvidedService<IHandleFileStorage>();
@@ -70,19 +70,19 @@ Placeholder="Upload a logo for your website"
 		}
 
 		await FileStorage.AddFile(new FileData(Logo, new FileMetaData("logo.png", "image/png", DateTimeOffset.Now)));
-		AppState.StartupCompleted = true;
-		AppState.StartupStep = 0;
+		AppState.StartupStep = 3;
 		AppState.HasCustomLogo = "logo.png"; 
 		await AppState.Save();
-		NavManager.NavigateTo($"/", false);
+		NavManager.NavigateTo($"/start/step{AppState.StartupStep}", false);
 	}
 
-	private async Task SkipAndFinish(MouseEventArgs args)
+	private async Task Skip(MouseEventArgs args)
 	{
-		AppState.StartupCompleted = true;
-		AppState.StartupStep = 0;
+
+		AppState.StartupStep = 3;
 		await AppState.Save();
-		NavManager.NavigateTo($"/", false);
+		NavManager.NavigateTo($"/start/step{AppState.StartupStep}", false);
+
 	}
 
 }
