@@ -26,6 +26,18 @@ public class ApplicationStateModel
 
 	public string PageNotFoundContent { get; set; } = string.Empty;
 
+	public virtual string GetConfigurationByName(string name, string defaultValue = "")
+	{
+
+		return name switch
+		{
+			"SiteName" => SiteName,
+			"PageNotFoundContent" => PageNotFoundContent,
+			"MaximumUploadSizeMB" => MaximumUploadSizeMB.ToString(),
+			_ => defaultValue
+		};
+
+	}
 
 
 }

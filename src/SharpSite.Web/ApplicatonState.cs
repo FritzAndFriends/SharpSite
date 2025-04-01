@@ -12,8 +12,6 @@ public class ApplicationState : ApplicationStateModel
 {
 	public record CurrentThemeRecord(string IdVersion);
 
-
-
 	public record LocalizationRecord(string? DefaultCulture, string[]? SupportedCultures);
 
 	[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
@@ -25,6 +23,23 @@ public class ApplicationState : ApplicationStateModel
 	public LocalizationRecord? Localization { get; set; }
 
 	public Dictionary<string, ISharpSiteConfigurationSection> ConfigurationSections { get; private set; } = new();
+
+	public string ContentConnectionString { get; set; } = string.Empty;
+	public string SecurityConnectionString { get; set; } = string.Empty;
+
+	public override string GetConfigurationByName(string name, string defaultValue = "")
+	{
+		return name switch
+		{
+			"ContentConnectionString" => ContentConnectionString,
+			"SecurityConnectionString" => SecurityConnectionString,
+			"SiteName" => SiteName,
+			"PageNotFoundContent" => PageNotFoundContent,
+			"MaximumUploadSizeMB" => MaximumUploadSizeMB.ToString(),
+			"RobotsTxtCustomContent" => RobotsTxtCustomContent ?? string.Empty,
+			_ => base.GetConfigurationByName(name, defaultValue)
+		};
+	}
 
 	public event Func<ApplicationState, ISharpSiteConfigurationSection, Task>? ConfigurationSectionChanged;
 
