@@ -11,3 +11,18 @@ public interface IRegisterServices
 	IHostApplicationBuilder RegisterServices(IHostApplicationBuilder services, bool disableRetry = false);
 
 }
+
+public interface IManageDatabase
+{
+	/// <summary>
+	/// Creates the database if it does not exist.
+	/// </summary>
+	void CreateDatabaseIfNotExists(string connectionString);
+
+	/// <summary>
+	/// Updates the database schema to the latest versions
+	/// </summary>
+	/// <returns></returns>
+	Task UpdateDatabaseSchemaAsync(string connectionString);
+
+}

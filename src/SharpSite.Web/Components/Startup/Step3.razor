@@ -4,6 +4,7 @@
 @inject ApplicationState AppState
 @inject NavigationManager NavManager
 @inject PluginManager PluginManager
+@inject IManageDatabase DatabaseManager
 @rendermode InteractiveServer
 
 <img src="/img/logo-500.webp" alt="SharpSite" style="min-width: 500px;" />
@@ -16,7 +17,7 @@
 
 <p>
 	Currently, we only support Postgres as a database.  This is a very popular and powerful database that is used by many websites.  It is also very easy to use and has a lot of great features.
-	Sharp site is going to create two database instances on your server: one that contains the data for the content served by SharpSite and a second that contains these security information that SharpSite uses
+	Sharp site is going to create two database instances on your server: one that contains the data for the content served by SharpSite and a second that contains this security information that SharpSite uses
 	 to authenticate users and manage permissions.  This is a very important step, so please make sure that you have the correct information before continuing.
 </p>
 
@@ -60,10 +61,26 @@
 
 	private DatabaseConfigModel DatabaseConfig { get; set; } = new();
 
-	private void SaveDatabaseConfig()
+	private async Task SaveDatabaseConfig()
 	{
-		// Logic to save the database configuration
-		Console.WriteLine($"Server: {DatabaseConfig.ServerName}, User: {DatabaseConfig.UserId}, Password: {DatabaseConfig.Password}");
+
+		// Format a connection string for the database using Postgres syntax and using a database name of "sharpsite" and a port of 5432.
+		string connectionString = $"Host={DatabaseConfig.ServerName};Port=5432;Username={DatabaseConfig.UserId};Password={DatabaseConfig.Password};Database=sharpsite;Pooling=true;SSL Mode=Prefer;Trust Server Certificate=true;";
+		AppState.ContentConnectionString = connectionString;
+
+		// Format a connection string for the database using Postgres syntax and using a database name of "sharpsite_security" and a port of 5432.
+		string securityConnectionString = $"Host={DatabaseConfig.ServerName};Port=5432;Username={DatabaseConfig.UserId};Password={DatabaseConfig.Password};Database=sharpsite_security;Pooling=true;SSL Mode=Prefer;Trust Server Certificate=true;";
+		AppState.SecurityConnectionString = securityConnectionString;
+
+		AppState.StartupStep = 0;
+		AppState.StartupCompleted = true;
+		await AppState.Save();
+
+		DatabaseManager.CreateDatabaseIfNotExists(connectionString);
+		await DatabaseManager.UpdateDatabaseSchemaAsync(connectionString);
+
+		NavManager.NavigateTo("/", true);
+
 	}
 
 	private class DatabaseConfigModel
