@@ -5,6 +5,7 @@
 
 # Exclude installed plugins from Sharpsite.web
 src/SharpSite.Web/plugins/
+src/SharpSite.Web/_plugins/
 artifacts/FirstPlugin/
 artifacts/FileSystemPlugin/
 src/SharpSite.Web/Locales/SharpTranslator/
