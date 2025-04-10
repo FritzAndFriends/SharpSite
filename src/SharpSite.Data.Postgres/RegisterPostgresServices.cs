@@ -6,7 +6,7 @@ using SharpSite.Abstractions.Base;
 
 namespace SharpSite.Data.Postgres;
 
-public class RegisterPostgresServices : IRegisterServices, IManageDatabase
+public class RegisterPostgresServices : IRunAtStartup
 {
 	public void CreateDatabaseIfNotExists(string connectionString)
 	{
@@ -20,26 +20,39 @@ public class RegisterPostgresServices : IRegisterServices, IManageDatabase
 	}
 
 
-	public IHostApplicationBuilder RegisterServices(IHostApplicationBuilder host, bool disableRetry = false)
+	public Task<IHostApplicationBuilder> RunAtStartup(IHostApplicationBuilder app)
 	{
-
 		// check if the database connection string is available
-		if (string.IsNullOrEmpty(host.Configuration[$"Connectionstrings:{Constants.DBNAME}"]) {
+		if (string.IsNullOrEmpty(app.Configuration[$"Connectionstrings:{Constants.DBNAME}"]) {
 
 			// check if AppSettings has the connection string
 
 		}
 
-		host.Services.AddTransient<IPageRepository, PgPageRepository>();
-		host.Services.AddTransient<IPostRepository, PgPostRepository>();
-		host.Services.AddTransient<IManageDatabase, RegisterPostgresServices>();
-		host.AddNpgsqlDbContext<PgContext>(Constants.DBNAME, configure =>
+		app.Services.AddTransient<IPageRepository, PgPageRepository>();
+		app.Services.AddTransient<IPostRepository, PgPostRepository>();
+		app.AddNpgsqlDbContext<PgContext>(Constants.DBNAME, configure =>
 		{
-			configure.DisableRetry = disableRetry;
+			configure.DisableRetry = true;
 		});
 
-		return host;
+		return Task.FromResult(app);
 
+	}
+
+	public Task RunOnInstall()
+	{
+		throw new NotImplementedException();
+	}
+
+	public Task RunOnUninstall()
+	{
+		throw new NotImplementedException();
+	}
+
+	public Task RunOnUpdate()
+	{
+		throw new NotImplementedException();
 	}
 
 	public async Task UpdateDatabaseSchemaAsync(string connectionString)

@@ -27,8 +27,16 @@ public class ApplicationState : ApplicationStateModel
 	public string ContentConnectionString { get; set; } = string.Empty;
 	public string SecurityConnectionString { get; set; } = string.Empty;
 
+	public Dictionary<string, string> ConfigurationFields { get; set; } = new();
+
 	public override string GetConfigurationByName(string name, string defaultValue = "")
 	{
+
+		if (ConfigurationFields.ContainsKey(name))
+		{
+			return ConfigurationFields[name];
+		}
+
 		return name switch
 		{
 			"ContentConnectionString" => ContentConnectionString,
@@ -39,6 +47,13 @@ public class ApplicationState : ApplicationStateModel
 			"RobotsTxtCustomContent" => RobotsTxtCustomContent ?? string.Empty,
 			_ => base.GetConfigurationByName(name, defaultValue)
 		};
+	}
+
+	public override void SetConfigurationByName(string name, string value)
+	{
+
+		ConfigurationFields[name] = value;
+
 	}
 
 	public event Func<ApplicationState, ISharpSiteConfigurationSection, Task>? ConfigurationSectionChanged;

@@ -1,8 +1,9 @@
 ﻿using Newtonsoft.Json;
+using SharpSite.Abstractions.Base;
 
 namespace SharpSite.Abstractions;
 
-public class ApplicationStateModel
+public class ApplicationStateModel : IApplicationStateModel
 {
 
 	/// <summary>
@@ -39,5 +40,10 @@ public class ApplicationStateModel
 
 	}
 
+	public virtual void SetConfigurationByName(string name, string value)
+	{
 
+		// do nothing  
+
+	}
 }
