@@ -1,6 +1,7 @@
 @page "/start/step3"
 @using SharpSite.Abstractions.FileStorage
 @using System.ComponentModel.DataAnnotations
+@using SharpSite.Security.Postgres
 @inject ApplicationState AppState
 @inject NavigationManager NavManager
 @inject PluginManager PluginManager
@@ -79,7 +80,14 @@
 		DatabaseManager.CreateDatabaseIfNotExists(connectionString);
 		await DatabaseManager.UpdateDatabaseSchemaAsync(connectionString);
 
-		NavManager.NavigateTo("/", true);
+		// Create the security database if it does not exist.
+		var securityServices = new RegisterPostgresSecurityServices();
+		securityServices.CreateDatabaseIfNotExists(securityConnectionString);
+		await securityServices.UpdateDatabaseSchemaAsync(securityConnectionString);
+
+		// Restart the application to apply the changes.
+
+		// NavManager.NavigateTo("/", true);
 
 	}
 
