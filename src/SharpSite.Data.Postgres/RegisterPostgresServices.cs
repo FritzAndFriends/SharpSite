@@ -10,20 +10,25 @@ public class RegisterPostgresServices : IRegisterServices, IManageDatabase
 {
 	public void CreateDatabaseIfNotExists(string connectionString)
 	{
-		
+
 		// create an instance of the database if it does not exist using the entity framework context with the connection string passed in
 		var optionsBuilder = new DbContextOptionsBuilder<PgContext>();
 		optionsBuilder.UseNpgsql<PgContext>(connectionString);
-		using (var context = new PgContext(optionsBuilder.Options))
-		{
-			context.Database.EnsureCreated();
-		}
+		using var context = new PgContext(optionsBuilder.Options);
+		context.Database.EnsureCreated();
 
 	}
 
 
 	public IHostApplicationBuilder RegisterServices(IHostApplicationBuilder host, bool disableRetry = false)
 	{
+
+		// check if the database connection string is available
+		if (string.IsNullOrEmpty(host.Configuration[$"Connectionstrings:{Constants.DBNAME}"]) {
+
+			// check if AppSettings has the connection string
+
+		}
 
 		host.Services.AddTransient<IPageRepository, PgPageRepository>();
 		host.Services.AddTransient<IPostRepository, PgPostRepository>();
@@ -42,10 +47,8 @@ public class RegisterPostgresServices : IRegisterServices, IManageDatabase
 		// create an instance of the database if it does not exist using the entity framework context with the connection string passed in
 		var optionsBuilder = new DbContextOptionsBuilder<PgContext>();
 		optionsBuilder.UseNpgsql<PgContext>(connectionString);
-		using (var context = new PgContext(optionsBuilder.Options))
-		{
-			await context.Database.MigrateAsync();
-		}
+		using var context = new PgContext(optionsBuilder.Options);
+		await context.Database.MigrateAsync();
 	}
 
 }

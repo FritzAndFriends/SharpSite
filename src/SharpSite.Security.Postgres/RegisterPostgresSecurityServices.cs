@@ -14,7 +14,7 @@ using Constants = SharpSite.Abstractions.Constants;
 
 namespace SharpSite.Security.Postgres;
 
-public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
+public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup, IManageDatabase
 {
 	private const string InitializeUsersActivitySourceName = "Initial Users and Roles";
 
@@ -118,6 +118,34 @@ public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 			activity?.AddEvent(new ActivityEvent("Created admin user with password 'Admin123!'"));
 			await userManager.AddToRoleAsync(admin, Constants.Roles.Admin);
 			activity?.AddEvent(new ActivityEvent("Assigned admin user to Admin role"));
+		}
+
+	public void CreateDatabaseIfNotExists(string connectionString)
+	{
+
+		// create the PgSecurityContext if it does not exist using the entity framework context with the connection string passed in
+		var optionsBuilder = new DbContextOptionsBuilder<PgSecurityContext>();
+		optionsBuilder.UseNpgsql<PgSecurityContext>(connectionString);
+		using (var context = new PgSecurityContext(optionsBuilder.Options))
+		{
+			context.Database.EnsureCreated();
+		
+
+	}
+
+	/// <summary>
+	/// Updates the database schema to the latest versions
+	/// </summary>
+	/// <returns></returns>
+	public Task UpdateDatabaseSchemaAsync(string connectionString)
+	{
+
+		// create the PgSecurityContext if it does not exist using the entity framework context with the connection string passed in
+		var optionsBuilder = new DbContextOptionsBuilder<PgSecurityContext>();
+		optionsBuilder.UseNpgsql<PgSecurityContext>(connectionString);
+		using (var context = new PgSecurityContext(optionsBuilder.Options))
+		{
+			return context.Database.MigrateAsync();
 		}
 
 	}

@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using SharpSite.Abstractions;
@@ -9,6 +10,8 @@ using SharpSite.Web.Locales;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var appState = builder.AddPluginManagerAndAppState();
+
 // Load plugins for postgres
 #region Postgres Plugins
 var pg = new RegisterPostgresServices();
@@ -17,8 +20,6 @@ pg.RegisterServices(builder);
 var pgSecurity = new RegisterPostgresSecurityServices();
 pgSecurity.RegisterServices(builder);
 #endregion
-
-var appState = builder.AddPluginManagerAndAppState();
 
 // add the custom localization features for the application framework
 builder.ConfigureRequestLocalization();
@@ -92,4 +93,4 @@ app.MapFileApi(pluginManager);
 
 app.UseMiddleware<StartupConfigMiddleware>();
 
-app.Run();
+app.RunAsync()
