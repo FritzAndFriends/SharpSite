@@ -1,3 +1,6 @@
+// Ignore Spelling: DBNAME
+
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,10 +23,11 @@ public class RegisterPostgresServices : IRunAtStartup
 	}
 
 
-	public Task<IHostApplicationBuilder> RunAtStartup(IHostApplicationBuilder app)
+	public Task<IHostApplicationBuilder> AddServicesAtStartup(IHostApplicationBuilder app)
 	{
 		// check if the database connection string is available
-		if (string.IsNullOrEmpty(app.Configuration[$"Connectionstrings:{Constants.DBNAME}"]) {
+		if (string.IsNullOrEmpty(app.Configuration[$"Connectionstrings:{Constants.DBNAME}"]))
+		{
 
 			// check if AppSettings has the connection string
 
@@ -64,6 +68,10 @@ public class RegisterPostgresServices : IRunAtStartup
 		await context.Database.MigrateAsync();
 	}
 
+	public Task<IApplicationBuilder> ConfigureHttpApp(IApplicationBuilder app)
+	{
+		return Task.FromResult(app);
+	}
 }
 
 public static class Constants

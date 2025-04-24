@@ -1,4 +1,7 @@
-﻿using SharpSite.Abstractions.Base;
+﻿using Microsoft.EntityFrameworkCore;
+using SharpSite.Abstractions;
+using SharpSite.Abstractions.Base;
+using SharpSite.Abstractions.DataStorage;
 using SharpSite.Abstractions.FileStorage;
 using SharpSite.Plugins;
 using System.IO.Compression;
@@ -201,6 +204,10 @@ public class PluginManager(
 				var knownInterface = pluginAttribute.RegisterType switch
 				{
 					PluginRegisterType.FileStorage => typeof(IHandleFileStorage),
+					PluginRegisterType.DataStorage_Configuration => typeof(IConfigureDataStorage),
+					PluginRegisterType.DataStorage_EfContext => typeof(DbContext),
+					PluginRegisterType.DataStorage_PageRepository => typeof(IPageRepository),
+					PluginRegisterType.DataStorage_PostRepository => typeof(IPostRepository),
 					_ => null
 				};
 
@@ -432,7 +439,7 @@ public class PluginManager(
 
 	public async Task InstallDefaultPlugins()
 	{
-	
+
 		var defaultPluginFolder = new DirectoryInfo("defaultplugins");
 		if (!defaultPluginFolder.Exists) return;
 
@@ -442,13 +449,18 @@ public class PluginManager(
 			using var stream = File.OpenRead(file.FullName);
 			var plugin = await Plugin.LoadFromStream(stream, file.Name);
 
-			try {
+			try
+			{
 				HandleUploadedPlugin(plugin);
 				logger.LogInformation("Plugin {0} loaded from default plugins.", file.Name);
 				await SavePlugin();
-			} catch (PluginException ex) {
+			}
+			catch (PluginException ex)
+			{
 				logger.LogError(ex, "Plugin {0} failed to load from default plugins.", file.Name);
-			}	finally {
+			}
+			finally
+			{
 				// Cleanup the plugin after processing
 				CleanupCurrentUploadedPlugin();
 			}

@@ -21,5 +21,9 @@ public enum PluginServiceLocatorScope
 
 public enum PluginRegisterType
 {
-	FileStorage
+	FileStorage,
+	DataStorage_Configuration,
+	DataStorage_EfContext,
+	DataStorage_PageRepository,
+	DataStorage_PostRepository,
 }

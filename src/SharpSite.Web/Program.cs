@@ -10,12 +10,12 @@ using SharpSite.Web.Locales;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var appState = builder.AddPluginManagerAndAppState();
+var appState = builder.AddPluginManagerAndAppState()s
 
 // Load plugins for postgres
 #region Postgres Plugins
 var pg = new RegisterPostgresServices();
-pg.RegisterServices(builder);
+//pg.RegisterServices(builder);
 
 var pgSecurity = new RegisterPostgresSecurityServices();
 pgSecurity.RegisterServices(builder);
@@ -80,6 +80,7 @@ app.MapRazorComponents<App>()
 app.UseAntiforgery();
 pgSecurity.MapEndpoints(app);
 
+
 app.MapSiteMap();
 app.MapRobotsTxt();
 app.MapRssFeed();
@@ -87,10 +88,10 @@ app.MapDefaultEndpoints();
 
 app.UseRequestLocalization();
 
-await pgSecurity.RunAtStartup(app.Services);
+// await pgSecurity.RunAtStartup(app.Services);
 
 app.MapFileApi(pluginManager);
 
 app.UseMiddleware<StartupConfigMiddleware>();
 
-app.RunAsync()
+await app.RunAsync();

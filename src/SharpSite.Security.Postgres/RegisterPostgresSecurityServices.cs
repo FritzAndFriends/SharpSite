@@ -2,6 +2,7 @@
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +15,7 @@ using Constants = SharpSite.Abstractions.Constants;
 
 namespace SharpSite.Security.Postgres;
 
-public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup, IManageDatabase
+public class RegisterPostgresSecurityServices : IRunAtStartup
 {
 	private const string InitializeUsersActivitySourceName = "Initial Users and Roles";
 
@@ -66,8 +67,12 @@ public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 		});
 	}
 
-	public async Task RunAtStartup(IServiceProvider services)
+	public async Task<IApplicationBuilder> ConfigureHttpApp(IApplicationBuilder app)
+
+	//public async Task RunAtStartup(IServiceProvider services)
 	{
+
+		var services = app.ApplicationServices;
 
 		ActivitySource activitySource = new ActivitySource(InitializeUsersActivitySourceName);
 		var activity = activitySource.CreateActivity("Inspecting roles", ActivityKind.Internal);
@@ -120,16 +125,18 @@ public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 			activity?.AddEvent(new ActivityEvent("Assigned admin user to Admin role"));
 		}
 
+		return app;
+
+	}
+
 	public void CreateDatabaseIfNotExists(string connectionString)
 	{
 
 		// create the PgSecurityContext if it does not exist using the entity framework context with the connection string passed in
 		var optionsBuilder = new DbContextOptionsBuilder<PgSecurityContext>();
 		optionsBuilder.UseNpgsql<PgSecurityContext>(connectionString);
-		using (var context = new PgSecurityContext(optionsBuilder.Options))
-		{
-			context.Database.EnsureCreated();
-		
+		using var context = new PgSecurityContext(optionsBuilder.Options);
+		context.Database.EnsureCreated();
 
 	}
 
@@ -143,15 +150,33 @@ public class RegisterPostgresSecurityServices : IRegisterServices, IRunAtStartup
 		// create the PgSecurityContext if it does not exist using the entity framework context with the connection string passed in
 		var optionsBuilder = new DbContextOptionsBuilder<PgSecurityContext>();
 		optionsBuilder.UseNpgsql<PgSecurityContext>(connectionString);
-		using (var context = new PgSecurityContext(optionsBuilder.Options))
-		{
-			return context.Database.MigrateAsync();
-		}
+		using var context = new PgSecurityContext(optionsBuilder.Options);
+		return context.Database.MigrateAsync();
 
 	}
 
 	public void MapEndpoints(IEndpointRouteBuilder endpointDooHickey)
 	{
 		endpointDooHickey.MapAdditionalIdentityEndpoints();
+	}
+
+	public Task RunOnInstall()
+	{
+		throw new NotImplementedException();
+	}
+
+	public Task RunOnUpdate()
+	{
+		throw new NotImplementedException();
+	}
+
+	public Task RunOnUninstall()
+	{
+		throw new NotImplementedException();
+	}
+
+	public Task<IHostApplicationBuilder> AddServicesAtStartup(IHostApplicationBuilder app)
+	{
+		return Task.FromResult(app);
 	}
 }

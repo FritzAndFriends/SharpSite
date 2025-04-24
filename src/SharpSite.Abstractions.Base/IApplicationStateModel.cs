@@ -19,3 +19,8 @@ public interface IApplicationStateModel
 	void SetConfigurationByName(string name, string value);
 
 }
+
+public class ApplicationStateKeys
+{
+	public const string ContentConnectionString = "ContentConnectionString";
+}

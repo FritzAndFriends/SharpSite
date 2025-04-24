@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
 
 namespace SharpSite.Abstractions.Base;
 
@@ -28,7 +29,9 @@ public interface IRunAtStartup
 	/// Method that runs at startup of the web application.
 	/// </summary>
 	/// <param name="app">The application being configured</param>
-	Task<IHostApplicationBuilder> RunAtStartup(IHostApplicationBuilder app);
+	Task<IHostApplicationBuilder> AddServicesAtStartup(IHostApplicationBuilder app);
+
+	Task<IApplicationBuilder> ConfigureHttpApp(IApplicationBuilder app);
 
 
 }
