@@ -1,11 +1,12 @@
 @page "/start/step3"
+@using SharpSite.Abstractions.DataStorage
 @using SharpSite.Abstractions.FileStorage
 @using System.ComponentModel.DataAnnotations
 @using SharpSite.Security.Postgres
 @inject ApplicationState AppState
 @inject NavigationManager NavManager
 @inject PluginManager PluginManager
-@rendermode InteractiveServer
+@rendermode @(new InteractiveServerRenderMode(false))
 
 <img src="/img/logo-500.webp" alt="SharpSite" style="min-width: 500px;" />
 
@@ -25,27 +26,14 @@
 	Let's configure the database connection string.  This is a string that tells SharpSite how to connect to your database.  You can get this from your hosting provider or from your local database installation.
 </p>
 
-<EditForm Model="@DatabaseConfig" OnValidSubmit="SaveDatabaseConfig">
-	<DataAnnotationsValidator />
-	<ValidationSummary />
-
-	<div>
-		<label for="serverName">Database Server Name:</label>
-		<InputText id="serverName" @bind-Value="DatabaseConfig.ServerName" class="form-control" />
-		<ValidationMessage For="@(() => DatabaseConfig.ServerName)" />
-	</div>
-	<div>
-		<label for="userId">User ID:</label>
-		<InputText id="userId" @bind-Value="DatabaseConfig.UserId" class="form-control" />
-		<ValidationMessage For="@(() => DatabaseConfig.UserId)" />
-	</div>
-	<div>
-		<label for="password">Password:</label>
-		<InputText id="password" @bind-Value="DatabaseConfig.Password" type="password" class="form-control" />
-		<ValidationMessage For="@(() => DatabaseConfig.Password)" />
-	</div>
-	<button type="submit" class="btn btn-primary">Finish</button>
-</EditForm>
+@if (DatabaseConfig is not null)
+{
+	<DatabaseConfiguration DatabaseConfig="DatabaseConfig" OnValidSubmit="SaveDatabaseConfig"></DatabaseConfiguration>
+}
+else
+{
+	<p>Loading...</p>
+}
 
 @code {
 
@@ -56,28 +44,27 @@
 		if (AppState.StartupCompleted) NavManager.NavigateTo("/", true);
 		if (AppState.StartupStep != Step) NavManager.NavigateTo($"/start/step{AppState.StartupStep}", false);
 
+		DatabaseConfig = PluginManager.GetPluginProvidedService<IConfigureDataStorage>()!;
+
 		await base.OnInitializedAsync();
 	}
 
-	private DatabaseConfigModel DatabaseConfig { get; set; } = new();
+	private IConfigureDataStorage DatabaseConfig { get; set; } = default!;
 
-	private async Task SaveDatabaseConfig()
+	private async Task SaveDatabaseConfig(string connectionString)
 	{
 
 		// Format a connection string for the database using Postgres syntax and using a database name of "sharpsite" and a port of 5432.
-		string connectionString = $"Host={DatabaseConfig.ServerName};Port=5432;Username={DatabaseConfig.UserId};Password={DatabaseConfig.Password};Database=sharpsite;Pooling=true;SSL Mode=Prefer;Trust Server Certificate=true;";
 		AppState.ContentConnectionString = connectionString;
 
 		// Format a connection string for the database using Postgres syntax and using a database name of "sharpsite_security" and a port of 5432.
-		string securityConnectionString = $"Host={DatabaseConfig.ServerName};Port=5432;Username={DatabaseConfig.UserId};Password={DatabaseConfig.Password};Database=sharpsite_security;Pooling=true;SSL Mode=Prefer;Trust Server Certificate=true;";
-		AppState.SecurityConnectionString = securityConnectionString;
+		AppState.SecurityConnectionString = connectionString;
 
 		AppState.StartupStep = 0;
 		AppState.StartupCompleted = true;
 		await AppState.Save();
 
-		// DatabaseManager.CreateDatabaseIfNotExists(connectionString);
-		// await DatabaseManager.UpdateDatabaseSchemaAsync(connectionString);
+		await DatabaseConfig.CreateNewDataStorage(AppState);
 
 		// Create the security database if it does not exist.
 		var securityServices = new RegisterPostgresSecurityServices();
@@ -88,18 +75,6 @@
 
 		// NavManager.NavigateTo("/", true);
 
-	}
-
-	private class DatabaseConfigModel
-	{
-		[Required()]
-		public string ServerName { get; set; } = string.Empty;
-
-		[Required()]
-		public string UserId { get; set; } = string.Empty;
-
-		[Required()]
-		public string Password { get; set; } = string.Empty;
 	}
 
 }

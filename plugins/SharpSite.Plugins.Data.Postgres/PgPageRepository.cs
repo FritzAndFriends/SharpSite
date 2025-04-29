@@ -13,9 +13,9 @@ public class PgPageRepository : IPageRepository
 	private readonly PgContext Context;
 	private readonly IMemoryCache Cache;
 
-	public PgPageRepository(IServiceProvider serviceProvider)
+	public PgPageRepository(IServiceProvider serviceProvider, PgContext context)
 	{
-		Context = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<PgContext>();
+		Context = context;
 		Cache = serviceProvider.GetRequiredService<IMemoryCache>();
 	}
 

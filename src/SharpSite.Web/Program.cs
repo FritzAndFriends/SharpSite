@@ -10,7 +10,7 @@ using SharpSite.Web.Locales;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var appState = builder.AddPluginManagerAndAppState()s
+var appState = builder.AddPluginManagerAndAppState();
 
 // Load plugins for postgres
 #region Postgres Plugins
@@ -44,7 +44,7 @@ builder.Services.AddRazorComponents()
 
 
 builder.Services.AddOutputCache();
-builder.Services.AddMemoryCache();
+// builder.Services.AddMemoryCache();
 
 // add an implementation of IEmailSender that does nothing for SharpSiteUser
 builder.Services.AddTransient<IEmailSender<SharpSiteUser>, IdentityNoOpEmailSender>();

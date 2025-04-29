@@ -1,0 +1,97 @@
+﻿@using SharpSite.Abstractions.DataStorage
+
+@if (FormContext is not null)
+{
+<EditForm EditContext="FormContext" OnValidSubmit="ReturnConnectionString">
+	<ValidationSummary></ValidationSummary>
+@foreach (var field in DatabaseConfig.ConfigurationFields)
+	{
+		<div>
+			<label for="@field.Value">@field.Key:</label>
+				<input type="text" id="@field.Key" value="@field.Value" @onchange="(args) => SaveFieldValue(field.Key, args)" class="form-control" />
+		</div>
+	}
+<button type="submit" class="btn btn-primary">Finish</button>
+</EditForm>
+}
+
+@code {
+
+	[Parameter]
+	public IConfigureDataStorage DatabaseConfig { get; set; } = default!;
+
+	[Parameter]
+	public EventCallback<string> OnValidSubmit { get; set; }
+
+	private Dictionary<string, string> _configuration = new();
+
+	private EditContext FormContext = default!;
+
+	ValidationMessageStore validationMessageStore = default!;
+
+	protected override Task OnParametersSetAsync()
+	{
+
+		// copy the configuration fields into the _configuration dictionary
+		DatabaseConfig.ConfigurationFields
+			.ToList()
+			.ForEach(x =>
+			{
+				if (x.Key is not null && !_configuration.ContainsKey(x.Key))
+					_configuration.Add(x.Key, x.Value);
+			});
+
+		FormContext = new EditContext(_configuration);
+		validationMessageStore = new ValidationMessageStore(FormContext);
+		FormContext.OnValidationRequested += (sender, args) =>
+		{
+
+			validationMessageStore.Clear();
+
+			// inspect each of the fields in the _configuration dictionary and if they are empty, add a validation error
+			foreach (var field in _configuration)
+			{
+				if (string.IsNullOrEmpty(field.Value))
+				{
+					validationMessageStore.Add(FormContext.Field(field.Value), $"The field {field.Value} is required.");
+				}
+			}
+
+			if (!FormContext.GetValidationMessages().Any())
+			{
+				string errorMessage = string.Empty;
+				var success = DatabaseConfig.TestConnection(_configuration, out errorMessage);
+				if (!success)
+				{
+					errorMessage = !string.IsNullOrEmpty(errorMessage) ? errorMessage : "Cannot connect to the database specified";
+					validationMessageStore.Add(FormContext.Field("ConnectionString"), errorMessage);
+				}
+			}
+
+			FormContext.NotifyValidationStateChanged();
+
+		};
+
+		return base.OnParametersSetAsync();
+	}
+
+	private void SaveFieldValue(string fieldName, ChangeEventArgs args)
+	{
+		// save the value of the field in the _configuration dictionary
+		if (_configuration.ContainsKey(fieldName))
+		{
+			_configuration[fieldName] = args.Value?.ToString() ?? string.Empty;
+		}
+	}
+
+	private async Task ReturnConnectionString()
+	{
+
+		// create the connection string from the _configuration dictionary
+		var connectionString = DatabaseConfig.FormatConnectionString(_configuration);
+		// call the OnValidSubmit event callback with the connection string
+		await OnValidSubmit.InvokeAsync(connectionString);
+
+	}
+
+}

@@ -144,6 +144,8 @@ public class PluginManager(
 		};
 
 		_ServiceDescriptors.AddSingleton<IPluginManager>(this);
+		_ServiceDescriptors.AddSingleton<IApplicationStateModel>(AppState);
+		_ServiceDescriptors.AddMemoryCache();
 
 		foreach (var pluginFolder in Directory.GetDirectories("plugins"))
 		{
@@ -156,7 +158,7 @@ public class PluginManager(
 			// Add plugin to the list of plugins in ApplicationState
 			var manifest = ReadManifest(manifestPath);
 
-			// By convention it is a package_name of (<package_name>@<package_vesrson>.(sspkg|.dll)
+			// By convention it is a package_name of (<package_name>@<package_version>.(sspkg|.dll)
 			var key = manifest!.Id;
 
 			var pluginDll = Directory.GetFiles(pluginFolder, $"{key}*.dll").FirstOrDefault();
@@ -205,7 +207,7 @@ public class PluginManager(
 				{
 					PluginRegisterType.FileStorage => typeof(IHandleFileStorage),
 					PluginRegisterType.DataStorage_Configuration => typeof(IConfigureDataStorage),
-					PluginRegisterType.DataStorage_EfContext => typeof(DbContext),
+					PluginRegisterType.DataStorage_EfContext => type,
 					PluginRegisterType.DataStorage_PageRepository => typeof(IPageRepository),
 					PluginRegisterType.DataStorage_PostRepository => typeof(IPostRepository),
 					_ => null

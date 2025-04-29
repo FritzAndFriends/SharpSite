@@ -18,6 +18,11 @@ public class PgContext : DbContext
 		_ConnectionString = appState.GetConfigurationByName(ApplicationStateKeys.ContentConnectionString);
 	}
 
+	internal PgContext(string connectionString)
+	{
+		_ConnectionString = connectionString;
+	}
+
 	public DbSet<PgPage> Pages => Set<PgPage>();
 
 	public DbSet<PgPost> Posts => Set<PgPost>();

@@ -1,4 +1,5 @@
-﻿using SharpSite.Abstractions.Base;
+﻿using Microsoft.EntityFrameworkCore;
+using SharpSite.Abstractions.Base;
 using SharpSite.Abstractions.DataStorage;
 
 namespace SharpSite.Plugins.Data.Postgres;
@@ -6,13 +7,13 @@ namespace SharpSite.Plugins.Data.Postgres;
 [RegisterPlugin(PluginServiceLocatorScope.Transient, PluginRegisterType.DataStorage_Configuration)]
 public class Configure : IConfigureDataStorage
 {
-	public SortedDictionary<int, string> ConfigurationFields => new()
+	public Dictionary<string, string> ConfigurationFields => new()
 	{
-		{ 1, "Server Name" },
-		{ 2, "Database Name" },
-		{ 3, "User Name" },
-		{ 4, "Password" },
-		{ 5, "Port" }
+		{ "Server Name", "" },
+		{ "Database Name", "" },
+		{ "User Name", "" },
+		{ "Password", "" },
+		{ "Port", "5432" }
 	};
 
 	public string FormatConnectionString(Dictionary<string, string> connectionStringParts)
@@ -25,19 +26,45 @@ public class Configure : IConfigureDataStorage
 		return $"Host={serverName};Database={databaseName};Username={userName};Password={password};Port={port}";
 	}
 
-	public Task CreateNewDataStorage(IApplicationStateModel appState)
+	public async Task CreateNewDataStorage(IApplicationStateModel appState)
 	{
-		var connectionString = appState.GetConfigurationByName(ApplicationStateKeys.ContentConnectionString);
 
-		return Task.CompletedTask;
+		var context = new PgContext(appState);
+		await context.Database.MigrateAsync();
 
 	}
 
-	public Task UpdateDataStorage(IApplicationStateModel appState)
+	public async Task UpdateDataStorage(IApplicationStateModel appState)
 	{
-		var connectionString = appState.GetConfigurationByName(ApplicationStateKeys.ContentConnectionString);
 
-		return Task.CompletedTask;
+		// This method is called when a data storage plugin is updateds
+		var context = new PgContext(appState);
+
+		// This is a no-op if the database is already created and up to date.
+		await context.Database.MigrateAsync();
+
+	}
+
+	public bool TestConnection(Dictionary<string, string> connectionStringParts, out string errorMessage)
+	{
+
+		var connectionString = FormatConnectionString(connectionStringParts);
+		var context = new PgContext(connectionString);
+		errorMessage = string.Empty;
+		try
+		{
+			return context.Database.CanConnect();
+		}
+		catch (Exception ex)
+		{
+			errorMessage = ex.Message;
+			return false;
+		}
+		finally
+		{
+			context.Dispose();
+		}
+
 
 	}
 }

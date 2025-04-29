@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using SharpSite.Abstractions;
 using SharpSite.Abstractions.Base;
 using System.Globalization;
@@ -11,9 +10,9 @@ namespace SharpSite.Plugins.Data.Postgres;
 public class PgPostRepository : IPostRepository
 {
 
-	public PgPostRepository(IServiceProvider serviceProvider)
+	public PgPostRepository(IServiceProvider serviceProvider, PgContext context)
 	{
-		Context = serviceProvider.CreateScope().ServiceProvider.GetRequiredService<PgContext>();
+		Context = context;
 	}
 
 	private readonly PgContext Context;

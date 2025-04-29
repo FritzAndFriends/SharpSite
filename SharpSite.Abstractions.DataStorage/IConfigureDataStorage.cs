@@ -6,10 +6,18 @@ public interface IConfigureDataStorage
 {
 
 	/// <summary>
-	/// A sorted collection of key-value pairs where keys are integers and values are strings. It provides a way to access
-	/// configuration field labels in a sorted manner.
+	/// A sorted collection of key-value pairs where keys are string and values are strings. It provides a way to access
+	/// configuration field labels.
 	/// </summary>
-	SortedDictionary<int, string> ConfigurationFields { get; }
+	Dictionary<string, string> ConfigurationFields { get; }
+
+	/// <summary>
+	/// Tests the connection using specified parameters and provides an error message if the connection fails.
+	/// </summary>
+	/// <param name="connectionStringParts">Contains the necessary details for establishing the connection.</param>
+	/// <param name="errorMessage">Stores any error message generated during the connection attempt.</param>
+	/// <returns>Indicates whether the connection test was successful.</returns>
+	bool TestConnection(Dictionary<string, string> connectionStringParts, out string errorMessage);
 
 	/// <summary>
 	/// This method is called when a new data storage plugin is installed.

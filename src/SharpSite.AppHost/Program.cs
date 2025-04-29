@@ -14,11 +14,11 @@ foreach (var arg in args)
 	}
 }
 
-var (db, migrationSvc) = builder.AddPostgresServices(testOnly);
+var db = builder.AddPostgresServices(testOnly);
 
 builder.AddProject<Projects.SharpSite_Web>("webfrontend")
 	.WithReference(db)
-	.WaitForCompletion(migrationSvc)
+	//.WaitForCompletion(migrationSvc)
 	.WithRunE2eTestsCommand()
 	.WithExternalHttpEndpoints();
 

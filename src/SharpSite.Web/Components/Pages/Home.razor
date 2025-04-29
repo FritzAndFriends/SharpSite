@@ -1,5 +1,6 @@
 ﻿@page "/"
-@inject IPostRepository PostService
+@inject PluginManager PluginManager
+@inject ApplicationState AppState
 
 <PageTitle>SharpSite</PageTitle>
 
@@ -16,9 +17,18 @@
 
 @code {
 	private IEnumerable<Post>? Posts { get; set; }
+	private IPostRepository PostService { get; set; } = default!;
 
 	protected override async Task OnInitializedAsync()
 	{
+
+		if (!AppState.StartupCompleted) return;
+
+		PostService = PluginManager.GetPluginProvidedService<IPostRepository>()!;
+		if (PostService == null)
+		{
+			throw new InvalidOperationException("PostService is not available.");
+		}
 		Posts = (await PostService.GetPosts()).OrderByDescending(p => p.PublishedDate);
 	}
 }
