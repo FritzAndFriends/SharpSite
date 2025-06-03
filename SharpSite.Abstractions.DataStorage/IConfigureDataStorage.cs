@@ -40,4 +40,11 @@ public interface IConfigureDataStorage
 	/// <returns></returns>
 	Task UpdateDataStorage(IApplicationStateModel appState);
 
+	/// <summary>
+	/// Parses a connection string into its constituent parts and populates a dictionary with the values.
+	/// </summary>
+	/// <param name="connectionString">The full connection string to parse.</param>
+	/// <param name="configuration">The dictionary to populate with the parsed values.</param>
+	void ParseConnectionString(string connectionString, Dictionary<string, string> configuration);
+
 }

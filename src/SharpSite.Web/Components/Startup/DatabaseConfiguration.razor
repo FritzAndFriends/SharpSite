@@ -1,140 +1,269 @@
 ﻿@using SharpSite.Abstractions.DataStorage
+@using Microsoft.Extensions.Configuration
+@using Microsoft.AspNetCore.Hosting
+@inject IConfiguration AppConfiguration
+@inject IWebHostEnvironment Environment
 
 @if (FormContext is not null)
 {
-<EditForm EditContext="FormContext" OnValidSubmit="ReturnConnectionString">
-	<ValidationSummary />
-	
-	@foreach (var field in DatabaseConfig.ConfigurationFields)
-	{
-		<div class="row mb-3 align-items-center">
-			<label for="@field.Value" class="col-3 form-label small text-muted text-end mb-0 pe-3">@field.Key:</label>
-			<div class="col-8">
-				<input type="text" id="@field.Key" value="@field.Value" @onchange="(args) => SaveFieldValue(field.Key, args)" class="form-control" />
-			</div>
-		</div>
-	}
+<EditForm EditContext="FormContext" OnValidSubmit="ReturnConnectionString">    <ValidationSummary />
 
-	@if (!string.IsNullOrEmpty(_connectionStatus))
-	{
-		<div class="row mb-3">
-			<div class="offset-3 col-8">
-				<div class="@(_isConnectionValid ? "alert alert-success" : "alert alert-danger")">
-					@_connectionStatus
-				</div>
-			</div>
-		</div>
-	}
+    @if (_isAdvancedMode)
+    {
+        <div class="row mb-3">
+            <div class="col-12">
+                <label for="ConnectionString" class="form-label small text-muted mb-1">Connection String:</label>
+                <input type="text" 
+                       id="ConnectionString" 
+                       value="@DatabaseConfig.FormatConnectionString(_configuration)" 
+                       @onchange="HandleConnectionStringChange" 
+                       class="form-control" />
+            </div>
+        </div>
+    }
+    else
+    {
+        @foreach (var field in _configuration)
+        {
+            <div class="row mb-3 align-items-center">
+                <label for="@field.Value" class="col-3 form-label small text-muted text-end mb-0 pe-3">@field.Key:</label>
+                <div class="col-8">
+                    <input type="@(IsSecureField(field.Key) ? "password" : "text")" 
+                           id="@field.Key" 
+                           value="@field.Value" 
+                           @onchange="(args) => SaveFieldValue(field.Key, args)" 
+                           class="form-control" />
+                </div>
+            </div>
+        }
+    }
 
-	<div class="row mt-4">
-		<div class="offset-3 col-8 d-flex gap-2">
-			<button type="button" class="btn btn-outline-secondary flex-grow-1" @onclick="ValidateConnection">Test Connection</button>
-			<button type="submit" class="btn btn-primary flex-grow-1" disabled="@(!_isConnectionValid)">Finish</button>
-		</div>
-	</div>
+    @if (!string.IsNullOrEmpty(_connectionStatus))
+    {
+        <div class="row mb-3">
+            <div class="offset-3 col-8">
+                <div class="@(_isConnectionValid ? "alert alert-success" : "alert alert-danger")">
+                    @_connectionStatus
+                </div>
+            </div>
+        </div>
+    }    <div class="row mb-3">
+        <div class="@(_isAdvancedMode ? "col-12" : "offset-3 col-8")">
+            <button type="button" class="btn btn-link p-0" @onclick="ToggleAdvancedMode">
+                <i class="bi bi-@(_isAdvancedMode ? "dash" : "plus")-circle me-1"></i>
+                @(_isAdvancedMode ? "Basic Mode" : "Advanced Mode")
+            </button>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="@(_isAdvancedMode ? "col-12" : "offset-3 col-8") d-flex gap-2">			<button type="button" class="@GetTestButtonClasses()" @onclick="ValidateConnection" disabled="@_isTestingConnection">
+                @if (_isTestingConnection)
+                {
+                    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                    <span role="status">Testing...</span>
+                }
+                else
+                {
+                    @if (_isConnectionValid)
+                    {
+                        <i class="bi bi-check-circle-fill me-1"></i>
+                    }
+                    else if (!string.IsNullOrEmpty(_connectionStatus))
+                    {
+                        <i class="bi bi-x-circle-fill me-1"></i>
+                    }
+                    <span>Test Connection</span>
+                }
+            </button>
+            <button type="submit" class="btn btn-primary flex-grow-1" disabled="@(!_isConnectionValid || _isTestingConnection)">Finish</button>
+        </div>
+    </div>
 </EditForm>
 }
 
 @code {
+    [Parameter]
+    public IConfigureDataStorage DatabaseConfig { get; set; } = default!;
 
-	[Parameter]
-	public IConfigureDataStorage DatabaseConfig { get; set; } = default!;
-
-	[Parameter]
-	public EventCallback<string> OnValidSubmit { get; set; }
-
-	private Dictionary<string, string> _configuration = new();
-
-	private EditContext FormContext = default!;
-
-	ValidationMessageStore validationMessageStore = default!;
-
-	protected override Task OnParametersSetAsync()
-	{
-
-		// copy the configuration fields into the _configuration dictionary
-		DatabaseConfig.ConfigurationFields
-			.ToList()
-			.ForEach(x =>
-			{
-				if (x.Key is not null && !_configuration.ContainsKey(x.Key))
-					_configuration.Add(x.Key, x.Value);
-			});
-
-		FormContext = new EditContext(_configuration);
-		validationMessageStore = new ValidationMessageStore(FormContext);
-		FormContext.OnValidationRequested += (sender, args) =>
-		{
-
-			validationMessageStore.Clear();
-
-			// inspect each of the fields in the _configuration dictionary and if they are empty, add a validation error
-			foreach (var field in _configuration)
-			{
-				if (string.IsNullOrEmpty(field.Value))
-				{
-					validationMessageStore.Add(FormContext.Field(field.Value), $"The field {field.Value} is required.");
-				}
-			}
-
-			if (!FormContext.GetValidationMessages().Any())
-			{
-				string errorMessage = string.Empty;
-				var success = DatabaseConfig.TestConnection(_configuration, out errorMessage);
-				if (!success)
-				{
-					errorMessage = !string.IsNullOrEmpty(errorMessage) ? errorMessage : "Cannot connect to the database specified";
-					validationMessageStore.Add(FormContext.Field("ConnectionString"), errorMessage);
-				}
-			}
-
-			FormContext.NotifyValidationStateChanged();
-
-		};
-
-		return base.OnParametersSetAsync();
-	}
-
-	private string _connectionStatus = string.Empty;
-	private bool _isConnectionValid;	private async Task ValidateConnection()
-	{
-		// Only test if all fields have values
-		if (_configuration.Values.All(v => !string.IsNullOrEmpty(v)))
-		{
-			string errorMessage = string.Empty;
-			_isConnectionValid = await Task.Run(() => DatabaseConfig.TestConnection(_configuration, out errorMessage));
+    [Parameter]
+    public EventCallback<string> OnValidSubmit { get; set; }    
 			
-			_connectionStatus = _isConnectionValid 
-				? "Connection successful!" 
-				: (!string.IsNullOrEmpty(errorMessage) ? errorMessage : "Cannot connect to the database specified");
-			
-			validationMessageStore.Clear();
-			if (!_isConnectionValid)
-			{
-				validationMessageStore.Add(FormContext.Field("ConnectionString"), _connectionStatus);
-			}
-			FormContext.NotifyValidationStateChanged();
-			StateHasChanged();
-		}
-	}
-	private async Task SaveFieldValue(string fieldName, ChangeEventArgs args)
-	{
-		// save the value of the field in the _configuration dictionary
-		if (_configuration.ContainsKey(fieldName))
-		{
-			_configuration[fieldName] = args.Value?.ToString() ?? string.Empty;
-			await ValidateConnection();
-		}
-	}
+		private Dictionary<string, string> _configuration = null!;
+    private EditContext FormContext = default!;
+    private ValidationMessageStore validationMessageStore = default!;
+    private string _connectionStatus = string.Empty;
+    private bool _isTestingConnection;
+    private bool _isConnectionValid;
+    private bool _isAdvancedMode;
 
-	private async Task ReturnConnectionString()
-	{
+    protected override Task OnInitializedAsync()
+    {
+        _configuration = new Dictionary<string, string>();
+        
+        // Check for development environment connection string first
+        if (Environment.IsDevelopment())
+        {
+            var devConnectionString = AppConfiguration["ConnectionStrings:SharpSite"];
+            if (!string.IsNullOrEmpty(devConnectionString))
+            {
+                // Parse the connection string into the configuration dictionary
+                DatabaseConfig.ParseConnectionString(devConnectionString, _configuration);
+            }
+        }
+        
+        return Task.CompletedTask;
+    }
 
-		// create the connection string from the _configuration dictionary
-		var connectionString = DatabaseConfig.FormatConnectionString(_configuration);
-		// call the OnValidSubmit event callback with the connection string
-		await OnValidSubmit.InvokeAsync(connectionString);
+    protected override Task OnParametersSetAsync()
+    {
 
-	}
+
+        // copy the configuration fields into the _configuration dictionary if not already set
+				DatabaseConfig.ConfigurationFields
+            .ToList()
+            .ForEach(x =>
+            {
+                if (x.Key is not null && !_configuration.ContainsKey(x.Key))
+								{
+                    _configuration.Add(x.Key, x.Value);
+                }
+            });
+
+				// write the configuration fields to the console for debugging purposes
+
+        FormContext = new EditContext(_configuration);
+        validationMessageStore = new ValidationMessageStore(FormContext);
+        FormContext.OnValidationRequested += (sender, args) =>
+        {
+
+            validationMessageStore.Clear();
+
+            // inspect each of the fields in the _configuration dictionary and if they are empty, add a validation error
+            foreach (var field in _configuration)
+            {
+                if (string.IsNullOrEmpty(field.Value))
+                {
+                    validationMessageStore.Add(FormContext.Field(field.Value), $"The field {field.Value} is required.");
+                }
+            }
+
+            if (!FormContext.GetValidationMessages().Any())
+            {
+                string errorMessage = string.Empty;
+                var success = DatabaseConfig.TestConnection(_configuration, out errorMessage);
+                if (!success)
+                {
+                    errorMessage = !string.IsNullOrEmpty(errorMessage) ? errorMessage : "Cannot connect to the database specified";
+                    validationMessageStore.Add(FormContext.Field("ConnectionString"), errorMessage);
+                }
+            }
+
+            FormContext.NotifyValidationStateChanged();
+
+        };
+
+        return base.OnParametersSetAsync();
+    }
+
+    private string GetTestButtonClasses()
+    {
+        var baseClasses = "btn flex-grow-1 ";
+        
+        if (_isTestingConnection)
+            return baseClasses + "btn-secondary";
+        
+        if (_isConnectionValid)
+            return baseClasses + "btn-success";
+        
+        if (!string.IsNullOrEmpty(_connectionStatus))
+            return baseClasses + "btn-danger";
+            
+        return baseClasses + "btn-outline-secondary";
+    }
+
+    private async Task ValidateConnection()
+    {
+        // Only test if all fields have values
+        if (_configuration.Values.All(v => !string.IsNullOrEmpty(v)))
+        {
+            _isTestingConnection = true;
+            StateHasChanged();
+            
+            try 
+            {
+                string errorMessage = string.Empty;                _isConnectionValid = await Task.Run(() => DatabaseConfig.TestConnection(_configuration, out errorMessage));
+                
+                _connectionStatus = _isConnectionValid 
+                    ? "Connection successful!" 
+                    : (!string.IsNullOrEmpty(errorMessage) ? errorMessage : "Cannot connect to the database specified");
+                
+                // Clear any existing validation messages but don't add the connection error
+                // since it's already shown in the alert
+                validationMessageStore.Clear();
+                FormContext.NotifyValidationStateChanged();
+            }
+            finally
+            {
+                _isTestingConnection = false;
+                StateHasChanged();
+            }
+        }
+    }
+    private async Task SaveFieldValue(string fieldName, ChangeEventArgs args)
+    {
+        // save the value of the field in the _configuration dictionary
+        if (_configuration.ContainsKey(fieldName))
+        {
+            _configuration[fieldName] = args.Value?.ToString() ?? string.Empty;
+            await ValidateConnection();
+        }
+    }
+
+    private void ToggleAdvancedMode()
+    {
+        _isAdvancedMode = !_isAdvancedMode;
+        if (_isAdvancedMode)
+        {
+            // Clear validation messages when switching to advanced mode
+            validationMessageStore.Clear();
+            FormContext.NotifyValidationStateChanged();
+        }
+    }
+
+    private async Task HandleConnectionStringChange(ChangeEventArgs args)
+    {
+        var connectionString = args.Value?.ToString() ?? string.Empty;
+        
+        // Parse the connection string into our configuration dictionary
+        DatabaseConfig.ParseConnectionString(connectionString, _configuration);
+        
+        // Validate the connection after parsing
+        await ValidateConnection();
+    }
+
+    private async Task ReturnConnectionString()
+    {
+        string connectionString;
+        if (_isAdvancedMode)
+        {
+            // In advanced mode, use the connection string directly from the input
+            connectionString = DatabaseConfig.FormatConnectionString(_configuration);
+        }
+        else
+        {
+            // In basic mode, format the connection string from individual fields
+            connectionString = DatabaseConfig.FormatConnectionString(_configuration);
+        }
+        
+        await OnValidSubmit.InvokeAsync(connectionString);
+    }
+
+    private bool IsSecureField(string fieldName)
+    {
+        var secureFields = new[] { "password", "key", "secret", "token" };
+        return secureFields.Any(secureField => 
+            fieldName.Contains(secureField, StringComparison.OrdinalIgnoreCase));
+    }
 
 }

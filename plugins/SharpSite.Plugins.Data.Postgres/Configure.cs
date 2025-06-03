@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Hosting;
 using SharpSite.Abstractions.Base;
 using SharpSite.Abstractions.DataStorage;
+using System.Data.Common;
 
 namespace SharpSite.Plugins.Data.Postgres;
 
@@ -25,6 +26,27 @@ public class Configure : IConfigureDataStorage
 		var password = connectionStringParts["Password"];
 		var port = connectionStringParts.ContainsKey("Port") ? connectionStringParts["Port"] : "5432";
 		return $"Host={serverName};Database={databaseName};Username={userName};Password={password};Port={port}";
+	}
+
+	public void ParseConnectionString(string connectionString, Dictionary<string, string> configuration)
+	{
+
+		var builder = new DbConnectionStringBuilder { ConnectionString = connectionString };
+		
+		if (builder.TryGetValue("Host", out var host))
+			configuration["Server Name"] = host?.ToString() ?? string.Empty;
+		
+		if (builder.TryGetValue("Database", out var database))
+			configuration["Database Name"] = database?.ToString() ?? string.Empty;
+		
+		if (builder.TryGetValue("Username", out var username))
+			configuration["User Name"] = username?.ToString() ?? string.Empty;
+		
+		if (builder.TryGetValue("Password", out var password))
+			configuration["Password"] = password?.ToString() ?? string.Empty;
+		
+		if (builder.TryGetValue("Port", out var port))
+			configuration["Port"] = port?.ToString() ?? "5432";
 	}
 
 	public async Task CreateNewDataStorage(IApplicationStateModel appState)
