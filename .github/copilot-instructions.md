@@ -58,3 +58,6 @@ You are a senior Blazor and .NET developer, experienced in C#, ASP.NET Core, and
 ## API Documentation and Swagger
 - Use Swagger/OpenAPI for API documentation for your backend API services.
 - Ensure XML documentation for models and API methods for enhancing Swagger documentation.
+
+## Project documentation
+- If you are working on Plugin capabilities, reference the PluginArchitecture.md document in the /doc folder

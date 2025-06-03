@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using SharpSite.Abstractions.Base;
 using SharpSite.Abstractions.DataStorage;
 
@@ -37,7 +38,7 @@ public class Configure : IConfigureDataStorage
 	public async Task UpdateDataStorage(IApplicationStateModel appState)
 	{
 
-		// This method is called when a data storage plugin is updateds
+		// This method is called when a data storage plugin is updated
 		var context = new PgContext(appState);
 
 		// This is a no-op if the database is already created and up to date.
@@ -67,4 +68,5 @@ public class Configure : IConfigureDataStorage
 
 
 	}
+
 }

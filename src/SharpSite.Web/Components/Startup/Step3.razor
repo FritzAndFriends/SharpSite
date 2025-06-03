@@ -8,32 +8,65 @@
 @inject PluginManager PluginManager
 @rendermode @(new InteractiveServerRenderMode(false))
 
-<img src="/img/logo-500.webp" alt="SharpSite" style="min-width: 500px;" />
+<div class="container-fluid px-4" style="min-width: 900px; max-width: 1200px; margin: 0 auto;">
+    <div class="row justify-content-center mb-4">
+        <div class="col-12 text-center">
+            <img src="/img/logo-500.webp" alt="SharpSite" class="img-fluid" style="max-width: 200px;" />
+            <h2 class="h4 mt-3">Step @Step - Database Configuration</h2>
+        </div>
+    </div>
 
-<h2 class="h2">Step @Step - Database Storage for @AppState.SiteName</h2>
+    <div class="row justify-content-center g-0">
+        <!-- Left panel with information -->
+        <div class="col-lg-5 p-4">
+            <h5 class="d-flex align-items-center gap-2 small">
+                <i class="bi bi-database-fill-gear"></i>
+                <span>Configure PostgreSQL for @AppState.SiteName</span>
+            </h5>
+            <div class="small mt-4">
+                <div class="d-flex align-items-start gap-3 mb-4">
+                    <div><i class="bi bi-database-fill text-primary fs-5"></i></div>
+                    <div>
+                        <strong>Content Database</strong>
+                        <div class="text-muted smaller">Blog posts, pages, and site content</div>
+                    </div>
+                </div>
+                
+                <div class="d-flex align-items-start gap-3">
+                    <div><i class="bi bi-shield-lock-fill text-success fs-5"></i></div>
+                    <div>
+                        <strong>Security Database</strong>
+                        <div class="text-muted smaller">Authentication and permissions</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert alert-info mt-4 py-2 px-3">
+                <i class="bi bi-info-circle-fill me-2"></i>
+                <span class="smaller">Please ensure you have valid database credentials.</span>
+            </div>
+        </div>
 
-<p>
-	Let's configure where the data for your website is going to be stored. This is important because this is where all of our data, including your blog posts and page information, will be securely stored and retrieved.
-</p>
+        <!-- Vertical divider -->
+        <div class="vr p-0 mx-2"></div>
 
-<p>
-	Currently, we only support Postgres as a database.  This is a very popular and powerful database that is used by many websites.  It is also very easy to use and has a lot of great features.
-	Sharp site is going to create two database instances on your server: one that contains the data for the content served by SharpSite and a second that contains this security information that SharpSite uses
-	 to authenticate users and manage permissions.  This is a very important step, so please make sure that you have the correct information before continuing.
-</p>
-
-<p>
-	Let's configure the database connection string.  This is a string that tells SharpSite how to connect to your database.  You can get this from your hosting provider or from your local database installation.
-</p>
-
-@if (DatabaseConfig is not null)
-{
-	<DatabaseConfiguration DatabaseConfig="DatabaseConfig" OnValidSubmit="SaveDatabaseConfig"></DatabaseConfiguration>
-}
-else
-{
-	<p>Loading...</p>
-}
+        <!-- Right panel with configuration -->
+        <div class="col-lg-6 p-4">
+            @if (DatabaseConfig is not null)
+            {
+                <DatabaseConfiguration DatabaseConfig="DatabaseConfig" OnValidSubmit="SaveDatabaseConfig" />
+            }
+            else
+            {
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
 
 @code {
 

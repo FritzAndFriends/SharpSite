@@ -3,15 +3,35 @@
 @if (FormContext is not null)
 {
 <EditForm EditContext="FormContext" OnValidSubmit="ReturnConnectionString">
-	<ValidationSummary></ValidationSummary>
-@foreach (var field in DatabaseConfig.ConfigurationFields)
+	<ValidationSummary />
+	
+	@foreach (var field in DatabaseConfig.ConfigurationFields)
 	{
-		<div>
-			<label for="@field.Value">@field.Key:</label>
+		<div class="row mb-3 align-items-center">
+			<label for="@field.Value" class="col-3 form-label small text-muted text-end mb-0 pe-3">@field.Key:</label>
+			<div class="col-8">
 				<input type="text" id="@field.Key" value="@field.Value" @onchange="(args) => SaveFieldValue(field.Key, args)" class="form-control" />
+			</div>
 		</div>
 	}
-<button type="submit" class="btn btn-primary">Finish</button>
+
+	@if (!string.IsNullOrEmpty(_connectionStatus))
+	{
+		<div class="row mb-3">
+			<div class="offset-3 col-8">
+				<div class="@(_isConnectionValid ? "alert alert-success" : "alert alert-danger")">
+					@_connectionStatus
+				</div>
+			</div>
+		</div>
+	}
+
+	<div class="row mt-4">
+		<div class="offset-3 col-8 d-flex gap-2">
+			<button type="button" class="btn btn-outline-secondary flex-grow-1" @onclick="ValidateConnection">Test Connection</button>
+			<button type="submit" class="btn btn-primary flex-grow-1" disabled="@(!_isConnectionValid)">Finish</button>
+		</div>
+	</div>
 </EditForm>
 }
 
@@ -75,12 +95,35 @@
 		return base.OnParametersSetAsync();
 	}
 
-	private void SaveFieldValue(string fieldName, ChangeEventArgs args)
+	private string _connectionStatus = string.Empty;
+	private bool _isConnectionValid;	private async Task ValidateConnection()
+	{
+		// Only test if all fields have values
+		if (_configuration.Values.All(v => !string.IsNullOrEmpty(v)))
+		{
+			string errorMessage = string.Empty;
+			_isConnectionValid = await Task.Run(() => DatabaseConfig.TestConnection(_configuration, out errorMessage));
+			
+			_connectionStatus = _isConnectionValid 
+				? "Connection successful!" 
+				: (!string.IsNullOrEmpty(errorMessage) ? errorMessage : "Cannot connect to the database specified");
+			
+			validationMessageStore.Clear();
+			if (!_isConnectionValid)
+			{
+				validationMessageStore.Add(FormContext.Field("ConnectionString"), _connectionStatus);
+			}
+			FormContext.NotifyValidationStateChanged();
+			StateHasChanged();
+		}
+	}
+	private async Task SaveFieldValue(string fieldName, ChangeEventArgs args)
 	{
 		// save the value of the field in the _configuration dictionary
 		if (_configuration.ContainsKey(fieldName))
 		{
 			_configuration[fieldName] = args.Value?.ToString() ?? string.Empty;
+			await ValidateConnection();
 		}
 	}
 

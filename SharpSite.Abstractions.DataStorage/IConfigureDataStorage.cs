@@ -1,4 +1,5 @@
-﻿using SharpSite.Abstractions.Base;
+﻿using Microsoft.Extensions.Hosting;
+using SharpSite.Abstractions.Base;
 
 namespace SharpSite.Abstractions.DataStorage;
 

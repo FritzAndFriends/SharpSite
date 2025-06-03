@@ -14,7 +14,7 @@ var appState = builder.AddPluginManagerAndAppState();
 
 // Load plugins for postgres
 #region Postgres Plugins
-var pg = new RegisterPostgresServices();
+// var pg = new RegisterPostgresServices();
 //pg.RegisterServices(builder);
 
 var pgSecurity = new RegisterPostgresSecurityServices();
