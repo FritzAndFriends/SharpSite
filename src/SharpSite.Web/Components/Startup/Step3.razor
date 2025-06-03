@@ -18,42 +18,68 @@
     <div class="row justify-content-center g-0">
         <!-- Left panel with information -->
         <div class="col-lg-5 p-4">
-            <h5 class="d-flex align-items-center gap-2 small">
-                <i class="bi bi-database-fill-gear"></i>
-                <span>Configure PostgreSQL for @AppState.SiteName</span>
-            </h5>
-            <div class="small mt-4">
-                <div class="d-flex align-items-start gap-3 mb-4">
-                    <div><i class="bi bi-database-fill text-primary fs-5"></i></div>
-                    <div>
-                        <strong>Content Database</strong>
-                        <div class="text-muted smaller">Blog posts, pages, and site content</div>
+            @if (_selectedPlugin is null)
+            {
+                <h5 class="d-flex align-items-center gap-2 small">
+                    <i class="bi bi-database-fill-gear"></i>
+                    <span>Select a Database Provider</span>
+                </h5>
+                <div class="small mt-4">
+                    <div class="d-flex align-items-start gap-3 mb-4">
+                        <div><i class="bi bi-plug-fill text-primary fs-5"></i></div>
+                        <div>
+                            <strong>Database Providers</strong>
+                            <div class="text-muted smaller">Choose from available database plugins</div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="d-flex align-items-start gap-3">
-                    <div><i class="bi bi-shield-lock-fill text-success fs-5"></i></div>
-                    <div>
-                        <strong>Security Database</strong>
-                        <div class="text-muted smaller">Authentication and permissions</div>
+                <div class="alert alert-info mt-4 py-2 px-3">
+                    <i class="bi bi-info-circle-fill me-2"></i>
+                    <span class="smaller">Select a database provider from the list on the right to continue.</span>
+                </div>
+            }
+            else 
+            {
+                <h5 class="d-flex align-items-center gap-2 small">
+                    <i class="bi bi-database-fill-gear"></i>
+                    <span>Configure @_selectedPlugin.DisplayName for @AppState.SiteName</span>
+                </h5>
+                <div class="small mt-4">
+                    <div class="d-flex align-items-start gap-3 mb-4">
+                        <div><i class="bi bi-database-fill text-primary fs-5"></i></div>
+                        <div>
+                            <strong>Content Database</strong>
+                            <div class="text-muted smaller">Blog posts, pages, and site content</div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-start gap-3">
+                        <div><i class="bi bi-shield-lock-fill text-success fs-5"></i></div>
+                        <div>
+                            <strong>Security Database</strong>
+                            <div class="text-muted smaller">Authentication and permissions</div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="alert alert-info mt-4 py-2 px-3">
-                <i class="bi bi-info-circle-fill me-2"></i>
-                <span class="smaller">Please ensure you have valid database credentials.</span>
-            </div>
+                
+                <div class="alert alert-info mt-4 py-2 px-3">
+                    <i class="bi bi-info-circle-fill me-2"></i>
+                    <span class="smaller">Please ensure you have valid database credentials.</span>
+                </div>
+            }
         </div>
 
         <!-- Vertical divider -->
         <div class="vr p-0 mx-2"></div>
 
         <!-- Right panel with configuration -->
-        <div class="col-lg-6 p-4">
-            @if (DatabaseConfig is not null)
+        <div class="col-lg-6 p-4">            @if (DatabaseConfig is not null)
             {
-                <DatabaseConfiguration DatabaseConfig="DatabaseConfig" OnValidSubmit="SaveDatabaseConfig" />
+                <DatabaseConfiguration 
+                    DatabaseConfig="DatabaseConfig" 
+                    OnValidSubmit="SaveDatabaseConfig"
+                    OnPluginSelected="HandlePluginSelected" />
             }
             else
             {
@@ -82,6 +108,13 @@
 	}
 
 	private IConfigureDataStorage DatabaseConfig { get; set; } = default!;
+
+	private PluginManifest? _selectedPlugin;
+      private void HandlePluginSelected(PluginManifest? plugin)
+    {
+        _selectedPlugin = plugin;
+        StateHasChanged();
+    }
 
 	private async Task SaveDatabaseConfig(string connectionString)
 	{

@@ -1,12 +1,38 @@
 ﻿@using SharpSite.Abstractions.DataStorage
+@using SharpSite.Plugins
 @using Microsoft.Extensions.Configuration
 @using Microsoft.AspNetCore.Hosting
 @inject IConfiguration AppConfiguration
 @inject IWebHostEnvironment Environment
+@inject PluginManager PluginManager
+@inject ApplicationState AppState
 
-@if (FormContext is not null)
+@if (_selectedPlugin is null)
 {
-<EditForm EditContext="FormContext" OnValidSubmit="ReturnConnectionString">    <ValidationSummary />
+    <div class="row mb-4">
+        <div class="col-12">
+            <h4>Select Database Provider</h4>
+            <div class="list-group">
+                @foreach (var plugin in AppState.Plugins.Values.Where(p => p.Features.Contains(PluginFeatures.DataStorage)))
+                {
+                    <button type="button" 
+                            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" 
+                            @onclick="() => SelectDatabasePlugin(plugin)">
+                        <div>
+                            <h5 class="mb-1">@plugin.DisplayName</h5>
+                            <p class="mb-1">@plugin.Description</p>
+                        </div>
+                        <span class="badge bg-primary rounded-pill">@plugin.Version</span>
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@if (FormContext is not null && _selectedPlugin is not null)
+{
+    <EditForm EditContext="FormContext" OnValidSubmit="ReturnConnectionString">    <ValidationSummary />
 
     @if (_isAdvancedMode)
     {
@@ -88,14 +114,79 @@
 
     [Parameter]
     public EventCallback<string> OnValidSubmit { get; set; }    
-			
-		private Dictionary<string, string> _configuration = null!;
+
+    [Parameter]
+    public EventCallback<PluginManifest?> OnPluginSelected { get; set; }
+
+    private Dictionary<string, string> _configuration = null!;
     private EditContext FormContext = default!;
     private ValidationMessageStore validationMessageStore = default!;
     private string _connectionStatus = string.Empty;
     private bool _isTestingConnection;
     private bool _isConnectionValid;
     private bool _isAdvancedMode;
+    private PluginManifest? _selectedPlugin;    private async Task SelectDatabasePlugin(PluginManifest plugin)
+    {
+        _selectedPlugin = plugin;
+        DatabaseConfig = PluginManager.GetPluginProvidedService<IConfigureDataStorage>() 
+            ?? throw new InvalidOperationException($"No data storage configuration found for plugin {plugin.Id}");
+        await OnPluginSelected.InvokeAsync(plugin);
+        
+        _configuration = new Dictionary<string, string>();
+
+        // Check for development environment connection string first
+        if (Environment.IsDevelopment())
+        {
+            var devConnectionString = AppConfiguration["ConnectionStrings:SharpSite"];
+            if (!string.IsNullOrEmpty(devConnectionString))
+            {
+                // Parse the connection string into the configuration dictionary
+                DatabaseConfig.ParseConnectionString(devConnectionString, _configuration);
+            }
+        }
+
+        // copy the configuration fields into the _configuration dictionary if not already set
+		DatabaseConfig.ConfigurationFields
+            .ToList()
+            .ForEach(x =>
+            {
+                if (x.Key is not null && !_configuration.ContainsKey(x.Key))
+				{
+                    _configuration.Add(x.Key, x.Value);
+                }
+            });
+
+        FormContext = new EditContext(_configuration);
+        validationMessageStore = new ValidationMessageStore(FormContext);
+        FormContext.OnValidationRequested += (sender, args) =>
+        {
+            validationMessageStore.Clear();
+
+            // inspect each of the fields in the _configuration dictionary and if they are empty, add a validation error
+            foreach (var field in _configuration)
+            {
+                if (string.IsNullOrEmpty(field.Value))
+                {
+                    validationMessageStore.Add(FormContext.Field(field.Value), $"The field {field.Value} is required.");
+                }
+            }
+
+            if (!FormContext.GetValidationMessages().Any())
+            {
+                string errorMessage = string.Empty;
+                var success = DatabaseConfig.TestConnection(_configuration, out errorMessage);
+                if (!success)
+                {
+                    errorMessage = !string.IsNullOrEmpty(errorMessage) ? errorMessage : "Cannot connect to the database specified";
+                    validationMessageStore.Add(FormContext.Field("ConnectionString"), errorMessage);
+                }
+            }
+
+            FormContext.NotifyValidationStateChanged();
+        };
+
+        StateHasChanged();
+    }
 
     protected override Task OnInitializedAsync()
     {
@@ -264,6 +355,4 @@
         var secureFields = new[] { "password", "key", "secret", "token" };
         return secureFields.Any(secureField => 
             fieldName.Contains(secureField, StringComparison.OrdinalIgnoreCase));
-    }
-
-}
+    }}
