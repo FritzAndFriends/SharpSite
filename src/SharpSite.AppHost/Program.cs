@@ -18,7 +18,6 @@ var db = builder.AddPostgresServices(testOnly);
 
 builder.AddProject<Projects.SharpSite_Web>("webfrontend")
 	.WithReference(db)
-	//.WaitForCompletion(migrationSvc)
 	.WithRunE2eTestsCommand()
 	.WithExternalHttpEndpoints();
 
