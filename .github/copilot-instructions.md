@@ -20,6 +20,7 @@ You are a senior Blazor and .NET developer, experienced in C#, ASP.NET Core, and
 - Leverage Dependency Injection for services in Blazor.
 - Structure Blazor components and services following Separation of Concerns.
 - Use C# 10+ features like record types, pattern matching, and global usings.
+- SharpSite uses central package management for its projects.  When adding references, obey the rules for Central Package Management
 
 ## Error Handling and Validation
 - Implement proper error handling for Blazor pages and API calls.

@@ -1,76 +1,51 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.ComponentModel.DataAnnotations;
 using SharpSite.Abstractions.Base;
+using SharpSite.Plugins.Data.Postgres.Security;
 
 namespace SharpSite.Plugins.Data.Postgres;
 
-[RegisterPlugin(PluginServiceLocatorScope.Transient, PluginRegisterType.DataStorage_EfContext)]
-public class PgContext : DbContext
+[RegisterPlugin(PluginServiceLocatorScope.Singleton, PluginRegisterType.DataStorage_EfContext)]
+public class PgContext : IdentityDbContext<PgSharpSiteUser>
 {
+    public PgContext(DbContextOptions<PgContext> options) : base(options) { }
 
-	private readonly string? _ConnectionString;
+    public DbSet<PgPage> Pages => Set<PgPage>();
+    public DbSet<PgPost> Posts => Set<PgPost>();
 
-	public PgContext(DbContextOptions<PgContext> options) : base(options) { }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder); // Important for Identity tables
 
-	// add a default configuration for this context that uses Postgres and gets the connection string from ApplicationState
-	public PgContext(IApplicationStateModel appState)
-	{
-		_ConnectionString = appState.GetConfigurationByName(ApplicationStateKeys.ContentConnectionString);
-	}
+        modelBuilder.Entity<PgPage>()
+            .HasIndex(p => p.Slug)
+            .IsUnique();
 
-	internal PgContext(string connectionString)
-	{
-		_ConnectionString = connectionString;
-	}
+        modelBuilder
+            .Entity<PgPost>()
+            .Property(e => e.Published)
+            .HasConversion(new DateTimeOffsetConverter());
 
-	public DbSet<PgPage> Pages => Set<PgPage>();
+        modelBuilder
+            .Entity<PgPost>()
+            .Property(e => e.LastUpdate)
+            .HasConversion(new DateTimeOffsetConverter());
 
-	public DbSet<PgPost> Posts => Set<PgPost>();
-
-	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-	{
-
-		// configure to use the Npgsql database and with _Connectionstring configured
-		if (_ConnectionString != null)
-		{
-			optionsBuilder.UseNpgsql(_ConnectionString);
-		}
-
-		base.OnConfiguring(optionsBuilder);
-	}
-
-	protected override void OnModelCreating(ModelBuilder modelBuilder)
-	{
-
-		modelBuilder.Entity<PgPage>()
-			.HasIndex(p => p.Slug)
-			.IsUnique();
-
-		modelBuilder
-				.Entity<PgPost>()
-				.Property(e => e.Published)
-				.HasConversion(new DateTimeOffsetConverter());
-
-
-		modelBuilder
-				.Entity<PgPost>()
-				.Property(e => e.LastUpdate)
-				.HasConversion(new DateTimeOffsetConverter());
-
-		modelBuilder
-			.Entity<PgPage>()
-			.Property(e => e.LastUpdate)
-			.HasConversion(new DateTimeOffsetConverter());
-
-	}
-
+        modelBuilder
+            .Entity<PgPage>()
+            .Property(e => e.LastUpdate)
+            .HasConversion(new DateTimeOffsetConverter());
+    }
 }
 
 public class DateTimeOffsetConverter : ValueConverter<DateTimeOffset, DateTimeOffset>
 {
-	public DateTimeOffsetConverter() : base(
-			v => v.UtcDateTime,
-			v => v)
-	{
-	}
+    public DateTimeOffsetConverter() : base(
+            v => v.UtcDateTime,
+            v => v)
+    {
+    }
 }

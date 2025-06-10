@@ -1,12 +1,10 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using SharpSite.Abstractions;
 using SharpSite.Abstractions.Security;
 using System.ComponentModel.DataAnnotations;
 
-namespace SharpSite.Security.Postgres;
+namespace SharpSite.Plugins.Data.Postgres.Security;
 
 public class PgSharpSiteUser : IdentityUser, ISharpSiteUser
 {
@@ -54,13 +52,4 @@ public class PgSharpSiteUser : IdentityUser, ISharpSiteUser
             ConcurrencyStamp = user.ConcurrencyStamp,
             PasswordHash = user.PasswordHash
         };
-}
-
-public class PgSecurityContext : IdentityDbContext<PgSharpSiteUser>
-{
-    public PgSecurityContext(DbContextOptions<PgSecurityContext> options)
-        : base(options)
-    {
-    }
-
 }
