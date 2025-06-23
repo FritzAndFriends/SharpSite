@@ -21,7 +21,7 @@ if (File.Exists(outputPath))
 }
 
 var manifest = ManifestHandler.LoadOrCreateManifest(inputPath);
-if (manifest == null)
+if (manifest is null)
 {
 	Console.WriteLine("Failed to load or create manifest.");
 	return 1;

@@ -29,7 +29,7 @@ public static class ManifestHandler
 		{
 			var json = File.ReadAllText(manifestPath);
 			manifest = JsonSerializer.Deserialize<PluginManifest>(json, _Opts);
-			if (manifest == null)
+			if (manifest is null)
 			{
 				Console.WriteLine("Failed to parse manifest.json");
 				return null;
