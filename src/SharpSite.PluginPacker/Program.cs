@@ -28,12 +28,6 @@ if (manifest == null)
 }
 Console.WriteLine($"Loaded manifest for {manifest.DisplayName} ({manifest.Id})");
 
-if (!PluginValidator.ValidatePlugin(inputPath, manifest))
-{
-	Console.WriteLine("Plugin structure validation failed. Aborting packaging.");
-	return 1;
-}
-
 if (!PluginPackager.PackagePlugin(inputPath, outputPath))
 {
 	Console.WriteLine("Packaging failed.");

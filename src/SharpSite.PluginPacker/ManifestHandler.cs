@@ -1,15 +1,21 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using SharpSite.Plugins;
 
 namespace SharpSite.PluginPacker;
 
 public static class ManifestHandler
 {
-	private static readonly JsonSerializerOptions _Opts = new()  { WriteIndented = true };
+	private static readonly JsonSerializerOptions _Opts = new()
+	{
+		WriteIndented = true,
+		Converters = { new JsonStringEnumConverter() }
+	};
+
 	public static PluginManifest? LoadOrCreateManifest(string inputPath)
 	{
 		string manifestPath = Path.Combine(inputPath, "manifest.json");
-		PluginManifest? manifest = null;
+		PluginManifest? manifest;
 		if (!File.Exists(manifestPath))
 		{
 			Console.WriteLine($"manifest.json not found in {inputPath}.");
@@ -22,7 +28,7 @@ public static class ManifestHandler
 		else
 		{
 			var json = File.ReadAllText(manifestPath);
-			manifest = JsonSerializer.Deserialize<PluginManifest>(json);
+			manifest = JsonSerializer.Deserialize<PluginManifest>(json, _Opts);
 			if (manifest == null)
 			{
 				Console.WriteLine("Failed to parse manifest.json");
