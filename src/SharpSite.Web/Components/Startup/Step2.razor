@@ -1,0 +1,88 @@
+﻿@page "/start/step2"
+@using SharpSite.Abstractions.FileStorage
+@inject ApplicationState AppState
+@inject NavigationManager NavManager
+@inject PluginManager PluginManager
+@rendermode InteractiveServer
+
+@* add the sharpsite logo *@
+<img src="/img/logo-500.webp" alt="SharpSite" style="min-width: 500px;" />
+
+<h2 class="h2">Step 2 - Initial Appearance of @AppState.SiteName</h2>
+
+<p>
+	Let's next configure some things that are going to help with the initial appearance of your website @AppState.SiteName
+</p>
+
+<p>
+	You can change these later, so don't worry if you want to make changes later.
+</p>
+
+<p>
+	Let's select a logo for your website.  This will be used in the header of your website.
+</p>
+
+<InputFile
+@bind-File="Logo"
+Accept="image/png"
+Multiple="false"
+Placeholder="Upload a logo for your website"
+@bind-Value="Logo" />
+
+@* Add a div to show the logo that was uploaded *@
+@if (Logo != Stream.Null)
+{
+	<div class="mt-2">
+		<img src="@($"data:image/png;base64,{Convert.ToBase64String(((MemoryStream)Logo).ToArray())}")" alt="Logo" style="max-width: 200px; max-height: 200px;" />
+	</div>
+}
+
+<p>
+	Once you have uploaded a logo, click the <strong>Finish</strong> button to continue.  If you don't want to upload a logo, just click the <strong>Skip and Finish</strong> button to continue.
+</p>
+
+<div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+	<button class="btn btn-primary" @onclick="Finish">Finish</button>
+	<button class="btn btn-secondary" @onclick="SkipAndFinish">Skip and Finish</button>
+</div>
+
+@code {
+
+	Stream Logo { get; set; } = Stream.Null;
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (AppState.StartupCompleted) NavManager.NavigateTo("/", true);
+		if (AppState.StartupStep < 2) NavManager.NavigateTo("/start/step1", false);
+		if (AppState.StartupStep != 2) NavManager.NavigateTo($"/start/step{AppState.StartupStep}", false);
+
+		await base.OnInitializedAsync();
+	}
+
+	private async Task Finish(MouseEventArgs args)
+	{
+
+		var FileStorage = PluginManager.GetPluginProvidedService<IHandleFileStorage>();
+
+		if (FileStorage == null)
+		{
+			throw new Exception("FileStorage is not available.  Please contact support.");
+		}
+
+		await FileStorage.AddFile(new FileData(Logo, new FileMetaData("logo.png", "image/png", DateTimeOffset.Now)));
+		AppState.StartupCompleted = true;
+		AppState.StartupStep = 0;
+		AppState.HasCustomLogo = "logo.png"; 
+		await AppState.Save();
+		NavManager.NavigateTo($"/", false);
+	}
+
+	private async Task SkipAndFinish(MouseEventArgs args)
+	{
+		AppState.StartupCompleted = true;
+		AppState.StartupStep = 0;
+		await AppState.Save();
+		NavManager.NavigateTo($"/", false);
+	}
+
+}

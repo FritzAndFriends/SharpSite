@@ -50,6 +50,7 @@ public class PluginManager(
 
 		Manifest = ReadManifest(manifestStream);
 		Manifest.ValidateManifest(logger, plugin);
+		EnsurePluginNotInstalled(Manifest, logger);
 
 		// Add your logic to process the manifest content here
 		logger.LogInformation("Plugin {PluginName} uploaded and manifest processed.", Manifest);
@@ -242,14 +243,14 @@ public class PluginManager(
 		ZipArchive archive;
 
 		var pluginFolder = Directory.CreateDirectory(Path.Combine("plugins", "_uploaded"));
-		var filePath = Path.Combine(pluginFolder.FullName, $"{pluginManifest!.Id}@{pluginManifest.Version}.sspkg");
+		var filePath = Path.Combine(pluginFolder.FullName, $"{pluginManifest.IdVersionToString()}.sspkg");
 
 		using var pluginAssemblyFileStream = File.OpenWrite(filePath);
 		await pluginAssemblyFileStream.WriteAsync(plugin.Bytes);
 		logger.LogInformation("Plugin saved to {FilePath}", filePath);
 
 		// Create a folder named after the plugin name under /plugins
-		pluginLibFolder = Directory.CreateDirectory(Path.Combine("plugins", $"{pluginManifest!.Id}@{pluginManifest.Version}"));
+		pluginLibFolder = Directory.CreateDirectory(Path.Combine("plugins", pluginManifest.IdVersionToString()));
 
 		using var pluginMemoryStream = new MemoryStream(plugin.Bytes);
 		archive = new ZipArchive(pluginMemoryStream, ZipArchiveMode.Read, true);
@@ -260,7 +261,7 @@ public class PluginManager(
 
 		if (hasWebContent)
 		{
-			pluginWwwRootFolder = Directory.CreateDirectory(Path.Combine("plugins", "_wwwroot", $"{pluginManifest!.Id}@{pluginManifest.Version}"));
+			pluginWwwRootFolder = Directory.CreateDirectory(Path.Combine("plugins", "_wwwroot", pluginManifest.IdVersionToString()));
 		}
 
 		foreach (var entry in archive.Entries)
@@ -371,7 +372,7 @@ public class PluginManager(
 
 	private static readonly char[] _InvalidChars = Path.GetInvalidPathChars();
 	private static readonly string[] _InvalidPathSegments = ["~", "..", "/", "\\"];
-	private static readonly string[] _ReservedNames = [ "CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9" ];
+	private static readonly string[] _ReservedNames = ["CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"];
 
 	private static bool IsValidDirectory(string name)
 	{
@@ -415,4 +416,45 @@ public class PluginManager(
 		return true;
 
 	}
+
+	private static void EnsurePluginNotInstalled(PluginManifest? manifest, ILogger logger)
+	{
+
+		if (manifest is not null && Directory.Exists(Path.Combine("plugins", manifest.IdVersionToString())))
+		{
+			var errMsg = string.Format(Locales.SharedResource.sharpsite_plugin_exists, manifest.IdVersionToString());
+			PluginException ex = new(errMsg);
+			logger.LogError(ex, "Plugin '{Plugin}' is already installed.", manifest.IdVersionToString());
+			throw ex;
+		}
+
+	}
+
+	public async Task InstallDefaultPlugins()
+	{
+	
+		var defaultPluginFolder = new DirectoryInfo("defaultplugins");
+		if (!defaultPluginFolder.Exists) return;
+
+		foreach (var file in defaultPluginFolder.GetFiles("*.sspkg"))
+		{
+
+			using var stream = File.OpenRead(file.FullName);
+			var plugin = await Plugin.LoadFromStream(stream, file.Name);
+
+			try {
+				HandleUploadedPlugin(plugin);
+				logger.LogInformation("Plugin {0} loaded from default plugins.", file.Name);
+				await SavePlugin();
+			} catch (PluginException ex) {
+				logger.LogError(ex, "Plugin {0} failed to load from default plugins.", file.Name);
+			}	finally {
+				// Cleanup the plugin after processing
+				CleanupCurrentUploadedPlugin();
+			}
+
+		}
+
+	}
+
 }

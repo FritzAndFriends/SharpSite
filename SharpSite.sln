@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Solution Items", "0. Sol
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
+		.github\copilot-instructions.md = .github\copilot-instructions.md
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
 		nuget.config = nuget.config
@@ -54,6 +55,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSite.E2E", "e2e\SharpSite.E2E\SharpSite.E2E.csproj", "{EFCFB571-6B0C-35CD-6664-160CA5B39244}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSite.Tests.Plugins", "tests\SharpSite.Tests.Plugins\SharpSite.Tests.Plugins.csproj", "{6B629CEE-5AAC-4885-89C6-7BED9DA7CF2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpSite.PluginPacker", "src\SharpSite.PluginPacker\SharpSite.PluginPacker.csproj", "{677B59E7-C4BA-4024-84D7-78CE6985F3F5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Tools", "2. Tools", "{78F974E0-8074-0543-93D5-DC2AAC8BF3DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -125,6 +130,10 @@ Global
 		{6B629CEE-5AAC-4885-89C6-7BED9DA7CF2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B629CEE-5AAC-4885-89C6-7BED9DA7CF2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B629CEE-5AAC-4885-89C6-7BED9DA7CF2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{677B59E7-C4BA-4024-84D7-78CE6985F3F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{677B59E7-C4BA-4024-84D7-78CE6985F3F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{677B59E7-C4BA-4024-84D7-78CE6985F3F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{677B59E7-C4BA-4024-84D7-78CE6985F3F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -146,6 +155,7 @@ Global
 		{BA24379C-40D5-5EDF-63BE-CE5BC727E45D} = {3266CA51-9816-4037-9715-701EB6C2928A}
 		{EFCFB571-6B0C-35CD-6664-160CA5B39244} = {8779454A-1F9C-4705-8EE0-5980C6B9C2A5}
 		{6B629CEE-5AAC-4885-89C6-7BED9DA7CF2C} = {3266CA51-9816-4037-9715-701EB6C2928A}
+		{677B59E7-C4BA-4024-84D7-78CE6985F3F5} = {78F974E0-8074-0543-93D5-DC2AAC8BF3DF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {62A15C13-360B-4791-89E9-1FDDFE483970}

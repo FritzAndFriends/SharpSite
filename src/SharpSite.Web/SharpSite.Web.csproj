@@ -11,6 +11,7 @@
     <Content Remove="plugins\**" />
     <EmbeddedResource Remove="plugins\**" />
     <None Remove="plugins\**" />
+		<Content Include="defaultplugins\**" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
 		<InternalsVisibleTo Include="SharpSite.Tests.Web" />
   </ItemGroup>
 
