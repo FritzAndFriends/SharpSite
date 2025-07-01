@@ -19,7 +19,10 @@ using System.Security.Claims;
 
 namespace SharpSite.Plugins.Data.Postgres.Security;
 
-[RegisterPlugin(PluginServiceLocatorScope.Singleton, PluginRegisterType.DataStorage_EfContext)]
+// TODO: Remove this and move the Identity configuration to the main project,
+// the database context and Identity providers will be injected from the PluginManager
+
+
 public class RegisterPluginServices : IRunAtStartup
 {
     private const string InitializeUsersActivitySourceName = "Initial Users and Roles";
@@ -134,9 +137,9 @@ internal sealed class NoOpEmailSender : IEmailSender
     }
 }
 
-internal sealed class IdentityUserAccessor(UserManager<PgSharpSiteUser> userManager, IdentityRedirectManager redirectManager)
+internal sealed class IdentityUserAccessor(IUserManager userManager, IdentityRedirectManager redirectManager)
 {
-    public async Task<PgSharpSiteUser> GetRequiredUserAsync(HttpContext context)
+    public async Task<ISharpSiteUser> GetRequiredUserAsync(HttpContext context)
     {
         var user = await userManager.GetUserAsync(context.User);
 
@@ -170,26 +173,33 @@ internal sealed class IdentityRedirectManager(NavigationManager navigationManage
 
 internal sealed class IdentityRevalidatingAuthenticationStateProvider<TUser> : AuthenticationStateProvider where TUser : class
 {
-    private readonly IServiceScopeFactory _scopeFactory;
+    private readonly IPluginManager _pluginManager;
     private readonly ILogger<IdentityRevalidatingAuthenticationStateProvider<TUser>> _logger;
 
-    public IdentityRevalidatingAuthenticationStateProvider(
-        IServiceScopeFactory scopeFactory,
-        ILogger<IdentityRevalidatingAuthenticationStateProvider<TUser>> logger)
-    {
-        _scopeFactory = scopeFactory;
-        _logger = logger;
-    }
+	// need to modify the constructor to accept the PluginManager
+	// and use it to resolve the UserManager and SignInManager
+	public IdentityRevalidatingAuthenticationStateProvider(
+			IPluginManager pluginManager,
+			ILogger<IdentityRevalidatingAuthenticationStateProvider<TUser>> logger)
+	{
+		_pluginManager = pluginManager;
+		_logger = logger;
+	}
 
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
         var principal = new ClaimsPrincipal(new ClaimsIdentity());
         try
         {
-            await using var scope = _scopeFactory.CreateAsyncScope();
-            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<TUser>>();
-            var signInManager = scope.ServiceProvider.GetRequiredService<SignInManager<TUser>>();
-            
+            var userManager = _pluginManager.GetPluginProvidedService<UserManager<TUser>>();
+            var signInManager = _pluginManager.GetPluginProvidedService<SignInManager<TUser>>();
+
+						if (userManager is null || signInManager is null)
+						{
+								_logger.LogWarning("UserManager or SignInManager not found in plugin services.");
+								return new AuthenticationState(principal);
+						}
+
             var user = await signInManager.Context.AuthenticateAsync(IdentityConstants.ApplicationScheme);
             if (user?.Principal is null)
             {

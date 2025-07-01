@@ -15,24 +15,27 @@ public interface ILoginInfo
 /// </summary>
 public class SignInResult
 {
-    private SignInResult(bool succeeded, bool isLockedOut = false, bool isNotAllowed = false, bool requiresTwoFactor = false)
-    {
-        Succeeded = succeeded;
-        IsLockedOut = isLockedOut;
-        IsNotAllowed = isNotAllowed;
-        RequiresTwoFactor = requiresTwoFactor;
-    }
+	public SignInResult(bool succeeded, bool isLockedOut = false, bool isNotAllowed = false, bool requiresTwoFactor = false)
+	{
+		Succeeded = succeeded;
+		IsLockedOut = isLockedOut;
+		IsNotAllowed = isNotAllowed;
+		RequiresTwoFactor = requiresTwoFactor;
+	}
 
-    public bool Succeeded { get; }
-    public bool IsLockedOut { get; }
-    public bool IsNotAllowed { get; }
-    public bool RequiresTwoFactor { get; }
+	public bool Succeeded { get; }
+	public bool IsLockedOut { get; }
+	public bool IsNotAllowed { get; }
+	public bool RequiresTwoFactor { get; }
 
-    public static SignInResult Success => new SignInResult(true);
-    public static SignInResult Failed => new SignInResult(false);
-    public static SignInResult LockedOut => new SignInResult(false, isLockedOut: true);
-    public static SignInResult NotAllowed => new SignInResult(false, isNotAllowed: true);
-    public static SignInResult TwoFactorRequired => new SignInResult(false, requiresTwoFactor: true);
+	public static SignInResult Success => new SignInResult(true);
+	public static SignInResult Failed => new SignInResult(false);
+	public static SignInResult LockedOut => new SignInResult(false, isLockedOut: true);
+	public static SignInResult NotAllowed => new SignInResult(false, isNotAllowed: true);
+	public static SignInResult TwoFactorRequired => new SignInResult(false, requiresTwoFactor: true);
+		
+
+
 }
 
 /// <summary>
@@ -42,7 +45,7 @@ public class IdentityResult
 {
     private readonly IEnumerable<IdentityError> _errors;
     
-    private IdentityResult(bool succeeded, IEnumerable<IdentityError>? errors = null)
+    public IdentityResult(bool succeeded, IEnumerable<IdentityError>? errors = null)
     {
         Succeeded = succeeded;
         _errors = errors ?? Array.Empty<IdentityError>();

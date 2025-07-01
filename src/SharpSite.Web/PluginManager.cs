@@ -3,6 +3,7 @@ using SharpSite.Abstractions;
 using SharpSite.Abstractions.Base;
 using SharpSite.Abstractions.DataStorage;
 using SharpSite.Abstractions.FileStorage;
+using SharpSite.Abstractions.Security;
 using SharpSite.Plugins;
 using System.IO.Compression;
 using System.Runtime.InteropServices;
@@ -203,15 +204,9 @@ public class PluginManager(
 			{
 				var pluginAttribute = (RegisterPluginAttribute)pluginAttributes[0]!;
 
-				var knownInterface = pluginAttribute.RegisterType switch
-				{
-					PluginRegisterType.FileStorage => typeof(IHandleFileStorage),
-					PluginRegisterType.DataStorage_Configuration => typeof(IConfigureDataStorage),
-					PluginRegisterType.DataStorage_EfContext => type,
-					PluginRegisterType.DataStorage_PageRepository => typeof(IPageRepository),
-					PluginRegisterType.DataStorage_PostRepository => typeof(IPostRepository),
-					_ => null
-				};
+				var knownInterface = pluginAttribute.RegisterType == PluginRegisterType.DataStorage_EfContext 
+					? type 
+					: PluginTypeMapping.GetInterfaceType(pluginAttribute.RegisterType);
 
 				var serviceDescriptor = new ServiceDescriptor(knownInterface!, type, pluginAttribute.Scope switch
 				{
@@ -346,8 +341,17 @@ public class PluginManager(
 		return Task.FromResult(Directory.CreateDirectory(Path.Combine("plugins", "_" + name)));
 	}
 
-	public T? GetPluginProvidedService<T>()
+	public T? GetPluginProvidedService<T>() where T : class
 	{
+		if (_ServiceProvider is null)
+		{
+			throw new InvalidOperationException("Service provider is not initialized. Call LoadPluginsAtStartup first.");
+		}
+
+		if (!_ServiceDescriptors.Any(descriptor => descriptor.ServiceType == typeof(T)))
+		{
+			return null; // Service not registered
+		}
 		return _ServiceProvider!.GetService<T>();
 	}
 

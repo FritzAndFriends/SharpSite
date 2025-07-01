@@ -6,28 +6,28 @@ namespace SharpSite.Abstractions.Security;
 /// <summary>
 /// Provider-agnostic user management interface
 /// </summary>
-public interface IUserManager<TUser> where TUser : class
+public interface IUserManager
 {
-    Task<string> GetUserIdAsync(TUser user);
-    Task<string?> GetUserNameAsync(TUser user);
-    Task<bool> HasPasswordAsync(TUser user);
-    Task<TUser?> GetUserAsync(ClaimsPrincipal principal);
-    Task<IdentityResult> CreateAsync(TUser user, string password);
-    Task<IdentityResult> AddToRoleAsync(TUser user, string role);
-    Task<IdentityResult> RemoveFromRoleAsync(TUser user, string role);
-    Task<IList<string>> GetRolesAsync(TUser user);
-    Task<string> GenerateEmailConfirmationTokenAsync(TUser user);
-    Task<bool> GetTwoFactorEnabledAsync(TUser user);
-    Task<string> GetAuthenticatorKeyAsync(TUser user);
-    Task<IdentityResult> SetTwoFactorEnabledAsync(TUser user, bool enabled);
-    Task<IdentityResult> ResetAuthenticatorKeyAsync(TUser user);
-    Task<IEnumerable<TUser>> GetUsersInRoleAsync(string role);
-    Task<bool> VerifyTwoFactorTokenAsync(TUser user, string tokenProvider, string token);
-    Task<int> CountRecoveryCodesAsync(TUser user);
-    Task<IEnumerable<string>> GenerateNewTwoFactorRecoveryCodesAsync(TUser user, int number);
-    Task<IdentityResult> UpdateAsync(TUser user);
-    Task<IdentityResult> DeleteAsync(TUser user);
-    Task<bool> CheckPasswordAsync(TUser user, string password);
+    Task<string> GetUserIdAsync(ISharpSiteUser user);
+    Task<string?> GetUserNameAsync(ISharpSiteUser user);
+    Task<bool> HasPasswordAsync(ISharpSiteUser user);
+    Task<ISharpSiteUser?> GetUserAsync(ClaimsPrincipal principal);
+    Task<IdentityResult> CreateAsync(ISharpSiteUser user, string password);
+    Task<IdentityResult> AddToRoleAsync(ISharpSiteUser user, string role);
+    Task<IdentityResult> RemoveFromRoleAsync(ISharpSiteUser user, string role);
+    Task<IList<string>> GetRolesAsync(ISharpSiteUser user);
+    Task<string> GenerateEmailConfirmationTokenAsync(ISharpSiteUser user);
+    Task<bool> GetTwoFactorEnabledAsync(ISharpSiteUser user);
+    Task<string> GetAuthenticatorKeyAsync(ISharpSiteUser user);
+    Task<IdentityResult> SetTwoFactorEnabledAsync(ISharpSiteUser user, bool enabled);
+    Task<IdentityResult> ResetAuthenticatorKeyAsync(ISharpSiteUser user);
+    Task<IEnumerable<ISharpSiteUser>> GetUsersInRoleAsync(string role);
+    Task<bool> VerifyTwoFactorTokenAsync(ISharpSiteUser user, string tokenProvider, string token);
+    Task<int> CountRecoveryCodesAsync(ISharpSiteUser user);
+    Task<IEnumerable<string>> GenerateNewTwoFactorRecoveryCodesAsync(ISharpSiteUser user, int number);
+    Task<IdentityResult> UpdateAsync(ISharpSiteUser user);
+    Task<IdentityResult> DeleteAsync(ISharpSiteUser user);
+    Task<bool> CheckPasswordAsync(ISharpSiteUser user, string password);
 }
 
 /// <summary>

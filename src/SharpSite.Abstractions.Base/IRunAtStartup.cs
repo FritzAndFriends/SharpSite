@@ -48,5 +48,6 @@ public interface IPluginManager
 	Task<DirectoryInfo> CreateDirectoryInPluginsFolder(string name);
 	DirectoryInfo GetDirectoryInPluginsFolder(string name);
 	Task<DirectoryInfo> MoveDirectoryInPluginsFolder(string oldName, string newName);
+	T? GetPluginProvidedService<T>() where T : class;
 
 }
