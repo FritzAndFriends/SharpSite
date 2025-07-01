@@ -2,11 +2,18 @@
 
 (string? inputPath, string? outputPath) = ArgumentParser.ParseArguments(args);
 
-if (string.IsNullOrWhiteSpace(inputPath) || string.IsNullOrWhiteSpace(outputPath))
+if (string.IsNullOrWhiteSpace(inputPath))
 {
-	Console.WriteLine("Usage: SharpSite.PluginPacker -i <input-folder> -o <output-file>");
+	Console.WriteLine("Usage: SharpSite.PluginPacker -i <input-folder> [-o <output-folder>]");
+	Console.WriteLine("  -i, --input   Input folder containing the plugin project");
+	Console.WriteLine("  -o, --output  Output directory (optional, defaults to current directory)");
+	Console.WriteLine();
+	Console.WriteLine("The output filename will be automatically generated as: ID@VERSION.sspkg");
 	return 1;
 }
+
+// Default to current directory if no output path specified
+outputPath = string.IsNullOrWhiteSpace(outputPath) ? Directory.GetCurrentDirectory() : outputPath;
 
 if (!Directory.Exists(inputPath))
 {
@@ -14,9 +21,10 @@ if (!Directory.Exists(inputPath))
 	return 1;
 }
 
+// Validate that output path is a directory, not a file
 if (File.Exists(outputPath))
 {
-	Console.WriteLine($"Output file '{outputPath}' already exists. Please choose a different output path.");
+	Console.WriteLine($"Error: Output path '{outputPath}' points to a file. Please specify a directory.");
 	return 1;
 }
 

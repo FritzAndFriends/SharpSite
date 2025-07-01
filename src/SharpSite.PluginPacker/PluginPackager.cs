@@ -41,12 +41,18 @@ public static class PluginPackager
 			{
 				CopyThemeCssFiles(inputPath, tempDir);
 			}
-
 			// Copy manifest.json and other required files
 			CopyRequiredFiles(inputPath, tempDir);
+		// Zip tempDir to outputPath - use proper naming convention ID@VERSION.sspkg
+		// outputPath is always a directory, generate the filename from manifest
+		string outFile = Path.Combine(outputPath, $"{manifest.IdVersionToString()}.sspkg");
 
-			// Zip tempDir to outputPath
-			string outFile = outputPath.EndsWith(".sspkg", StringComparison.OrdinalIgnoreCase) ? outputPath : outputPath + ".sspkg";
+		// Ensure the output directory exists
+		if (!Directory.Exists(outputPath))
+		{
+			Directory.CreateDirectory(outputPath);
+		}
+
 			if (File.Exists(outFile)) File.Delete(outFile);
 			ZipFile.CreateFromDirectory(tempDir, outFile);
 			Console.WriteLine($"Plugin packaged successfully: {outFile}");
@@ -65,7 +71,7 @@ public static class PluginPackager
 		}
 	}
 
-	private static void CopyAndRenameDll(string inputPath, string tempBuildDir, string tempDir, dynamic manifest)
+	private static void CopyAndRenameDll(string inputPath, string tempBuildDir, string tempDir, PluginManifest manifest)
 	{
 		string libDir = Path.Combine(tempDir, "lib");
 		Directory.CreateDirectory(libDir);
