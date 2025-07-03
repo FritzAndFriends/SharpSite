@@ -33,26 +33,26 @@ public interface IUserManager
 /// <summary>
 /// Provider-agnostic sign-in management interface
 /// </summary>
-public interface ISignInManager<TUser> where TUser : class
+public interface ISignInManager
 {
     Task SignOutAsync();
     Task<SignInResult> PasswordSignInAsync(string userName, string password, bool isPersistent, bool lockoutOnFailure);
-    Task<bool> IsTwoFactorClientRememberedAsync(TUser user);
+    Task<bool> IsTwoFactorClientRememberedAsync(ISharpSiteUser user);
     Task<SignInResult> TwoFactorAuthenticatorSignInAsync(string code, bool isPersistent, bool rememberClient);
-    Task<TUser?> GetTwoFactorAuthenticationUserAsync();
+    Task<ISharpSiteUser?> GetTwoFactorAuthenticationUserAsync();
     Task<IEnumerable<AuthenticationScheme>> GetExternalAuthenticationSchemesAsync();
     Task ForgetTwoFactorClientAsync();
     Task<ILoginInfo?> GetExternalLoginInfoAsync(string expectedXsrf = null!);
     Task<SignInResult> ExternalLoginSignInAsync(string loginProvider, string providerKey, bool isPersistent);
-    Task RefreshSignInAsync(TUser user);
+    Task RefreshSignInAsync(ISharpSiteUser user);
 }
 
 /// <summary>
 /// Provider-agnostic email management interface
 /// </summary>
-public interface IEmailSender<TUser> where TUser : class
+public interface IEmailSender
 {
-    Task SendConfirmationLinkAsync(TUser user, string email, string confirmationLink);
-    Task SendPasswordResetLinkAsync(TUser user, string email, string resetLink);
-    Task SendPasswordResetCodeAsync(TUser user, string email, string resetCode);
+    Task SendConfirmationLinkAsync(ISharpSiteUser user, string email, string confirmationLink);
+    Task SendPasswordResetLinkAsync(ISharpSiteUser user, string email, string resetLink);
+    Task SendPasswordResetCodeAsync(ISharpSiteUser user, string email, string resetCode);
 }

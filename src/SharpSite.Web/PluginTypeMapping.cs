@@ -3,6 +3,7 @@ using SharpSite.Abstractions.Base;
 using SharpSite.Abstractions.DataStorage;
 using SharpSite.Abstractions.FileStorage;
 using SharpSite.Abstractions.Security;
+using SharpSite.Plugins;
 
 namespace SharpSite.Web;
 
@@ -21,8 +22,12 @@ public static class PluginTypeMapping
 		{ PluginRegisterType.DataStorage_EfContext, null }, // Special case - uses the actual type
 		{ PluginRegisterType.DataStorage_PageRepository, typeof(IPageRepository) },
 		{ PluginRegisterType.DataStorage_PostRepository, typeof(IPostRepository) },
-		{ PluginRegisterType.Security_SignInManager, typeof(ISignInManager<ISharpSiteUser>) },
-		{ PluginRegisterType.Security_UserManager, typeof(IUserManager<ISharpSiteUser>) }
+		{ PluginRegisterType.Security_SignInManager, typeof(ISignInManager) },
+		{ PluginRegisterType.Security_UserManager, typeof(IUserManager) },
+		{ PluginRegisterType.Security_UserRepository, typeof(IUserRepository) },
+		{ PluginRegisterType.Security_EmailSender, typeof(IEmailSender) },
+
+
 	};
 
 	/// <summary>

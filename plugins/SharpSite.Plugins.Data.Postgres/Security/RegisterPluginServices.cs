@@ -7,15 +7,12 @@ global using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Components.Server;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using SharpSite.Abstractions;
 using SharpSite.Abstractions.Base;
 using SharpSite.Abstractions.Security;
-using System.Security.Claims;
 
 namespace SharpSite.Plugins.Data.Postgres.Security;
 

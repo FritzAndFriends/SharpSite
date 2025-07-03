@@ -26,6 +26,8 @@ public enum PluginRegisterType
 	DataStorage_EfContext,
 	DataStorage_PageRepository,
 	DataStorage_PostRepository,
+	Security_EmailSender,
 	Security_SignInManager,
 	Security_UserManager,
+	Security_UserRepository,
 }

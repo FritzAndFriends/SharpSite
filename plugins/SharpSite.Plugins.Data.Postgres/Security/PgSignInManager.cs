@@ -6,7 +6,7 @@ namespace SharpSite.Plugins.Data.Postgres.Security;
 
 [RegisterPlugin(PluginServiceLocatorScope.Scoped, PluginRegisterType.Security_SignInManager)]
 
-public class PgSignInManager : ISignInManager<ISharpSiteUser>
+public class PgSignInManager : ISignInManager
 {
 	private readonly SignInManager<PgSharpSiteUser> _signInManager;
 

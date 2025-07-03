@@ -30,8 +30,6 @@ public class RegisterPostgresSecurityServices : IRunAtStartup
 
 		// Register our repositories and services
 		builder.Services.AddScoped<IUserRepository, UserRepository>();
-		builder.Services.AddScoped<IUserManager<ISharpSiteUser>, PgUserManager>();
-		builder.Services.AddScoped<ISignInManager<ISharpSiteUser>, PgSignInManager>();
 		builder.Services.AddScoped<IEmailSender<ISharpSiteUser>, PgEmailSender>();
 
 		builder.Services.AddAuthentication(options =>
