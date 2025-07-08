@@ -18,8 +18,15 @@ public class AzureBlobStorageConfigurationSection : ISharpSiteConfigurationSecti
 
 	public async Task OnConfigurationChanged(ISharpSiteConfigurationSection? oldConfiguration, IPluginManager pluginManager)
 	{
+		// Only proceed if both ConnectionString and ContainerName are set
+		if (string.IsNullOrWhiteSpace(ConnectionString) || string.IsNullOrWhiteSpace(ContainerName))
+		{
+			// Not enough info to connect, skip container creation
+			return;
+		}
+
 		// If this is the first time setting up the configuration, just ensure container exists
-		if (oldConfiguration is not AzureBlobStorageConfigurationSection oldConfig)
+		if (oldConfiguration is not AzureBlobStorageConfigurationSection oldConfig || string.IsNullOrWhiteSpace(oldConfig.ConnectionString))
 		{
 			await EnsureContainerExists(ConnectionString, ContainerName);
 			return;

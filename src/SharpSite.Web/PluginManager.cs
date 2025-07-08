@@ -72,6 +72,41 @@ public class PluginManager(
 		return JsonSerializer.Deserialize<PluginManifest>(manifestStream, options)!;
 	}
 
+	private static void LoadNuGetDependencies(PluginManifest manifest, DirectoryInfo pluginLibFolder, ILogger logger)
+	{
+		if (manifest.NuGetDependencies is null || manifest.NuGetDependencies.Length == 0)
+		{
+			return;
+		}
+
+		foreach (var dep in manifest.NuGetDependencies)
+		{
+			var depDll = Path.Combine(pluginLibFolder.FullName, dep.Package + ".dll");
+			if (File.Exists(depDll))
+			{
+				var depDllName = Path.GetFileName(depDll);
+				var alreadyLoaded = AppDomain.CurrentDomain.GetAssemblies()
+					.Any(a => !a.IsDynamic && string.Equals(Path.GetFileName(a.Location), depDllName, StringComparison.OrdinalIgnoreCase));
+				if (!alreadyLoaded)
+				{
+					try
+					{
+						System.Reflection.Assembly.LoadFrom(depDll);
+						logger.LogInformation("Loaded dependency: {depDll}", depDll);
+					}
+					catch (Exception ex)
+					{
+						logger.LogWarning(ex, "Failed to load dependency: {depDll}", depDll);
+					}
+				}
+				else
+				{
+					logger.LogInformation("Dependency already loaded: {depDll}", depDll);
+				}
+			}
+		}
+	}
+
 	public async Task SavePlugin()
 	{
 		if (plugin is null || Manifest is null)
@@ -86,26 +121,23 @@ public class PluginManager(
 		ZipArchive archive;
 		(fileStream, pluginLibFolder, archive) = await ExtractAndInstallPlugin(logger, plugin, Manifest);
 
-		// By convention it is a package_name of (<package_name>@<package_vesrson>.(sspkg|.dll)
 		var key = Manifest.Id;
-		// if there is a DLL in the pluginLibFolder with the same base name as the plugin file, reflection load that DLL
 		var pluginDll = Directory.GetFiles(pluginLibFolder.FullName, $"{key}*.dll").FirstOrDefault();
+
+		// Load NuGet dependencies first
+		LoadNuGetDependencies(Manifest, pluginLibFolder, logger);
+
 		if (!string.IsNullOrEmpty(pluginDll))
 		{
-			// Soft load of package without taking ownership for the process .dll
 			using var pluginAssemblyFileStream = File.OpenRead(pluginDll);
 			plugin = await Plugin.LoadFromStream(pluginAssemblyFileStream, key);
 			var pluginAssembly = new PluginAssembly(Manifest, plugin);
 			pluginAssemblyManager.AddAssembly(pluginAssembly);
 			await RegisterWithServiceLocator(pluginAssembly);
 			await AppState.Save();
-
 			logger.LogInformation("Assembly {AssemblyName} loaded at runtime.", pluginDll);
-
 		}
 
-
-		// Add plugin to the list of plugins in ApplicationState
 		AppState.AddPlugin(Manifest.Id, Manifest);
 		logger.LogInformation("Plugin {PluginName} loaded at runtime.", Manifest);
 
@@ -159,6 +191,9 @@ public class PluginManager(
 			var pluginDll = Directory.GetFiles(pluginFolder, $"{key}*.dll").FirstOrDefault();
 			if (!string.IsNullOrEmpty(pluginDll))
 			{
+				// Load NuGet dependencies first
+				LoadNuGetDependencies(manifest, new DirectoryInfo(pluginFolder), logger);
+
 				// Soft load of package without taking ownership for the process .dll
 				using var pluginAssemblyFileStream = File.OpenRead(pluginDll);
 				plugin = await Plugin.LoadFromStream(pluginAssemblyFileStream, key);
@@ -432,7 +467,7 @@ public class PluginManager(
 
 	public async Task InstallDefaultPlugins()
 	{
-	
+
 		var defaultPluginFolder = new DirectoryInfo("defaultplugins");
 		if (!defaultPluginFolder.Exists) return;
 
@@ -442,13 +477,18 @@ public class PluginManager(
 			using var stream = File.OpenRead(file.FullName);
 			var plugin = await Plugin.LoadFromStream(stream, file.Name);
 
-			try {
+			try
+			{
 				HandleUploadedPlugin(plugin);
 				logger.LogInformation("Plugin {0} loaded from default plugins.", file.Name);
 				await SavePlugin();
-			} catch (PluginException ex) {
+			}
+			catch (PluginException ex)
+			{
 				logger.LogError(ex, "Plugin {0} failed to load from default plugins.", file.Name);
-			}	finally {
+			}
+			finally
+			{
 				// Cleanup the plugin after processing
 				CleanupCurrentUploadedPlugin();
 			}

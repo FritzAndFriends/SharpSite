@@ -57,7 +57,7 @@
 			var uploadedFileName = e.File.Name;
 
 			PluginManager.ValidatePlugin(uploadedFileName);
-			using var stream = uploadedFile.OpenReadStream();
+			using var stream = uploadedFile.OpenReadStream(maxAllowedSize: 1024 * 1026 * 10); // 10 MB. TODO: should this be configurable?
 			var plugin = await Plugin.LoadFromStream(stream, uploadedFileName);
 
 			PluginManager.HandleUploadedPlugin(plugin);
@@ -84,4 +84,3 @@
 		NavigationManager.NavigateTo("/admin/plugins");
 	}
 }
-

@@ -20,6 +20,7 @@ public class PluginManifest
 	public string? KnownLicense { get; set; }
 	public string[]? Tags { get; set; }
 	public required PluginFeatures[] Features { get; set; }
+	public NuGetDependency[]? NuGetDependencies { get; set; }
 
 	public string IdVersionToString()
 	{
@@ -34,3 +35,4 @@ public enum PluginFeatures
 	FileStorage
 }
 
+public record NuGetDependency(string Package, string Version);

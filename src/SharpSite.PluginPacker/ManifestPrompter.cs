@@ -19,6 +19,19 @@ public static class ManifestPrompter
 		return value;
 	}
 
+	private static NuGetDependency[]? PromptNuGetDependencies()
+	{
+		Console.Write("NuGet Dependencies (package@version, comma separated): ");
+		var depsStr = (Console.ReadLine() ?? "").Trim();
+		if (string.IsNullOrWhiteSpace(depsStr)) return null;
+		var deps = depsStr.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+		return deps.Select(dep =>
+		{
+			var parts = dep.Split('@', 2);
+			return parts.Length == 2 ? new NuGetDependency(parts[0], parts[1]) : null;
+		}).Where(d => d != null).ToArray()!;
+	}
+
 	public static PluginManifest PromptForManifest()
 	{
 		var id = PromptRequired("Id");
@@ -31,7 +44,6 @@ public static class ManifestPrompter
 		var contact = PromptRequired("Contact");
 		var contactEmail = PromptRequired("ContactEmail");
 		var authorWebsite = PromptRequired("AuthorWebsite");
-		
 		// Optional fields
 		Console.Write("Icon (URL): ");
 		var icon = (Console.ReadLine() ?? "").Trim();
@@ -42,11 +54,11 @@ public static class ManifestPrompter
 		Console.Write("Tags (comma separated): ");
 		var tagsStr = (Console.ReadLine() ?? "").Trim();
 		var tags = tagsStr.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
-		
 		Console.Write("Features (comma separated, e.g. Theme,FileStorage): ");
 		var featuresStr = (Console.ReadLine() ?? "").Trim();
 		var features = featuresStr.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 		var featureEnums = features.Length > 0 ? Array.ConvertAll(features, f => Enum.Parse<PluginFeatures>(f, true)) : [];
+		var nugetDeps = PromptNuGetDependencies();
 		return new PluginManifest
 		{
 			Id = id,
@@ -63,7 +75,8 @@ public static class ManifestPrompter
 			Source = string.IsNullOrWhiteSpace(source) ? null : source,
 			KnownLicense = string.IsNullOrWhiteSpace(knownLicense) ? null : knownLicense,
 			Tags = tags.Length > 0 ? tags : null,
-			Features = featureEnums
+			Features = featureEnums,
+			NuGetDependencies = nugetDeps
 		};
 	}
 }

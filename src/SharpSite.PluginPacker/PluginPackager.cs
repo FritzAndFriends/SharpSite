@@ -36,6 +36,9 @@ public static class PluginPackager
 			// Copy DLL to lib/ and rename
 			CopyAndRenameDll(inputPath, tempBuildDir, tempDir, manifest);
 
+			// Copy NuGet dependencies to lib/ if specified in manifest
+			CopyNuGetDependencies(tempBuildDir, tempDir, manifest);
+
 			// If Theme, copy .css from wwwroot/ to web/
 			if (manifest.Features.Contains(PluginFeatures.Theme))
 			{
@@ -43,15 +46,15 @@ public static class PluginPackager
 			}
 			// Copy manifest.json and other required files
 			CopyRequiredFiles(inputPath, tempDir);
-		// Zip tempDir to outputPath - use proper naming convention ID@VERSION.sspkg
-		// outputPath is always a directory, generate the filename from manifest
-		string outFile = Path.Combine(outputPath, $"{manifest.IdVersionToString()}.sspkg");
+			// Zip tempDir to outputPath - use proper naming convention ID@VERSION.sspkg
+			// outputPath is always a directory, generate the filename from manifest
+			string outFile = Path.Combine(outputPath, $"{manifest.IdVersionToString()}.sspkg");
 
-		// Ensure the output directory exists
-		if (!Directory.Exists(outputPath))
-		{
-			Directory.CreateDirectory(outputPath);
-		}
+			// Ensure the output directory exists
+			if (!Directory.Exists(outputPath))
+			{
+				Directory.CreateDirectory(outputPath);
+			}
 
 			if (File.Exists(outFile)) File.Delete(outFile);
 			ZipFile.CreateFromDirectory(tempDir, outFile);
@@ -83,6 +86,32 @@ public static class PluginPackager
 			throw new FileNotFoundException($"DLL not found: {dllSource}");
 		}
 		File.Copy(dllSource, dllTarget, overwrite: true);
+	}
+
+	private static void CopyNuGetDependencies(string tempBuildDir, string tempDir, PluginManifest manifest)
+	{
+		if (manifest.NuGetDependencies is null || manifest.NuGetDependencies.Length < 1)
+		{
+			return;
+		}
+		string libDir = Path.Combine(tempDir, "lib");
+		Directory.CreateDirectory(libDir);
+		foreach (var dep in manifest.NuGetDependencies)
+		{
+			// Look for DLLs matching the package name in the build output
+			var dllPattern = dep.Package + ".dll";
+			var files = Directory.GetFiles(tempBuildDir, dllPattern, SearchOption.TopDirectoryOnly);
+			foreach (var file in files)
+			{
+				var dest = Path.Combine(libDir, Path.GetFileName(file));
+				if (string.IsNullOrEmpty(dest))
+				{
+					throw new FileNotFoundException($"Dependency DLL not found for package: {dep.Package}");
+				}
+				if (!File.Exists(dest))
+					File.Copy(file, dest);
+			}
+		}
 	}
 
 	private static void CopyThemeCssFiles(string inputPath, string tempDir)

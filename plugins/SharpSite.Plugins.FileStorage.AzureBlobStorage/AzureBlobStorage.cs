@@ -9,27 +9,32 @@ namespace SharpSite.Plugins.FileStorage.AzureBlobStorage;
 public partial class AzureBlobStorage : IHandleFileStorage
 {
 	private readonly AzureBlobStorageConfigurationSection _configuration;
-	private readonly BlobServiceClient _blobServiceClient;
-	private readonly BlobContainerClient _containerClient;
+	private readonly BlobServiceClient? _blobServiceClient;
+	private readonly BlobContainerClient? _containerClient;
 
 	public AzureBlobStorage(AzureBlobStorageConfigurationSection configuration)
 	{
 		_configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-		
-		if (string.IsNullOrWhiteSpace(_configuration.ConnectionString))
-		{
-			throw new ArgumentException("Connection string is required", nameof(configuration));
-		}
 
-		_blobServiceClient = new BlobServiceClient(_configuration.ConnectionString);
-		_containerClient = _blobServiceClient.GetBlobContainerClient(_configuration.ContainerName);
-		
-		// Ensure container exists
-		_containerClient.CreateIfNotExists();
+		if (!string.IsNullOrWhiteSpace(_configuration.ConnectionString) && !string.IsNullOrWhiteSpace(_configuration.ContainerName))
+		{
+			_blobServiceClient = new BlobServiceClient(_configuration.ConnectionString);
+			_containerClient = _blobServiceClient.GetBlobContainerClient(_configuration.ContainerName);
+			// Do not create container here; defer to OnConfigurationChanged
+		}
+	}
+
+	private void EnsureConfigured()
+	{
+		if (_blobServiceClient is null || _containerClient is null)
+		{
+			throw new InvalidOperationException("Azure Blob Storage plugin is not configured. Please provide a valid connection string and container name in the settings.");
+		}
 	}
 
 	public async Task<string> AddFile(FileData file)
 	{
+		EnsureConfigured();
 		ArgumentNullException.ThrowIfNull(file, nameof(file));
 		if (file.File is null || file.File.Length == 0)
 		{
@@ -38,7 +43,7 @@ public partial class AzureBlobStorage : IHandleFileStorage
 
 		file.Metadata.ValidateFileName();
 
-		var blobClient = _containerClient.GetBlobClient(file.Metadata.FileName);
+		var blobClient = _containerClient!.GetBlobClient(file.Metadata.FileName);
 		
 		// Set content type if provided
 		var uploadOptions = new BlobUploadOptions();
@@ -52,17 +57,16 @@ public partial class AzureBlobStorage : IHandleFileStorage
 
 		// Reset stream position to beginning
 		file.File.Position = 0;
-		
 		await blobClient.UploadAsync(file.File, uploadOptions, cancellationToken: default);
-		
 		return file.Metadata.FileName;
 	}
 
 	public async Task<FileData> GetFile(string filename)
 	{
+		EnsureConfigured();
 		ArgumentException.ThrowIfNullOrWhiteSpace(filename, nameof(filename));
 
-		var blobClient = _containerClient.GetBlobClient(filename);
+		var blobClient = _containerClient!.GetBlobClient(filename);
 		
 		// Check if blob exists
 		var exists = await blobClient.ExistsAsync();
@@ -74,7 +78,6 @@ public partial class AzureBlobStorage : IHandleFileStorage
 		// Download blob content
 		var response = await blobClient.DownloadContentAsync();
 		var content = response.Value.Content;
-		var properties = response.Value.Details;
 
 		// Get blob properties for metadata
 		var propertiesResponse = await blobClient.GetPropertiesAsync();
@@ -90,10 +93,11 @@ public partial class AzureBlobStorage : IHandleFileStorage
 
 	public Task<IEnumerable<FileMetaData>> GetFiles(int page, int filesOnPage, out int totalFilesAvailable)
 	{
+		EnsureConfigured();
 		var blobs = new List<BlobItem>();
 		
 		// Get all blobs synchronously (we need to work with the out parameter constraint)
-		var pageable = _containerClient.GetBlobs();
+		var pageable = _containerClient!.GetBlobs();
 		foreach (var blobItem in pageable)
 		{
 			blobs.Add(blobItem);
@@ -114,9 +118,10 @@ public partial class AzureBlobStorage : IHandleFileStorage
 
 	public async Task RemoveFile(string filename)
 	{
+		EnsureConfigured();
 		ArgumentException.ThrowIfNullOrWhiteSpace(filename, nameof(filename));
 
-		var blobClient = _containerClient.GetBlobClient(filename);
+		var blobClient = _containerClient!.GetBlobClient(filename);
 		await blobClient.DeleteIfExistsAsync();
 	}
 
