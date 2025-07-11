@@ -73,7 +73,10 @@ public class PluginManager(
 
 	private void LoadNuGetDependenciesInContext(PluginManifest manifest, DirectoryInfo pluginLibFolder, PluginAssemblyLoadContext? context)
 	{
-		ArgumentNullException.ThrowIfNull(context);
+		if (context is null)
+		{
+			throw new ArgumentNullException(nameof(context), $"PluginAssemblyLoadContext cannot be null when loading NuGet dependencies. Plugin '{manifest.Id}'");
+		}
 		if (manifest.NuGetDependencies is null || manifest.NuGetDependencies.Length == 0)
 		{
 			return;
@@ -86,8 +89,10 @@ public class PluginManager(
 			{
 				try
 				{
-					context.LoadFromAssemblyPath(Path.GetFullPath(depDll));
-					logger.LogInformation("Loaded dependency: {depDll}", depDll);
+					byte[] assemblyBytes = File.ReadAllBytes(depDll);
+					using var ms = new MemoryStream(assemblyBytes);
+					context.LoadFromStream(ms);
+					logger.LogInformation("Loaded dependency (from stream): {depDll}", depDll);
 				}
 				catch (Exception ex)
 				{
@@ -210,7 +215,6 @@ public class PluginManager(
 		var manifest = AppState.RemovePlugin(pluginId);
 		if (manifest is null)
 		{
-			// Manifest not found, nothing to remove
 			logger.LogInformation("Unable to remove plugin {pluginId}. Plugin not found.", pluginId);
 			return;
 		}
@@ -220,7 +224,16 @@ public class PluginManager(
 		{
 			_pluginAssemblies.Remove(pluginId);
 			assembly.UnloadContext();
-			// No WeakReference needed; context is collectible and will be GC'd
+
+			// Remove configuration section.
+			var configSectionType = assembly.Assembly?.GetTypes()
+					.FirstOrDefault(t => typeof(ISharpSiteConfigurationSection).IsAssignableFrom(t) && !t.IsAbstract);
+
+			if (configSectionType is not null)
+			{
+				var sectionInstance = (ISharpSiteConfigurationSection)Activator.CreateInstance(configSectionType)!;
+				AppState.ConfigurationSections.Remove(sectionInstance.SectionName);
+			}
 		}
 
 		// Remove from service descriptors
@@ -275,7 +288,6 @@ public class PluginManager(
 		}
 
 		_ServiceProvider = _ServiceDescriptors.BuildServiceProvider();
-		AppState.ConfigurationSections.Remove(manifest.DisplayName);
 		await AppState.Save();
 
 	}

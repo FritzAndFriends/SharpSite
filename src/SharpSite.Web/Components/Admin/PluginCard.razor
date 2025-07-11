@@ -9,27 +9,31 @@
 	</div>
 	<img src="@(string.IsNullOrEmpty(Plugin.Icon) ? DefaultPluginIcon : Plugin.Icon)"
 		onerror="this.onerror=null;this.src='@DefaultPluginIcon';"
-		alt="@Localizer[SharedResource.sharpsite_plugin_icon]" 
-		class="card-img-top"/>
+		alt="@Localizer[SharedResource.sharpsite_plugin_icon]" class="card-img-top" />
 	<div class="card-body">
 		<p class="card-text">@Plugin.Description</p>
 	</div>
 	<div class="card-footer d-flex justify-content-between">
 		<button type="button" class="btn btn-info">@Localizer[SharedResource.sharpsite_update]</button>
-		<button type="button" class="btn btn-danger" @onclick="RemovePluginAsync">@Localizer[SharedResource.sharpsite_remove]</button>
+		<button type="button" class="btn btn-danger"
+			@onclick="RemovePluginAsync">@Localizer[SharedResource.sharpsite_remove]</button>
 	</div>
 </div>
 
 @code {
-
 	private const string DefaultPluginIcon = "/img/plugin-icon.svg";
 
 	[Parameter, EditorRequired] public required PluginManifest Plugin { get; set; }
 	[Parameter] public string? AdditionalCssClass { get; set; }
 
+	[Parameter] public EventCallback<string> OnPluginRemoved { get; set; }
+
 	private async Task RemovePluginAsync()
 	{
 		await PluginManager.RemovePlugin(Plugin.Id);
-		StateHasChanged();
+		if (OnPluginRemoved.HasDelegate)
+		{
+			await OnPluginRemoved.InvokeAsync(Plugin.Id);
+		}
 	}
 }
