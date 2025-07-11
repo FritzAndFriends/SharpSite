@@ -529,6 +529,24 @@ namespace SharpSite.Web.Locales {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to More than one plugin provides the FileStorage feature. Please ensure only one FileStorage plugin is enabled at a time..
+        /// </summary>
+        internal static string sharpsite_plugin_filestorage_error_multiple {
+            get {
+                return ResourceManager.GetString("sharpsite_plugin_filestorage_error_multiple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No plugin with the FileStorage feature is installed. It is required for file storage functionality..
+        /// </summary>
+        internal static string sharpsite_plugin_filestorage_error_none {
+            get {
+                return ResourceManager.GetString("sharpsite_plugin_filestorage_error_none", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Icon of the plugin.
         /// </summary>
         internal static string sharpsite_plugin_icon {

@@ -341,6 +341,14 @@
     <value>Change Theme</value>
     <comment>Text of the button used to change the theme of the website</comment>
   </data>
+  <data name="sharpsite_sitenamelabel" xml:space="preserve">
+    <value>Site Name:</value>
+    <comment>Label on admin pages that allows customization of the website name</comment>
+  </data>
+  <data name="sharpsite_returntowebsite" xml:space="preserve">
+    <value>Return to website</value>
+    <comment>Link text on admin portal that returns the user to the public website</comment>
+  </data>
   <data name="sharpsite_script_alert_page" xml:space="preserve">
     <value>The markdown contains a script tag which will be executed once users load the page. Are you sure you want to proceed?</value>
   </data>
@@ -356,12 +364,10 @@
   <data name="sharpsite_plugin_exists" xml:space="preserve">
     <value>Plugin '{0}' is already installed.</value>
   </data>
-	<data name="sharpsite_sitenamelabel" xml:space="preserve">
-    <value>Site Name:</value>
-    <comment>Label on admin pages that allows customization of the website name</comment>
+  <data name="sharpsite_plugin_filestorage_error_multiple" xml:space="preserve">
+    <value>More than one plugin provides the FileStorage feature. Please ensure only one FileStorage plugin is enabled at a time.</value>
   </data>
-	<data name="sharpsite_returntowebsite" xml:space="preserve">
-    <value>Return to website</value>
-    <comment>Link text on admin portal that returns the user to the public website</comment>
+  <data name="sharpsite_plugin_filestorage_error_none" xml:space="preserve">
+    <value>No plugin with the FileStorage feature is installed. It is required for file storage functionality.</value>
   </data>
 </root>

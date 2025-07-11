@@ -1,4 +1,7 @@
-﻿<div class="card plugin-card">
+﻿@inject PluginManager PluginManager
+@rendermode InteractiveServer
+
+<div class="card plugin-card @(AdditionalCssClass)">
 	<div class="card-header d-flex justify-content-between align-items-baseline gap-1">
 		<h4 class="card-title mb-0">@Plugin.DisplayName</h4>
 		<span>&mdash;</span>
@@ -13,7 +16,7 @@
 	</div>
 	<div class="card-footer d-flex justify-content-between">
 		<button type="button" class="btn btn-info">@Localizer[SharedResource.sharpsite_update]</button>
-		<button type="button" class="btn btn-danger">@Localizer[SharedResource.sharpsite_remove]</button>
+		<button type="button" class="btn btn-danger" @onclick="RemovePluginAsync">@Localizer[SharedResource.sharpsite_remove]</button>
 	</div>
 </div>
 
@@ -22,4 +25,11 @@
 	private const string DefaultPluginIcon = "/img/plugin-icon.svg";
 
 	[Parameter, EditorRequired] public required PluginManifest Plugin { get; set; }
+	[Parameter] public string? AdditionalCssClass { get; set; }
+
+	private async Task RemovePluginAsync()
+	{
+		await PluginManager.RemovePlugin(Plugin.Id);
+		StateHasChanged();
+	}
 }

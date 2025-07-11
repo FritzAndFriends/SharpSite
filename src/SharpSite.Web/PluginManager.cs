@@ -21,6 +21,8 @@ public class PluginManager(
 	private readonly static IServiceCollection _ServiceDescriptors = new ServiceCollection();
 	private static IServiceProvider? _ServiceProvider;
 
+	private readonly Dictionary<string, PluginAssembly> _pluginAssemblies = [];
+
 	public static void Initialize()
 	{
 		Directory.CreateDirectory("plugins");
@@ -57,23 +59,21 @@ public class PluginManager(
 	}
 
 
-	private PluginManifest? ReadManifest(string manifestPath)
+	private static PluginManifest? ReadManifest(string manifestPath)
 	{
 		using var manifestStream = File.OpenRead(manifestPath);
 		return ReadManifest(manifestStream);
 	}
 
-	private PluginManifest ReadManifest(Stream manifestStream)
+	private static readonly JsonSerializerOptions _jsonOpts = new() { Converters = { new JsonStringEnumConverter() } };
+	private static PluginManifest ReadManifest(Stream manifestStream)
 	{
-		var options = new JsonSerializerOptions
-		{
-			Converters = { new JsonStringEnumConverter() }
-		};
-		return JsonSerializer.Deserialize<PluginManifest>(manifestStream, options)!;
+		return JsonSerializer.Deserialize<PluginManifest>(manifestStream, _jsonOpts)!;
 	}
 
-	private static void LoadNuGetDependencies(PluginManifest manifest, DirectoryInfo pluginLibFolder, ILogger logger)
+	private void LoadNuGetDependenciesInContext(PluginManifest manifest, DirectoryInfo pluginLibFolder, PluginAssemblyLoadContext? context)
 	{
+		ArgumentNullException.ThrowIfNull(context);
 		if (manifest.NuGetDependencies is null || manifest.NuGetDependencies.Length == 0)
 		{
 			return;
@@ -84,24 +84,14 @@ public class PluginManager(
 			var depDll = Path.Combine(pluginLibFolder.FullName, dep.Package + ".dll");
 			if (File.Exists(depDll))
 			{
-				var depDllName = Path.GetFileName(depDll);
-				var alreadyLoaded = AppDomain.CurrentDomain.GetAssemblies()
-					.Any(a => !a.IsDynamic && string.Equals(Path.GetFileName(a.Location), depDllName, StringComparison.OrdinalIgnoreCase));
-				if (!alreadyLoaded)
+				try
 				{
-					try
-					{
-						System.Reflection.Assembly.LoadFrom(depDll);
-						logger.LogInformation("Loaded dependency: {depDll}", depDll);
-					}
-					catch (Exception ex)
-					{
-						logger.LogWarning(ex, "Failed to load dependency: {depDll}", depDll);
-					}
+					context.LoadFromAssemblyPath(Path.GetFullPath(depDll));
+					logger.LogInformation("Loaded dependency: {depDll}", depDll);
 				}
-				else
+				catch (Exception ex)
 				{
-					logger.LogInformation("Dependency already loaded: {depDll}", depDll);
+					logger.LogWarning(ex, "Failed to load dependency: {depDll}", depDll);
 				}
 			}
 		}
@@ -116,27 +106,25 @@ public class PluginManager(
 			throw exception;
 		}
 
-		FileStream fileStream;
 		DirectoryInfo pluginLibFolder;
-		ZipArchive archive;
-		(fileStream, pluginLibFolder, archive) = await ExtractAndInstallPlugin(logger, plugin, Manifest);
+		(_, pluginLibFolder, _) = await ExtractAndInstallPlugin(logger, plugin, Manifest);
 
 		var key = Manifest.Id;
 		var pluginDll = Directory.GetFiles(pluginLibFolder.FullName, $"{key}*.dll").FirstOrDefault();
 
-		// Load NuGet dependencies first
-		LoadNuGetDependencies(Manifest, pluginLibFolder, logger);
+		if (string.IsNullOrEmpty(pluginDll))
+			throw new Exception($"Plugin DLL not found for {key}");
 
-		if (!string.IsNullOrEmpty(pluginDll))
-		{
-			using var pluginAssemblyFileStream = File.OpenRead(pluginDll);
-			plugin = await Plugin.LoadFromStream(pluginAssemblyFileStream, key);
-			var pluginAssembly = new PluginAssembly(Manifest, plugin);
-			pluginAssemblyManager.AddAssembly(pluginAssembly);
-			await RegisterWithServiceLocator(pluginAssembly);
-			await AppState.Save();
-			logger.LogInformation("Assembly {AssemblyName} loaded at runtime.", pluginDll);
-		}
+		using var pluginAssemblyFileStream = File.OpenRead(pluginDll);
+		plugin = await Plugin.LoadFromStream(pluginAssemblyFileStream, key);
+		var pluginAssembly = new PluginAssembly(Manifest, plugin);
+		pluginAssembly.LoadContext(pluginDll);
+		LoadNuGetDependenciesInContext(Manifest, pluginLibFolder, pluginAssembly.LoadContextInstance);
+		_pluginAssemblies[key] = pluginAssembly;
+
+		pluginAssemblyManager.AddAssembly(pluginAssembly);
+		await RegisterWithServiceLocator(pluginAssembly);
+		logger.LogInformation("Assembly {AssemblyName} loaded at runtime.", pluginDll);
 
 		AppState.AddPlugin(Manifest.Id, Manifest);
 		logger.LogInformation("Plugin {PluginName} loaded at runtime.", Manifest);
@@ -145,6 +133,7 @@ public class PluginManager(
 		{
 			AppState.SetTheme(Manifest);
 		}
+		await AppState.Save();
 
 		logger.LogInformation("Plugin {PluginName} saved and registered.", plugin.Name);
 
@@ -177,7 +166,7 @@ public class PluginManager(
 		foreach (var pluginFolder in Directory.GetDirectories("plugins"))
 		{
 			var pluginName = Path.GetFileName(pluginFolder);
-			if (pluginName.StartsWith("_")) continue;
+			if (pluginName.StartsWith('_')) continue;
 
 			var manifestPath = Path.Combine(pluginFolder, "manifest.json");
 			if (!File.Exists(manifestPath)) continue;
@@ -191,18 +180,17 @@ public class PluginManager(
 			var pluginDll = Directory.GetFiles(pluginFolder, $"{key}*.dll").FirstOrDefault();
 			if (!string.IsNullOrEmpty(pluginDll))
 			{
-				// Load NuGet dependencies first
-				LoadNuGetDependencies(manifest, new DirectoryInfo(pluginFolder), logger);
-
-				// Soft load of package without taking ownership for the process .dll
 				using var pluginAssemblyFileStream = File.OpenRead(pluginDll);
 				plugin = await Plugin.LoadFromStream(pluginAssemblyFileStream, key);
 				var pluginAssembly = new PluginAssembly(manifest, plugin);
+				pluginAssembly.LoadContext(pluginDll);
+				LoadNuGetDependenciesInContext(manifest, new DirectoryInfo(pluginFolder), pluginAssembly.LoadContextInstance);
+				_pluginAssemblies[key] = pluginAssembly;
+
 				pluginAssemblyManager.AddAssembly(pluginAssembly);
 				logger.LogInformation("Assembly {AssemblyName} loaded at startup.", pluginDll);
 
 				await RegisterWithServiceLocator(pluginAssembly);
-
 			}
 
 			AppState.AddPlugin(key, manifest!);
@@ -214,6 +202,83 @@ public class PluginManager(
 
 	}
 
+	// Remove a plugin by its Id (uninstalls and unregisters services)
+	public async Task RemovePlugin(string pluginId)
+	{
+
+		// Remove from AppState and get manifest
+		var manifest = AppState.RemovePlugin(pluginId);
+		if (manifest is null)
+		{
+			// Manifest not found, nothing to remove
+			logger.LogInformation("Unable to remove plugin {pluginId}. Plugin not found.", pluginId);
+			return;
+		}
+
+		// Unload plugin AssemblyLoadContext if present
+		if (_pluginAssemblies.TryGetValue(pluginId, out var assembly))
+		{
+			_pluginAssemblies.Remove(pluginId);
+			assembly.UnloadContext();
+			// No WeakReference needed; context is collectible and will be GC'd
+		}
+
+		// Remove from service descriptors
+		var descriptorsToRemove = _ServiceDescriptors.Where(d =>
+			d.ImplementationInstance is PluginManifest m && m.Id == manifest.Id
+		).ToList();
+		logger.LogInformation("Removing {count} service descriptors.", descriptorsToRemove.Count);
+		foreach (var desc in descriptorsToRemove)
+		{
+			_ServiceDescriptors.Remove(desc);
+		}
+
+		// Remove plugin files/folder
+		var pluginFolder = Path.Combine("plugins", manifest.IdVersionToString());
+		if (Directory.Exists(pluginFolder))
+		{
+			try
+			{
+				Directory.Delete(pluginFolder, true);
+				logger.LogInformation("Deleted plugin files at {pluginFolder}", pluginFolder);
+			}
+			catch (Exception ex)
+			{
+				logger.LogWarning(ex, "Failed to delete plugin at {pluginFolder}", pluginFolder);
+			}
+		}
+		else
+		{
+			logger.LogWarning("Plugin folder does not exist at {pluginFolder}", pluginFolder);
+		}
+
+		// If this is a Theme plugin, remove related wwwroot folder in /plugins/_wwwroot/
+		if (manifest.Features is not null && manifest.Features.Contains(PluginFeatures.Theme))
+		{
+			var wwwrootThemeFolder = Path.Combine("plugins", "_wwwroot", manifest.IdVersionToString());
+			if (Directory.Exists(wwwrootThemeFolder))
+			{
+				try
+				{
+					Directory.Delete(wwwrootThemeFolder, true);
+					logger.LogInformation("Deleted theme wwwroot folder: {wwwrootThemeFolder}", wwwrootThemeFolder);
+				}
+				catch (Exception ex)
+				{
+					logger.LogWarning(ex, "Failed to delete theme wwwroot folder: {wwwrootThemeFolder}", wwwrootThemeFolder);
+				}
+			}
+			else
+			{
+				logger.LogWarning("Theme wwwroot folder not found: {wwwrootThemeFolder}", wwwrootThemeFolder);
+			}
+		}
+
+		_ServiceProvider = _ServiceDescriptors.BuildServiceProvider();
+		AppState.ConfigurationSections.Remove(manifest.DisplayName);
+		await AppState.Save();
+
+	}
 
 	private async Task RegisterWithServiceLocator(PluginAssembly pluginAssembly)
 	{
@@ -239,24 +304,22 @@ public class PluginManager(
 					_ => null
 				};
 
-				var serviceDescriptor = new ServiceDescriptor(knownInterface!, type, pluginAttribute.Scope switch
+				if (knownInterface is not null)
 				{
-					PluginServiceLocatorScope.Singleton => ServiceLifetime.Singleton,
-					PluginServiceLocatorScope.Scoped => ServiceLifetime.Scoped,
-					_ => ServiceLifetime.Transient
-				});
-				_ServiceDescriptors.Add(serviceDescriptor);
+					_ServiceDescriptors.Add(new ServiceDescriptor(knownInterface, type, pluginAttribute.Scope switch
+					{
+						PluginServiceLocatorScope.Singleton => ServiceLifetime.Singleton,
+						PluginServiceLocatorScope.Scoped => ServiceLifetime.Scoped,
+						_ => ServiceLifetime.Transient
+					}));
+				}
 			}
 			else if (typeof(ISharpSiteConfigurationSection).IsAssignableFrom(type))
 			{
 				var configurationSection = (ISharpSiteConfigurationSection)Activator.CreateInstance(type)!;
 
 				// we should only add the configuration section if it is not already present
-				if (!AppState.ConfigurationSections.ContainsKey(configurationSection.SectionName))
-				{
-					AppState.ConfigurationSections.Add(configurationSection.SectionName, configurationSection);
-				}
-
+				AppState.ConfigurationSections.TryAdd(configurationSection.SectionName, configurationSection);
 				_ServiceDescriptors.Add(new ServiceDescriptor(type, configurationSection));
 
 				if (AppState.Initialized)
@@ -332,7 +395,7 @@ public class PluginManager(
 
 	public void ValidatePlugin(string pluginName)
 	{
-		if (pluginName.StartsWith("_"))
+		if (pluginName.StartsWith('_'))
 		{
 			var exception = new Exception("Plugin filenames are not allowed to start with an underscore '_'");
 			logger.LogError(exception, "Invalid plugin filename: {FileName}", pluginName);

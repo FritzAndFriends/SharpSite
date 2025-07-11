@@ -12,8 +12,6 @@ public class ApplicationState : ApplicationStateModel
 {
 	public record CurrentThemeRecord(string IdVersion);
 
-
-
 	public record LocalizationRecord(string? DefaultCulture, string[]? SupportedCultures);
 
 	[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
@@ -24,7 +22,7 @@ public class ApplicationState : ApplicationStateModel
 	[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
 	public LocalizationRecord? Localization { get; set; }
 
-	public Dictionary<string, ISharpSiteConfigurationSection> ConfigurationSections { get; private set; } = new();
+	public Dictionary<string, ISharpSiteConfigurationSection> ConfigurationSections { get; private set; } = [];
 
 	public event Func<ApplicationState, ISharpSiteConfigurationSection, Task>? ConfigurationSectionChanged;
 
@@ -54,18 +52,24 @@ public class ApplicationState : ApplicationStateModel
 	/// List of the plugins that are currently loaded.
 	/// </summary>
 	[JsonIgnore]
-	public Dictionary<string, PluginManifest> Plugins { get; } = new();
+	public Dictionary<string, PluginManifest> Plugins { get; } = [];
 
 	public void AddPlugin(string pluginName, PluginManifest manifest)
 	{
-		if (!Plugins.ContainsKey(pluginName))
-		{
-			Plugins.Add(pluginName, manifest);
-		}
-		else
+		if (!Plugins.TryAdd(pluginName, manifest))
 		{
 			Plugins[pluginName] = manifest;
 		}
+	}
+
+	public PluginManifest? RemovePlugin(string pluginId)
+	{
+		if (Plugins.TryGetValue(pluginId, out var manifest))
+		{
+			Plugins.Remove(pluginId);
+			return manifest;
+		}
+		return null;
 	}
 
 	public void SetTheme(PluginManifest manifest)
@@ -75,9 +79,10 @@ public class ApplicationState : ApplicationStateModel
 
 		var themeType = pluginAssembly?.GetTypes().FirstOrDefault(t => typeof(IHasStylesheets).IsAssignableFrom(t));
 		if (themeType is not null) CurrentTheme = new(manifest.IdVersionToString());
+		Console.WriteLine($"Theme type {themeType} is null {themeType is null} | Current theme {CurrentTheme} is null {CurrentTheme is null}");
 	}
 
-	private string GetApplicationStateFileContents()
+	private static string GetApplicationStateFileContents()
 	{
 		// read the applicationState.json file in the root of the plugins folder
 		var appStateFile = Path.Combine("plugins", "applicationState.json");
@@ -119,13 +124,15 @@ public class ApplicationState : ApplicationStateModel
 			Initialized = true;
 
 			// This shouldn't be called while initializing
-			//if (ConfigurationSectionChanged is not null)
-			//{
-			//	foreach (var section in ConfigurationSections)
-			//	{
-			//		ConfigurationSectionChanged.Invoke(this, section.Value);
-			//	}
-			//}
+			if (ConfigurationSectionChanged is not null)
+			{
+				var tasks = ConfigurationSections.Select(section => ConfigurationSectionChanged.Invoke(this, section.Value));
+				// foreach (var section in ConfigurationSections)
+				// {
+				// 	await ConfigurationSectionChanged.Invoke(this, section.Value);
+				// }
+				await Task.WhenAll(tasks);
+			}
 
 			await PostLoadApplicationState(services);
 
@@ -138,13 +145,9 @@ public class ApplicationState : ApplicationStateModel
 		// add a null check for the section argument
 		ArgumentNullException.ThrowIfNull(section, nameof(section));
 
-		if (ConfigurationSections.ContainsKey(section.SectionName))
+		if (!ConfigurationSections.TryAdd(section.SectionName, section))
 		{
 			ConfigurationSections[section.SectionName] = section;
-		}
-		else
-		{
-			ConfigurationSections.Add(section.SectionName, section);
 		}
 
 		if (ConfigurationSectionChanged is not null)

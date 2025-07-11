@@ -9,9 +9,15 @@
 
 @* Add a button that links to the add plugin page With the text add new plugin  *@
 <div class="my-4">
-<a href="/admin/addplugin" class="btn btn-primary">@Localizer[SharedResource.sharpsite_addnewplugin]</a>
+	<a href="/admin/addplugin" class="btn btn-primary">@Localizer[SharedResource.sharpsite_addnewplugin]</a>
 </div>
 
+@if (!string.IsNullOrEmpty(ErrorMessage))
+{
+	<div class="alert alert-danger text-center">
+		@ErrorMessage
+	</div>
+}
 
 @if (AppState.Plugins.Count == 0)
 {
@@ -23,11 +29,30 @@ else
 	<div class="d-flex flex-wrap gap-3">
 		@foreach (var plugin in AppState.Plugins)
 		{
-			<PluginCard Plugin="plugin.Value" />
+			var isFileStorage = FileStoragePlugins.Any(fs => fs.Id == plugin.Value.Id && fs.Version == plugin.Value.Version);
+			<PluginCard Plugin="plugin.Value"
+				AdditionalCssClass="@( !string.IsNullOrEmpty(ErrorMessage) && isFileStorage ? "border border-danger" : null )" />
 		}
 	</div>
 }
 
 @code {
+	private List<PluginManifest> FileStoragePlugins = [];
+	private string ErrorMessage = string.Empty;
 
+	protected override void OnParametersSet()
+	{
+		FileStoragePlugins = AppState.Plugins.Values
+		.Where(p => p.Features is not null && p.Features.Any(f => f == PluginFeatures.FileStorage))
+		.ToList();
+
+		if (FileStoragePlugins.Count > 1)
+		{
+			ErrorMessage = SharedResource.sharpsite_plugin_filestorage_error_multiple;
+		}
+		else if (FileStoragePlugins.Count == 0)
+		{
+			ErrorMessage = SharedResource.sharpsite_plugin_filestorage_error_none;
+		}
+	}
 }

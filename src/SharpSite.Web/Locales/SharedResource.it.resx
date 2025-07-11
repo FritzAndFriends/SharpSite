@@ -386,14 +386,6 @@
     <value>Questo garantisce che le tecnologie assistive utilizzino la lingua corretta per il contenuto.</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_sitenamelabel" xml:space="preserve">
-    <value>Nome del sito:</value>
-    <comment>AI generated translation</comment>
-  </data>
-  <data name="sharpsite_returntowebsite" xml:space="preserve">
-    <value>Torna al sito web.</value>
-    <comment>AI generated translation</comment>
-	</data>
   <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
     <value>Personalizza il contenuto della pagina non trovata.</value>
   </data>
@@ -402,6 +394,14 @@
   </data>
   <data name="sharpsite_ChangeTheme" xml:space="preserve">
     <value>Cambia tema</value>
+  </data>
+  <data name="sharpsite_sitenamelabel" xml:space="preserve">
+    <value>Nome del sito:</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_returntowebsite" xml:space="preserve">
+    <value>Torna al sito web.</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_script_alert_page" xml:space="preserve">
     <value />
@@ -413,9 +413,15 @@
     <value />
   </data>
   <data name="sharpsite_cancel" xml:space="preserve">
-    <value />  
+    <value />
   </data>
   <data name="sharpsite_plugin_exists" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_plugin_filestorage_error_multiple" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_plugin_filestorage_error_none" xml:space="preserve">
     <value />
   </data>
 </root>

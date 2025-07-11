@@ -359,14 +359,6 @@
     <value>Това гарантира, че помощните технологии използват правилния език за съдържанието.</value>
     <comment>AI generated translation</comment>
   </data>
-  <data name="sharpsite_sitenamelabel" xml:space="preserve">
-    <value>Име на сайта:</value>
-    <comment>AI generated translation</comment>
-  </data>
-  <data name="sharpsite_returntowebsite" xml:space="preserve">
-    <value>Върни се на уебсайта</value>
-    <comment>AI generated translation</comment>
-	</data>
   <data name="sharpsite_CustomizePageNotFoundHeader" xml:space="preserve">
     <value>Персонализиране на съдържанието на страницата "Не е намерена"</value>
   </data>
@@ -375,6 +367,14 @@
   </data>
   <data name="sharpsite_ChangeTheme" xml:space="preserve">
     <value>Промени Темата</value>
+  </data>
+  <data name="sharpsite_sitenamelabel" xml:space="preserve">
+    <value>Име на сайта:</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_returntowebsite" xml:space="preserve">
+    <value>Върни се на уебсайта</value>
+    <comment>AI generated translation</comment>
   </data>
   <data name="sharpsite_script_alert_page" xml:space="preserve">
     <value />
@@ -389,6 +389,12 @@
     <value />
   </data>
   <data name="sharpsite_plugin_exists" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_plugin_filestorage_error_multiple" xml:space="preserve">
+    <value />
+  </data>
+  <data name="sharpsite_plugin_filestorage_error_none" xml:space="preserve">
     <value />
   </data>
 </root>

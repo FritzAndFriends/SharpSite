@@ -337,6 +337,14 @@
   <data name="sharpsite_ChangeTheme" xml:space="preserve">
     <value>Vaihda teemaa</value>
   </data>
+  <data name="sharpsite_sitenamelabel" xml:space="preserve">
+    <value>Sivuston nimi:</value>
+    <comment>AI generated translation</comment>
+  </data>
+  <data name="sharpsite_returntowebsite" xml:space="preserve">
+    <value>Palaa verkkosivustolle</value>
+    <comment>AI generated translation</comment>
+  </data>
   <data name="sharpsite_script_alert_page" xml:space="preserve">
     <value>Markdown sisältää script -tagin, joka ajetaan, kun käyttäjät lataavat sivun. Oletko varma, että haluat jatkaa?</value>
   </data>
@@ -352,12 +360,10 @@
   <data name="sharpsite_plugin_exists" xml:space="preserve">
     <value>Laajennus '{0}' on jo asennettu.</value>
   </data>
-  <data name="sharpsite_sitenamelabel" xml:space="preserve">
-    <value>Sivuston nimi:</value>
-    <comment>AI generated translation</comment>
+  <data name="sharpsite_plugin_filestorage_error_multiple" xml:space="preserve">
+    <value>Useampi laajennus tarjoaa FileStorage-ominaisuuden. Varmista, että vain yksi FileStorage-laajennus on käytössä kerrallaan.</value>
   </data>
-  <data name="sharpsite_returntowebsite" xml:space="preserve">
-    <value>Palaa verkkosivustolle</value>
-    <comment>AI generated translation</comment>
+  <data name="sharpsite_plugin_filestorage_error_none" xml:space="preserve">
+    <value>Yhtään laajennusta, jossa on FileStorage-ominaisuus, ei ole asennettu. Se vaaditaan tiedostojen tallennustoimintoa varten.</value>
   </data>
 </root>
