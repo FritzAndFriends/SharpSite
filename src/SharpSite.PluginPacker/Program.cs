@@ -22,9 +22,9 @@ if (!Directory.Exists(inputPath))
 }
 
 // Validate that output path is a directory, not a file
-if (File.Exists(outputPath))
+if (Path.HasExtension(outputPath))
 {
-	Console.WriteLine($"Error: Output path '{outputPath}' points to a file. Please specify a directory.");
+	Console.WriteLine($"Error: Output path '{outputPath}' appears to be a file. Please specify a directory.");
 	return 1;
 }
 
