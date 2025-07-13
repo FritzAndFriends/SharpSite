@@ -1,4 +1,5 @@
 ﻿@inject PluginManager PluginManager
+@inject NavigationManager NavigationManager
 @rendermode InteractiveServer
 
 <div class="card plugin-card @(AdditionalCssClass)">
@@ -26,14 +27,9 @@
 	[Parameter, EditorRequired] public required PluginManifest Plugin { get; set; }
 	[Parameter] public string? AdditionalCssClass { get; set; }
 
-	[Parameter] public EventCallback<string> OnPluginRemoved { get; set; }
-
 	private async Task RemovePluginAsync()
 	{
 		await PluginManager.RemovePlugin(Plugin.Id);
-		if (OnPluginRemoved.HasDelegate)
-		{
-			await OnPluginRemoved.InvokeAsync(Plugin.Id);
-		}
+		NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad: true);
 	}
 }

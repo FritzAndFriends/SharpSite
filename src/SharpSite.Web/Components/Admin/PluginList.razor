@@ -1,7 +1,6 @@
 ﻿@page "/admin/plugins"
 @attribute [Authorize(Roles = Constants.Roles.Admin)]
 @inject ApplicationState AppState
-@rendermode InteractiveServer
 
 <PageTitle>@Localizer[SharedResource.sharpsite_installedplugins]</PageTitle>
 
@@ -20,7 +19,7 @@
 	</div>
 }
 
-@if (Plugins.Count == 0)
+@if (AppState.Plugins.Count == 0)
 {
 	<p>
 		@Localizer[SharedResource.sharpsite_nopluginsinstalled]</p>
@@ -28,53 +27,35 @@
 else
 {
 	<div class="d-flex flex-wrap gap-3">
-		@foreach (var plugin in Plugins)
+		@foreach (var plugin in AppState.Plugins.Values)
 		{
-			var isFileStorage = FileStoragePlugins.Any(fs => fs.Id == plugin.Value.Id && fs.Version == plugin.Value.Version);
-			<PluginCard Plugin="plugin.Value"
-						AdditionalCssClass="@( !string.IsNullOrEmpty(ErrorMessage) && isFileStorage ? "border border-danger" : null )"
-						OnPluginRemoved="OnPluginRemoved" />
+			var isFileStorage = plugin.Features is not null && plugin.Features.Any(f => f == PluginFeatures.FileStorage);
+			<PluginCard Plugin="plugin"
+				AdditionalCssClass="@( !string.IsNullOrEmpty(ErrorMessage) && isFileStorage ? "border border-danger" : null )" />
 		}
 	</div>
 }
 
 @code {
-	private Dictionary<string, PluginManifest> Plugins = new();
-	private List<PluginManifest> FileStoragePlugins = [];
 	private string ErrorMessage = string.Empty;
 
 	protected override void OnInitialized()
 	{
-		Plugins = new Dictionary<string, PluginManifest>(AppState.Plugins);
-		UpdateFileStoragePlugins();
-	}
-
-	private void UpdateFileStoragePlugins()
-	{
-		FileStoragePlugins = Plugins.Values
+		var fileStoragePlugins = AppState.Plugins.Values
 			.Where(p => p.Features is not null && p.Features.Any(f => f == PluginFeatures.FileStorage))
 			.ToList();
 
-		if (FileStoragePlugins.Count > 1)
+		if (fileStoragePlugins.Count > 1)
 		{
 			ErrorMessage = SharedResource.sharpsite_plugin_filestorage_error_multiple;
 		}
-		else if (FileStoragePlugins.Count == 0)
+		else if (fileStoragePlugins.Count == 0)
 		{
 			ErrorMessage = SharedResource.sharpsite_plugin_filestorage_error_none;
 		}
 		else
 		{
 			ErrorMessage = string.Empty;
-		}
-	}
-
-	private async Task OnPluginRemoved(string pluginId)
-	{
-		if (Plugins.Remove(pluginId))
-		{
-			UpdateFileStoragePlugins();
-			await InvokeAsync(StateHasChanged);
 		}
 	}
 }

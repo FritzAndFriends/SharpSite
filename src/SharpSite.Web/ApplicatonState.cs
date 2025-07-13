@@ -124,13 +124,15 @@ public class ApplicationState : ApplicationStateModel
 			Initialized = true;
 
 			// This shouldn't be called while initializing
+			// If this is not called, settings in applicationState.json are not loaded for plugins.
+			// Should this be called somewhere else?
 			if (ConfigurationSectionChanged is not null)
 			{
-				var tasks = ConfigurationSections.Select(section => ConfigurationSectionChanged.Invoke(this, section.Value));
 				// foreach (var section in ConfigurationSections)
 				// {
 				// 	await ConfigurationSectionChanged.Invoke(this, section.Value);
 				// }
+				var tasks = ConfigurationSections.Select(section => ConfigurationSectionChanged.Invoke(this, section.Value));
 				await Task.WhenAll(tasks);
 			}
 
