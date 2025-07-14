@@ -79,7 +79,6 @@ public class ApplicationState : ApplicationStateModel
 
 		var themeType = pluginAssembly?.GetTypes().FirstOrDefault(t => typeof(IHasStylesheets).IsAssignableFrom(t));
 		if (themeType is not null) CurrentTheme = new(manifest.IdVersionToString());
-		Console.WriteLine($"Theme type {themeType} is null {themeType is null} | Current theme {CurrentTheme} is null {CurrentTheme is null}");
 	}
 
 	private static string GetApplicationStateFileContents()
@@ -130,7 +129,7 @@ public class ApplicationState : ApplicationStateModel
 			{
 				// foreach (var section in ConfigurationSections)
 				// {
-				// 	await ConfigurationSectionChanged.Invoke(this, section.Value);
+				// 	ConfigurationSectionChanged.Invoke(this, section.Value);
 				// }
 				var tasks = ConfigurationSections.Select(section => ConfigurationSectionChanged.Invoke(this, section.Value));
 				await Task.WhenAll(tasks);

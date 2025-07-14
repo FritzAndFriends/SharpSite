@@ -44,7 +44,7 @@ public partial class AzureBlobStorage : IHandleFileStorage
 		file.Metadata.ValidateFileName();
 
 		var blobClient = _containerClient!.GetBlobClient(file.Metadata.FileName);
-		
+
 		// Set content type if provided
 		var uploadOptions = new BlobUploadOptions();
 		if (!string.IsNullOrWhiteSpace(file.Metadata.ContentType))
@@ -67,7 +67,7 @@ public partial class AzureBlobStorage : IHandleFileStorage
 		ArgumentException.ThrowIfNullOrWhiteSpace(filename, nameof(filename));
 
 		var blobClient = _containerClient!.GetBlobClient(filename);
-		
+
 		// Check if blob exists
 		var exists = await blobClient.ExistsAsync();
 		if (!exists)
@@ -95,7 +95,7 @@ public partial class AzureBlobStorage : IHandleFileStorage
 	{
 		EnsureConfigured();
 		var blobs = new List<BlobItem>();
-		
+
 		// Get all blobs synchronously (we need to work with the out parameter constraint)
 		var pageable = _containerClient!.GetBlobs();
 		foreach (var blobItem in pageable)
@@ -104,12 +104,12 @@ public partial class AzureBlobStorage : IHandleFileStorage
 		}
 
 		totalFilesAvailable = blobs.Count;
-		
+
 		var pagedBlobs = blobs
 			.Skip((page - 1) * filesOnPage)
 			.Take(filesOnPage)
 			.Select(blob => new FileMetaData(
-				blob.Name, 
+				blob.Name,
 				blob.Properties.ContentType ?? MimeTypesMap.GetMimeType(Path.GetExtension(blob.Name)),
 				blob.Properties.CreatedOn ?? DateTimeOffset.UtcNow));
 

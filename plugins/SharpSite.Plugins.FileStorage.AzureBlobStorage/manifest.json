@@ -1,0 +1,45 @@
+{
+  "id": "Blob.Storage",
+  "DisplayName": "Azure Blob Storage",
+  "Description": "File\u0027s handled with Azure Blob Storage",
+  "Version": "0.0.1",
+  "Icon": "https://place.dog/310/205",
+  "Published": "2025-07-03",
+  "SupportedVersions": "v0.7",
+  "Author": "SharpSite",
+  "Contact": "SharpSite",
+  "ContactEmail": "admin@localhost",
+  "AuthorWebsite": "https://github.com/fritzandfriends/sharpsite",
+  "Source": "https://github.com/fritzandfriends/sharpsite",
+  "KnownLicense": "MIT",
+  "Tags": [
+    "azure",
+    "blob",
+    "filestorage"
+  ],
+  "Features": [
+    "FileStorage"
+  ],
+  "NuGetDependencies": [
+    {
+      "Package": "Azure.Storage.Blobs",
+      "Version": "12.19.1"
+    },
+    {
+      "Package": "Azure.Core",
+      "Version": "1.44.1"
+    },
+    {
+      "Package": "Azure.Storage.Common",
+      "Version": "12.22.0"
+    },
+    {
+      "Package": "System.Memory.Data",
+      "Version": "6.0.0"
+    },
+    {
+      "Package": "System.IO.Hashing",
+      "Version": "6.0.0"
+    }
+  ]
+}
