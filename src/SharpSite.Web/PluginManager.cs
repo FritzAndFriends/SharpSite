@@ -219,12 +219,46 @@ public class PluginManager(
 			return;
 		}
 
-		// Unload plugin AssemblyLoadContext if present
+		// Remove from service descriptors BEFORE unloading assembly
+		var descriptorsToRemove = new List<ServiceDescriptor>();
+
+		// Remove services registered by the plugin assembly
 		if (_pluginAssemblies.TryGetValue(pluginId, out var assembly))
 		{
-			_pluginAssemblies.Remove(pluginId);
-			assembly.UnloadContext();
+			var pluginTypes = assembly.Assembly?.GetTypes() ?? [];
 
+			// Find all service descriptors that use types from this plugin assembly
+			foreach (var descriptor in _ServiceDescriptors.ToList())
+			{
+				bool shouldRemove = false;
+
+				// Check if implementation type is from this plugin
+				if (descriptor.ImplementationType is not null && pluginTypes.Contains(descriptor.ImplementationType))
+				{
+					shouldRemove = true;
+				}
+				// Check if implementation instance type is from this plugin
+				else if (descriptor.ImplementationInstance is not null && pluginTypes.Contains(descriptor.ImplementationInstance.GetType()))
+				{
+					shouldRemove = true;
+				}
+
+				if (shouldRemove)
+				{
+					descriptorsToRemove.Add(descriptor);
+				}
+			}
+		}
+
+		logger.LogInformation("Removing {count} service descriptors for plugin {pluginId}.", descriptorsToRemove.Count, pluginId);
+		foreach (var desc in descriptorsToRemove)
+		{
+			_ServiceDescriptors.Remove(desc);
+		}
+
+		// Now unload plugin AssemblyLoadContext
+		if (assembly is not null)
+		{
 			// Remove configuration section.
 			var configSectionType = assembly.Assembly?.GetTypes()
 					.FirstOrDefault(t => typeof(ISharpSiteConfigurationSection).IsAssignableFrom(t) && !t.IsAbstract);
@@ -234,16 +268,9 @@ public class PluginManager(
 				var sectionInstance = (ISharpSiteConfigurationSection)Activator.CreateInstance(configSectionType)!;
 				AppState.ConfigurationSections.Remove(sectionInstance.SectionName);
 			}
-		}
 
-		// Remove from service descriptors
-		var descriptorsToRemove = _ServiceDescriptors.Where(d =>
-			d.ImplementationInstance is PluginManifest m && m.Id == manifest.Id
-		).ToList();
-		logger.LogInformation("Removing {count} service descriptors.", descriptorsToRemove.Count);
-		foreach (var desc in descriptorsToRemove)
-		{
-			_ServiceDescriptors.Remove(desc);
+			_pluginAssemblies.Remove(pluginId);
+			assembly.UnloadContext();
 		}
 
 		// Remove plugin files/folder
