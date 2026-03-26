@@ -52,6 +52,10 @@ public class RegisterPostgresSecurityServices : IRunAtStartup
 
 		builder.Services.AddSingleton<IEmailSender<PgSharpSiteUser>, IdentityNoOpEmailSender>();
 
+		// Register the non-generic MS IEmailSender needed by PgEmailSender
+		builder.Services.AddSingleton<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender>(
+			_ => new InternalNoOpEmailSender());
+
 		return builder;
 
 	}
@@ -82,6 +86,10 @@ public class RegisterPostgresSecurityServices : IRunAtStartup
 
 		using var scope = services.CreateScope();
 		var provider = scope.ServiceProvider;
+
+		// Ensure the security database schema exists
+		var dbContext = provider.GetRequiredService<PgSecurityContext>();
+		await dbContext.Database.EnsureCreatedAsync();
 
 		activity?.Start();
 		var roleMgr = provider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -182,4 +190,9 @@ public class RegisterPostgresSecurityServices : IRunAtStartup
 	{
 		return Task.FromResult(app);
 	}
+}
+
+internal sealed class InternalNoOpEmailSender : Microsoft.AspNetCore.Identity.UI.Services.IEmailSender
+{
+	public Task SendEmailAsync(string email, string subject, string htmlMessage) => Task.CompletedTask;
 }

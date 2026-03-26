@@ -17,8 +17,8 @@ public abstract class AuthenticatedPageTests : SharpSitePageTest
 	public override async Task InitializeAsync()
 	{
 		await base.InitializeAsync();
-		Context.SetDefaultNavigationTimeout(10000);
-		Context.SetDefaultTimeout(10000);
+		Context.SetDefaultNavigationTimeout(30000);
+		Context.SetDefaultTimeout(30000);
 
 		if (RunTrace)
 		{

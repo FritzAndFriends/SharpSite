@@ -3,6 +3,8 @@
   <PropertyGroup>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <!-- BL0008: Identity scaffolded forms need initializers for EditForm Model binding on GET requests -->
+    <NoWarn>$(NoWarn);BL0008</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

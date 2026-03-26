@@ -18,21 +18,14 @@ var db = builder.AddPostgresServices(testOnly);
 
 var webfrontend = builder.AddProject<Projects.SharpSite_Web>("webfrontend")
 	.WithReference(db)
+	.WaitFor(db)
 	.WithRunE2eTestsCommand()
 	.WithExternalHttpEndpoints();
 
 if (testOnly)
 {
-	// Pin the auto-created "http" endpoint to port 5020
-	// so build-and-test.ps1 and E2E tests can reach the app.
-	webfrontend.WithEndpoint("http", e => e.Port = 5020);
-}
-
-if (testOnly)
-{
-	// start the site with runasync and watch for a file to be created called 'stop-aspire' 
-	// to stop the site
 	var theSite = builder.Build();
+
 	var fileSystemWatcher = new FileSystemWatcher(".", "stop-aspire")
 	{
 		NotifyFilter = NotifyFilters.FileName | NotifyFilters.CreationTime

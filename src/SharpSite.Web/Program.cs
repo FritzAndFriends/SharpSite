@@ -58,10 +58,13 @@ if (!app.Environment.IsDevelopment())
 	app.UseHsts();
 }
 
+// StartupConfigMiddleware handles redirect-to-setup-wizard for non-started apps.
+// The /startapi endpoint is mapped separately below to avoid Blazor's catch-all route.
+app.UseMiddleware<StartupConfigMiddleware>();
+
 app.UseHttpsRedirection();
 
 app.ConfigurePluginFileSystem();
-
 
 app.UseOutputCache();
 
@@ -85,13 +88,13 @@ app.MapSiteMap();
 app.MapRobotsTxt();
 app.MapRssFeed();
 app.MapDefaultEndpoints();
+app.MapStartApi(appState);
 
 app.UseRequestLocalization();
 
-// await pgSecurity.RunAtStartup(app.Services);
+// Database initialization is triggered via /startapi (used by E2E tests)
+// or through the startup wizard flow (Step3).
 
 app.MapFileApi(pluginManager);
-
-app.UseMiddleware<StartupConfigMiddleware>();
 
 await app.RunAsync();
