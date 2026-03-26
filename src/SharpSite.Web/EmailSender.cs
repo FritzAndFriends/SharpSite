@@ -29,4 +29,10 @@ public class EmailSender : SSS.IEmailSender
         return _emailSender.SendEmailAsync(email, "Reset Password",
             $"Your password reset code is: {resetCode}");
     }
+
+    public Task SendChangeEmailConfirmationLinkAsync(SSS.ISharpSiteUser user, string email, string confirmationLink)
+    {
+        return _emailSender.SendEmailAsync(email, "Confirm your email change",
+            $"Please confirm your email change by <a href='{confirmationLink}'>clicking here</a>.");
+    }
 }

@@ -28,6 +28,9 @@ public interface IUserManager
     Task<IdentityResult> UpdateAsync(ISharpSiteUser user);
     Task<IdentityResult> DeleteAsync(ISharpSiteUser user);
     Task<bool> CheckPasswordAsync(ISharpSiteUser user, string password);
+    string GetUserId(ClaimsPrincipal principal);
+    Task<string> GenerateChangeEmailTokenAsync(ISharpSiteUser user, string newEmail);
+    IdentityOptions Options { get; }
 }
 
 /// <summary>
@@ -45,6 +48,7 @@ public interface ISignInManager
     Task<ILoginInfo?> GetExternalLoginInfoAsync(string expectedXsrf = null!);
     Task<SignInResult> ExternalLoginSignInAsync(string loginProvider, string providerKey, bool isPersistent);
     Task RefreshSignInAsync(ISharpSiteUser user);
+    Task SignInAsync(ISharpSiteUser user, bool isPersistent, string? authenticationMethod = null);
 }
 
 /// <summary>
@@ -55,4 +59,5 @@ public interface IEmailSender
     Task SendConfirmationLinkAsync(ISharpSiteUser user, string email, string confirmationLink);
     Task SendPasswordResetLinkAsync(ISharpSiteUser user, string email, string resetLink);
     Task SendPasswordResetCodeAsync(ISharpSiteUser user, string email, string resetCode);
+    Task SendChangeEmailConfirmationLinkAsync(ISharpSiteUser user, string email, string confirmationLink);
 }

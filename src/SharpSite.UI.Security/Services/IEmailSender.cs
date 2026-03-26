@@ -6,4 +6,5 @@ public interface IEmailSender
     Task SendConfirmationLinkAsync(ISharpSiteUser user, string email, string confirmationLink);
     Task SendPasswordResetLinkAsync(ISharpSiteUser user, string email, string resetLink);
     Task SendPasswordResetCodeAsync(ISharpSiteUser user, string email, string resetCode);
+    Task SendChangeEmailConfirmationLinkAsync(ISharpSiteUser user, string email, string confirmationLink);
 }

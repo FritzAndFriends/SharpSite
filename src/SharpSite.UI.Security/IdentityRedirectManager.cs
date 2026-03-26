@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 
@@ -17,24 +18,30 @@ internal sealed class IdentityRedirectManager(NavigationManager navigationManage
         navigationManager.NavigateTo(uri);
     }
 
-    [DoesNotReturn]
     public void RedirectTo(string page, Dictionary<string, object?> queryParameters)
     {
-        var uriWithoutQuery = NavigationManager.ToAbsoluteUri(page).GetLeftPart(UriPartial.Path);
+        var uriWithoutQuery = navigationManager.ToAbsoluteUri(page).GetLeftPart(UriPartial.Path);
         navigationManager.NavigateTo(navigationManager.GetUriWithQueryParameters(uriWithoutQuery, queryParameters));
     }
 
-    [DoesNotReturn]
-    public void RedirectToCurrentPage() => RedirectTo(NavigationManager.Uri);
+    public void RedirectToCurrentPage() => RedirectTo(navigationManager.Uri);
 
-    [DoesNotReturn]
     public void RedirectToCurrentPageWithStatus(string message, HttpContext context)
     {
-        var currentUriWithoutQuery = NavigationManager.Uri.GetLeftPart(UriPartial.Path);
+        var currentUri = new Uri(navigationManager.Uri);
+        var currentUriWithoutQuery = currentUri.GetLeftPart(UriPartial.Path);
         var newUri = navigationManager.GetUriWithQueryParameters(currentUriWithoutQuery, new Dictionary<string, object?>
         {
             ["message"] = message
         });
         navigationManager.NavigateTo(newUri);
+    }
+
+    public void RedirectToWithStatus(string page, string message, HttpContext context)
+    {
+        var uri = navigationManager.GetUriWithQueryParameters(
+            navigationManager.ToAbsoluteUri(page).GetLeftPart(UriPartial.Path),
+            new Dictionary<string, object?> { ["message"] = message });
+        navigationManager.NavigateTo(uri);
     }
 }

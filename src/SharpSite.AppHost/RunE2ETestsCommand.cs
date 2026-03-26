@@ -10,6 +10,7 @@ public static class RunE2ETestsCommand
 	public static IResourceBuilder<ProjectResource> WithRunE2eTestsCommand(
 			this IResourceBuilder<ProjectResource> builder)
 	{
+#pragma warning disable CS0618 // Type or member is obsolete
 		builder.WithCommand(
 				name: Name,
 				displayName: "Run end to end tests",
@@ -17,6 +18,7 @@ public static class RunE2ETestsCommand
 				updateState: OnUpdateResourceState,
 				iconName: "BookGlobe",
 				iconVariant: IconVariant.Filled);
+#pragma warning restore CS0618
 
 		return builder;
 	}

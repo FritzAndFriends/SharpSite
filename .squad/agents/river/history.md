@@ -20,3 +20,19 @@ River should be aware of two critical P0 security issues identified on spike_Dat
 These are blocking issues for production readiness. While .NET 10 upgrade is in progress, ensure P0 fixes are addressed in parallel or immediately after build stabilization.
 
 Reference: `.squad/decisions/inbox/mal-plugin-analysis.md` (now merged to decisions.md)
+
+### 2026-03-26 — .NET 10 Build Fix: SharpSite.Security.Postgres
+
+Fixed remaining build error in `RegisterPostgresSecurityServices.cs:33`. The `SharpSite.Abstractions.Security.IEmailSender` interface is **non-generic** (it bakes in `ISharpSiteUser` in its method signatures), so DI registration must use `AddScoped<AbsSecurity.IEmailSender, PgEmailSender>()` — not the generic `IEmailSender<ISharpSiteUser>` form. The PgUserManager nullable reference (CS8603) and IdentityError mapping (CS1503) errors were already resolved prior to this fix.
+
+### 2026-03-26 — .NET 10 + Aspire 13.2 Upgrade
+
+**Completed the full .NET 10 + Aspire 13.2 upgrade.** Key learnings:
+
+- **TargetFramework centralized**: Moved from per-csproj `<TargetFramework>net9.0</TargetFramework>` to a single entry in `Directory.Build.props`. All 19 csproj files now inherit it.
+- **C# 14 breaks interface conversions**: `explicit operator` to/from interfaces is banned. Replaced with `FromInterface()` static methods on `PgSharpSiteUser`.
+- **Type ambiguity in .NET 10**: `Microsoft.AspNetCore.Identity` types (`SignInResult`, `IdentityResult`, `AuthenticationScheme`) now conflict with `SharpSite.Abstractions.Security` custom types. Fixed using `using Abstractions = SharpSite.Abstractions.Security;` aliasing throughout Security.Postgres files.
+- **Aspire 13.2 requires higher package floors**: EF Core 10.0.5, Extensions.Hosting 10.0.5, OpenTelemetry 1.15.0 minimum. The `Microsoft.Extensions.ServiceDiscovery` package is NOT an Aspire package (max version is 10.4.0, not 13.2.0).
+- **Package pruning (NU1510)**: .NET 10 flags `Microsoft.Extensions.Localization`, `Microsoft.Extensions.Caching.Memory`, and `System.Text.Json` as unnecessary direct references — they're in the shared framework now.
+- **Pre-existing issues in UI.Security and plugin**: Both projects have incomplete interfaces (missing methods like `CreateAsync`, `DeleteAsync` on `IUserManager`). Not caused by the upgrade.
+- **All 47 unit tests pass on .NET 10.**

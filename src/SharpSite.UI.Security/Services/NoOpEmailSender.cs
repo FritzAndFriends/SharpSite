@@ -21,4 +21,9 @@ public class NoOpEmailSender : IEmailSender
     {
         return Task.CompletedTask;
     }
+
+    public Task SendChangeEmailConfirmationLinkAsync(ISharpSiteUser user, string email, string confirmationLink)
+    {
+        return Task.CompletedTask;
+    }
 }

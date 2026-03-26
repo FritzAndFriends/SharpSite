@@ -34,7 +34,7 @@ jobs:
       - name: Build .NET Solution
         run: dotnet build
       - name: Install Playwright Browsers
-        run: pwsh e2e/SharpSite.E2E/bin/Debug/net9.0/playwright.ps1 install chromium --with-deps
+        run: pwsh e2e/SharpSite.E2E/bin/Debug/net10.0/playwright.ps1 install chromium --with-deps
       - name: Pull Docker image for Database
         run: docker pull postgres:17.2
       - name: Run your tests

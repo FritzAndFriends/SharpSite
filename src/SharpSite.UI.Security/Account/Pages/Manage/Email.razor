@@ -8,7 +8,7 @@
 @using SharpSite.UI.Security.Services
 
 @inject IUserManager UserManager
-@inject IEmailSender<ISharpSiteUser> EmailSender
+@inject IEmailSender EmailSender
 @inject IdentityUserAccessor UserAccessor
 @inject NavigationManager NavigationManager
 
@@ -55,7 +55,7 @@
     private HttpContext HttpContext { get; set; } = default!;
 
     [SupplyParameterFromForm(FormName = "change-email")]
-    private InputModel Input { get; set; } = new();
+    private InputModel Input { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {

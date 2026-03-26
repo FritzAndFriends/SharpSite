@@ -12,6 +12,10 @@ public interface ISignInManager
     Task RefreshSignInAsync(ISharpSiteUser user);
     AuthenticationProperties ConfigureExternalAuthenticationProperties(string provider, string redirectUrl, string? userId = null);
     Task SignOutAsync();
+    Task SignInAsync(ISharpSiteUser user, bool isPersistent, string? authenticationMethod = null);
+    Task<ExternalLoginInfo?> GetExternalLoginInfoAsync(string? expectedXsrf = null);
+    Task<bool> IsTwoFactorClientRememberedAsync(ISharpSiteUser user);
+    Task ForgetTwoFactorClientAsync();
 }
 
 public interface ISharpSiteUser
@@ -54,4 +58,11 @@ public interface IUserManager
     Task<IdentityResult> AddPasswordAsync(ISharpSiteUser user, string password);
     Task<IdentityResult> ChangePasswordAsync(ISharpSiteUser user, string oldPassword, string newPassword);
     Task<string> GetUserIdAsync(ISharpSiteUser user);
+    Task<IdentityResult> CreateAsync(ISharpSiteUser user);
+    Task<IdentityResult> CreateAsync(ISharpSiteUser user, string password);
+    Task<bool> GetTwoFactorEnabledAsync(ISharpSiteUser user);
+    Task<string> GenerateChangeEmailTokenAsync(ISharpSiteUser user, string newEmail);
+    Task<bool> CheckPasswordAsync(ISharpSiteUser user, string password);
+    Task<IdentityResult> DeleteAsync(ISharpSiteUser user);
+    IdentityOptions Options { get; }
 }

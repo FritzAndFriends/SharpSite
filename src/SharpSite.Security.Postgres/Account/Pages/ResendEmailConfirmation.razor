@@ -37,7 +37,7 @@
     private string? message;
 
     [SupplyParameterFromForm]
-    private InputModel Input { get; set; } = new();
+    private InputModel Input { get; set; } = default!;
 
     private async Task OnValidSubmitAsync()
     {

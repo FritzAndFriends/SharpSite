@@ -46,7 +46,7 @@
 	private HttpContext HttpContext { get; set; } = default!;
 
 	[Parameter, SupplyParameterFromForm(FormName="profile")]
-	public InputModel Input { get; set; } = new() { DisplayName = "" };
+	public InputModel Input { get; set; } = default!;
 
 	protected override async Task OnInitializedAsync()
 	{
