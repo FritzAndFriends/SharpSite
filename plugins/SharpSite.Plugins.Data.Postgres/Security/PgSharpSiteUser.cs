@@ -1,12 +1,12 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using SharpSite.Abstractions;
-using SharpSite.Abstractions.Security;
+using AbsSecurity = SharpSite.Abstractions.Security;
 using System.ComponentModel.DataAnnotations;
 
 namespace SharpSite.Plugins.Data.Postgres.Security;
 
-public class PgSharpSiteUser : IdentityUser, ISharpSiteUser
+public class PgSharpSiteUser : IdentityUser, AbsSecurity.ISharpSiteUser
 {
     [PersonalData, Required, MaxLength(50)]
     public required string DisplayName { get; set; }
@@ -32,10 +32,8 @@ public class PgSharpSiteUser : IdentityUser, ISharpSiteUser
             PhoneNumber = user.PhoneNumber
         };
 
-    public static explicit operator ISharpSiteUser(PgSharpSiteUser user) => user;
-
-    public static explicit operator PgSharpSiteUser(ISharpSiteUser user) =>
-        new()
+    public static PgSharpSiteUser FromInterface(AbsSecurity.ISharpSiteUser user) =>
+        user as PgSharpSiteUser ?? new()
         {
             Id = user.Id,
             DisplayName = user.DisplayName,

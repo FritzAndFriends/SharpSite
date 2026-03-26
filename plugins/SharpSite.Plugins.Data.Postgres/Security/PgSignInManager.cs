@@ -1,16 +1,17 @@
 using SharpSite.Abstractions.Base;
-using SharpSite.Abstractions.Security;
-using SSS = SharpSite.Abstractions.Security;
+using AbsSecurity = SharpSite.Abstractions.Security;
+using MsIdentity = Microsoft.AspNetCore.Identity;
+using MsAuth = Microsoft.AspNetCore.Authentication;
 
 namespace SharpSite.Plugins.Data.Postgres.Security;
 
 [RegisterPlugin(PluginServiceLocatorScope.Scoped, PluginRegisterType.Security_SignInManager)]
 
-public class PgSignInManager : ISignInManager
+public class PgSignInManager : AbsSecurity.ISignInManager
 {
-	private readonly SignInManager<PgSharpSiteUser> _signInManager;
+	private readonly MsIdentity.SignInManager<PgSharpSiteUser> _signInManager;
 
-	public PgSignInManager(SignInManager<PgSharpSiteUser> signInManager)
+	public PgSignInManager(MsIdentity.SignInManager<PgSharpSiteUser> signInManager)
 	{
 		_signInManager = signInManager;
 	}
@@ -20,31 +21,37 @@ public class PgSignInManager : ISignInManager
 		await _signInManager.SignOutAsync();
 	}
 
-	public async Task<SSS.SignInResult> PasswordSignInAsync(string userName, string password, bool isPersistent, bool lockoutOnFailure)
+	public async Task<AbsSecurity.SignInResult> PasswordSignInAsync(string userName, string password, bool isPersistent, bool lockoutOnFailure)
 	{
-		return (await _signInManager.PasswordSignInAsync(userName, password, isPersistent, lockoutOnFailure)).ToSharpSiteSignInResult();
+		var result = await _signInManager.PasswordSignInAsync(userName, password, isPersistent, lockoutOnFailure);
+		return ToSignInResult(result);
 	}
 
-	public async Task<bool> IsTwoFactorClientRememberedAsync(ISharpSiteUser user)
+	public async Task<bool> IsTwoFactorClientRememberedAsync(AbsSecurity.ISharpSiteUser user)
 	{
-		var pgUser = (PgSharpSiteUser)user;
+		var pgUser = PgSharpSiteUser.FromInterface(user);
 		return await _signInManager.IsTwoFactorClientRememberedAsync(pgUser);
 	}
 
-	public async Task<SSS.SignInResult> TwoFactorAuthenticatorSignInAsync(string code, bool isPersistent, bool rememberClient)
+	public async Task<AbsSecurity.SignInResult> TwoFactorAuthenticatorSignInAsync(string code, bool isPersistent, bool rememberClient)
 	{
-		return (await _signInManager.TwoFactorAuthenticatorSignInAsync(code, isPersistent, rememberClient)).ToSharpSiteSignInResult();
+		var result = await _signInManager.TwoFactorAuthenticatorSignInAsync(code, isPersistent, rememberClient);
+		return ToSignInResult(result);
 	}
 
-	public async Task<ISharpSiteUser?> GetTwoFactorAuthenticationUserAsync()
+	public async Task<AbsSecurity.ISharpSiteUser?> GetTwoFactorAuthenticationUserAsync()
 	{
 		var pgUser = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-		return pgUser is null ? null : (ISharpSiteUser)pgUser;
+		return pgUser;
 	}
 
-	public async Task<IEnumerable<SSS.AuthenticationScheme>> GetExternalAuthenticationSchemesAsync()
+	public async Task<IEnumerable<AbsSecurity.AuthenticationScheme>> GetExternalAuthenticationSchemesAsync()
 	{
-		return (await _signInManager.GetExternalAuthenticationSchemesAsync()).Select(scheme => scheme.ToSharpSiteAuthenticationScheme());
+		var schemes = await _signInManager.GetExternalAuthenticationSchemesAsync();
+		return schemes.Select(s => new AbsSecurity.AuthenticationScheme(
+			s.Name,
+			s.DisplayName ?? string.Empty,
+			s.HandlerType.AssemblyQualifiedName ?? string.Empty));
 	}
 
 	public async Task ForgetTwoFactorClientAsync()
@@ -52,62 +59,28 @@ public class PgSignInManager : ISignInManager
 		await _signInManager.ForgetTwoFactorClientAsync();
 	}
 
-	public async Task<ILoginInfo?> GetExternalLoginInfoAsync(string expectedXsrf = null!)
+	public async Task<AbsSecurity.ILoginInfo?> GetExternalLoginInfoAsync(string expectedXsrf = null!)
 	{
-		return (await _signInManager.GetExternalLoginInfoAsync(expectedXsrf)).ToSharpSiteLoginInfo();
+		var loginInfo = await _signInManager.GetExternalLoginInfoAsync(expectedXsrf);
+		if (loginInfo is null) return null;
+		return new LoginInfo(
+			loginInfo.LoginProvider,
+			loginInfo.ProviderKey,
+			loginInfo.ProviderDisplayName ?? string.Empty);
 	}
 
-	public async Task<SSS.SignInResult> ExternalLoginSignInAsync(string loginProvider, string providerKey, bool isPersistent)
+	public async Task<AbsSecurity.SignInResult> ExternalLoginSignInAsync(string loginProvider, string providerKey, bool isPersistent)
 	{
-		return (await _signInManager.ExternalLoginSignInAsync(loginProvider, providerKey, isPersistent)).ToSharpSiteSignInResult();
+		var result = await _signInManager.ExternalLoginSignInAsync(loginProvider, providerKey, isPersistent);
+		return ToSignInResult(result);
 	}
 
-	public async Task RefreshSignInAsync(ISharpSiteUser user)
+	public async Task RefreshSignInAsync(AbsSecurity.ISharpSiteUser user)
 	{
-		var pgUser = (PgSharpSiteUser)user;
+		var pgUser = PgSharpSiteUser.FromInterface(user);
 		await _signInManager.RefreshSignInAsync(pgUser);
 	}
 
-}
-
-
-public static class SignInResultExtensions
-{
-	public static SSS.SignInResult ToSharpSiteSignInResult(this Microsoft.AspNetCore.Identity.SignInResult result)
-	{
-		return new SSS.SignInResult(
-				result.Succeeded,
-				result.IsLockedOut,
-				result.IsNotAllowed,
-				result.RequiresTwoFactor);
-	}
-
-	// need a static method to convert AuthenicationScheme to SharpSite.AuthenticationScheme
-	public static SSS.AuthenticationScheme ToSharpSiteAuthenticationScheme(this Microsoft.AspNetCore.Authentication.AuthenticationScheme scheme)
-	{
-		return new SSS.AuthenticationScheme(
-				scheme.Name,
-				scheme.DisplayName ?? string.Empty,
-				scheme.HandlerType.AssemblyQualifiedName ?? string.Empty
-		);
-	}
-
-	// static method to convert ExtertnalLoginInfo to LoginInfo
-	public static ILoginInfo ToSharpSiteLoginInfo(this ExternalLoginInfo? info)
-	{
-
-		if (info == null)
-		{
-			// if the info is null, return an empty LoginInfo
-			return new LoginInfo(string.Empty, string.Empty, string.Empty);
-		}
-
-		return new LoginInfo(
-			info.LoginProvider,
-			info.ProviderKey,
-			info.ProviderDisplayName ?? string.Empty
-		);
-	}
-
-
+	private static AbsSecurity.SignInResult ToSignInResult(MsIdentity.SignInResult result) =>
+		new(result.Succeeded, result.IsLockedOut, result.IsNotAllowed, result.RequiresTwoFactor);
 }

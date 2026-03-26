@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SharpSite.Abstractions;
 using SharpSite.Abstractions.Base;
-using SharpSite.Abstractions.Security;
+using AbsSecurity = SharpSite.Abstractions.Security;
 using System.Diagnostics;
 using Constants = SharpSite.Abstractions.Constants;
 
@@ -30,7 +30,7 @@ public class RegisterPostgresSecurityServices : IRunAtStartup
 
 		// Register our repositories and services
 		builder.Services.AddScoped<IUserRepository, UserRepository>();
-		builder.Services.AddScoped<IEmailSender<ISharpSiteUser>, PgEmailSender>();
+		builder.Services.AddScoped<AbsSecurity.IEmailSender, PgEmailSender>();
 
 		builder.Services.AddAuthentication(options =>
 		{

@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SharpSite.Abstractions;
 using SharpSite.Abstractions.Base;
-using SharpSite.Abstractions.Security;
+using AbsSecurity = SharpSite.Abstractions.Security;
 using System.Security.Claims;
 
 namespace SharpSite.Plugins.Data.Postgres.Security;
@@ -19,7 +19,7 @@ public class UserRepository(IPluginManager pluginManager) : IUserRepository
 		if (CurrentUser is null)
 		{
 
-			var userManager = pluginManager.GetPluginProvidedService<IUserManager>();
+			var userManager = pluginManager.GetPluginProvidedService<AbsSecurity.IUserManager>();
 
 			var pgUser = await userManager!.GetUserAsync(user);
 			if (pgUser is null) return null!;
@@ -60,7 +60,7 @@ public class UserRepository(IPluginManager pluginManager) : IUserRepository
 
 		if (user is null) return;
 
-		var userManager = pluginManager.GetPluginProvidedService<IUserManager>();
+		var userManager = pluginManager.GetPluginProvidedService<AbsSecurity.IUserManager>();
 		var pgContext = pluginManager.GetPluginProvidedService<PgContext>();
 
 		var existingUser = pgContext!.Users.FirstOrDefault(u => u.Id == user.Id);

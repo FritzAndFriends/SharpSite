@@ -1,18 +1,18 @@
 global using Microsoft.AspNetCore.Components;
 global using Microsoft.AspNetCore.Http;
-global using Microsoft.AspNetCore.Identity;
-global using Microsoft.AspNetCore.Identity.UI.Services;
 global using Microsoft.Extensions.Logging;
 global using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SharpSite.Abstractions;
 using SharpSite.Abstractions.Base;
-using SharpSite.Abstractions.Security;
+using AbsSecurity = SharpSite.Abstractions.Security;
+using MsEmailSender = Microsoft.AspNetCore.Identity.UI.Services.IEmailSender;
 
 namespace SharpSite.Plugins.Data.Postgres.Security;
 
@@ -37,12 +37,12 @@ public class RegisterPluginServices : IRunAtStartup
         builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider<PgSharpSiteUser>>();
 
         // Register our repositories and services
-        builder.Services.AddScoped<IUserManager<ISharpSiteUser>, PgUserManager>();
-        builder.Services.AddScoped<ISignInManager<ISharpSiteUser>, PgSignInManager>();
+        builder.Services.AddScoped<AbsSecurity.IUserManager, PgUserManager>();
+        builder.Services.AddScoped<AbsSecurity.ISignInManager, PgSignInManager>();
 
         // Configure email senders
-        builder.Services.AddScoped<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, NoOpEmailSender>();
-        builder.Services.AddScoped<SharpSite.Abstractions.Security.IEmailSender<ISharpSiteUser>, PgEmailSender>();
+        builder.Services.AddScoped<MsEmailSender, NoOpEmailSender>();
+        builder.Services.AddScoped<AbsSecurity.IEmailSender, PgEmailSender>();
 
         builder.Services.AddAuthentication(options =>
         {
@@ -124,7 +124,7 @@ public class RegisterPluginServices : IRunAtStartup
     }
 }
 
-internal sealed class NoOpEmailSender : IEmailSender
+internal sealed class NoOpEmailSender : MsEmailSender
 {
     public Task SendEmailAsync(string email, string subject, string htmlMessage)
     {
@@ -134,9 +134,9 @@ internal sealed class NoOpEmailSender : IEmailSender
     }
 }
 
-internal sealed class IdentityUserAccessor(IUserManager userManager, IdentityRedirectManager redirectManager)
+internal sealed class IdentityUserAccessor(AbsSecurity.IUserManager userManager, IdentityRedirectManager redirectManager)
 {
-    public async Task<ISharpSiteUser> GetRequiredUserAsync(HttpContext context)
+    public async Task<AbsSecurity.ISharpSiteUser> GetRequiredUserAsync(HttpContext context)
     {
         var user = await userManager.GetUserAsync(context.User);
 
