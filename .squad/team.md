@@ -31,3 +31,9 @@
 - **Stack:** .NET 9, Blazor (SSR + Interactive Server), ASP.NET Core, Entity Framework Core, PostgreSQL, Docker, Playwright, xUnit, GitHub Actions
 - **Universe:** Firefly
 - **Created:** 2026-03-26
+
+## Issue Source
+
+- **Repository:** FritzAndFriends/SharpSite
+- **Connected:** 2026-03-26
+- **Filters:** state:open
