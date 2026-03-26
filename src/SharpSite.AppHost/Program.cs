@@ -16,10 +16,16 @@ foreach (var arg in args)
 
 var db = builder.AddPostgresServices(testOnly);
 
-builder.AddProject<Projects.SharpSite_Web>("webfrontend")
+var webfrontend = builder.AddProject<Projects.SharpSite_Web>("webfrontend")
 	.WithReference(db)
 	.WithRunE2eTestsCommand()
 	.WithExternalHttpEndpoints();
+
+if (testOnly)
+{
+	// Pin port 5020 so build-and-test.ps1 and E2E tests can find the app
+	webfrontend.WithHttpEndpoint(port: 5020, name: "http");
+}
 
 if (testOnly)
 {
