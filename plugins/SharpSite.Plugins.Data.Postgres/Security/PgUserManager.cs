@@ -135,6 +135,19 @@ public class PgUserManager : AbsSecurity.IUserManager
 		return await _userManager.CheckPasswordAsync(pgUser, password);
 	}
 
+	public string GetUserId(System.Security.Claims.ClaimsPrincipal principal)
+	{
+		return _userManager.GetUserId(principal) ?? string.Empty;
+	}
+
+	public async Task<string> GenerateChangeEmailTokenAsync(AbsSecurity.ISharpSiteUser user, string newEmail)
+	{
+		var pgUser = PgSharpSiteUser.FromInterface(user);
+		return await _userManager.GenerateChangeEmailTokenAsync(pgUser, newEmail);
+	}
+
+	public MsIdentity.IdentityOptions Options => _userManager.Options;
+
 	private static AbsSecurity.IdentityResult ToIdentityResult(MsIdentity.IdentityResult result) =>
 		new(result.Succeeded, result.Errors.Select(e => new AbsSecurity.IdentityError { Code = e.Code, Description = e.Description }));
 }

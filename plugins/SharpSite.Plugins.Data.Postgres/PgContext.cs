@@ -13,6 +13,19 @@ public class PgContext : IdentityDbContext<PgSharpSiteUser>
 {
     public PgContext(DbContextOptions<PgContext> options) : base(options) { }
 
+    public PgContext(IApplicationStateModel appState)
+        : base(CreateOptions(appState.GetConfigurationByName(ApplicationStateKeys.ContentConnectionString))) { }
+
+    public PgContext(string connectionString)
+        : base(CreateOptions(connectionString)) { }
+
+    private static DbContextOptions<PgContext> CreateOptions(string connectionString)
+    {
+        var builder = new DbContextOptionsBuilder<PgContext>();
+        builder.UseNpgsql(connectionString);
+        return builder.Options;
+    }
+
     public DbSet<PgPage> Pages => Set<PgPage>();
     public DbSet<PgPost> Posts => Set<PgPost>();
 

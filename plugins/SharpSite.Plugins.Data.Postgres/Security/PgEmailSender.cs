@@ -1,11 +1,8 @@
 using AbsSecurity = SharpSite.Abstractions.Security;
 using MsEmailSender = Microsoft.AspNetCore.Identity.UI.Services.IEmailSender;
 
-namespace SharpSite.Security.Postgres;
+namespace SharpSite.Plugins.Data.Postgres.Security;
 
-/// <summary>
-/// Implementation of IEmailSender for PostgreSQL using ASP.NET Core Identity
-/// </summary>
 public class PgEmailSender : AbsSecurity.IEmailSender
 {
     private readonly MsEmailSender _emailSender;

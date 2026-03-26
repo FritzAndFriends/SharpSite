@@ -76,6 +76,12 @@ public class PgSignInManager : AbsSecurity.ISignInManager
         await _signInManager.RefreshSignInAsync(pgUser);
     }
 
+    public async Task SignInAsync(AbsSecurity.ISharpSiteUser user, bool isPersistent, string? authenticationMethod = null)
+    {
+        var pgUser = PgSharpSiteUser.FromInterface(user);
+        await _signInManager.SignInAsync(pgUser, isPersistent, authenticationMethod);
+    }
+
     private static AbsSecurity.SignInResult ToSignInResult(MsIdentity.SignInResult result) =>
         new(result.Succeeded, result.IsLockedOut, result.IsNotAllowed, result.RequiresTwoFactor);
 }
