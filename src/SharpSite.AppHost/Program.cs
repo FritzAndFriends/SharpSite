@@ -23,8 +23,9 @@ var webfrontend = builder.AddProject<Projects.SharpSite_Web>("webfrontend")
 
 if (testOnly)
 {
-	// Pin port 5020 so build-and-test.ps1 and E2E tests can find the app
-	webfrontend.WithHttpEndpoint(port: 5020, name: "http");
+	// Pin a known port so build-and-test.ps1 and E2E tests can reach the app.
+	// Name must differ from the auto-created "http" endpoint.
+	webfrontend.WithHttpEndpoint(port: 5020, name: "e2e");
 }
 
 if (testOnly)
