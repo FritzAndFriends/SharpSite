@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SharpSite.Abstractions;
@@ -87,9 +88,19 @@ public class RegisterPostgresSecurityServices : IRunAtStartup
 		using var scope = services.CreateScope();
 		var provider = scope.ServiceProvider;
 
-		// Ensure the security database schema exists
+		// Create the Identity tables. We cannot use EnsureCreatedAsync() because the
+		// content context (PgContext) already created the database and EnsureCreated
+		// short-circuits when the database already has tables.
 		var dbContext = provider.GetRequiredService<PgSecurityContext>();
-		await dbContext.Database.EnsureCreatedAsync();
+		var creator = dbContext.Database.GetService<Microsoft.EntityFrameworkCore.Storage.IRelationalDatabaseCreator>();
+		try
+		{
+			await creator.CreateTablesAsync();
+		}
+		catch (Npgsql.PostgresException ex) when (ex.SqlState == "42P07")
+		{
+			// 42P07 = "relation already exists" — tables were created by a prior run
+		}
 
 		activity?.Start();
 		var roleMgr = provider.GetRequiredService<RoleManager<IdentityRole>>();

@@ -61,4 +61,13 @@ public class PgSecurityContext : IdentityDbContext<PgSharpSiteUser>
     {
     }
 
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+        // Claim and Roles are in-memory convenience properties, not EF-mapped columns.
+        // EF Core 10 attempts to bind System.Security.Claims.Claim as an owned type,
+        // but Claim has no constructor EF can use — so we must exclude them.
+        builder.Entity<PgSharpSiteUser>().Ignore(u => u.Claims);
+        builder.Entity<PgSharpSiteUser>().Ignore(u => u.Roles);
+    }
 }

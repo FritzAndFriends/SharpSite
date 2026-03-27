@@ -14,8 +14,8 @@ var appState = builder.AddPluginManagerAndAppState();
 
 // Load plugins for postgres
 #region Postgres Plugins
-// var pg = new RegisterPostgresServices();
-//pg.RegisterServices(builder);
+var pg = new RegisterPostgresServices();
+await pg.AddServicesAtStartup(builder);
 
 var pgSecurity = new RegisterPostgresSecurityServices();
 pgSecurity.RegisterServices(builder);
@@ -69,7 +69,11 @@ app.ConfigurePluginFileSystem();
 app.UseOutputCache();
 
 // add error handlers for page not found
-app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}");
+// TODO: UseStatusCodePagesWithReExecute causes 'RemoteNavigationManager already initialized'
+// in .NET 10 Blazor SSR when a component sets a non-200 status code. Track in a separate issue.
+// app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}");
+
+app.UseAntiforgery();
 
 var pluginManager = await app.ActivatePluginManager(appState);
 
@@ -80,7 +84,6 @@ app.MapRazorComponents<App>()
 		//typeof(Sample.FirstThemePlugin.Theme).Assembly
 		);
 
-app.UseAntiforgery();
 pgSecurity.MapEndpoints(app);
 
 
