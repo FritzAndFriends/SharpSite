@@ -28,6 +28,7 @@ public abstract class SharpSitePageTest : PageTest
 		await base.InitializeAsync();
 		Context.SetDefaultNavigationTimeout(30000);
 		Context.SetDefaultTimeout(30000);
+		Microsoft.Playwright.Assertions.SetDefaultExpectTimeout(30000);
 	}
 
 }
