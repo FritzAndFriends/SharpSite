@@ -75,6 +75,9 @@ app.UseOutputCache();
 
 app.UseAntiforgery();
 
+// Redirect authenticated users who must change their default password
+app.UseMiddleware<ForcePasswordChangeMiddleware>();
+
 var pluginManager = await app.ActivatePluginManager(appState);
 
 app.MapRazorComponents<App>()

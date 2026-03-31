@@ -5,6 +5,7 @@
 @using Microsoft.AspNetCore.Identity
 
 @inject SignInManager<PgSharpSiteUser> SignInManager
+@inject UserManager<PgSharpSiteUser> UserManager
 @inject ILogger<Login> Logger
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
@@ -92,6 +93,18 @@
         if (result.Succeeded)
         {
             Logger.LogInformation("User logged in.");
+
+            // Check if user must change their password before proceeding
+            var user = await UserManager.FindByEmailAsync(Input.Email);
+            if (user is not null)
+            {
+                var claims = await UserManager.GetClaimsAsync(user);
+                if (claims.Any(c => c.Type == "MustChangePassword" && c.Value == "true"))
+                {
+                    RedirectManager.RedirectTo("Account/ForceChangePassword");
+                }
+            }
+
             RedirectManager.RedirectTo(ReturnUrl);
         }
         else if (result.RequiresTwoFactor)

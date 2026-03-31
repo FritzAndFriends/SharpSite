@@ -13,6 +13,7 @@ using SharpSite.Abstractions;
 using SharpSite.Abstractions.Base;
 using AbsSecurity = SharpSite.Abstractions.Security;
 using System.Diagnostics;
+using System.Security.Claims;
 using Constants = SharpSite.Abstractions.Constants;
 
 namespace SharpSite.Security.Postgres;
@@ -142,9 +143,28 @@ public class RegisterPostgresSecurityServices : IRunAtStartup
 				EmailConfirmed = true
 			};
 			var newUserResult = await userManager.CreateAsync(admin, "Admin123!");
-			activity?.AddEvent(new ActivityEvent("Created admin user with password 'Admin123!'"));
+			activity?.AddEvent(new ActivityEvent("Created admin user with default credentials"));
 			await userManager.AddToRoleAsync(admin, Constants.Roles.Admin);
 			activity?.AddEvent(new ActivityEvent("Assigned admin user to Admin role"));
+
+			// Flag the admin user to force a password change on first login
+			await userManager.AddClaimAsync(admin, new Claim("MustChangePassword", "true"));
+			activity?.AddEvent(new ActivityEvent("Set forced password change flag for admin user"));
+		}
+
+		// In production, warn if the default admin password is still active
+		var env = services.GetRequiredService<IHostEnvironment>();
+		if (!env.IsDevelopment())
+		{
+			var adminUser = await userManager.FindByEmailAsync("admin@localhost");
+			if (adminUser is not null && await userManager.CheckPasswordAsync(adminUser, "Admin123!"))
+			{
+				var logger = services.GetRequiredService<ILoggerFactory>()
+					.CreateLogger<RegisterPostgresSecurityServices>();
+				logger.LogWarning(
+					"SECURITY WARNING: The default admin account (admin@localhost) still uses the initial seed password. " +
+					"Change it immediately in a production environment!");
+			}
 		}
 
 		return app;
