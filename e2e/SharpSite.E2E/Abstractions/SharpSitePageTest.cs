@@ -23,5 +23,11 @@ public abstract class SharpSitePageTest : PageTest
 		};
 	}
 
+	public override async Task InitializeAsync()
+	{
+		await base.InitializeAsync();
+		Context.SetDefaultNavigationTimeout(30000);
+		Context.SetDefaultTimeout(30000);
+	}
 
 }
