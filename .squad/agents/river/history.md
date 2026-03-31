@@ -78,3 +78,20 @@ Fixed remaining build error in `RegisterPostgresSecurityServices.cs:33`. The `Sh
 - All 67 unit tests pass (including Kaylee's 6 new thread-safety tests: 3 in ConcurrentAccessTests, 3 in ThreadSafetyTests).
 
 **Pattern to remember:** For static mutable collections shared across instances, use `ConcurrentDictionary` for simple key-value stores and `lock` + `Interlocked.Exchange` for `IServiceCollection`/`IServiceProvider` pairs. Never hold a `lock` across an `await` — split into pre-await and post-await lock blocks instead.
+
+### 2026-03-31 — Security P0: Assembly Validation for Plugin Loading (Issue #349, Phase 1)
+
+**Issue:** Plugin DLLs loaded from disk with zero integrity verification — any `.dll` matching the manifest key ran with full app permissions.
+
+**Fix applied:**
+- Created `PluginAssemblyValidator` in `SharpSite.Plugins` with three capabilities:
+  1. **Assembly name validation:** After loading, verifies `Assembly.GetName().Name` matches the manifest `Id` (case-insensitive). Rejects mismatches with `PluginException`.
+  2. **SHA-256 hash verification:** Computes hash of the DLL file. On first install, stores in `plugins/_assembly-hashes.json`. On subsequent loads, verifies hash matches stored value. Detects tampering.
+  3. **Hash registry:** Simple JSON file with `{ "manifestId": "sha256hex" }` entries. Thread-safe via lock around file I/O.
+- Integrated into `PluginManager.SavePlugin()` (runtime install: store hash + validate name).
+- Integrated into `PluginManager.LoadPluginsAtStartup()` (startup: verify hash + validate name, gracefully skip failed plugins).
+- Registered `PluginAssemblyValidator` as singleton in DI via `PluginManagerExtensions`.
+- Updated all test constructors (3 files) to pass the new validator dependency.
+- All 67 unit tests pass. Build is clean.
+
+**Pattern to remember:** For plugin integrity, validate at two points: (1) the file hash before loading bytes into memory, and (2) the assembly metadata after loading. Store hashes on first install and verify on every subsequent load. At startup, catch validation failures per-plugin and `continue` to avoid one bad plugin blocking all others.
