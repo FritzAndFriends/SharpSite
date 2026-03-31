@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Collections.Concurrent;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
@@ -91,18 +92,11 @@ public class ApplicationState : ApplicationStateModel
 	/// List of the plugins that are currently loaded.
 	/// </summary>
 	[JsonIgnore]
-	public Dictionary<string, PluginManifest> Plugins { get; } = new();
+	public ConcurrentDictionary<string, PluginManifest> Plugins { get; } = new();
 
 	public void AddPlugin(string pluginName, PluginManifest manifest)
 	{
-		if (!Plugins.ContainsKey(pluginName))
-		{
-			Plugins.Add(pluginName, manifest);
-		}
-		else
-		{
-			Plugins[pluginName] = manifest;
-		}
+		Plugins[pluginName] = manifest;
 	}
 
 	public void SetTheme(PluginManifest manifest)

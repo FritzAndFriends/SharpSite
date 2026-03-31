@@ -24,6 +24,7 @@ public class PluginManager(
 
 	private readonly static IServiceCollection _ServiceDescriptors = new ServiceCollection();
 	private static IServiceProvider? _ServiceProvider;
+	private static readonly object _ServiceLock = new();
 
 	private const long MaxTotalExtractedSize = 100L * 1024 * 1024; // 100MB
 	private const long MaxSingleFileSize = 50L * 1024 * 1024;      // 50MB
@@ -125,7 +126,10 @@ public class PluginManager(
 
 		logger.LogInformation("Plugin {PluginName} saved and registered.", plugin.Name);
 
-		_ServiceProvider = _ServiceDescriptors.BuildServiceProvider();
+		lock (_ServiceLock)
+		{
+			Interlocked.Exchange(ref _ServiceProvider, _ServiceDescriptors.BuildServiceProvider());
+		}
 
 		CleanupCurrentUploadedPlugin();
 	}
@@ -135,23 +139,40 @@ public class PluginManager(
 
 		AppState.ConfigurationSectionChanged += async (sender, e) =>
 		{
-			// Update the registered ConfigurationSection in the service locator
-			if (_ServiceDescriptors.Any(descriptor => descriptor.ServiceType == e.GetType()))
+			ServiceDescriptor? oldSectionDescriptor = null;
+			ISharpSiteConfigurationSection? oldSection = null;
+
+			lock (_ServiceLock)
 			{
-				var oldSectionDescriptor = _ServiceDescriptors.First(descriptor => descriptor.ServiceType == e.GetType());
-				var oldSection = (ISharpSiteConfigurationSection)oldSectionDescriptor.ImplementationInstance!;
-				await e.OnConfigurationChanged(oldSection, this);
-				_ServiceDescriptors.Remove(oldSectionDescriptor);
+				oldSectionDescriptor = _ServiceDescriptors.FirstOrDefault(descriptor => descriptor.ServiceType == e.GetType());
+				if (oldSectionDescriptor is not null)
+				{
+					oldSection = (ISharpSiteConfigurationSection)oldSectionDescriptor.ImplementationInstance!;
+				}
 			}
 
-			var serviceDescriptor = new ServiceDescriptor(e.GetType(), e);
-			_ServiceDescriptors.Add(serviceDescriptor);
-			_ServiceProvider = _ServiceDescriptors.BuildServiceProvider();
+			if (oldSection is not null)
+			{
+				await e.OnConfigurationChanged(oldSection, this);
+			}
+
+			lock (_ServiceLock)
+			{
+				if (oldSectionDescriptor is not null)
+				{
+					_ServiceDescriptors.Remove(oldSectionDescriptor);
+				}
+				_ServiceDescriptors.Add(new ServiceDescriptor(e.GetType(), e));
+				Interlocked.Exchange(ref _ServiceProvider, _ServiceDescriptors.BuildServiceProvider());
+			}
 		};
 
-		_ServiceDescriptors.AddSingleton<IPluginManager>(this);
-		_ServiceDescriptors.AddSingleton<IApplicationStateModel>(AppState);
-		_ServiceDescriptors.AddMemoryCache();
+		lock (_ServiceLock)
+		{
+			_ServiceDescriptors.AddSingleton<IPluginManager>(this);
+			_ServiceDescriptors.AddSingleton<IApplicationStateModel>(AppState);
+			_ServiceDescriptors.AddMemoryCache();
+		}
 
 		foreach (var pluginFolder in Directory.GetDirectories("plugins"))
 		{
@@ -186,7 +207,10 @@ public class PluginManager(
 
 		}
 
-		_ServiceProvider = _ServiceDescriptors.BuildServiceProvider();
+		lock (_ServiceLock)
+		{
+			Interlocked.Exchange(ref _ServiceProvider, _ServiceDescriptors.BuildServiceProvider());
+		}
 
 	}
 
@@ -219,7 +243,10 @@ public class PluginManager(
 					PluginServiceLocatorScope.Scoped => ServiceLifetime.Scoped,
 					_ => ServiceLifetime.Transient
 				});
-				_ServiceDescriptors.Add(serviceDescriptor);
+				lock (_ServiceLock)
+				{
+					_ServiceDescriptors.Add(serviceDescriptor);
+				}
 			}
 			else if (typeof(ISharpSiteConfigurationSection).IsAssignableFrom(type))
 			{
@@ -231,7 +258,10 @@ public class PluginManager(
 					AppState.ConfigurationSections.Add(configurationSection.SectionName, configurationSection);
 				}
 
-				_ServiceDescriptors.Add(new ServiceDescriptor(type, configurationSection));
+				lock (_ServiceLock)
+				{
+					_ServiceDescriptors.Add(new ServiceDescriptor(type, configurationSection));
+				}
 
 				if (AppState.Initialized)
 				{
@@ -427,16 +457,19 @@ public class PluginManager(
 
 	public T? GetPluginProvidedService<T>() where T : class
 	{
-		if (_ServiceProvider is null)
+		lock (_ServiceLock)
 		{
-			throw new InvalidOperationException("Service provider is not initialized. Call LoadPluginsAtStartup first.");
-		}
+			if (_ServiceProvider is null)
+			{
+				throw new InvalidOperationException("Service provider is not initialized. Call LoadPluginsAtStartup first.");
+			}
 
-		if (!_ServiceDescriptors.Any(descriptor => descriptor.ServiceType == typeof(T)))
-		{
-			return null; // Service not registered
+			if (!_ServiceDescriptors.Any(descriptor => descriptor.ServiceType == typeof(T)))
+			{
+				return null;
+			}
+			return _ServiceProvider.GetService<T>();
 		}
-		return _ServiceProvider!.GetService<T>();
 	}
 
 	public Task<DirectoryInfo> MoveDirectoryInPluginsFolder(string oldName, string newName)

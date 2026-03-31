@@ -66,3 +66,15 @@ Fixed remaining build error in `RegisterPostgresSecurityServices.cs:33`. The `Sh
 - All 55 unit tests pass including 8 new ZIP security tests.
 
 **Pattern to remember:** For ZIP extraction security, validate entries at upload time (fail fast) AND during extraction (defense-in-depth). Always check: size limits, compression ratios, and path containment. Use `Path.GetFullPath()` + directory prefix checks for containment.
+
+### 2026-03-31 — Thread-Safety Fix: PluginManager & PluginAssemblyManager (Issue #348)
+
+**Issue:** Static `_ServiceDescriptors` (IServiceCollection) and `_ServiceProvider` in `PluginManager` plus the `Dictionary` in `PluginAssemblyManager` were unguarded against concurrent access — race conditions on concurrent plugin loads or config changes.
+
+**Fix applied:**
+- **PluginAssemblyManager:** Replaced `Dictionary<string, PluginAssembly>` with `ConcurrentDictionary<string, PluginAssembly>`. Rewrote `AddAssembly` to use `AddOrUpdate` (atomic add-or-replace with old context unload). Rewrote `RemoveAssembly` to use `TryRemove`.
+- **PluginManager:** Added `private static readonly object _ServiceLock` and wrapped all `_ServiceDescriptors` mutations and reads in `lock` blocks. Used `Interlocked.Exchange` for `_ServiceProvider` swaps to guarantee atomic visibility. Restructured the async `ConfigurationSectionChanged` handler to use two separate lock blocks (pre-await and post-await) since `lock` cannot span an `await`.
+- **ApplicationState:** Changed `Plugins` from `Dictionary<string, PluginManifest>` to `ConcurrentDictionary<string, PluginManifest>`. Simplified `AddPlugin` to use the thread-safe indexer.
+- All 67 unit tests pass (including Kaylee's 6 new thread-safety tests: 3 in ConcurrentAccessTests, 3 in ThreadSafetyTests).
+
+**Pattern to remember:** For static mutable collections shared across instances, use `ConcurrentDictionary` for simple key-value stores and `lock` + `Interlocked.Exchange` for `IServiceCollection`/`IServiceProvider` pairs. Never hold a `lock` across an `await` — split into pre-await and post-await lock blocks instead.
