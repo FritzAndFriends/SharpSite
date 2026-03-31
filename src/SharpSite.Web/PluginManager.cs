@@ -14,6 +14,7 @@ namespace SharpSite.Web;
 
 public class PluginManager(
 	PluginAssemblyManager pluginAssemblyManager,
+	PluginAssemblyValidator assemblyValidator,
 	ApplicationState AppState,
 	ILogger<PluginManager> logger) : IPluginManager, IDisposable
 {
@@ -102,11 +103,21 @@ public class PluginManager(
 		var pluginDll = Directory.GetFiles(pluginLibFolder.FullName, $"{key}*.dll").FirstOrDefault();
 		if (!string.IsNullOrEmpty(pluginDll))
 		{
+			// Validate DLL integrity before loading
+			assemblyValidator.VerifyOrStoreHash(key, pluginDll);
+
 			// Soft load of package without taking ownership for the process .dll
 			using var pluginAssemblyFileStream = File.OpenRead(pluginDll);
 			plugin = await Plugin.LoadFromStream(pluginAssemblyFileStream, key);
 			var pluginAssembly = new PluginAssembly(Manifest, plugin);
 			pluginAssemblyManager.AddAssembly(pluginAssembly);
+
+			// Validate assembly name matches manifest ID
+			if (pluginAssembly.Assembly is not null)
+			{
+				assemblyValidator.ValidateAssemblyName(pluginAssembly.Assembly, key);
+			}
+
 			await RegisterWithServiceLocator(pluginAssembly);
 			await AppState.Save();
 
@@ -191,11 +202,38 @@ public class PluginManager(
 			var pluginDll = Directory.GetFiles(pluginFolder, $"{key}*.dll").FirstOrDefault();
 			if (!string.IsNullOrEmpty(pluginDll))
 			{
+				// Validate DLL integrity before loading
+				try
+				{
+					assemblyValidator.VerifyOrStoreHash(key, pluginDll);
+				}
+				catch (PluginException ex)
+				{
+					logger.LogError(ex, "Plugin '{PluginName}' failed integrity validation at startup. Skipping.", key);
+					continue;
+				}
+
 				// Soft load of package without taking ownership for the process .dll
 				using var pluginAssemblyFileStream = File.OpenRead(pluginDll);
 				plugin = await Plugin.LoadFromStream(pluginAssemblyFileStream, key);
 				var pluginAssembly = new PluginAssembly(manifest, plugin);
 				pluginAssemblyManager.AddAssembly(pluginAssembly);
+
+				// Validate assembly name matches manifest ID
+				if (pluginAssembly.Assembly is not null)
+				{
+					try
+					{
+						assemblyValidator.ValidateAssemblyName(pluginAssembly.Assembly, key);
+					}
+					catch (PluginException ex)
+					{
+						logger.LogError(ex, "Plugin '{PluginName}' assembly name mismatch at startup. Unloading.", key);
+						pluginAssemblyManager.RemoveAssembly(pluginAssembly);
+						continue;
+					}
+				}
+
 				logger.LogInformation("Assembly {AssemblyName} loaded at startup.", pluginDll);
 
 				await RegisterWithServiceLocator(pluginAssembly);
