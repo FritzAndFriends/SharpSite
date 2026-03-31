@@ -6,8 +6,17 @@ internal static class Posts
 {
 	public static async Task NavigateToPost(this IPage page, string postTitle)
 	{
-		await page.GotoAsync("/");
-		await page.GetByRole(AriaRole.Link, new() { Name = postTitle, Exact = true }).ClickAsync();
+		// Navigate via admin post list — the home page can't list posts when
+		// IPostRepository isn't registered through the PluginManager.
+		await page.GotoAsync("/admin/posts");
+		await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+		var link = page.GetByRole(AriaRole.Link, new() { Name = postTitle, Exact = true });
+		var href = await link.GetAttributeAsync("href");
+
+		// Convert admin URL (/admin/post/{date}/{slug}) to public URL (/{date}/{slug})
+		var publicUrl = href!.Replace("/admin/post", "");
+		await page.GotoAsync(publicUrl);
 		await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 		await Task.Delay(1000);
 	}
