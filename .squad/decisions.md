@@ -42,6 +42,18 @@
 **Progress:** 39 files upgraded, 51 build errors remain (Blazor BL0008 + C# type errors).  
 **Dependency:** Blocked on build stabilization.
 
+### Correctness Bug: Thread-unsafe Static Service Collection in PluginManager (2026-03-31) ✅ COMPLETED
+**Status:** Completed  
+**Owner:** River  
+**Issue:** `#348` — Static mutable `IServiceCollection` and `IServiceProvider?` fields in `PluginManager`, and plain `Dictionary` in `PluginAssemblyManager`, shared across all instances with no synchronization. Concurrent plugin loads or configuration changes could corrupt collections mid-enumeration.  
+**Resolution:** Three-layer fix:
+- **PluginAssemblyManager:** Replaced `Dictionary` with `ConcurrentDictionary`; used atomic `AddOrUpdate` and `TryRemove` operations
+- **PluginManager:** Added static `lock` object guarding all `_ServiceDescriptors` mutations and reads; used `Interlocked.Exchange` for atomic `_ServiceProvider` swaps; restructured async `ConfigurationSectionChanged` handler into snapshot-before-await and mutate-after-await phases
+- **ApplicationState.Plugins:** Changed from `Dictionary` to `ConcurrentDictionary`
+**Completion:** 2026-03-31T14:02  
+**Verification:** Build clean (0 errors, 0 warnings), 67 tests pass (including Kaylee's 6 thread-safety tests). E2E 9 failures are pre-existing (require Aspire host).  
+**Blocker Status:** CLEARED — Plugin system thread-safety now production-ready.
+
 ### Triage Priorities & Routing (2026-03-31)
 **Status:** Completed  
 **Owner:** Mal  
@@ -56,6 +68,7 @@
 - **#346** → River: RCE via `TypeNameHandling.Auto` in `ApplicationState.cs` (Effort: 2-4 hours)
   - Action: Replace Newtonsoft.Json polymorphic deserialization with System.Text.Json or strict `ISerializationBinder` whitelist
   - Blocker: Plugin system production readiness
+  - **Status:** ✅ COMPLETED
 
 - **#349** → River: Implement assembly validation & signing for plugin loading (Effort: 4-6 hours Phase 1)
   - Phase 1: Assembly name validation + SHA-256 hash verification
@@ -66,10 +79,12 @@
 **Tier 2: Critical Security Issues**
 - **#347** → River: ZIP bomb vulnerability in plugin extraction (Effort: 2-3 hours)
   - Action: Add max total size (100MB), per-file cap (50MB), compression ratio check (100:1), path normalization
+  - **Status:** ✅ COMPLETED
 
 **Tier 3: Correctness Bugs**
 - **#348** → River: Thread-unsafe static service collection in `PluginManager` (Effort: 3-4 hours)
   - Action: Add `lock` or `ReaderWriterLockSlim` around mutations; use `ConcurrentDictionary`
+  - **Status:** ✅ COMPLETED
 
 **Tier 4: Security Hardening**
 - **#350** → Simon: Forced password reset after initial admin seed (Effort: 3-4 hours)
