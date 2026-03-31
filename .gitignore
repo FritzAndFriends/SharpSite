@@ -5,6 +5,7 @@
 
 # Exclude installed plugins from Sharpsite.web
 src/SharpSite.Web/plugins/
+src/SharpSite.Web/_plugins/
 artifacts/FirstPlugin/
 artifacts/FileSystemPlugin/
 src/SharpSite.Web/Locales/SharpTranslator/
@@ -403,3 +404,10 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+# Squad: ignore runtime state (logs, inbox, sessions)
+.squad/orchestration-log/
+.squad/log/
+.squad/decisions/inbox/
+.squad/sessions/
+# Squad: SubSquad activation file (local to this machine)
+.squad-workstream

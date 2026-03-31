@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using SharpSite.Abstractions;
@@ -9,16 +10,16 @@ using SharpSite.Web.Locales;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var appState = builder.AddPluginManagerAndAppState();
+
 // Load plugins for postgres
 #region Postgres Plugins
 var pg = new RegisterPostgresServices();
-pg.RegisterServices(builder);
+await pg.AddServicesAtStartup(builder);
 
 var pgSecurity = new RegisterPostgresSecurityServices();
 pgSecurity.RegisterServices(builder);
 #endregion
-
-var appState = builder.AddPluginManagerAndAppState();
 
 // add the custom localization features for the application framework
 builder.ConfigureRequestLocalization();
@@ -43,7 +44,7 @@ builder.Services.AddRazorComponents()
 
 
 builder.Services.AddOutputCache();
-builder.Services.AddMemoryCache();
+// builder.Services.AddMemoryCache();
 
 // add an implementation of IEmailSender that does nothing for SharpSiteUser
 builder.Services.AddTransient<IEmailSender<SharpSiteUser>, IdentityNoOpEmailSender>();
@@ -57,15 +58,25 @@ if (!app.Environment.IsDevelopment())
 	app.UseHsts();
 }
 
+// StartupConfigMiddleware handles redirect-to-setup-wizard for non-started apps.
+// The /startapi endpoint is mapped separately below to avoid Blazor's catch-all route.
+app.UseMiddleware<StartupConfigMiddleware>();
+
 app.UseHttpsRedirection();
 
 app.ConfigurePluginFileSystem();
 
-
 app.UseOutputCache();
 
 // add error handlers for page not found
-app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}");
+// TODO: UseStatusCodePagesWithReExecute causes 'RemoteNavigationManager already initialized'
+// in .NET 10 Blazor SSR when a component sets a non-200 status code. Track in a separate issue.
+// app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}");
+
+app.UseAntiforgery();
+
+// Redirect authenticated users who must change their default password
+app.UseMiddleware<ForcePasswordChangeMiddleware>();
 
 var pluginManager = await app.ActivatePluginManager(appState);
 
@@ -76,20 +87,20 @@ app.MapRazorComponents<App>()
 		//typeof(Sample.FirstThemePlugin.Theme).Assembly
 		);
 
-app.UseAntiforgery();
 pgSecurity.MapEndpoints(app);
+
 
 app.MapSiteMap();
 app.MapRobotsTxt();
 app.MapRssFeed();
 app.MapDefaultEndpoints();
+app.MapStartApi(appState);
 
 app.UseRequestLocalization();
 
-await pgSecurity.RunAtStartup(app.Services);
+// Database initialization is triggered via /startapi (used by E2E tests)
+// or through the startup wizard flow (Step3).
 
 app.MapFileApi(pluginManager);
 
-app.UseMiddleware<StartupConfigMiddleware>();
-
-app.Run();
+await app.RunAsync();

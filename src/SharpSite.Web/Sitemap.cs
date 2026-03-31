@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Mvc;
 using SharpSite.Abstractions;
+using SharpSite.Web;
 using System.Text;
 
 public static class ProgramExtensions_Sitemap
@@ -7,10 +9,22 @@ public static class ProgramExtensions_Sitemap
 	{
 		app.MapGet("/sitemap.xml", async (
 			IHostEnvironment env,
+			[FromServices] ILogger logger,
 			HttpContext context,
-			IPostRepository postRepository,
-			IPageRepository pageRepository) =>
+			[FromServices] PluginManager pluginManager
+			) =>
 		{
+
+			IPostRepository? postRepository = pluginManager.GetPluginProvidedService<IPostRepository>();
+			IPageRepository? pageRepository = pluginManager.GetPluginProvidedService<IPageRepository>();
+
+			if (postRepository == null || pageRepository == null)
+			{
+				logger.LogCritical("Sitemap: Missing post or page repository");
+				context.Response.StatusCode = StatusCodes.Status204NoContent;
+				return;
+			}
+
 			var host = context.Request.Host.Value;
 			var posts = await postRepository.GetPosts();
 			var pages = await pageRepository.GetPages();

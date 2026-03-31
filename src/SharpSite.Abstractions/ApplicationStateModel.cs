@@ -1,31 +1,49 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json.Serialization;
+using SharpSite.Abstractions.Base;
 
 namespace SharpSite.Abstractions;
 
-public class ApplicationStateModel
+public class ApplicationStateModel : IApplicationStateModel
 {
 
-	/// <summary>
-	/// Indicates whether the application state has been initialized from the applicationState.json file.
-	/// </summary>
-	[JsonIgnore]
-	public bool Initialized { get; protected set; } = false;
+/// <summary>
+/// Indicates whether the application state has been initialized from the applicationState.json file.
+/// </summary>
+[JsonIgnore]
+public bool Initialized { get; protected set; } = false;
 
-	public bool StartupCompleted { get; set; } = false;
+public bool StartupCompleted { get; set; } = false;
 
-	[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-	public string? RobotsTxtCustomContent { get; set; }
+[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+public string? RobotsTxtCustomContent { get; set; }
 
-	public string SiteName { get; set; } = "SharpSite";
-
-
-	/// <summary>
-	/// Maximum file upload size in megabytes.
-	/// </summary>
-	public long MaximumUploadSizeMB { get; set; } = 10; // 10MB
-
-	public string PageNotFoundContent { get; set; } = string.Empty;
+public string SiteName { get; set; } = "SharpSite";
 
 
+/// <summary>
+/// Maximum file upload size in megabytes.
+/// </summary>
+public long MaximumUploadSizeMB { get; set; } = 10; // 10MB
 
+public string PageNotFoundContent { get; set; } = string.Empty;
+
+public virtual string GetConfigurationByName(string name, string defaultValue = "")
+{
+
+return name switch
+{
+"SiteName" => SiteName,
+"PageNotFoundContent" => PageNotFoundContent,
+"MaximumUploadSizeMB" => MaximumUploadSizeMB.ToString(),
+_ => defaultValue
+};
+
+}
+
+public virtual void SetConfigurationByName(string name, string value)
+{
+
+// do nothing  
+
+}
 }

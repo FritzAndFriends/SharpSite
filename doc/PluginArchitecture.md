@@ -4,7 +4,6 @@ SharpSite should support a rich ecosystem of plugins that allow administrator to
 
 Plugins are features that are not distributed with SharpSite but can be added after the SharpSite application is already started and deployed.
 
-
 ## Plugins are packages of files
 
 A Plugin should contain a collection of files, compressed in ZIP format, and renamed with a SSPKG extension.  The version number should appear in the filename before the SSPKG extension, separated from the package name with an `@` character.
@@ -73,23 +72,116 @@ A package is required to either have a `LICENSE` file embedded or provide an ent
 }
 ```
 
-### Plugin Install Process
+## Plugin Install Process
 
-1. A plugin package should be uploaded to SharpSite using an Site Admin UI.  
-2. The package should be saved in an isolated folder, `_uploaded`
-3. Extract the manifest from the package and display the content on screen for the admin to review and grant permissions for the plugin
-4. If approved, 
-   1. Move the lib files into a `Plugins` child folder named after the plugin 
-   2. Copy the `manifest.json` for each plugin into its `Plugins` folder
-   3. Dynamically load the initial assembly 
-   4. Load the manifest into the 'LoadedPlugins' application state information
-   5. Move the web files into the `wwwroot/Plugins/PLUGIN_NAME/` folder
+The current implementation follows this process:
 
-We need to enhance the website startup so that it loads the libraries and manifests from the `Plugins` folder.
+1. Plugin package is uploaded and handled by `HandleUploadedPlugin`:
+   - Validates the uploaded package
+   - Extracts and validates the manifest
+   - Ensures plugin is not already installed
+   - Stores manifest information temporarily
 
-### Enable / Disable plugins
+2. When `SavePlugin` is called:
+   - Creates required plugin directories if they don't exist
+   - Extracts the plugin package to appropriate folders:
+     - Library files go to `plugins/{pluginId}@{version}/`
+     - Web content goes to `plugins/_wwwroot/{pluginId}@{version}/`
+     - Manifest is copied to the plugin folder
+   - Loads plugin assembly dynamically
+   - Registers plugin services and configuration
+   - Updates application state
+   - Applies theme if plugin contains theme features
 
-We will want a way to have plugins downloaded, but not enabled
+3. At application startup, `LoadPluginsAtStartup`:
+   - Scans the plugins directory
+   - Loads manifests and assemblies
+   - Registers all plugin services and configurations
+   - Updates application state
+
+## Plugin Storage Structure
+
+The implementation uses the following directory structure:
+
+```
+plugins/
+├── _uploaded/         # Temporary storage for uploaded plugins
+├── _wwwroot/         # Web content from plugins
+│   └── {pluginId}@{version}/
+└── {pluginId}@{version}/  # Plugin library files
+    ├── manifest.json
+    └── lib/
+```
+
+## Plugin Services and Configuration
+
+### Service Registration
+
+The PluginManager supports automatic service registration through:
+
+1. `RegisterPluginAttribute` for plugin features:
+```csharp
+[RegisterPlugin(PluginRegisterType.FileStorage, PluginServiceLocatorScope.Singleton)]
+public class MyFileStorageHandler : IHandleFileStorage { }
+```
+
+Supported registration types:
+- FileStorage → IHandleFileStorage
+- DataStorage_Configuration → IConfigureDataStorage
+- DataStorage_EfContext → Direct type registration
+- DataStorage_PageRepository → IPageRepository
+- DataStorage_PostRepository → IPostRepository
+
+### Configuration Sections
+
+Plugins can provide configuration sections by implementing `ISharpSiteConfigurationSection`:
+
+```csharp
+public interface ISharpSiteConfigurationSection 
+{
+    string SectionName { get; }
+    Task OnConfigurationChanged(ISharpSiteConfigurationSection? oldSection, IPluginManager pluginManager);
+}
+```
+
+Configuration sections are:
+- Automatically discovered and registered
+- Added to ApplicationState.ConfigurationSections
+- Notified of configuration changes via OnConfigurationChanged
+- Available through dependency injection
+
+### Plugin Service Access
+
+Services provided by plugins can be accessed using:
+
+```csharp
+T? service = pluginManager.GetPluginProvidedService<T>();
+```
+
+## Plugin Features
+
+Plugins declare their features in the manifest through the Features array. Current supported features:
+- Theme: Allows the plugin to provide custom styling and layout
+
+## Security and Validation
+
+The implementation includes several security measures:
+
+1. Path validation for plugin directories:
+   - Prevents usage of invalid characters
+   - Blocks reserved names
+   - Validates path lengths
+   - Prevents directory traversal
+
+2. Plugin validation:
+   - Ensures unique plugin IDs
+   - Validates manifest contents
+   - Prevents duplicate installations
+
+3. Secure file handling:
+   - Isolated plugin directories
+   - Protected system directories (prefixed with '_')
+   - Safe file extraction from packages
 
 ## Plugin Dependencies
 
@@ -158,3 +250,98 @@ public interface IHandleFileStorage
 
 }
 ```
+
+## Automatic Service Registration
+
+The PluginManager will automatically register services from your plugin when specific attributes and interfaces are detected. This enables a plugin to seamlessly integrate with the SharpSite framework without manual registration code.
+
+### Service Registration via Attributes
+
+Classes decorated with the `RegisterPluginAttribute` will be automatically registered with the service locator. The following plugin types are supported:
+
+- `FileStorage` - Registers as `IHandleFileStorage`
+- `DataStorage_Configuration` - Registers as `IConfigureDataStorage`
+- `DataStorage_EfContext` - Registers the class itself
+- `DataStorage_PageRepository` - Registers as `IPageRepository`
+- `DataStorage_PostRepository` - Registers as `IPostRepository`
+
+Example usage:
+
+```csharp
+[RegisterPlugin(PluginRegisterType.FileStorage, PluginServiceLocatorScope.Singleton)]
+public class MyFileStorageImplementation : IHandleFileStorage
+{
+    // Implementation
+}
+```
+
+The second parameter of the RegisterPlugin attribute defines the service lifetime:
+
+- `Singleton` - One instance for the entire application
+- `Scoped` - One instance per scope (typically per request)
+- `Transient` - New instance each time requested
+
+### Configuration Section Registration
+
+Classes that implement `ISharpSiteConfigurationSection` are automatically registered as configuration sections. These sections are:
+
+1. Added to the `ApplicationState.ConfigurationSections` dictionary
+2. Registered with the service locator for dependency injection
+3. Have their `OnConfigurationChanged` method called when configuration changes occur
+
+Example:
+
+```csharp
+public class MyPluginConfig : ISharpSiteConfigurationSection
+{
+    public string SectionName => "MyPlugin";
+    
+    public async Task OnConfigurationChanged(ISharpSiteConfigurationSection? oldSection, IPluginManager pluginManager)
+    {
+        // Handle configuration changes
+    }
+}
+```
+
+### Startup Service Registration Process
+
+The PluginManager handles service registration during application startup through a well-defined process:
+
+1. **Initial Setup**
+   - The PluginManager and ApplicationState are registered as singleton services
+   - Memory cache services are added
+   - Event handlers for configuration changes are set up
+
+2. **Plugin Discovery and Loading**
+   - The "plugins" directory is scanned for installed plugins
+   - Each plugin's manifest.json is read and validated
+   - Matching DLL files are loaded using `Plugin.LoadFromStream`
+   - Plugin assemblies are added to the PluginAssemblyManager
+
+3. **Service Registration**
+   - Each plugin assembly is scanned using reflection
+   - Classes with `RegisterPluginAttribute` are identified
+   - Services are registered based on the PluginRegisterType:
+     - File Storage (`IHandleFileStorage`)
+     - Data Storage Configuration (`IConfigureDataStorage`)
+     - Entity Framework Contexts
+     - Page Repository (`IPageRepository`)
+     - Post Repository (`IPostRepository`)
+   - Configuration sections (`ISharpSiteConfigurationSection`) are discovered and registered
+
+4. **Service Provider Creation**
+   - After all services are registered, a service provider is built
+   - The service provider is used to resolve dependencies throughout the application
+   - When configuration changes occur, the service provider is rebuilt
+
+5. **Dynamic Updates**
+   - Configuration section changes trigger event handlers
+   - Old configuration sections are replaced with new ones
+   - Service provider is rebuilt to reflect changes
+
+This process ensures that:
+
+- Plugins are loaded in a predictable order
+- Services are properly scoped (Singleton, Scoped, or Transient)
+- Configuration changes are properly propagated
+- Dependencies are correctly resolved through the service provider

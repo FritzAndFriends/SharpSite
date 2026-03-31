@@ -6,7 +6,7 @@ var builder = Host.CreateApplicationBuilder(args);
 
 builder.AddServiceDefaults();
 var pg = new RegisterPostgresServices();
-pg.RegisterServices(builder, disableRetry: true);
+//pg.AddServicesAddStartup(builder);
 
 RegisterPostgresSecurityServices.ConfigurePostgresDbContext(builder, disableRetry: true);
 

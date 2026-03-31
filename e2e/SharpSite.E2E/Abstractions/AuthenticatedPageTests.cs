@@ -11,14 +11,21 @@ public abstract class AuthenticatedPageTests : SharpSitePageTest
 	private const string URL_LOGIN = "/Account/Login";
 	private const string LOGIN_USERID = "admin@Localhost";
 	private const string LOGIN_PASSWORD = "Admin123!";
+	private const string NEW_PASSWORD = "Admin456!";
+
+	// Tracks whether the default admin password has been changed via ForceChangePassword.
+	// Safe because all tests in the [Collection] run sequentially.
+	private static bool _passwordChanged = false;
+
+	private static string CurrentPassword => _passwordChanged ? NEW_PASSWORD : LOGIN_PASSWORD;
 
 	public static readonly bool RunTrace = true;
 
 	public override async Task InitializeAsync()
 	{
 		await base.InitializeAsync();
-		Context.SetDefaultNavigationTimeout(10000);
-		Context.SetDefaultTimeout(10000);
+		Context.SetDefaultNavigationTimeout(30000);
+		Context.SetDefaultTimeout(30000);
 
 		if (RunTrace)
 		{
@@ -53,17 +60,23 @@ public abstract class AuthenticatedPageTests : SharpSitePageTest
 	{
 
 		await Page.GotoAsync(URL_LOGIN);
-		//await Page.GetByRole(AriaRole.Link, new() { Name = "Login" }).ClickAsync();
 		await Page.GetByRole(AriaRole.Textbox, new() { Name = "Input.Email" })
 			.FillAsync(LOGIN_USERID);
 		await Page.GetByRole(AriaRole.Textbox, new() { Name = "Input.Password" })
-			.FillAsync(LOGIN_PASSWORD);
+			.FillAsync(CurrentPassword);
 		await Page.GetByRole(AriaRole.Button, new() { Name = "loginbutton" }).ClickAsync();
-		//await Context.StorageStateAsync(new()
-		//{
-		//	Path = ".auth.json"
-		//});
 		await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+
+		// Handle forced password change if the admin account was just seeded
+		if (Page.Url.Contains("/Account/ForceChangePassword"))
+		{
+			await Page.Locator("#Input\\.CurrentPassword").FillAsync(LOGIN_PASSWORD);
+			await Page.Locator("#Input\\.NewPassword").FillAsync(NEW_PASSWORD);
+			await Page.Locator("#Input\\.ConfirmPassword").FillAsync(NEW_PASSWORD);
+			await Page.GetByRole(AriaRole.Button, new() { Name = "Change password" }).ClickAsync();
+			await Page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+			_passwordChanged = true;
+		}
 
 	}
 

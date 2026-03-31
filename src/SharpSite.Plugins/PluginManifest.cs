@@ -31,6 +31,7 @@ public class PluginManifest
 public enum PluginFeatures
 {
 	Theme,
-	FileStorage
+	FileStorage,
+	DataStorage
 }
 

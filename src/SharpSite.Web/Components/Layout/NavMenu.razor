@@ -2,7 +2,7 @@
 @implements IDisposable
 @inject ApplicationState AppState
 @inject NavigationManager NavigationManager
-@inject IPageRepository PageRepository
+@inject PluginManager PluginManager
 @inject AuthenticationStateProvider AuthZ
 @inject IUserRepository UserRepository
 
@@ -94,7 +94,19 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		Pages = await PageRepository.GetPages();
+
+		if (!AppState.StartupCompleted) return;
+
+		var PageRepository = PluginManager.GetPluginProvidedService<IPageRepository>();
+		if (PageRepository is null)
+		{
+			Pages = Enumerable.Empty<Page>();
+		}
+		else
+		{
+			Pages = await PageRepository.GetPages();
+		}
+
 		currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
 		NavigationManager.LocationChanged += OnLocationChanged;
 

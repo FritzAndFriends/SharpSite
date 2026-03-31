@@ -1,7 +1,8 @@
+using Microsoft.AspNetCore.Mvc;
+using SharpSite.Abstractions;
 using System.Net;
 using System.Security;
 using System.Text;
-using SharpSite.Abstractions;
 
 namespace SharpSite.Web;
 
@@ -16,8 +17,16 @@ public static class Program_Rss
 			return null;
 		}
 
-		app.MapGet("/rss.xml", async (HttpContext context, IPostRepository postRepository) =>
+		app.MapGet("/rss.xml", async (HttpContext context, [FromServices] ILogger logger, [FromServices] PluginManager pluginManager) =>
 		{
+
+			IPostRepository? postRepository = pluginManager.GetPluginProvidedService<IPostRepository>();
+			if (postRepository == null)
+			{
+				logger.LogCritical("RSS: Missing post repository");
+				context.Response.StatusCode = (int)HttpStatusCode.NoContent;
+				return;
+			}
 
 			var posts = await postRepository.GetPosts();
 

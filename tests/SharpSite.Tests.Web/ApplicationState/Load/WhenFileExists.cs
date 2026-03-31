@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using Xunit;
 using SUT = SharpSite.Web.ApplicationState;
 
@@ -26,7 +26,7 @@ public class WhenFileExists : BaseFixture
 			CurrentTheme = new SUT.CurrentThemeRecord("theme-v1")
 		};
 
-		var json = JsonConvert.SerializeObject(state, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
+		var json = JsonSerializer.Serialize(state, SUT.SerializerOptions);
 
 		// Act
 		await ApplicationState.Load(serviceProvider, () => json);

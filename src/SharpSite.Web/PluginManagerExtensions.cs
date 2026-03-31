@@ -16,6 +16,7 @@ public static class PluginManagerExtensions
 		var appState = new ApplicationState();
 		builder.Services.AddSingleton(appState);
 		builder.Services.AddSingleton<PluginAssemblyManager>();
+		builder.Services.AddSingleton<PluginAssemblyValidator>();
 		builder.Services.AddSingleton<PluginManager>();
 
 		return appState;

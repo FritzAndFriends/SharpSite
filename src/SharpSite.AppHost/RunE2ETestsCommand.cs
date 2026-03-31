@@ -14,9 +14,12 @@ public static class RunE2ETestsCommand
 				name: Name,
 				displayName: "Run end to end tests",
 				executeCommand: context => RunTests(),
-				updateState: OnUpdateResourceState,
-				iconName: "BookGlobe",
-				iconVariant: IconVariant.Filled);
+				commandOptions: new CommandOptions
+				{
+					UpdateState = OnUpdateResourceState,
+					IconName = "BookGlobe",
+					IconVariant = IconVariant.Filled
+				});
 
 		return builder;
 	}

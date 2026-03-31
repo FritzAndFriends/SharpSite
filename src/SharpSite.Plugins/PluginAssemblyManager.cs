@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Collections.Concurrent;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 
@@ -9,34 +10,34 @@ public class PluginAssemblyManager(ILogger<PluginAssemblyManager> logger): IDisp
 	private readonly ILogger<PluginAssemblyManager> _logger = logger;
 
 	private bool disposed = false;
-	private readonly Dictionary<string, PluginAssembly> _pluginAssemblies = new Dictionary<string, PluginAssembly>();
+	private readonly ConcurrentDictionary<string, PluginAssembly> _pluginAssemblies = new();
 
 	public IReadOnlyDictionary<string, PluginAssembly> Assemblies => _pluginAssemblies;
 
 	public void AddAssembly(PluginAssembly assembly)
 	{
 		_logger.LogInformation("Assembly {AssemblyManifestId} being added", assembly.Manifest.Id);
-		if (!_pluginAssemblies.ContainsKey(assembly.Manifest.Id))
-		{
-			_logger.LogInformation("Plugins does not have plugin assenbly with id {AssemblyManifestId}", assembly.Manifest.Id);
-			_pluginAssemblies.Add(assembly.Manifest.Id, assembly);
-
-		}
-		else 
-		{
-			_logger.LogInformation("Plugins does have plugin assenbly with id {AssemblyManifestId}", assembly.Manifest.Id);
-			_pluginAssemblies[assembly.Manifest.Id].UnloadContext();
-			_pluginAssemblies[assembly.Manifest.Id] = assembly;
-		}
+		_pluginAssemblies.AddOrUpdate(
+			assembly.Manifest.Id,
+			key =>
+			{
+				_logger.LogInformation("Plugins does not have plugin assembly with id {AssemblyManifestId}", assembly.Manifest.Id);
+				return assembly;
+			},
+			(key, existingAssembly) =>
+			{
+				_logger.LogInformation("Plugins does have plugin assembly with id {AssemblyManifestId}", assembly.Manifest.Id);
+				existingAssembly.UnloadContext();
+				return assembly;
+			});
 		assembly.LoadContext();
 	}
 
 	public void RemoveAssembly(PluginAssembly assembly)
 	{
-		if (_pluginAssemblies.ContainsKey(assembly.Manifest.Id))
+		if (_pluginAssemblies.TryRemove(assembly.Manifest.Id, out var removed))
 		{
-			assembly.UnloadContext();
-			_pluginAssemblies.Remove(assembly.Manifest.Id);
+			removed.UnloadContext();
 		}
 	}
 
