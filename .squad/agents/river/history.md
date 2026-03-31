@@ -50,3 +50,19 @@ Fixed remaining build error in `RegisterPostgresSecurityServices.cs:33`. The `Sh
 - All 47 unit tests pass. Build is clean.
 
 **Pattern to remember:** For any future polymorphic serialization in the plugin system, use the `ConfigurationSectionJsonConverter` pattern: validate the resolved type implements the expected interface before instantiation. Never allow arbitrary type resolution from JSON input.
+
+### 2026-03-31 — Security: ZIP Bomb & Path Traversal Protection in Plugin Extraction
+
+**Issue:** #347 — `ExtractAndInstallPlugin` had zero safety checks: no size limits, no compression ratio validation, no path traversal prevention. A 42KB ZIP could decompress to petabytes.
+
+**Fix applied:**
+- Added `ValidateArchiveSecurity()` method called during `HandleUploadedPlugin` — validates all entries before extraction begins.
+- **Max total extracted size:** 100MB (`MaxTotalExtractedSize`).
+- **Max single file size:** 50MB (`MaxSingleFileSize`).
+- **Compression ratio check:** Rejects entries with ratio > 100:1 (`MaxCompressionRatio`) — catches ZIP bombs that use highly compressible data.
+- **Path traversal protection:** Normalizes backslashes to forward slashes, rejects any entry containing `..` in its FullName.
+- **Defense-in-depth in ExtractAndInstallPlugin:** Duplicate path traversal check + `Path.GetFullPath()` containment validation ensuring resolved paths stay within `pluginLibFolder` or `pluginWwwRootFolder`.
+- All rejections throw `PluginException` with structured logging.
+- All 55 unit tests pass including 8 new ZIP security tests.
+
+**Pattern to remember:** For ZIP extraction security, validate entries at upload time (fail fast) AND during extraction (defense-in-depth). Always check: size limits, compression ratios, and path containment. Use `Path.GetFullPath()` + directory prefix checks for containment.

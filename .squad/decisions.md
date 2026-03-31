@@ -11,6 +11,17 @@
 **Verification:** Build clean, 47 tests pass, Newtonsoft.Json fully removed.  
 **Blocker Status:** CLEARED — Plugin system production readiness unblocked.
 
+### Security P0: ZIP Bomb Protection for Plugin Extraction (2026-03-31) ✅ COMPLETED
+**Status:** Completed  
+**Owner:** River  
+**Issue:** `#347` — Plugin ZIP extraction in `PluginManager.cs` had no safety limits. An attacker could upload a ZIP bomb (42KB compressed → petabytes uncompressed) to exhaust server disk. Path traversal via `../` sequences in entry names was also not explicitly blocked.  
+**Resolution:** Added two-layer security validation:
+- **Layer 1 (upload-time):** `ValidateArchiveSecurity` validates max total size (100MB), per-file cap (50MB), compression ratio (100:1), and rejects path traversal via `..`
+- **Layer 2 (extraction-time):** Defense-in-depth validation during file writes using `Path.GetFullPath()` containment checks
+**Completion:** 2026-03-31T13:55  
+**Verification:** Build clean, 55 tests pass (8 ZIP security tests included)  
+**Blocker Status:** CLEARED — Plugin ZIP extraction production ready.
+
 ### Security P0: Implement Assembly Validation for Plugin Loading (2026-03-26)
 **Status:** Pending  
 **Owner:** Mal  
@@ -70,6 +81,26 @@
   - Status: Build complete (0 errors), unit tests pass (47/47)
   - Pending: E2E/Playwright, Aspire AppHost, CI SDK updates
   - Tracking: PR #352
+
+### Security Testing Framework: Anticipatory Tests for #346-#348 (2026-03-31) ✅ COMPLETED
+**Status:** Completed  
+**Owner:** Kaylee (Tester)  
+**Decision:** Wrote 21 anticipatory unit test cases across 4 test files to accelerate River's security fixes for Issues #346, #347, #348. Tests are written now; some verify the *fixed* behavior and will pass once implementations land.
+
+**Test Structure:**
+- **RCE Serialization (#346):** 7 tests validating System.Text.Json safe deserialization behavior
+  - Location: `tests/SharpSite.Tests.Web/ApplicationState/Security/`
+- **ZIP Bomb (#347):** 8 tests validating compression ratio limits, max sizes, path traversal rejection
+  - Location: `tests/SharpSite.Tests.Web/PluginManager/Security/`
+  - **Status:** Already passing with River's implementation
+- **Thread Safety (#348):** 6 tests verifying concurrent access patterns
+  - Location: Split across `Tests.Plugins` (PluginAssemblyManager) and `Tests.Web` (PluginManager, ApplicationState)
+
+**Completion:** 2026-03-31T13:55  
+**Verification:** Build clean, 55 tests pass (ZIP bomb tests already validated)  
+**Cross-Agent Impact:** Tests remain pending River's completion of #346 and #348 fixes.
+
+
 
 ### User Directive: Admin Seed Credentials (2026-03-26T15:37Z)
 **By:** Jeffrey T. Fritz (via Copilot)  
