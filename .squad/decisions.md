@@ -22,12 +22,16 @@
 **Verification:** Build clean, 55 tests pass (8 ZIP security tests included)  
 **Blocker Status:** CLEARED — Plugin ZIP extraction production ready.
 
-### Security P0: Implement Assembly Validation for Plugin Loading (2026-03-26)
-**Status:** Pending  
-**Owner:** Mal  
+### Security P0: Implement Assembly Validation for Plugin Loading (2026-03-26) ✅ COMPLETED
+**Status:** Completed (Phase 1)  
+**Owner:** River  
 **Issue:** Plugin DLLs in the plugins directory are loaded and executed with zero integrity verification, code signing, or assembly name validation. A malicious plugin has unrestricted access to database, filesystem, environment variables, network, and all application services.  
-**Action:** Add assembly name validation against manifest ID. Long-term: implement plugin signing certificate chain.  
-**Blocker:** Blocks production readiness of plugin system.
+**Resolution:** Implemented Phase 1 assembly validation with two checks:
+- **Assembly Name Validation** — After loading a plugin DLL, the assembly's `GetName().Name` is verified against the manifest `Id`. A mismatch causes the plugin to be rejected and unloaded.
+- **SHA-256 Hash Verification** — Before loading a DLL, its SHA-256 hash is computed. On first install, the hash is stored in `plugins/_assembly-hashes.json`. On every subsequent load (including startup), the hash is verified against the stored value. A mismatch indicates tampering.  
+**Completion:** 2026-03-31T14:12  
+**Verification:** Build clean, 67 tests pass.  
+**Blocker Status:** CLEARED — Phase 1 assembly validation production ready. Phase 2 (permission manifests) and Phase 3 (code signing) are future work.
 
 ### Build Stabilization: Fix Type Ambiguities in Security.Postgres (2026-03-26)
 **Status:** In Progress  
@@ -163,3 +167,4 @@
 - All meaningful changes require team consensus
 - Document architectural decisions here
 - Keep history focused on work, decisions focused on direction
+
