@@ -17,18 +17,16 @@
 
 @code {
 	private IEnumerable<Post>? Posts { get; set; }
-	private IPostRepository PostService { get; set; } = default!;
+	private IPostRepository? PostService { get; set; }
 
 	protected override async Task OnInitializedAsync()
 	{
 
 		if (!AppState.StartupCompleted) return;
 
-		PostService = PluginManager.GetPluginProvidedService<IPostRepository>()!;
-		if (PostService == null)
-		{
-			throw new InvalidOperationException("PostService is not available.");
-		}
+		PostService = PluginManager.GetPluginProvidedService<IPostRepository>();
+		if (PostService == null) return;
+
 		Posts = (await PostService.GetPosts()).OrderByDescending(p => p.PublishedDate);
 	}
 }
