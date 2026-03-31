@@ -2,12 +2,14 @@
 
 ## Active Decisions
 
-### Security P0: Remove TypeNameHandling.Auto RCE Vector (2026-03-26)
-**Status:** Pending  
-**Owner:** Mal  
+### Security P0: Remove TypeNameHandling.Auto RCE Vector (2026-03-26) ✅ COMPLETED
+**Status:** Completed  
+**Owner:** River  
 **Issue:** `ApplicationState.cs` (lines 130-134, 212-216) uses `TypeNameHandling.Auto` with Newtonsoft.Json — a well-documented Remote Code Execution deserialization vulnerability. Attacker can modify `plugins/applicationState.json` to inject arbitrary type instantiation payloads.  
-**Action:** Replace with `System.Text.Json` or implement custom `SerializationBinder` with type whitelist. Estimated effort: 2 hours.  
-**Blocker:** Blocks production readiness of plugin system.
+**Resolution:** Replaced all Newtonsoft.Json usage with System.Text.Json. Implemented ConfigurationSectionJsonConverter for safe polymorphic deserialization.  
+**Completion:** 2026-03-31T13:47  
+**Verification:** Build clean, 47 tests pass, Newtonsoft.Json fully removed.  
+**Blocker Status:** CLEARED — Plugin system production readiness unblocked.
 
 ### Security P0: Implement Assembly Validation for Plugin Loading (2026-03-26)
 **Status:** Pending  
@@ -72,6 +74,43 @@
 ### User Directive: Admin Seed Credentials (2026-03-26T15:37Z)
 **By:** Jeffrey T. Fritz (via Copilot)  
 **Decision:** Keep `Admin123!` as the default developer experience. Add mechanism to force password reset after initial install in production mode. Do NOT remove seed credentials — they are a feature, not a bug.
+
+### .NET 10 + Aspire 13.2 Package Versions (2026-03-26)
+**Status:** Completed  
+**Author:** River  
+**Context:** Upgraded the entire SharpSite solution from .NET 9 / Aspire 9.1 to .NET 10 / Aspire 13.2.
+**Decisions:**
+| Package Family | Version | Rationale |
+|---|---|---|
+| Aspire.Hosting.*, Aspire.Npgsql.* | 13.2.0 | Target Aspire version |
+| Aspire.AppHost.Sdk | 13.2.0 | Must match Aspire packages |
+| Microsoft.EntityFrameworkCore.* | 10.0.5 | Floor required by Aspire 13.2 transitives |
+| Microsoft.Extensions.Hosting.* | 10.0.5 | Floor required by Aspire 13.2 transitives |
+| Microsoft.Extensions.Caching.Memory | 10.0.5 | Floor required by Aspire 13.2 transitives |
+| Microsoft.Extensions.ServiceDiscovery | 10.4.0 | NOT an Aspire package; 13.2.0 doesn't exist |
+| Microsoft.Extensions.Http.Resilience | 10.4.0 | Latest stable for .NET 10 |
+| OpenTelemetry.* | 1.15.0 | Fixes CVE in 1.11.x; floor required by Aspire 13.2 |
+| Newtonsoft.Json | 13.0.4 | ~~Floor required by Aspire 13.2~~ REMOVED in #346 |
+| System.Text.Json | 10.0.0 | Kept in central management, removed from csproj (pruned) |
+| ASP.NET Core packages | 10.0.0 | Standard .NET 10 RTM |
+
+**TargetFramework:** Moved `<TargetFramework>net10.0</TargetFramework>` to `Directory.Build.props`. Future upgrades require one-line change.
+
+**Packages Pruned (removed from csproj):**
+- `Microsoft.Extensions.Localization` — part of .NET 10 shared framework
+- `Microsoft.Extensions.Caching.Memory` — part of .NET 10 shared framework
+- `System.Text.Json` — part of .NET 10 shared framework
+
+### Pin Aspire Port for E2E Test Mode (2026-03-26)
+**Status:** Completed  
+**Author:** Zoe (CI/DevOps)  
+**PR:** #352  
+**Context:** Aspire 13.2 assigns dynamic ports; CI hangs waiting for port 5020.
+**Decision:** 
+- Add `WithHttpEndpoint(port: 5020, name: "http")` in AppHost when `testOnly` is true
+- Improve `build-and-test.ps1` with stderr capture, progress logging, diagnostics
+- Reduce HTTP health-check timeout from 5s to 2s
+**Impact:** CI no longer hangs; failures produce diagnostic output; no production impact
 
 ## Governance
 
