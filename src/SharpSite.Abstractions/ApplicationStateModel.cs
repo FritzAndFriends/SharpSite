@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 using SharpSite.Abstractions.Base;
 
 namespace SharpSite.Abstractions;
@@ -14,7 +14,7 @@ public class ApplicationStateModel : IApplicationStateModel
 
 	public bool StartupCompleted { get; set; } = false;
 
-	[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
 	public string? RobotsTxtCustomContent { get; set; }
 
 	public string SiteName { get; set; } = "SharpSite";

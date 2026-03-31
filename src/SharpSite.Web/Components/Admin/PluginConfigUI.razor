@@ -1,5 +1,4 @@
 ﻿@page "/admin/pluginconfig/{pluginName}"
-@using Newtonsoft.Json
 @using SharpSite.Abstractions.Base
 @attribute [Authorize(Roles = Constants.Roles.Admin)]
 @inject ApplicationState AppState
@@ -75,8 +74,6 @@ else
 		}
 		else
 		{
-
-			// use Newtonsoft.Json to serialize and then deserialize the configuration section
 
 			ConfigurationSection = AppState.CloneSection(PluginName);
 

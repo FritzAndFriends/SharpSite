@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using SharpSite.Abstractions;
 using SharpSite.Abstractions.Base;
 using SharpSite.Abstractions.Theme;
@@ -10,16 +11,22 @@ namespace SharpSite.Web;
 
 public class ApplicationState : ApplicationStateModel
 {
+	internal static readonly JsonSerializerOptions SerializerOptions = new()
+	{
+		WriteIndented = true,
+		Converters = { new ConfigurationSectionJsonConverter() }
+	};
+
 	public record CurrentThemeRecord(string IdVersion);
 
 	public record LocalizationRecord(string? DefaultCulture, string[]? SupportedCultures);
 
-	[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
 	public CurrentThemeRecord? CurrentTheme { get; set; }
 
 	public string HasCustomLogo { get; set; } = string.Empty;
 
-	[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+	[JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
 	public LocalizationRecord? Localization { get; set; }
 
 	public Dictionary<string, ISharpSiteConfigurationSection> ConfigurationSections { get; private set; } = new();
@@ -126,12 +133,7 @@ public class ApplicationState : ApplicationStateModel
 		if (!string.IsNullOrEmpty(appStateContents))
 		{
 
-			// use Newtonsoft.json to deserialize the json string into the ApplicationState object
-			var state = JsonConvert.DeserializeObject<ApplicationState>(appStateContents,
-			 new JsonSerializerSettings
-			 {
-				 TypeNameHandling = TypeNameHandling.Auto,
-			 });
+			var state = JsonSerializer.Deserialize<ApplicationState>(appStateContents, SerializerOptions);
 
 			if (state is not null)
 			{
@@ -209,11 +211,7 @@ public class ApplicationState : ApplicationStateModel
 		// save application state to applicationState.json in the root of the plugins folder
 		var appStateFile = Path.Combine("plugins", "applicationState.json");
 
-		var json = JsonConvert.SerializeObject(this,
-			 new JsonSerializerSettings
-			 {
-				 TypeNameHandling = TypeNameHandling.Auto,
-			 });
+		var json = JsonSerializer.Serialize(this, SerializerOptions);
 		await File.WriteAllTextAsync(appStateFile, json);
 	}
 }

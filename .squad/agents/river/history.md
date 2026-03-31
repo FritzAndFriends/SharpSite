@@ -36,3 +36,17 @@ Fixed remaining build error in `RegisterPostgresSecurityServices.cs:33`. The `Sh
 - **Package pruning (NU1510)**: .NET 10 flags `Microsoft.Extensions.Localization`, `Microsoft.Extensions.Caching.Memory`, and `System.Text.Json` as unnecessary direct references — they're in the shared framework now.
 - **Pre-existing issues in UI.Security and plugin**: Both projects have incomplete interfaces (missing methods like `CreateAsync`, `DeleteAsync` on `IUserManager`). Not caused by the upgrade.
 - **All 47 unit tests pass on .NET 10.**
+
+### 2026-03-26 — Security P0: RCE Fix — Replaced Newtonsoft.Json TypeNameHandling.Auto with System.Text.Json
+
+**Issue:** #346 — `TypeNameHandling.Auto` in Newtonsoft.Json is a documented RCE deserialization vector. Four usages existed across `ApplicationState.cs` and `SharpsiteConfigurationExtensions.cs`.
+
+**Fix applied:**
+- Replaced all Newtonsoft.Json serialization with `System.Text.Json` across `ApplicationState.cs`, `ApplicationStateModel.cs`, `SharpsiteConfigurationExtensions.cs`, and `PluginConfigUI.razor`.
+- Created `ConfigurationSectionJsonConverter.cs` — a custom `JsonConverter<ISharpSiteConfigurationSection>` that handles polymorphic serialization safely. It writes a `$type` discriminator but only resolves types that implement `ISharpSiteConfigurationSection` from loaded assemblies. Attackers cannot instantiate arbitrary types.
+- The converter handles legacy Newtonsoft-style assembly-qualified type names for backwards compatibility with existing `applicationState.json` files.
+- Removed `Newtonsoft.Json` PackageReference from both `SharpSite.Abstractions.csproj` and `SharpSite.Web.csproj`.
+- Updated test file `WhenFileExists.cs` to use `System.Text.Json`.
+- All 47 unit tests pass. Build is clean.
+
+**Pattern to remember:** For any future polymorphic serialization in the plugin system, use the `ConfigurationSectionJsonConverter` pattern: validate the resolved type implements the expected interface before instantiation. Never allow arbitrary type resolution from JSON input.
