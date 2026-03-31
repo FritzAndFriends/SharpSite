@@ -29,7 +29,7 @@ public class CreatePostTests : AuthenticatedPageTests
 
 		await Page.NavigateToPost(PostTitle);
 
-		var title = await Page.Locator("h1").InnerTextAsync();
+		var title = await Page.GetByPlaceholder("Title").InputValueAsync();
 		Assert.Equal(PostTitle, title);
 
 	}
@@ -57,12 +57,12 @@ public class CreatePostTests : AuthenticatedPageTests
 
 		await Page.NavigateToPost(PostTitle);
 
-		var title = await Page.Locator("h1").InnerTextAsync();
+		var title = await Page.GetByPlaceholder("Title").InputValueAsync();
 		Assert.Equal(PostTitle, title);
 
-		// check that the date in the h6 is in the past
-		var date = await Page.Locator("h6").InnerTextAsync();
-		Assert.True(DateTime.TryParse(date, out var result));
+		// check that the publish date is in the past
+		var dateValue = await Page.GetByLabel("Publish Date").InputValueAsync();
+		Assert.True(DateTime.TryParse(dateValue, out var result));
 		Assert.Equal(postDate, result.Date);
 
 

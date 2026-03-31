@@ -11,12 +11,8 @@ internal static class Posts
 		await page.GotoAsync("/admin/posts");
 		await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 
-		var link = page.GetByRole(AriaRole.Link, new() { Name = postTitle, Exact = true });
-		var href = await link.GetAttributeAsync("href");
-
-		// Convert admin URL (/admin/post/{date}/{slug}) to public URL (/{date}/{slug})
-		var publicUrl = href!.Replace("/admin/post", "");
-		await page.GotoAsync(publicUrl);
+		// Click the post title link to navigate to the admin edit page
+		await page.GetByRole(AriaRole.Link, new() { Name = postTitle, Exact = true }).ClickAsync();
 		await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
 		await Task.Delay(1000);
 	}
