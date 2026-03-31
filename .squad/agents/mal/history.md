@@ -9,6 +9,22 @@
 
 <!-- Append new learnings below. Each entry is something lasting about the project. -->
 
+### 2026-03-26 — Issue Triage Results (6 squad-labeled issues)
+
+**Routed to squads:**
+- **River** (Backend): #346 (P0 RCE), #347 (ZIP bomb), #348 (thread safety), #349 (plugin signing)
+- **Simon** (Frontend): #350 (forced password reset UI)
+- **Wash** (E2E): #351 (.NET 10 validation)
+
+**Priority ordering:**
+1. #346: Security P0 RCE via TypeNameHandling.Auto → **blocks production**
+2. #347, #349: Security vulnerabilities (plugin extraction, DLL validation) → **blocks production**
+3. #348: Thread-safety bug (PluginManager static state) → **critical correctness**
+4. #350: Security hardening (forced password reset) → **medium priority**
+5. #351: .NET 10 validation → **mostly done, E2E pending**
+
+All issues labeled with `squad:{member}` and triage comments added. Labels created: squad:river, squad:simon, squad:wash.
+
 ### 2026-03-26 — Plugin System Architecture Review (spike_DatabasePlugin branch)
 
 - **Branch health: RED** — Build fails with 60 errors. Root cause is type ambiguity between `SharpSite.Abstractions.Security` types and `Microsoft.AspNetCore.Identity` types in `src/SharpSite.Security.Postgres/`. The security abstraction migration is incomplete.
