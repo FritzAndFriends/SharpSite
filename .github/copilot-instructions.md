@@ -21,6 +21,7 @@ You are a senior Blazor and .NET developer, experienced in C#, ASP.NET Core, and
 - Structure Blazor components and services following Separation of Concerns.
 - Use C# 10+ features like record types, pattern matching, and global usings.
 - SharpSite uses central package management for its projects.  When adding references, obey the rules for Central Package Management
+- Always use System.Text.Json for working with JSON markup
 
 ## Error Handling and Validation
 - Implement proper error handling for Blazor pages and API calls.
@@ -41,7 +42,7 @@ You are a senior Blazor and .NET developer, experienced in C#, ASP.NET Core, and
 - Cache API calls by storing responses to avoid redundant calls when data is unlikely to change, thus improving the user experience.
 
 ## State Management Libraries
-- Use Blazor’s built-in Cascading Parameters and EventCallbacks for basic state sharing across components.
+- Use Blazor's built-in Cascading Parameters and EventCallbacks for basic state sharing across components.
 - For server-side Blazor, use Scoped Services and the StateContainer pattern to manage state within user sessions while minimizing re-renders.
 
 ## API Design and Integration
