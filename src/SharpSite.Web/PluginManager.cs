@@ -25,6 +25,10 @@ public class PluginManager(
 	private readonly static IServiceCollection _ServiceDescriptors = new ServiceCollection();
 	private static IServiceProvider? _ServiceProvider;
 
+	private const long MaxTotalExtractedSize = 100L * 1024 * 1024; // 100MB
+	private const long MaxSingleFileSize = 50L * 1024 * 1024;      // 50MB
+	private const double MaxCompressionRatio = 100.0;               // 100:1
+
 	public static void Initialize()
 	{
 		Directory.CreateDirectory("plugins");
@@ -55,6 +59,7 @@ public class PluginManager(
 		Manifest = ReadManifest(manifestStream);
 		Manifest.ValidateManifest(logger, plugin);
 		EnsurePluginNotInstalled(Manifest, logger);
+		ValidateArchiveSecurity(archive);
 
 		// Add your logic to process the manifest content here
 		logger.LogInformation("Plugin {PluginName} uploaded and manifest processed.", Manifest);
@@ -241,6 +246,65 @@ public class PluginManager(
 	}
 
 
+	private void ValidateArchiveSecurity(ZipArchive archive)
+	{
+		long totalExtractedSize = 0;
+
+		foreach (var entry in archive.Entries)
+		{
+			if (string.IsNullOrEmpty(entry.Name)) continue;
+
+			// Path traversal protection: reject any entry containing ".." (normalized for both slash styles)
+			var normalizedName = entry.FullName.Replace('\\', '/');
+			if (normalizedName.Contains("..", StringComparison.Ordinal))
+			{
+				var ex = new PluginException($"Path traversal detected in ZIP entry: {entry.FullName}");
+				logger.LogError(ex, "Rejected plugin: path traversal in entry '{EntryName}'", entry.FullName);
+				throw ex;
+			}
+
+			// Per-file size limit
+			if (entry.Length > MaxSingleFileSize)
+			{
+				var ex = new PluginException(
+					$"ZIP entry '{entry.FullName}' exceeds maximum file size of {MaxSingleFileSize / (1024 * 1024)}MB " +
+					$"(actual: {entry.Length / (1024 * 1024)}MB).");
+				logger.LogError(ex, "Rejected plugin: entry '{EntryName}' is {SizeMB}MB, max is {MaxMB}MB",
+					entry.FullName, entry.Length / (1024 * 1024), MaxSingleFileSize / (1024 * 1024));
+				throw ex;
+			}
+
+			// Compression ratio check (ZIP bomb detection)
+			if (entry.CompressedLength > 0)
+			{
+				double ratio = (double)entry.Length / entry.CompressedLength;
+				if (ratio > MaxCompressionRatio)
+				{
+					var ex = new PluginException(
+						$"ZIP entry '{entry.FullName}' has suspicious compression ratio of {ratio:F1}:1 " +
+						$"(max allowed: {MaxCompressionRatio}:1).");
+					logger.LogError(ex, "Rejected plugin: entry '{EntryName}' compression ratio {Ratio}:1 exceeds limit of {MaxRatio}:1",
+						entry.FullName, ratio, MaxCompressionRatio);
+					throw ex;
+				}
+			}
+
+			totalExtractedSize += entry.Length;
+		}
+
+		// Total extracted size limit
+		if (totalExtractedSize > MaxTotalExtractedSize)
+		{
+			var ex = new PluginException(
+				$"Total extracted size of {totalExtractedSize / (1024 * 1024)}MB exceeds maximum of " +
+				$"{MaxTotalExtractedSize / (1024 * 1024)}MB.");
+			logger.LogError(ex, "Rejected plugin: total extracted size {SizeMB}MB exceeds max {MaxMB}MB",
+				totalExtractedSize / (1024 * 1024), MaxTotalExtractedSize / (1024 * 1024));
+			throw ex;
+		}
+	}
+
+
 	private static async Task<(FileStream, DirectoryInfo, ZipArchive)> ExtractAndInstallPlugin(ILogger<PluginManager> logger, Plugin plugin, PluginManifest pluginManifest)
 	{
 		DirectoryInfo pluginLibFolder;
@@ -273,6 +337,13 @@ public class PluginManager(
 			// skip directory entries in the archive
 			if (string.IsNullOrEmpty(entry.Name)) continue;
 
+			// Defense-in-depth: reject path traversal during extraction
+			var normalizedEntryName = entry.FullName.Replace('\\', '/');
+			if (normalizedEntryName.Contains("..", StringComparison.Ordinal))
+			{
+				throw new PluginException($"Path traversal detected in ZIP entry: {entry.FullName}");
+			}
+
 			string entryPath = entry.FullName switch
 			{
 				"manifest.json" => Path.Combine(pluginLibFolder.FullName, entry.Name),
@@ -282,6 +353,19 @@ public class PluginManager(
 			};
 
 			if (string.IsNullOrEmpty(entryPath)) continue;
+
+			// Defense-in-depth: verify extracted file resolves within allowed directories
+			var resolvedPath = Path.GetFullPath(entryPath);
+			var libFullPath = Path.GetFullPath(pluginLibFolder.FullName) + Path.DirectorySeparatorChar;
+			var wwwFullPath = pluginWwwRootFolder is not null
+				? Path.GetFullPath(pluginWwwRootFolder.FullName) + Path.DirectorySeparatorChar
+				: null;
+
+			if (!resolvedPath.StartsWith(libFullPath, StringComparison.OrdinalIgnoreCase) &&
+				(wwwFullPath is null || !resolvedPath.StartsWith(wwwFullPath, StringComparison.OrdinalIgnoreCase)))
+			{
+				throw new PluginException($"ZIP entry '{entry.FullName}' resolves outside allowed directories.");
+			}
 
 			using var entryStream = entry.Open();
 			using var entryFileStream = new FileStream(entryPath, FileMode.Create);
