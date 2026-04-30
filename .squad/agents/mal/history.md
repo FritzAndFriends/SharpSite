@@ -119,3 +119,36 @@ All issues labeled with `squad:{member}` and triage comments added. Labels creat
 - **Option C:** Clarify scope if v0.7 already handled
 
 Awaiting owner action to unblock Mal's triage workflow.
+
+### 2026-04-30 — v0.8 Milestone GitHub Triage ✅ COMPLETED
+
+**Status:** Completed  
+**Trigger:** Issues enabled on csharpfritz/SharpSite; owner action unblocked triage.
+
+**Actions Executed:**
+1. **Triaged 0.7 milestone (14 issues):**
+   - **Closed:** #293, #167 (already closed; verified)
+   - **Removed from 0.7:** 10 issues deferred to backlog/future (#334, #331, #312, #298, #292, #289, #218, #161, #122, #121)
+
+2. **Applied 0.8 milestone:**
+   - **Added Tier 1 (4 issues):** #350, #351, #319, #272 (ship-blockers; ~12–16h)
+   - **Added Tier 2 (5 issues):** #309, #299, #321, #323, #328 (core CMS; ~15–19h)
+   - **Tier 3+ ecosystem (12 issues):** Already on 0.8; deferred to v0.8.1–0.8.3 patches
+
+**Final State:**
+- **v0.7 Milestone:** 2 issues (both closed; milestone can be archived)
+- **v0.8 Milestone:** 21 issues (9 Tier 1–2 committed; 12 Tier 3+ support)
+- **Backlog (deferred):** 10 issues removed from any milestone; no urgency
+
+**Decision Rationale:**
+- **Tier 1–2 scope:** 30–35 hours of focused delivery; achievable in 6 weeks per original roadmap
+- **Tier 3+ ecosystem:** 30–40 hours; deferred to patch releases after v0.8.0 ships
+- **Deferred 10 issues:** Unclear scope, performance-only, or require upstream clarification; revisit after Tier 1–2
+
+**Cross-Team Impact:**
+- River: Can now scope Tier 2 backend work (#309, #299)
+- Simon: Can now scope Tier 2 frontend work (#321, #323, #328)
+- Wash: E2E validation (#319) + CI fix (#272) part of Tier 1
+- All: v0.8.0 sprint planning can begin immediately
+
+**Decision reference:** `.squad/decisions.md` (merged from inbox)

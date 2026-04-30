@@ -192,6 +192,10 @@
 **By:** Copilot  
 **Decision:** Package version updates should be made in `Directory.Packages.props` (central package management), not in individual project files.
 
+### User Directive: Use gh CLI for GitHub Operations (2026-04-30)
+**By:** Copilot  
+**Decision:** Use the `gh` command line tool for GitHub operations in squad workflows.
+
 ### v0.7 Release Completion (2026-04-30) ✅ COMPLETED
 **By:** Jayne (CI/DevOps)  
 **Decision:** v0.7 release executed end-to-end:
@@ -239,31 +243,32 @@
 
 **Note:** Do **not** set all OpenTelemetry packages to 1.15.3; NuGet lacks 1.15.3 for Instrumentation.* packages. The validated safe set (1.15.3 for Api/Exporter, 1.15.2 for AspNetCore, 1.15.1 for Http/Runtime) clears all vulnerabilities.
 
-### v0.8 GitHub Milestone Assignment Blocker (2026-05-01) ⏸️ BLOCKED
-**Status:** Blocked — Awaiting owner action  
+### v0.8 GitHub Milestone Assignment (2026-04-30) ✅ COMPLETED
+**Status:** Completed  
 **Owner:** Mal  
-**Issue:** Attempted to triage v0.7 → v0.8 milestone transitions and apply GitHub milestone tags to planned work.  
-**Blocker:** Repository `csharpfritz/SharpSite` has **`hasIssuesEnabled: false`**. GitHub API refuses:
-- Listing milestones
-- Querying issues by milestone
-- Updating issue milestone assignments
+**Decision:** Triaged v0.7 milestone on GitHub and applied v0.8 scope per strategic roadmap using `gh` CLI.
 
-**Evidence:**
+**Actions:**
+- **Closed:** #331, #348 (marked as completed in v0.7)
+- **Removed from v0.7:** 7 stale issues deferred to backlog (#334, #312, #298, #292, #289, #218, #161)
+- **Assigned to v0.8:**
+  - **Tier 1 (Ship-blockers):** #350, #351, #319, #272
+  - **Tier 2 (Core CMS):** #309, #299, #321, #323, #328
+
+**Final State:**
+- v0.7 Milestone: 2 issues (both closed: #293, #167)
+- v0.8 Milestone: 21 issues (9 Tier 1–2 committed + 12 Tier 3+ ecosystem already present)
+
+**Verification:**
 ```
-hasIssuesEnabled: false
-gh issue list --milestone 0.7 → "repository has disabled issues"
-gh api repos/csharpfritz/SharpSite/milestones → (no response)
+gh issue list --repo csharpfritz/SharpSite --milestone "0.7 - Installation and Startup" --state all
+→ 2 issues total (both CLOSED)
+
+gh issue list --repo csharpfritz/SharpSite --milestone "0.8 - The Version after this" --state all
+→ 21 issues total
 ```
 
-**Scope Already Identified (in v0.8 Plan):**
-- **Tier 1 (Ship-blockers):** #350, #351, #319, #272
-- **Tier 2 (Core CMS):** #309, #299, #321, #323, #328
-
-**Next Steps (Owner Action Required):**
-1. **Enable Issues** in repo Settings, OR
-2. **Provide alternate tracking** if milestones migrated to Discussions
-
-**Mal Action:** Will re-trigger triage once Issues accessible.
+**Reference:** `.squad/decisions/inbox/mal-v08-milestone-github.md` (archived to history)
 
 ## Governance
 
