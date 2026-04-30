@@ -11,7 +11,7 @@ public static class PluginManagerExtensions
 	public static ApplicationState AddPluginManagerAndAppState(this WebApplicationBuilder builder)
 	{
 
-		PluginManager.Initialize();
+		PluginManager.Initialize(builder.Environment.ContentRootPath);
 
 		var appState = new ApplicationState();
 		builder.Services.AddSingleton(appState);
@@ -27,7 +27,7 @@ public static class PluginManagerExtensions
 	{
 
 		var pluginRoot = new PhysicalFileProvider(
-		 Path.Combine(app.Environment.ContentRootPath, @"plugins/_wwwroot"));
+		 SharpSitePathProvider.PluginWebRootPath);
 		app.UseStaticFiles();
 		app.UseStaticFiles(new StaticFileOptions()
 		{

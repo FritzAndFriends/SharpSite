@@ -113,7 +113,7 @@ if (themeType is not null) CurrentTheme = new(manifest.IdVersionToString());
 private string GetApplicationStateFileContents()
 {
 // read the applicationState.json file in the root of the plugins folder
-var appStateFile = Path.Combine("plugins", "applicationState.json");
+var appStateFile = SharpSitePathProvider.ApplicationStatePath;
 if (File.Exists(appStateFile))
 {
 return File.ReadAllText(appStateFile);
@@ -205,7 +205,7 @@ return Task.CompletedTask;
 public async Task Save()
 {
 // save application state to applicationState.json in the root of the plugins folder
-var appStateFile = Path.Combine("plugins", "applicationState.json");
+var appStateFile = SharpSitePathProvider.ApplicationStatePath;
 
 var json = JsonSerializer.Serialize(this, SerializerOptions);
 await File.WriteAllTextAsync(appStateFile, json);
