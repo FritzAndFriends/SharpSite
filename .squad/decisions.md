@@ -239,6 +239,32 @@
 
 **Note:** Do **not** set all OpenTelemetry packages to 1.15.3; NuGet lacks 1.15.3 for Instrumentation.* packages. The validated safe set (1.15.3 for Api/Exporter, 1.15.2 for AspNetCore, 1.15.1 for Http/Runtime) clears all vulnerabilities.
 
+### v0.8 GitHub Milestone Assignment Blocker (2026-05-01) ⏸️ BLOCKED
+**Status:** Blocked — Awaiting owner action  
+**Owner:** Mal  
+**Issue:** Attempted to triage v0.7 → v0.8 milestone transitions and apply GitHub milestone tags to planned work.  
+**Blocker:** Repository `csharpfritz/SharpSite` has **`hasIssuesEnabled: false`**. GitHub API refuses:
+- Listing milestones
+- Querying issues by milestone
+- Updating issue milestone assignments
+
+**Evidence:**
+```
+hasIssuesEnabled: false
+gh issue list --milestone 0.7 → "repository has disabled issues"
+gh api repos/csharpfritz/SharpSite/milestones → (no response)
+```
+
+**Scope Already Identified (in v0.8 Plan):**
+- **Tier 1 (Ship-blockers):** #350, #351, #319, #272
+- **Tier 2 (Core CMS):** #309, #299, #321, #323, #328
+
+**Next Steps (Owner Action Required):**
+1. **Enable Issues** in repo Settings, OR
+2. **Provide alternate tracking** if milestones migrated to Discussions
+
+**Mal Action:** Will re-trigger triage once Issues accessible.
+
 ## Governance
 
 - All meaningful changes require team consensus

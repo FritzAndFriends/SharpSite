@@ -96,3 +96,26 @@ All issues labeled with `squad:{member}` and triage comments added. Labels creat
 - **All:** Watch for scope creep on Tier 4 items; Mal holds gating authority
 
 **Stale issue triage pending:** #331, #301, #300, #298, #289, #283, #203, #161, #122, #121
+
+### 2026-04-30 — Milestone Triage Blocker: Issues Disabled
+
+**Attempted:** Triage v0.7 issues and assign v0.8 milestone tags on GitHub.  
+**Blocked:** Repository `csharpfritz/SharpSite` has `hasIssuesEnabled: false`. GitHub API refuses all issue/milestone queries.
+
+**Root cause:** Issues are disabled in repo Settings. This prevents:
+- Listing milestones or issues by milestone
+- Updating issue assignments
+- Any issue/PR workflow automation
+
+**Decision:** Escalated to Jeffrey (owner). v0.8 scope identification is complete (Tier 1 & Tier 2 listed in decisions.md); awaiting Issues enablement to apply GitHub milestone tags.
+
+**Next owner action:** Enable Issues in repo Settings, confirm v0.7 milestone exists, then re-trigger Mal triage workflow.
+
+### 2026-05-01 — Milestone Triage Decision Merged to decisions.md
+
+**Decision merged.** Blocker documented in decisions.md with three escalation options:
+- **Option A (Recommended):** Owner enables Issues in repo Settings
+- **Option B:** Use Discussions if milestones migrated
+- **Option C:** Clarify scope if v0.7 already handled
+
+Awaiting owner action to unblock Mal's triage workflow.
