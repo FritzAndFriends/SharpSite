@@ -20,7 +20,27 @@
 
 **Sync point:** Tier 1 completion gates Tier 2-3 work. E2E tests must pass CI before v0.8.0 release.
 
-### 2026-05-01 — v0.8 Tier 1 Clarification Blocker: #351 E2E Test Checklist
+### 2026-04-30 — Simon Completion: Admin Asset UI + Setup Wizard (Tier 2 ✅)
+
+**Status:** COMPLETED  
+**Issues:** #320, #321, #323, #322 (setup wizard integration)  
+**Deliverables:** Reusable `SiteAssetManager` component + 4-step setup wizard
+
+**Simon's Asset Decision:** One shared Blazor component for both setup and admin asset management. Assets managed through `ApplicationState` flags, resolved via `/api/files/{filename}` with deterministic names (`site-logo.*`, `site-favicon.*`).
+
+**Impact on Wash:**
+- **E2E Test Scenarios Now Available:**
+  - Setup wizard: Verify asset upload in Step 2 (site identity)
+  - Admin panel: Verify logo/favicon upload, preview, removal
+  - Cross-flow: Verify assets persist across setup + admin maintenance
+- **Ready:** Can spike E2E test case coverage for setup + admin asset workflows
+- **Test data:** Use SiteAssetManager test patterns from Simon's implementation (upload validation, preview URLs)
+
+**Build Status:** SharpSite.Web clean ✅ | SharpSite.Tests.Web 57/57 ✅
+
+**Next:** Wash can now integrate asset upload E2E scenarios into #319 test spike.
+
+
 
 **Status:** BLOCKED pending user clarification  
 **Issue:** #351 (.NET 10 + Aspire 13.2 E2E validation) lacks clear pass criteria.  

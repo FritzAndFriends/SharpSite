@@ -15,7 +15,30 @@
 
 **Sync point:** Await Tier 1 completion (E2E framework stability) before #319 test spike. Coordinate with River on packager test harness design (early in #166 work).
 
-# Project Context
+### 2026-04-30 — Simon Admin Asset + River Trash Delete: Test Infrastructure Ready
+
+**Status:** Completed (Simon) + Proposed (River)  
+**Issues:** #320, #321, #323, #322 (Simon) | #309, #299 (River delete contract)
+
+**Simon's Asset Component Tests:**
+- `SiteAssetManager` Blazor component now testable
+- Test patterns: upload validation, preview URL generation, removal behavior
+- Reusable across setup wizard (Step 2) and admin maintenance
+- Build: 57/57 tests passing
+
+**River's Trash Delete Contract:**
+- Backend pattern defined: `ITrashableContent` + repository extensions (`GetDeleted*`, `Restore*`, `PermanentlyDelete*`)
+- Normal queries exclude trashed records by default
+- Soft delete (archive + recovery) instead of hard delete
+
+**Impact on Kaylee:**
+- **Asset Component Tests:** Can now write unit tests for `SiteAssetManager` (upload validation, error cases, state updates)
+- **Trash/Restore Tests:** Clear backend contract for test cases (delete → GetDeleted, restore → Restore, purge → PermanentlyDelete)
+- **Test Scope:** Asset tests in Tier 2 support (Simon phase); trash tests in Tier 3 support (River phase)
+
+**Next:** Coordinate with River on trash test harness design as #309/#299 scope activates post-Tier 1.
+
+
 
 - **Owner:** Jeffrey T. Fritz
 - **Project:** SharpSite — a modern, accessible CMS built with .NET 9 and Blazor

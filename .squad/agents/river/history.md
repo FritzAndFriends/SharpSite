@@ -37,7 +37,36 @@
 
 **Next Action:** User provides delete semantics; Mal updates #309/#299 with acceptance criteria. River can then scope schema/API work post-Tier 1.
 
-# Project Context
+### 2026-04-30 — River Trash Delete Backend Contract Documented (Proposed)
+
+**Status:** Proposed  
+**Issues:** #309 (Delete page), #299 (Delete post)
+
+**Backend Contract Finalized:**
+- Pattern: Soft delete (archive + recovery) via `ITrashableContent` + repository extensions
+- Methods: `GetDeleted*()`, `Restore*()`, `PermanentlyDelete*()`
+- Normal queries exclude trashed records by default
+- Deterministic behavior: delete → soft archive; restore → un-archive; purge → permanent removal
+
+**Schema Impact:**
+- Soft delete requires `IsDeleted` flag + optional `DeletedAt` timestamp on pages/posts tables
+- Complexity: ~4–6 hours for dual-repository implementation + migration tests
+- Risk mitigation: Dry-run migration on test DB first
+
+**Simon UI Contract:**
+- Delete button: calls `DeletePage(int id)` / `DeletePost(string slug)` (soft delete)
+- Trash UI (future): reads `GetDeletedPages()` / `GetDeletedPosts()`
+- Restore actions: calls `RestorePage(int id)` / `RestorePost(string slug)`
+- Purge actions: calls `PermanentlyDeletePage(int id)` / `PermanentlyDeletePost(string slug)`
+
+**Impact on River:**
+- Ready to spike schema + migration design once Tier 1 completes
+- Test infrastructure (trash/restore patterns) ready; Kaylee can define test cases early
+- Unblocks Simon's future Trash UI work (backend contract clear)
+
+**Next:** Await Tier 1 completion + #309/#299 scope activation; coordinate with Kaylee on test harness design.
+
+
 
 - **Owner:** Jeffrey T. Fritz
 - **Project:** SharpSite — a modern, accessible CMS built with .NET 9 and Blazor
@@ -47,6 +76,12 @@
 ## Learnings
 
 <!-- Append new learnings below. Each entry is something lasting about the project. -->
+
+### 2026-05-03 — Trash Delete Pattern for Pages and Posts
+
+Pages and posts now share a trash-state contract via `ITrashableContent` plus `TrashableContentExtensions` in `SharpSite.Abstractions`. The delete flow is soft delete only: repository `Delete*` methods mark `IsDeleted = true`, stamp `DeletedAt`, and all normal `GetPage/GetPages/GetPost/GetPosts` queries exclude trashed content by default.
+
+Both `SharpSite.Data.Postgres` and `SharpSite.Plugins.Data.Postgres` expose the same recovery contract: `GetDeleted*`, `Restore*`, and `PermanentlyDelete*`. EF migrations `20260503101500_AddTrashStateToPagesAndPosts` in both projects add the shared `IsDeleted`/`DeletedAt` columns needed for recycle-bin behavior.
 
 ### 2026-03-26 — Security Context from Mal's Analysis
 

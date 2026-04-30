@@ -39,6 +39,11 @@
 
 <!-- Append new learnings below. Each entry is something lasting about the project. -->
 
+### Setup Wizard + Site Assets (Issues #322, #320, #321, #323) — 2026-05-02
+- The startup wizard now has a natural four-step flow: site name → site identity assets → database setup → first admin account. Step transitions are stored in `ApplicationState.StartupStep`, so saving state between steps matters.
+- `ApplicationState` is the durable source of truth for site branding (`HasCustomLogo`, `HasCustomFavicon`), while the actual files live behind `/api/files/{filename}`. UI can stay simple if it only updates the stored filename and lets layout components resolve URLs.
+- A single reusable Blazor asset component works well for both setup and admin maintenance as long as it owns preview/upload/remove behavior and parents own persistence.
+
 ### Forced Password Reset (Issue #350) — 2026-03-31
 - ASP.NET Core Identity user claims (AspNetUserClaims table) are included in the auth cookie automatically by `SignInManager.PasswordSignInAsync`. This makes claims ideal for request-level checks without hitting the DB.
 - The `MustChangePassword` feature uses a claim-based approach: add claim on seed → check in Login.razor + middleware → remove claim + RefreshSignInAsync after password change.

@@ -996,4 +996,63 @@ Owner (Jeffrey T. Fritz) should confirm source of truth.
 
 
 
+# Simon — Admin Asset UI Implementation (2026-04-30) ✅ COMPLETED
+## Status: Completed
+## Owner: Simon
+
+### Context
+Working #320, #321, and #323 alongside the #322 setup-wizard flow exposed a duplication risk: setup and admin both needed logo/favicon upload, preview, and removal behavior.
+
+### Decision
+Use one reusable Blazor asset-management component for both startup and admin maintenance:
+
+- `SiteAssetManager` handles preview, upload, validation, and removal
+- parents own persistence by updating `ApplicationState.HasCustomLogo` or `ApplicationState.HasCustomFavicon`
+- assets resolve through `/api/files/{filename}` using deterministic names (`site-logo.*`, `site-favicon.*`)
+
+### Why
+This keeps the unified image-management decision concrete in code, reduces divergent UX between setup and admin, and makes future asset work (alt text, cropping, theme variants) easier to extend in one place.
+
+### Implementation Status
+- ✅ Setup wizard: 4-step flow (site name → assets → database → first admin)
+- ✅ Admin UI: Asset management panel in admin dashboard
+- ✅ Security: Wizard now seeds first admin (cleaner than separate DB seed)
+- ✅ Build: SharpSite.Web passes clean
+- ✅ Tests: SharpSite.Tests.Web 57/57 passing
+
+### Impact
+- **Wash:** Can now test E2E asset upload scenarios in setup/admin flows
+- **River:** Asset API contract stable; trash delete patterns documented for future Trash UI
+- **Kaylee:** Test infrastructure ready for asset component coverage
+
+---
+
+# River — Trash Delete Backend Contract (2026-05-03)
+## Status: Proposed
+## Owner: River
+
+### Decision
+Implement page/post delete as a shared trash pattern, not a one-off flag per repository.
+
+### Implementation
+- Added `ITrashableContent` + `TrashableContentExtensions` in `SharpSite.Abstractions`
+- Extended both page/post repository contracts with:
+  - `GetDeleted*()`
+  - `Restore*()`
+  - `PermanentlyDelete*()`
+- Normal read queries exclude trashed records by default
+- Permanent deletion is a separate explicit action, matching the recycle-bin decision
+
+### Why
+This keeps delete semantics consistent across pages and posts, and gives Simon a clear backend contract for a future Trash UI without putting business rules in Razor components.
+
+### Simon UI Contract
+- Delete button continues calling existing `DeletePage(int id)` / `DeletePost(string slug)` methods
+- Trash UI should read from `GetDeletedPages()` / `GetDeletedPosts()`
+- Restore actions call `RestorePage(int id)` / `RestorePost(string slug)`
+- Empty-trash or per-item purge calls `PermanentlyDeletePage(int id)` / `PermanentlyDeletePost(string slug)`
+
+### Cross-Impact
+- **Simon:** Unblocks Trash UI implementation when #309/#299 scope is active
+- **Kaylee:** Test infrastructure ready for trash/restore test cases
 
