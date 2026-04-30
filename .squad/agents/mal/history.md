@@ -1,39 +1,53 @@
 # Project Context
 
 - **Owner:** Jeffrey T. Fritz
-- **Project:** SharpSite — a modern, accessible CMS built with .NET 9 and Blazor
+- **Project:** SharpSite  a modern, accessible CMS built with .NET 9 and Blazor
 - **Stack:** .NET 9, Blazor (SSR + Interactive Server), ASP.NET Core, Entity Framework Core, PostgreSQL, Docker, Playwright, xUnit, GitHub Actions
 - **Created:** 2026-03-26
 
-## Learnings
+## Core Context
 
-<!-- Append new learnings below. Each entry is something lasting about the project. -->
+**v0.8.0 Sprint (CURRENT - Locked & Ready)**
+- **Status:**  Locked scope; all clarifications answered; squad ready for execution
+- **8 Active Issues:** 3647h total (Tier 1: ship-blockers; Tier 2: core CMS)
+- **Squad Assignments:**
+  - Simon: #322 (setup), #323 (favicon), #320 (logo), #321 (logo-display), #328 (CSS)  5 issues, 1623h
+  - River: #309 (page-delete), #299 (post-delete)  2 issues, 1216h
+  - Wash: #319 (E2E tests)  1 issue, 810h
+  - Zoe: Supporting (badges)  34h (waiting)
+- **First Batch Ready:** #322, #323, #319, #309, #299 (zero blockers)
+- **Critical Path:** Parallel execution; Tier 1 + Tier 2 concurrent
+- **Execution:** Ready to launch now
 
-### 2026-03-26 — Issue Triage Results (6 squad-labeled issues)
+**Clarifications Resolved (v0.8 Planning)**
+- #208/#209 (file browser): Both ship in v0.8.0 
+- #212 (autosave): Deferred to v0.8.1+ (scope creep) 
+- #203/#117/#118 (plugin lifecycle): Deferred to v0.8.1+ 
+- #313 (CSP header): Deferred to v0.8.1+ 
+- #297 (home post display): Deferred 
 
-**Routed to squads:**
-- **River** (Backend): #346 (P0 RCE), #347 (ZIP bomb), #348 (thread safety), #349 (plugin signing)
-- **Simon** (Frontend): #350 (forced password reset UI)
-- **Wash** (E2E): #351 (.NET 10 validation)
+**v0.7 Completion & v0.8 Planning (Pre-May 2026)**
+- Triaged 73 open issues; identified 8 core items for v0.8
+- v0.7 blockers resolved: Security P0s (#346 RCE, #347 ZIP bomb, #348 threading) + build stabilization
+- Plugin architecture assessed; three security gaps addressed in v0.7 fixes
+- GitHub Issues re-enabled by owner (was disabled, blocking triage)
+- v0.8 milestone applied to 8 active issues; v0.7 stragglers triaged/deferred
 
-**Priority ordering:**
-1. #346: Security P0 RCE via TypeNameHandling.Auto → **blocks production**
-2. #347, #349: Security vulnerabilities (plugin extraction, DLL validation) → **blocks production**
-3. #348: Thread-safety bug (PluginManager static state) → **critical correctness**
-4. #350: Security hardening (forced password reset) → **medium priority**
-5. #351: .NET 10 validation → **mostly done, E2E pending**
+## Recent Decisions
 
-All issues labeled with `squad:{member}` and triage comments added. Labels created: squad:river, squad:simon, squad:wash.
+*All decisions merged to .squad/decisions.md (canonical source)*
 
-### 2026-03-26 — Plugin System Architecture Review (spike_DatabasePlugin branch)
+**2026-05-03:** v0.8.0 squad assignment locked. 8 issues routed per expertise; sequencing confirmed; no blockers.
 
-- **Branch health: RED** — Build fails with 60 errors. Root cause is type ambiguity between `SharpSite.Abstractions.Security` types and `Microsoft.AspNetCore.Identity` types in `src/SharpSite.Security.Postgres/`. The security abstraction migration is incomplete.
-- **Plugin system architecture** is convention-based + attribute-driven. Plugins are `.sspkg` ZIP files loaded via collectible `AssemblyLoadContext`. Services registered via `RegisterPluginAttribute` and reflection scanning in `PluginManager.RegisterWithServiceLocator()`.
-- **Critical security finding:** `ApplicationState.cs` uses `TypeNameHandling.Auto` with Newtonsoft.Json — a known RCE deserialization vector (lines 130-134, 212-216). Must be fixed before production.
-- **Critical security finding:** No assembly validation, code signing, or integrity checking on plugin DLLs. Any DLL in the plugins directory runs with full app permissions.
-- **Plugin extension points:** FileStorage, DataStorage (Config, EfContext, PageRepo, PostRepo), Security (SignIn, UserManager, UserRepo, EmailSender). Mapped in `PluginTypeMapping.cs`.
-- **Static mutable state** in `PluginManager` (`_ServiceDescriptors`, `_ServiceProvider`) is a thread safety concern.
-- **`IRunAtStartup` interface** is defined but never invoked by the PluginManager — lifecycle hooks are dead code.
-- **Postgres plugin `manifest.json` is empty** (0 bytes) — would fail validation through standard plugin loading.
-- **Hardcoded default admin** (`admin@localhost` / `Admin123!`) in the Postgres plugin's `RegisterPluginServices.cs`.
-- Full analysis written to `.squad/decisions/inbox/mal-plugin-analysis.md`.
+**2026-05-01:** File browser clarification (#208/#209); plugin lifecycle deferral (#203/#117/#118); autosave deferral (#212).
+
+**2026-04-30:** GitHub issues enabled; milestone triage complete; 10 v0.7 items deferred to backlog.
+
+---
+
+**[SCRIBE UPDATE - 2026-04-30 20:18:02]**
+- Decision inbox merged (15 decisions into decisions.md)
+- v0.8.0 scope confirmed locked
+- Cross-agent context synchronized
+- Ready for parallel execution
+- Agent history files updated across team

@@ -1,0 +1,19 @@
+Scribe: Log Kaylee trash backend unit-test completion & merge decisions
+
+**Orchestration:**
+- Added 2026-05-01T00-02-Kaylee.md: Unit test harness completion for trash/recycle bin flows (#309/#299)
+- Added 2026-05-01T00-02-Kaylee-trash-tests.md: Session summary for trash-flow test coverage
+
+**Decision Merge:**
+- Merged kaylee-trash-tests.md from decisions/inbox/ to decisions.md
+- Deleted inbox file after merge
+
+**Cross-Agent Updates:**
+- Propagated Kaylee trash-flow test results to Simon history (API endpoint correctness note on AddPage Id)
+- Propagated Kaylee trash-flow test results to Wash history (E2E foundation ready)
+- Propagated Kaylee trash-flow test results to River history (contract validation complete)
+
+**Critical Note:**
+PgPageRepository.AddPage() returns original Page instance (not tracked PgPage), so generated Id must be re-read by callers.
+
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>

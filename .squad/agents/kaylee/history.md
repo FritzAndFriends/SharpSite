@@ -1,5 +1,45 @@
 # Project Context
 
+## 2026-04-30 — v0.8 Milestone Role Assignment
+
+**Role:** Test Coverage Lead (v0.8.1–0.8.3 Tier 3)  
+**Effort:** 5–7 hours  
+**Timeline:** v0.8.0 completion → 4–6 weeks (Tier 3)  
+
+**Tier 3 (plugin ecosystem):**
+- #341 — Unit tests for PluginPackager (3-4h) — testing infrastructure for #166
+- #319 — E2E test cases (2-3h) — support Wash; cover OOTB experience gaps
+
+**Support:**
+- Support River on plugin ecosystem test cases; Kaylee to suggest test structures for #166, #336, #334, #254
+
+**Sync point:** Await Tier 1 completion (E2E framework stability) before #319 test spike. Coordinate with River on packager test harness design (early in #166 work).
+
+### 2026-04-30 — Simon Admin Asset + River Trash Delete: Test Infrastructure Ready
+
+**Status:** Completed (Simon) + Proposed (River)  
+**Issues:** #320, #321, #323, #322 (Simon) | #309, #299 (River delete contract)
+
+**Simon's Asset Component Tests:**
+- `SiteAssetManager` Blazor component now testable
+- Test patterns: upload validation, preview URL generation, removal behavior
+- Reusable across setup wizard (Step 2) and admin maintenance
+- Build: 57/57 tests passing
+
+**River's Trash Delete Contract:**
+- Backend pattern defined: `ITrashableContent` + repository extensions (`GetDeleted*`, `Restore*`, `PermanentlyDelete*`)
+- Normal queries exclude trashed records by default
+- Soft delete (archive + recovery) instead of hard delete
+
+**Impact on Kaylee:**
+- **Asset Component Tests:** Can now write unit tests for `SiteAssetManager` (upload validation, error cases, state updates)
+- **Trash/Restore Tests:** Clear backend contract for test cases (delete → GetDeleted, restore → Restore, purge → PermanentlyDelete)
+- **Test Scope:** Asset tests in Tier 2 support (Simon phase); trash tests in Tier 3 support (River phase)
+
+**Next:** Coordinate with River on trash test harness design as #309/#299 scope activates post-Tier 1.
+
+
+
 - **Owner:** Jeffrey T. Fritz
 - **Project:** SharpSite — a modern, accessible CMS built with .NET 9 and Blazor
 - **Stack:** .NET 9, Blazor (SSR + Interactive Server), ASP.NET Core, Entity Framework Core, PostgreSQL, Docker, Playwright, xUnit, GitHub Actions
@@ -25,3 +65,18 @@ River completed the Security P0 Remote Code Execution vulnerability fix (#346). 
   - `tests/SharpSite.Tests.Plugins/ConcurrentAccessTests.cs` — Issue #348: 3 tests for concurrent PluginAssemblyManager AddAssembly/RemoveAssembly and read-while-write safety.
 - **Lambda discard gotcha**: Don't use `_ =` for discards inside lambdas where `_` is already the lambda parameter (causes CS0029). Use named locals instead.
 - **Central Package Management**: Test projects use `<PackageReference Include="..." />` without `Version` attribute; versions are in `Directory.Packages.props`.
+
+### 2026-04-30 — Trash repository unit coverage for pages and posts
+- **Repository harness**: `PgPageRepository` and `PgPostRepository` can be exercised deterministically with EF Core InMemory by registering `PgContext` against a shared `InMemoryDatabaseRoot` in a per-test `ServiceProvider`.
+- **Coverage seam**: Trash tests should assert both persistence state (`IsDeleted`, `DeletedAt`) and read-path behavior (`Get*`, `GetDeleted*`, restore, purge) so soft delete never leaks back into normal queries.
+- **Page add gotcha**: `PgPageRepository.AddPage` saves a cast copy and returns the original `Page`, so the generated database `Id` is not populated on the returned object; tests must re-read the stored page before using its key.
+- **Files added**:
+  - `tests/SharpSite.Tests.Web/Data/Postgres/PgPageRepositoryTrashTests.cs`
+  - `tests/SharpSite.Tests.Web/Data/Postgres/PgPostRepositoryTrashTests.cs`
+
+---
+**[SCRIBE UPDATE - 2026-04-30 20:15:51]**
+- Decision inbox merged (15 decisions)
+- v0.8.0 scope locked and confirmed
+- Cross-agent context synchronized
+- Ready for parallel execution

@@ -1,5 +1,73 @@
 # Project Context
 
+## 2026-04-30 — v0.8 Milestone Role Assignment
+
+**Role:** Plugin Ecosystem Lead (v0.8.0 → v0.8.x)  
+**Effort:** 35–40 hours  
+**Timeline:** v0.8.0 (6 weeks), v0.8.1–0.8.3 (4–6 weeks)  
+
+**Tier 1 (concurrent):**
+- #309 — Delete a page (4-6h) — data layer + API + UI
+- #299 — Delete a post (2-3h) — similar scope
+
+**Tier 3 (after Tier 1-2):**
+- #166 — Plugin packager tool (8-10h) — CLI to build .sspkg files
+- #336 — Upload plugins without install (4-6h) — staging area
+- #334 — Choose DB plugin during install (6-8h) — installer backend + setup
+- #254 — Move Postgres to plugin (6-8h) — refactor + migration tests
+
+**Key risks:** Plugin packager complexity (mitigate: spike week 1), DB plugin refactor data loss risk (dry-run first).
+
+**Sync point:** v0.8.0 ship decision gates all Tier 3 work. Coordinate with Simon (installer UX) and Zoe (CI).
+
+### 2026-05-01 — v0.8 Tier 2 Backend Work Queued: Delete Pages/Posts Clarification Pending
+
+**Status:** QUEUED pending Tier 1 completion + clarification  
+**Issues:** #309 (Delete page), #299 (Delete post)  
+**Effort:** 6–9 hours combined (Tier 1 Phase 2 work)  
+**Critical Gap:** Delete semantics undefined — hard delete or soft (archive with recovery)?  
+
+**Impact on River:**
+- Cannot scope #309/#299 schema/data layer changes until delete semantics clarified
+- Hard delete is simpler (2–3h); soft delete with archive complicates schema by 2–3x (4–6h)
+
+**Dependencies:**
+- Tier 1 completion (Wash's #319, #351, #272 + Simon's #350) gates start
+- User clarification on delete semantics required (Q5 in Tier 2 phase)
+
+**Next Action:** User provides delete semantics; Mal updates #309/#299 with acceptance criteria. River can then scope schema/API work post-Tier 1.
+
+### 2026-04-30 — River Trash Delete Backend Contract Documented (Proposed)
+
+**Status:** Proposed  
+**Issues:** #309 (Delete page), #299 (Delete post)
+
+**Backend Contract Finalized:**
+- Pattern: Soft delete (archive + recovery) via `ITrashableContent` + repository extensions
+- Methods: `GetDeleted*()`, `Restore*()`, `PermanentlyDelete*()`
+- Normal queries exclude trashed records by default
+- Deterministic behavior: delete → soft archive; restore → un-archive; purge → permanent removal
+
+**Schema Impact:**
+- Soft delete requires `IsDeleted` flag + optional `DeletedAt` timestamp on pages/posts tables
+- Complexity: ~4–6 hours for dual-repository implementation + migration tests
+- Risk mitigation: Dry-run migration on test DB first
+
+**Simon UI Contract:**
+- Delete button: calls `DeletePage(int id)` / `DeletePost(string slug)` (soft delete)
+- Trash UI (future): reads `GetDeletedPages()` / `GetDeletedPosts()`
+- Restore actions: calls `RestorePage(int id)` / `RestorePost(string slug)`
+- Purge actions: calls `PermanentlyDeletePage(int id)` / `PermanentlyDeletePost(string slug)`
+
+**Impact on River:**
+- Ready to spike schema + migration design once Tier 1 completes
+- Test infrastructure (trash/restore patterns) ready; Kaylee can define test cases early
+- Unblocks Simon's future Trash UI work (backend contract clear)
+
+**Next:** Await Tier 1 completion + #309/#299 scope activation; coordinate with Kaylee on test harness design.
+
+
+
 - **Owner:** Jeffrey T. Fritz
 - **Project:** SharpSite — a modern, accessible CMS built with .NET 9 and Blazor
 - **Stack:** .NET 9, Blazor (SSR + Interactive Server), ASP.NET Core, Entity Framework Core, PostgreSQL, Docker, Playwright, xUnit, GitHub Actions
@@ -8,6 +76,12 @@
 ## Learnings
 
 <!-- Append new learnings below. Each entry is something lasting about the project. -->
+
+### 2026-05-03 — Trash Delete Pattern for Pages and Posts
+
+Pages and posts now share a trash-state contract via `ITrashableContent` plus `TrashableContentExtensions` in `SharpSite.Abstractions`. The delete flow is soft delete only: repository `Delete*` methods mark `IsDeleted = true`, stamp `DeletedAt`, and all normal `GetPage/GetPages/GetPost/GetPosts` queries exclude trashed content by default.
+
+Both `SharpSite.Data.Postgres` and `SharpSite.Plugins.Data.Postgres` expose the same recovery contract: `GetDeleted*`, `Restore*`, and `PermanentlyDelete*`. EF migrations `20260503101500_AddTrashStateToPagesAndPosts` in both projects add the shared `IsDeleted`/`DeletedAt` columns needed for recycle-bin behavior.
 
 ### 2026-03-26 — Security Context from Mal's Analysis
 
@@ -48,6 +122,14 @@ Fixed remaining build error in `RegisterPostgresSecurityServices.cs:33`. The `Sh
 - Removed `Newtonsoft.Json` PackageReference from both `SharpSite.Abstractions.csproj` and `SharpSite.Web.csproj`.
 - Updated test file `WhenFileExists.cs` to use `System.Text.Json`.
 - All 47 unit tests pass. Build is clean.
+
+---
+**[SCRIBE UPDATE - 2026-05-01 00:02:00Z — Kaylee Trash Backend Unit Tests Completed]**
+- Kaylee completed repository-level unit test harness validating River's trash backend contracts (#309/#299)
+- Tests cover: soft delete, restore, permanent purge, trashed-content exclusion
+- All test projects passing (SharpSite.Tests.Web ✅, SharpSite.Tests.Plugins ✅)
+- **Critical correctness note propagated:** `PgPageRepository.AddPage()` returns the caller's original `Page` instance, NOT the tracked `PgPage`. Generated database `Id` is NOT populated on the returned object. Any caller needing the persisted key must re-read after insertion. This applies to repository callers in API endpoints (Simon) and wherever Page objects are materialized.
+- River's trash delete backend (#309/#299) contracts validated; ready for Simon API integration and Wash E2E testing
 
 **Pattern to remember:** For any future polymorphic serialization in the plugin system, use the `ConfigurationSectionJsonConverter` pattern: validate the resolved type implements the expected interface before instantiation. Never allow arbitrary type resolution from JSON input.
 
@@ -97,3 +179,10 @@ Fixed remaining build error in `RegisterPostgresSecurityServices.cs:33`. The `Sh
 **Pattern to remember:** For plugin integrity, validate at two points: (1) the file hash before loading bytes into memory, and (2) the assembly metadata after loading. Store hashes on first install and verify on every subsequent load. At startup, catch validation failures per-plugin and `continue` to avoid one bad plugin blocking all others.
 
 **Cross-agent coordination:** Simon's #350 forced password reset is independent; no blocking dependencies.
+
+---
+**[SCRIBE UPDATE - 2026-04-30 20:15:51]**
+- Decision inbox merged (15 decisions)
+- v0.8.0 scope locked and confirmed
+- Cross-agent context synchronized
+- Ready for parallel execution
