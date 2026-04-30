@@ -46,6 +46,30 @@
 ## GitHub Updates Applied
 ## Cross-Team Impact
 ## Next Action
+# Decision: Trash Backend Unit-Test Harness Completed (Kaylee, 2026-05-01)
+## What Completed
+Repository-level unit test coverage for page/post trash flows in `tests/SharpSite.Tests.Web/Data/Postgres/`. Standardized on EF Core InMemory with shared `InMemoryDatabaseRoot` per test service provider. All test projects passing.
+
+## Critical Correctness Note
+**AddPage ID Population Issue:**
+- `PgPageRepository.AddPage()` returns the caller's original `Page` instance, not the tracked `PgPage`
+- Generated database `Id` is NOT automatically populated on the returned object
+- Callers must explicitly re-read to use the persisted key
+- **Action:** Simon (API integration) and Wash (E2E tests) must handle ID re-read pattern
+
+## Test Coverage
+- Soft delete, restore, permanent purge scenarios
+- Trashed-content exclusion from normal queries
+- Test status: ✅ SharpSite.Tests.Web.csproj PASSED, ✅ SharpSite.Tests.Plugins.csproj PASSED
+
+## Cross-Team Impact
+- **River:** Unit test harness validates backend contracts
+- **Simon:** Tests provide validation reference for API endpoints
+- **Wash:** Repository tests serve as foundation for E2E workflows (#319)
+
+## Next Action
+Simon: Implement API endpoints; Wash: Build E2E tests on validated repository layer
+
 # Decision Note: Unified Image Management UI (#320, #321)
 ## Date
 ## Decision

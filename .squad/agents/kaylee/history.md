@@ -66,6 +66,14 @@ River completed the Security P0 Remote Code Execution vulnerability fix (#346). 
 - **Lambda discard gotcha**: Don't use `_ =` for discards inside lambdas where `_` is already the lambda parameter (causes CS0029). Use named locals instead.
 - **Central Package Management**: Test projects use `<PackageReference Include="..." />` without `Version` attribute; versions are in `Directory.Packages.props`.
 
+### 2026-04-30 — Trash repository unit coverage for pages and posts
+- **Repository harness**: `PgPageRepository` and `PgPostRepository` can be exercised deterministically with EF Core InMemory by registering `PgContext` against a shared `InMemoryDatabaseRoot` in a per-test `ServiceProvider`.
+- **Coverage seam**: Trash tests should assert both persistence state (`IsDeleted`, `DeletedAt`) and read-path behavior (`Get*`, `GetDeleted*`, restore, purge) so soft delete never leaks back into normal queries.
+- **Page add gotcha**: `PgPageRepository.AddPage` saves a cast copy and returns the original `Page`, so the generated database `Id` is not populated on the returned object; tests must re-read the stored page before using its key.
+- **Files added**:
+  - `tests/SharpSite.Tests.Web/Data/Postgres/PgPageRepositoryTrashTests.cs`
+  - `tests/SharpSite.Tests.Web/Data/Postgres/PgPostRepositoryTrashTests.cs`
+
 ---
 **[SCRIBE UPDATE - 2026-04-30 20:15:51]**
 - Decision inbox merged (15 decisions)

@@ -59,3 +59,12 @@
 - v0.8.0 scope locked and confirmed
 - Cross-agent context synchronized
 - Ready for parallel execution
+
+---
+**[SCRIBE UPDATE - 2026-05-01 00:02:00Z — Kaylee Trash Backend Unit Tests Completed]**
+- Kaylee completed repository-level unit test harness for trash/recycle bin flows (#309/#299)
+- Tests validate: soft delete, restore, permanent purge, trashed-content exclusion
+- All test projects passing (SharpSite.Tests.Web ✅, SharpSite.Tests.Plugins ✅)
+- **CRITICAL FOR API ENDPOINTS:** `PgPageRepository.AddPage()` returns the caller's original `Page` instance, NOT the tracked `PgPage`. Generated database `Id` is NOT populated on the returned object. Any caller needing the persisted key MUST re-read after insertion.
+- **Action for Simon:** When implementing delete/restore API endpoints, apply ID re-read pattern after AddPage calls to ensure generated keys are available for return payloads.
+- River trash backend (#309/#299) contracts ready for integration into API endpoints

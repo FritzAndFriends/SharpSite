@@ -123,6 +123,14 @@ Fixed remaining build error in `RegisterPostgresSecurityServices.cs:33`. The `Sh
 - Updated test file `WhenFileExists.cs` to use `System.Text.Json`.
 - All 47 unit tests pass. Build is clean.
 
+---
+**[SCRIBE UPDATE - 2026-05-01 00:02:00Z — Kaylee Trash Backend Unit Tests Completed]**
+- Kaylee completed repository-level unit test harness validating River's trash backend contracts (#309/#299)
+- Tests cover: soft delete, restore, permanent purge, trashed-content exclusion
+- All test projects passing (SharpSite.Tests.Web ✅, SharpSite.Tests.Plugins ✅)
+- **Critical correctness note propagated:** `PgPageRepository.AddPage()` returns the caller's original `Page` instance, NOT the tracked `PgPage`. Generated database `Id` is NOT populated on the returned object. Any caller needing the persisted key must re-read after insertion. This applies to repository callers in API endpoints (Simon) and wherever Page objects are materialized.
+- River's trash delete backend (#309/#299) contracts validated; ready for Simon API integration and Wash E2E testing
+
 **Pattern to remember:** For any future polymorphic serialization in the plugin system, use the `ConfigurationSectionJsonConverter` pattern: validate the resolved type implements the expected interface before instantiation. Never allow arbitrary type resolution from JSON input.
 
 ### 2026-03-31 — Security: ZIP Bomb & Path Traversal Protection in Plugin Extraction

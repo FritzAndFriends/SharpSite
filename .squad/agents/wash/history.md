@@ -69,3 +69,12 @@
 - v0.8.0 scope locked and confirmed
 - Cross-agent context synchronized
 - Ready for parallel execution
+
+---
+**[SCRIBE UPDATE - 2026-05-01 00:02:00Z — Kaylee Trash Backend Unit Tests Completed]**
+- Kaylee completed repository-level unit test harness for trash/recycle bin flows (#309/#299)
+- Tests validate: soft delete, restore, permanent purge, trashed-content exclusion
+- All test projects passing (SharpSite.Tests.Web ✅, SharpSite.Tests.Plugins ✅)
+- Unit test foundation ready for E2E test scenarios on #319
+- River trash backend contracts validated; ready for Simon API integration
+- **Important:** Repository tests exclude trashed content from normal queries by default — E2E tests should verify this behavior end-to-end
