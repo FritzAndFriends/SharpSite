@@ -1,5 +1,23 @@
 # Project Context
 
+## 2026-04-30 — v0.8 Milestone Role Assignment
+
+**Role:** Admin UI Lead (v0.8.0 Tier 2)  
+**Effort:** 15–20 hours  
+**Timeline:** v0.8.0 (6 weeks)  
+
+**Tier 2 (after Tier 1 ship-blockers):**
+- #321 — Logo management in Admin UI (3-4h) — upload, preview, admin panel
+- #323 — Set favicon (1-2h) — small UI + metadata
+- #328 — Custom CSS in Admin (2-3h) — text editor in admin panel
+
+**Support:**
+- #334 — Choose DB plugin during install (UX portion) — installer flows
+
+**Sync point:** Coordinate with River on installer UX for #334. Both Tier 1 and Tier 2 must complete before Tier 3 (plugin ecosystem) activates.
+
+# Project Context
+
 - **Owner:** Jeffrey T. Fritz
 - **Project:** SharpSite — a modern, accessible CMS built with .NET 9 and Blazor
 - **Stack:** .NET 9, Blazor (SSR + Interactive Server), ASP.NET Core, Entity Framework Core, PostgreSQL, Docker, Playwright, xUnit, GitHub Actions

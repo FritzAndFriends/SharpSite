@@ -1,5 +1,27 @@
 # Project Context
 
+## 2026-04-30 — v0.8 Milestone Role Assignment
+
+**Role:** Plugin Ecosystem Lead (v0.8.0 → v0.8.x)  
+**Effort:** 35–40 hours  
+**Timeline:** v0.8.0 (6 weeks), v0.8.1–0.8.3 (4–6 weeks)  
+
+**Tier 1 (concurrent):**
+- #309 — Delete a page (4-6h) — data layer + API + UI
+- #299 — Delete a post (2-3h) — similar scope
+
+**Tier 3 (after Tier 1-2):**
+- #166 — Plugin packager tool (8-10h) — CLI to build .sspkg files
+- #336 — Upload plugins without install (4-6h) — staging area
+- #334 — Choose DB plugin during install (6-8h) — installer backend + setup
+- #254 — Move Postgres to plugin (6-8h) — refactor + migration tests
+
+**Key risks:** Plugin packager complexity (mitigate: spike week 1), DB plugin refactor data loss risk (dry-run first).
+
+**Sync point:** v0.8.0 ship decision gates all Tier 3 work. Coordinate with Simon (installer UX) and Zoe (CI).
+
+# Project Context
+
 - **Owner:** Jeffrey T. Fritz
 - **Project:** SharpSite — a modern, accessible CMS built with .NET 9 and Blazor
 - **Stack:** .NET 9, Blazor (SSR + Interactive Server), ASP.NET Core, Entity Framework Core, PostgreSQL, Docker, Playwright, xUnit, GitHub Actions

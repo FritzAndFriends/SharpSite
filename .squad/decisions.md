@@ -162,6 +162,83 @@
 - Reduce HTTP health-check timeout from 5s to 2s
 **Impact:** CI no longer hangs; failures produce diagnostic output; no production impact
 
+### v0.8 Milestone Plan (2026-04-30) 🎯 PROPOSED
+**Status:** Proposed  
+**Owner:** Mal  
+**Decision:** After analyzing 73 open GitHub issues, recommended a 2-phase v0.8 release strategy:
+- **Phase 1 (v0.8.0):** 6 weeks — Tier 1 (ship-blockers: #350, #351, #319, #272) + Tier 2 (core CMS: #309, #299, #321, #323, #328) = ~50–60 hours
+- **Phase 2 (v0.8.1–0.8.3):** 4–6 weeks — Tier 3 (plugin ecosystem: #166, #336, #334, #254, #341, #339) = ~30–40 hours
+- **Defer to v0.9+:** Accessibility (#133, #171, #267), performance (#62, #217, #218), future plugins, storefront
+
+**Squad Assignments:**
+- **River (Backend):** Plugin ecosystem lead (#166, #336, #334, #254) + core deletes (#309, #299) = 35–40h
+- **Simon (Frontend):** Admin UI lead (#321, #323, #328) + installer UX = 15–20h  
+- **Wash (E2E):** Validation lead (#319, #351, #272) = 8–10h
+- **Kaylee (Tester):** Plugin test coverage (#341) + test cases = 5–7h
+- **Zoe (CI/DevOps):** Test reporting (#272) = 3–4h
+- **Book (Docs):** Plugin author docs (#339) = 4–6h
+
+**Identified Stale Issues (10):** #331, #301, #300, #298, #289, #283, #203, #161, #122, #121 — require triage/clarification before work.
+
+**Key Risks & Mitigations:**
+- Plugin packager complexity (#166): River to spike week 1; clarify format early
+- DB plugin refactor (#254): Comprehensive migration tests; dry-run first
+- E2E flakiness (#319): 2-week buffer; Wash to add retry logic
+- Scope creep: Close Tier 4 issues; Mal approval required for exceptions
+
+**Full Plan:** `.squad/decisions/inbox/mal-v08-milestone.md`
+
+### User Directive: Central Package Management (2026-04-30)
+**By:** Copilot  
+**Decision:** Package version updates should be made in `Directory.Packages.props` (central package management), not in individual project files.
+
+### v0.7 Release Completion (2026-04-30) ✅ COMPLETED
+**By:** Jayne (CI/DevOps)  
+**Decision:** v0.7 release executed end-to-end:
+- Commit: `c35e5e06c5e17b3e0fbada8fb006d30dadcbf5e6` (PR #304 merge to main)
+- Tag: Annotated `v0.7` created and pushed
+- Release: Public on GitHub Releases with auto-generated changelog (v0.2...v0.7)
+- **Key detail:** Used explicit `git push upstream refs/tags/v0.7` (not `git push upstream v0.7`) to avoid ambiguity with branch names
+
+**Notes:** No production Docker deployment yet (code-only release); tag is public and discoverable.
+
+### Commit Movement: Squad GitHub Actions Workflow Deletion (2026-04-30)
+**By:** Jayne (CI/DevOps)  
+**Decision:** Moved commit `683b828` ("Remove Squad GitHub Actions workflows") from `issue-331-content-root-paths` to `fix/issue-331-ootb-startup` via cherry-pick.
+- **Source:** Remains on `issue-331-content-root-paths`
+- **Destination:** New commit `eba624e` on `fix/issue-331-ootb-startup`, pushed to origin
+- **Files deleted:** 4 Squad workflow files (squad-heartbeat.yml, squad-issue-assign.yml, squad-triage.yml, sync-squad-labels.yml)
+- **Method:** Safe cherry-pick preserves remote history
+
+### River — PR #354 Package Upgrades (2026-04-30)
+**By:** River (Backend Dev)  
+**Branch:** `issue-331-content-root-paths`  
+**Decision:** Upgrade OpenTelemetry packages to resolve NuGet vulnerability findings in PR #354:
+- `OpenTelemetry.Api` → 1.15.3 (explicit transitive pin; fixes GHSA-g94r-2vxg-569j)
+- `OpenTelemetry.Exporter.OpenTelemetryProtocol` → 1.15.3 (fixes GHSA-mr8r-92fq-pj8p, GHSA-q834-8qmm-v933)
+- `OpenTelemetry.Extensions.Hosting` → 1.15.3
+- `OpenTelemetry.Instrumentation.AspNetCore` → 1.15.2 (1.15.3 not available on NuGet)
+- `OpenTelemetry.Instrumentation.Http` → 1.15.1 (1.15.2+ not available)
+- `OpenTelemetry.Instrumentation.Runtime` → 1.15.1 (1.15.2+ not available)
+
+**Rationale:** Satisfies patched vulnerability floors while respecting actual NuGet availability; keeps change surgical.
+
+**Validation:** Solution builds clean; unit tests pass; vulnerability audit passes; respects Aspire 13.2/.NET 10 alignment.
+
+### Zoe — PR #354 CI Findings (2026-04-30)
+**By:** Zoe (CI/DevOps)  
+**PR:** #354  
+**Decision:** Diagnosed CI failures in `.NET Build` and `Playwright Tests` jobs:
+- **Root cause:** NuGet vulnerability warnings (OpenTelemetry 1.15.0 CVEs) promoted to errors via `TreatWarningsAsErrors=true` in Directory.Packages.props
+- **Failing advisories:**
+  - `GHSA-g94r-2vxg-569j` (OpenTelemetry.Api 1.15.0)
+  - `GHSA-mr8r-92fq-pj8p` (OpenTelemetry.Exporter.OpenTelemetryProtocol 1.15.0)
+  - `GHSA-q834-8qmm-v933` (OpenTelemetry.Exporter.OpenTelemetryProtocol 1.15.0)
+
+**Fix:** Upgrade packages per River's decision (above). No CI workflow changes required.
+
+**Note:** Do **not** set all OpenTelemetry packages to 1.15.3; NuGet lacks 1.15.3 for Instrumentation.* packages. The validated safe set (1.15.3 for Api/Exporter, 1.15.2 for AspNetCore, 1.15.1 for Http/Runtime) clears all vulnerabilities.
+
 ## Governance
 
 - All meaningful changes require team consensus

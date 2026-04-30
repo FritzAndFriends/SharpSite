@@ -1,5 +1,22 @@
 # Project Context
 
+## 2026-04-30 — v0.8 Milestone Role Assignment
+
+**Role:** Test Coverage Lead (v0.8.1–0.8.3 Tier 3)  
+**Effort:** 5–7 hours  
+**Timeline:** v0.8.0 completion → 4–6 weeks (Tier 3)  
+
+**Tier 3 (plugin ecosystem):**
+- #341 — Unit tests for PluginPackager (3-4h) — testing infrastructure for #166
+- #319 — E2E test cases (2-3h) — support Wash; cover OOTB experience gaps
+
+**Support:**
+- Support River on plugin ecosystem test cases; Kaylee to suggest test structures for #166, #336, #334, #254
+
+**Sync point:** Await Tier 1 completion (E2E framework stability) before #319 test spike. Coordinate with River on packager test harness design (early in #166 work).
+
+# Project Context
+
 - **Owner:** Jeffrey T. Fritz
 - **Project:** SharpSite — a modern, accessible CMS built with .NET 9 and Blazor
 - **Stack:** .NET 9, Blazor (SSR + Interactive Server), ASP.NET Core, Entity Framework Core, PostgreSQL, Docker, Playwright, xUnit, GitHub Actions
