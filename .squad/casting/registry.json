@@ -1,0 +1,67 @@
+{
+  "agents": {
+    "lead": {
+      "persistent_name": "Mal",
+      "universe": "Firefly",
+      "created_at": "2026-03-26T14:26:07Z",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "frontend-dev": {
+      "persistent_name": "Simon",
+      "universe": "Firefly",
+      "created_at": "2026-03-26T14:26:07Z",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "backend-dev": {
+      "persistent_name": "River",
+      "universe": "Firefly",
+      "created_at": "2026-03-26T14:26:07Z",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "tester-unit": {
+      "persistent_name": "Kaylee",
+      "universe": "Firefly",
+      "created_at": "2026-03-26T14:26:07Z",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "tester-e2e": {
+      "persistent_name": "Wash",
+      "universe": "Firefly",
+      "created_at": "2026-03-26T14:26:07Z",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "ci-devops-1": {
+      "persistent_name": "Zoe",
+      "universe": "Firefly",
+      "created_at": "2026-03-26T14:26:07Z",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "ci-devops-2": {
+      "persistent_name": "Jayne",
+      "universe": "Firefly",
+      "created_at": "2026-03-26T14:26:07Z",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "social-media": {
+      "persistent_name": "Inara",
+      "universe": "Firefly",
+      "created_at": "2026-03-26T14:26:07Z",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "blogger": {
+      "persistent_name": "Book",
+      "universe": "Firefly",
+      "created_at": "2026-03-26T14:26:07Z",
+      "legacy_named": false,
+      "status": "active"
+    }
+  }
+}

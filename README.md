@@ -7,59 +7,123 @@
 [![Test Results](https://fritzblog.blob.core.windows.net/githubartifacts/unittest-badge.svg?0.6)](https://fritzblog.blob.core.windows.net/githubartifacts/unittest-badge.svg)
 [![End-to-End Test Results](https://fritzblog.blob.core.windows.net/githubartifacts/playwright-badge.svg?0.6.1)](https://fritzblog.blob.core.windows.net/githubartifacts/playwright-badge.svg)
 
-
-
-An accessible CMS built with .NET 9 and Blazor that you are free to use.
+A modern, accessible CMS built with .NET 9 and Blazor that combines the simplicity of traditional content management with the power of modern web development.
 
 ## Purpose
 
-We want to make a content management system that anyone can customize easily and adapt to meet their website needs.  We think that anyone should be able to customize as little or much as they would like with simple HTML, markdown, C#, or Blazor code.
+SharpSite aims to be a highly customizable content management system that adapts to your website needs. Whether you're a non-technical user looking to create a simple blog, or a developer wanting to build a complex web application, SharpSite provides the flexibility to customize as little or as much as you need using HTML, Markdown, C#, or Blazor code.
 
-## Features that are built and working
+## System Requirements
 
-- Authentication and authorization
-- User Management
-- Theming
-- Content creation like blog posts and custom pages
-- Extension model
-- Localization for system administration screens
-- RSS generation
-- Sitemap generation
-- Robots.txt customiztion
+- .NET 9 SDK
+- PostgreSQL 16 or later
+- Visual Studio 2022 or VS Code (recommended)
+- Docker or Podman container runtime
 
-## Features we would like to build
+## Getting Started
 
-To make it easy for folks to customize, we project that we will build the following high level features.
+1. Clone the repository
 
-- content versioning
-- Output Caching
-- Shippable in a Docker container
-- Email notifications
-- Search
-- Basic form management - database table with CRUD screens that can be customized
-- tagging
-- categories
-- multiple database support
-- content scheduling
-- social media integration
-- exporting content
-- static site generation
-- multitenancy support
+2. Configure your PostgreSQL connection string in `appsettings.json`
 
-## Future extensions we would like to support
+3. Ensure your container runtime (Docker or Podman) is running
 
+4. Run the application using your preferred method:
+   - Using Visual Studio: Open `SharpSite.sln` and run the `AppHost` project
+   - Using command line: `dotnet run --project src/AppHost`
+
+5. Navigate to `https://localhost:5001` in your browser
+
+### Default Administrator Account
+- Username: `admin@localhost`
+- Password: `Admin123!`
+
+## Current Features
+
+### Core Features
+
+* **Authentication & Authorization**
+  * Built-in user management with roles (Admin, Editor, User)
+  * Social login support with external authentication providers
+  * Two-factor authentication (2FA) with authenticator apps
+  * Email confirmation and account recovery
+
+* **Content Management**
+  * Blog posts and custom pages creation
+  * Markdown and HTML content support
+  * RSS feed generation
+  * Automatic sitemap generation
+  * Robots.txt customization
+
+* **System Features**
+  * Flexible theming system
+  * Plugin architecture for extensibility
+  * Localization support for admin interfaces
+  * User-friendly admin dashboard
+  * PostgreSQL database support
+
+### Administration
+
+* Complete user management interface
+* Plugin configuration and management
+* Site settings customization
+* Content moderation tools
+
+## Planned Features
+
+Our roadmap includes exciting features to enhance the platform's capabilities:
+
+### Core Enhancements
+- Content versioning and history
+- Advanced output caching
+- Docker container support
+- Email notification system
+- Full-text search capabilities
+- Form builder with customizable CRUD operations
+
+### Content Management
+- Content tagging and categorization
+- Content scheduling and publishing
+- Social media integration
+- Content export and backup tools
+- Static site generation
+- Multi-tenant support
+
+### Advanced Features
+- Multiple database support (beyond PostgreSQL)
 - Email mailing list management
-- Payments
-- Wordpress import wizard
-- Mobile app for editing
+- Payment processing integration
+- WordPress import wizard
+- Mobile app for content management
 
-## User-Personas identified
+### Developer Features
+- Enhanced plugin development tools
+- API documentation and examples
+- Custom theme development kit
+- Performance optimization tools
 
-There are three key personas that we would like SharpSite to support:
+## User Personas
 
-1. The non-technical user - this user does not know HTML or any coding and would like to setup a simple website with low to no coding required
-1. The web developer - this user knows some web coding techniques (HTML and CSS) and would like to do some minor customizations to the look and feel of the site
-1. The integrator - this user knows how to code (HTML, Blazor, and .NET) and would like to be able to completely customize the look and feel of their SharpSite installation
+SharpSite is designed to serve three key user types:
+
+### Content Creator
+- Non-technical users who want to create websites without coding
+- Focus on content creation through user-friendly interfaces
+- Uses built-in templates and visual editors
+
+### Web Developer
+- Familiar with HTML, CSS, and basic web technologies
+- Can customize themes and layouts
+- Creates custom templates and styling
+
+### System Integrator
+- Experienced with Blazor, .NET, and web development
+- Develops custom plugins and extensions
+- Implements complex integrations and features
+
+## Contributing
+
+We welcome contributions from all skill levels! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## Contributors
 

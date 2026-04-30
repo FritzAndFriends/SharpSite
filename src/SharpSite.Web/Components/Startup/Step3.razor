@@ -1,0 +1,145 @@
+@page "/start/step3"
+@using SharpSite.Abstractions.DataStorage
+@using SharpSite.Abstractions.FileStorage
+@using System.ComponentModel.DataAnnotations
+@using SharpSite.Security.Postgres
+@inject ApplicationState AppState
+@inject NavigationManager NavManager
+@inject PluginManager PluginManager
+@rendermode @(new InteractiveServerRenderMode(false))
+
+<div class="container-fluid px-4" style="min-width: 900px; max-width: 1200px; margin: 0 auto;">
+    <div class="row justify-content-center mb-4">
+        <div class="col-12 text-center">            <img src="/img/logo-500.webp" alt="SharpSite" class="img-fluid" style="min-width: 500px;" />
+            <h2 class="h4 mt-3">Step @Step - Database Configuration</h2>
+        </div>
+    </div>
+
+    <div class="row justify-content-center g-0">
+        <!-- Left panel with information -->
+        <div class="col-lg-5 p-4">
+            @if (_selectedPlugin is null)
+            {
+                <h5 class="d-flex align-items-center gap-2 small">
+                    <i class="bi bi-database-fill-gear"></i>
+                    <span>Select a Database Provider</span>
+                </h5>
+                <div class="small mt-4">
+                    <div class="d-flex align-items-start gap-3 mb-4">
+                        <div><i class="bi bi-plug-fill text-primary fs-5"></i></div>
+                        <div>
+                            <strong>Database Providers</strong>
+                            <div class="text-muted smaller">Choose from available database plugins</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info mt-4 py-2 px-3">
+                    <i class="bi bi-info-circle-fill me-2"></i>
+                    <span class="smaller">Select a database provider from the list on the right to continue.</span>
+                </div>
+            }
+            else 
+            {
+                <h5 class="d-flex align-items-center gap-2 small">
+                    <i class="bi bi-database-fill-gear"></i>
+                    <span>Configure @_selectedPlugin.DisplayName for @AppState.SiteName</span>
+                </h5>
+                <div class="small mt-4">
+                    <div class="d-flex align-items-start gap-3 mb-4">
+                        <div><i class="bi bi-database-fill text-primary fs-5"></i></div>
+                        <div>
+                            <strong>Content Database</strong>
+                            <div class="text-muted smaller">Blog posts, pages, and site content</div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-start gap-3">
+                        <div><i class="bi bi-shield-lock-fill text-success fs-5"></i></div>
+                        <div>
+                            <strong>Security Database</strong>
+                            <div class="text-muted smaller">Authentication and permissions</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info mt-4 py-2 px-3">
+                    <i class="bi bi-info-circle-fill me-2"></i>
+                    <span class="smaller">Please ensure you have valid database credentials.</span>
+                </div>
+            }
+        </div>
+
+        <!-- Vertical divider -->
+        <div class="vr p-0 mx-2"></div>
+
+        <!-- Right panel with configuration -->
+        <div class="col-lg-6 p-4">            @if (DatabaseConfig is not null)
+            {
+                <DatabaseConfiguration 
+                    DatabaseConfig="DatabaseConfig" 
+                    OnValidSubmit="SaveDatabaseConfig"
+                    OnPluginSelected="HandlePluginSelected" />
+            }
+            else
+            {
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+
+	const int Step = 3;
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (AppState.StartupCompleted) NavManager.NavigateTo("/", true);
+		if (AppState.StartupStep != Step) NavManager.NavigateTo($"/start/step{AppState.StartupStep}", false);
+
+		DatabaseConfig = PluginManager.GetPluginProvidedService<IConfigureDataStorage>()!;
+
+		await base.OnInitializedAsync();
+	}
+
+	private IConfigureDataStorage DatabaseConfig { get; set; } = default!;
+
+	private PluginManifest? _selectedPlugin;
+      private void HandlePluginSelected(PluginManifest? plugin)
+    {
+        _selectedPlugin = plugin;
+        StateHasChanged();
+    }
+
+	private async Task SaveDatabaseConfig(string connectionString)
+	{
+
+		// Format a connection string for the database using Postgres syntax and using a database name of "sharpsite" and a port of 5432.
+		AppState.ContentConnectionString = connectionString;
+
+		// Format a connection string for the database using Postgres syntax and using a database name of "sharpsite_security" and a port of 5432.
+		AppState.SecurityConnectionString = connectionString;
+
+		AppState.StartupStep = 0;
+		AppState.StartupCompleted = true;
+		await AppState.Save();
+
+		await DatabaseConfig.CreateNewDataStorage(AppState);
+
+		// Create the security database if it does not exist.
+		var securityServices = new RegisterPostgresSecurityServices();
+		// securityServices.CreateDatabaseIfNotExists(securityConnectionString);
+		// await securityServices.UpdateDatabaseSchemaAsync(securityConnectionString);
+
+		// Restart the application to apply the changes.
+
+		// NavManager.NavigateTo("/", true);
+
+	}
+
+}

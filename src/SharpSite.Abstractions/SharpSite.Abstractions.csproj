@@ -1,17 +1,23 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-		<OutputPath>bin\Debug\</OutputPath>
+<OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Abstractions" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Core" />
+    <PackageReference Include="Newtonsoft.Json" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SharpSite.Abstractions.DataStorage\SharpSite.Abstractions.DataStorage.csproj" />
     <ProjectReference Include="..\SharpSite.Abstractions.Base\SharpSite.Abstractions.Base.csproj" />
     <ProjectReference Include="..\SharpSite.Abstractions.FileStorage\SharpSite.Abstractions.FileStorage.csproj" />
     <ProjectReference Include="..\SharpSite.Abstractions.Theme\SharpSite.Abstractions.Theme.csproj" />

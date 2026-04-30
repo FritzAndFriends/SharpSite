@@ -1,0 +1,35 @@
+@using Microsoft.AspNetCore.Authentication
+
+@inject ISignInManager SignInManager
+
+@if (externalLogins?.Length > 0)
+{
+    <form action="Account/ProviderLogin" method="post">
+        <div>
+            <p>
+                @foreach (var provider in externalLogins)
+                {
+                    <button type="submit"
+                            class="btn btn-primary"
+                            name="provider"
+                            value="@provider.Name"
+                            title="Log in using your @provider.DisplayName account">
+                        @provider.DisplayName
+                    </button>
+                }
+            </p>
+        </div>
+    </form>
+}
+
+@code {
+    private AuthenticationScheme[] externalLogins = [];
+
+    [SupplyParameterFromQuery]
+    private string? ReturnUrl { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        externalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToArray();
+    }
+}

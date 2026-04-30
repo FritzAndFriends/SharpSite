@@ -1,0 +1,26 @@
+{
+  "universe_usage_history": [
+    {
+      "universe": "Firefly",
+      "assignment_id": "sharpsite-initial-2026-03-26",
+      "used_at": "2026-03-26T14:26:07Z"
+    }
+  ],
+  "assignment_cast_snapshots": {
+    "sharpsite-initial-2026-03-26": {
+      "universe": "Firefly",
+      "agents": {
+        "lead": "Mal",
+        "frontend-dev": "Simon",
+        "backend-dev": "River",
+        "tester-unit": "Kaylee",
+        "tester-e2e": "Wash",
+        "ci-devops-1": "Zoe",
+        "ci-devops-2": "Jayne",
+        "social-media": "Inara",
+        "blogger": "Book"
+      },
+      "created_at": "2026-03-26T14:26:07Z"
+    }
+  }
+}

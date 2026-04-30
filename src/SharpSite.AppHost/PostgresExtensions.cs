@@ -12,8 +12,7 @@ public static class PostgresExtensions
 
 
 	public static
-		(IResourceBuilder<PostgresDatabaseResource> db,
-		IResourceBuilder<ProjectResource> migrationSvc) AddPostgresServices(
+		IResourceBuilder<PostgresDatabaseResource> AddPostgresServices(
 		this IDistributedApplicationBuilder builder,
 		bool testOnly = false)
 	{
@@ -29,6 +28,7 @@ public static class PostgresExtensions
 				{
 					config.WithImageTag(VERSIONS.PGADMIN);
 					config.WithLifetime(ContainerLifetime.Persistent);
+					config.WithParentRelationship(dbServer);
 				});
 
 		}
@@ -40,11 +40,11 @@ public static class PostgresExtensions
 
 		var outdb = dbServer.AddDatabase(SharpSite.Data.Postgres.Constants.DBNAME);
 
-		var migrationSvc = builder.AddProject<Projects.SharpSite_Data_Postgres_Migration>($"{SharpSite.Data.Postgres.Constants.DBNAME}migrationsvc")
-			.WithReference(outdb)
-			.WaitFor(dbServer);
+		//var migrationSvc = builder.AddProject<Projects.SharpSite_Data_Postgres_Migration>($"{SharpSite.Data.Postgres.Constants.DBNAME}migrationsvc")
+		//	.WithReference(outdb)
+		//	.WaitFor(dbServer);
 
-		return (outdb, migrationSvc);
+		return outdb;
 
 	}
 

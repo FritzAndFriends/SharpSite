@@ -1,0 +1,54 @@
+﻿@page "/start/step1"
+@inject ApplicationState AppState
+@inject NavigationManager NavManager
+@inject PluginManager PluginManager
+@rendermode InteractiveServer
+
+@* add the sharpsite logo *@
+<img src="/img/logo-500.webp" alt="SharpSite" style="min-width: 500px;" />
+
+<h1 class="h1">Welcome to your new website!</h1>
+
+<p>
+	This is SharpSite, a fun and friendly website management tool.
+	It is designed to be easy to use and to help you create a website that you can be proud of.
+</p>
+
+<p>
+	Let's start with some basics: what is the name for your cool new website?
+</p>
+
+@* add a simple textbox to collect the website name *@
+<InputText @bind-Value="WebsiteName" placeholder="Enter your website name" class="form-control" />
+<p>
+	You can change this later, so don't worry if you don't have a name yet.
+</p>
+<p>
+	Once you have a name, click the <strong>Next</strong> button to continue.
+</p>
+@* add a button to continue to the next step *@
+<button class="btn btn-primary" @onclick="SaveAndContinue">Next</button>
+
+@code {
+	private string WebsiteName { get; set; } = string.Empty;
+
+	protected override async Task OnInitializedAsync()
+	{
+		if (AppState.StartupCompleted) NavManager.NavigateTo("/", true);
+		if (AppState.StartupStep > 1) NavManager.NavigateTo($"/start/step{AppState.StartupStep}", false);
+
+		await base.OnInitializedAsync();
+	}
+
+	private async Task SaveAndContinue(MouseEventArgs args)
+	{
+		
+		AppState.SiteName = WebsiteName;
+		AppState.StartupStep = 2;
+
+		await PluginManager.InstallDefaultPlugins();
+
+		NavManager.NavigateTo($"/start/step{AppState.StartupStep}", false);
+
+	}
+}

@@ -1,13 +1,14 @@
 ﻿@using System.Security.Claims
 @implements IDisposable
+@inject ApplicationState AppState
 @inject NavigationManager NavigationManager
-@inject IPageRepository PageRepository
+@inject PluginManager PluginManager
 @inject AuthenticationStateProvider AuthZ
 @inject IUserRepository UserRepository
 
 
 <div class="top-row ps-3 navbar navbar-dark">
-	<a href="/" aria-label="@Localizer[SharedResource.sharpsite_home]"><img src="/logo.webp" alt="@Localizer[SharedResource.sharpsite_logo]"/></a>
+	<a href="/" aria-label="@Localizer[SharedResource.sharpsite_home]"><img src="@Logo" alt="@Localizer[SharedResource.sharpsite_logo]"/></a>
 </div>
 
 <input type="checkbox" title="@Localizer[SharedResource.sharpsite_navmenu]" class="navbar-toggler" aria-label="@Localizer[SharedResource.sharpsite_navmenu]"/>
@@ -89,9 +90,23 @@
 	private HttpContext HttpContext { get; set; } = default!;
 	private SharpSiteUser user = default!;
 
+	private string Logo => string.IsNullOrEmpty(AppState.HasCustomLogo) ? "/img/logo.webp" : Path.Combine(RouteValues.BaseFileApi,"/",AppState.HasCustomLogo);
+
 	protected override async Task OnInitializedAsync()
 	{
-		Pages = await PageRepository.GetPages();
+
+		if (!AppState.StartupCompleted) return;
+
+		var PageRepository = PluginManager.GetPluginProvidedService<IPageRepository>();
+		if (PageRepository is null)
+		{
+			Pages = Enumerable.Empty<Page>();
+		}
+		else
+		{
+			Pages = await PageRepository.GetPages();
+		}
+
 		currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
 		NavigationManager.LocationChanged += OnLocationChanged;
 

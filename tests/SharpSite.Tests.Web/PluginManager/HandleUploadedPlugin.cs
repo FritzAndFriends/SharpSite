@@ -16,10 +16,13 @@ public class HandleUploadedPlugin
 	{
 		var mockAssemblyManagerLogger = new Mock<ILogger<PluginAssemblyManager>>();
 		var mockPluginAssemblyManager = new Mock<PluginAssemblyManager>(mockAssemblyManagerLogger.Object);
+		var mockValidatorLogger = new Mock<ILogger<PluginAssemblyValidator>>();
+		var mockValidator = new Mock<PluginAssemblyValidator>(mockValidatorLogger.Object);
 		var mockAppState = new Mock<SharpSite.Web.ApplicationState>();
 		_MockLogger = new Mock<ILogger<SharpSite.Web.PluginManager>>();
 		_PluginManager = new SharpSite.Web.PluginManager(
 			mockPluginAssemblyManager.Object,
+			mockValidator.Object,
 			mockAppState.Object,
 			_MockLogger.Object);
 	}

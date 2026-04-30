@@ -1,5 +1,9 @@
-﻿using SharpSite.Abstractions.Base;
+﻿using Microsoft.EntityFrameworkCore;
+using SharpSite.Abstractions;
+using SharpSite.Abstractions.Base;
+using SharpSite.Abstractions.DataStorage;
 using SharpSite.Abstractions.FileStorage;
+using SharpSite.Abstractions.Security;
 using SharpSite.Plugins;
 using System.IO.Compression;
 using System.Runtime.InteropServices;
@@ -10,6 +14,7 @@ namespace SharpSite.Web;
 
 public class PluginManager(
 	PluginAssemblyManager pluginAssemblyManager,
+	PluginAssemblyValidator assemblyValidator,
 	ApplicationState AppState,
 	ILogger<PluginManager> logger) : IPluginManager, IDisposable
 {
@@ -20,12 +25,18 @@ public class PluginManager(
 
 	private readonly static IServiceCollection _ServiceDescriptors = new ServiceCollection();
 	private static IServiceProvider? _ServiceProvider;
+	private static readonly object _ServiceLock = new();
 
-	public static void Initialize()
+	private const long MaxTotalExtractedSize = 100L * 1024 * 1024; // 100MB
+	private const long MaxSingleFileSize = 50L * 1024 * 1024;      // 50MB
+	private const double MaxCompressionRatio = 100.0;               // 100:1
+ 
+	public static void Initialize(string? contentRootPath = null)
 	{
-		Directory.CreateDirectory("plugins");
-		Directory.CreateDirectory(Path.Combine("plugins", "_uploaded"));
-		Directory.CreateDirectory(Path.Combine("plugins", "_wwwroot"));
+		SharpSitePathProvider.Initialize(contentRootPath);
+		Directory.CreateDirectory(SharpSitePathProvider.PluginsRootPath);
+		Directory.CreateDirectory(SharpSitePathProvider.UploadedPluginsRootPath);
+		Directory.CreateDirectory(SharpSitePathProvider.PluginWebRootPath);
 
 	}
 
@@ -50,6 +61,8 @@ public class PluginManager(
 
 		Manifest = ReadManifest(manifestStream);
 		Manifest.ValidateManifest(logger, plugin);
+		EnsurePluginNotInstalled(Manifest, logger);
+		ValidateArchiveSecurity(archive);
 
 		// Add your logic to process the manifest content here
 		logger.LogInformation("Plugin {PluginName} uploaded and manifest processed.", Manifest);
@@ -91,11 +104,21 @@ public class PluginManager(
 		var pluginDll = Directory.GetFiles(pluginLibFolder.FullName, $"{key}*.dll").FirstOrDefault();
 		if (!string.IsNullOrEmpty(pluginDll))
 		{
+			// Validate DLL integrity before loading
+			assemblyValidator.VerifyOrStoreHash(key, pluginDll);
+
 			// Soft load of package without taking ownership for the process .dll
 			using var pluginAssemblyFileStream = File.OpenRead(pluginDll);
 			plugin = await Plugin.LoadFromStream(pluginAssemblyFileStream, key);
 			var pluginAssembly = new PluginAssembly(Manifest, plugin);
 			pluginAssemblyManager.AddAssembly(pluginAssembly);
+
+			// Validate assembly name matches manifest ID
+			if (pluginAssembly.Assembly is not null)
+			{
+				assemblyValidator.ValidateAssemblyName(pluginAssembly.Assembly, key);
+			}
+
 			await RegisterWithServiceLocator(pluginAssembly);
 			await AppState.Save();
 
@@ -115,7 +138,10 @@ public class PluginManager(
 
 		logger.LogInformation("Plugin {PluginName} saved and registered.", plugin.Name);
 
-		_ServiceProvider = _ServiceDescriptors.BuildServiceProvider();
+		lock (_ServiceLock)
+		{
+			Interlocked.Exchange(ref _ServiceProvider, _ServiceDescriptors.BuildServiceProvider());
+		}
 
 		CleanupCurrentUploadedPlugin();
 	}
@@ -125,23 +151,42 @@ public class PluginManager(
 
 		AppState.ConfigurationSectionChanged += async (sender, e) =>
 		{
-			// Update the registered ConfigurationSection in the service locator
-			if (_ServiceDescriptors.Any(descriptor => descriptor.ServiceType == e.GetType()))
+			ServiceDescriptor? oldSectionDescriptor = null;
+			ISharpSiteConfigurationSection? oldSection = null;
+
+			lock (_ServiceLock)
 			{
-				var oldSectionDescriptor = _ServiceDescriptors.First(descriptor => descriptor.ServiceType == e.GetType());
-				var oldSection = (ISharpSiteConfigurationSection)oldSectionDescriptor.ImplementationInstance!;
-				await e.OnConfigurationChanged(oldSection, this);
-				_ServiceDescriptors.Remove(oldSectionDescriptor);
+				oldSectionDescriptor = _ServiceDescriptors.FirstOrDefault(descriptor => descriptor.ServiceType == e.GetType());
+				if (oldSectionDescriptor is not null)
+				{
+					oldSection = (ISharpSiteConfigurationSection)oldSectionDescriptor.ImplementationInstance!;
+				}
 			}
 
-			var serviceDescriptor = new ServiceDescriptor(e.GetType(), e);
-			_ServiceDescriptors.Add(serviceDescriptor);
-			_ServiceProvider = _ServiceDescriptors.BuildServiceProvider();
+			if (oldSection is not null)
+			{
+				await e.OnConfigurationChanged(oldSection, this);
+			}
+
+			lock (_ServiceLock)
+			{
+				if (oldSectionDescriptor is not null)
+				{
+					_ServiceDescriptors.Remove(oldSectionDescriptor);
+				}
+				_ServiceDescriptors.Add(new ServiceDescriptor(e.GetType(), e));
+				Interlocked.Exchange(ref _ServiceProvider, _ServiceDescriptors.BuildServiceProvider());
+			}
 		};
 
-		_ServiceDescriptors.AddSingleton<IPluginManager>(this);
+		lock (_ServiceLock)
+		{
+			_ServiceDescriptors.AddSingleton<IPluginManager>(this);
+			_ServiceDescriptors.AddSingleton<IApplicationStateModel>(AppState);
+			_ServiceDescriptors.AddMemoryCache();
+		}
 
-		foreach (var pluginFolder in Directory.GetDirectories("plugins"))
+		foreach (var pluginFolder in Directory.GetDirectories(SharpSitePathProvider.PluginsRootPath))
 		{
 			var pluginName = Path.GetFileName(pluginFolder);
 			if (pluginName.StartsWith("_")) continue;
@@ -152,17 +197,44 @@ public class PluginManager(
 			// Add plugin to the list of plugins in ApplicationState
 			var manifest = ReadManifest(manifestPath);
 
-			// By convention it is a package_name of (<package_name>@<package_vesrson>.(sspkg|.dll)
+			// By convention it is a package_name of (<package_name>@<package_version>.(sspkg|.dll)
 			var key = manifest!.Id;
 
 			var pluginDll = Directory.GetFiles(pluginFolder, $"{key}*.dll").FirstOrDefault();
 			if (!string.IsNullOrEmpty(pluginDll))
 			{
+				// Validate DLL integrity before loading
+				try
+				{
+					assemblyValidator.VerifyOrStoreHash(key, pluginDll);
+				}
+				catch (PluginException ex)
+				{
+					logger.LogError(ex, "Plugin '{PluginName}' failed integrity validation at startup. Skipping.", key);
+					continue;
+				}
+
 				// Soft load of package without taking ownership for the process .dll
 				using var pluginAssemblyFileStream = File.OpenRead(pluginDll);
 				plugin = await Plugin.LoadFromStream(pluginAssemblyFileStream, key);
 				var pluginAssembly = new PluginAssembly(manifest, plugin);
 				pluginAssemblyManager.AddAssembly(pluginAssembly);
+
+				// Validate assembly name matches manifest ID
+				if (pluginAssembly.Assembly is not null)
+				{
+					try
+					{
+						assemblyValidator.ValidateAssemblyName(pluginAssembly.Assembly, key);
+					}
+					catch (PluginException ex)
+					{
+						logger.LogError(ex, "Plugin '{PluginName}' assembly name mismatch at startup. Unloading.", key);
+						pluginAssemblyManager.RemoveAssembly(pluginAssembly);
+						continue;
+					}
+				}
+
 				logger.LogInformation("Assembly {AssemblyName} loaded at startup.", pluginDll);
 
 				await RegisterWithServiceLocator(pluginAssembly);
@@ -174,7 +246,10 @@ public class PluginManager(
 
 		}
 
-		_ServiceProvider = _ServiceDescriptors.BuildServiceProvider();
+		lock (_ServiceLock)
+		{
+			Interlocked.Exchange(ref _ServiceProvider, _ServiceDescriptors.BuildServiceProvider());
+		}
 
 	}
 
@@ -197,11 +272,9 @@ public class PluginManager(
 			{
 				var pluginAttribute = (RegisterPluginAttribute)pluginAttributes[0]!;
 
-				var knownInterface = pluginAttribute.RegisterType switch
-				{
-					PluginRegisterType.FileStorage => typeof(IHandleFileStorage),
-					_ => null
-				};
+				var knownInterface = pluginAttribute.RegisterType == PluginRegisterType.DataStorage_EfContext 
+					? type 
+					: PluginTypeMapping.GetInterfaceType(pluginAttribute.RegisterType);
 
 				var serviceDescriptor = new ServiceDescriptor(knownInterface!, type, pluginAttribute.Scope switch
 				{
@@ -209,7 +282,10 @@ public class PluginManager(
 					PluginServiceLocatorScope.Scoped => ServiceLifetime.Scoped,
 					_ => ServiceLifetime.Transient
 				});
-				_ServiceDescriptors.Add(serviceDescriptor);
+				lock (_ServiceLock)
+				{
+					_ServiceDescriptors.Add(serviceDescriptor);
+				}
 			}
 			else if (typeof(ISharpSiteConfigurationSection).IsAssignableFrom(type))
 			{
@@ -221,7 +297,10 @@ public class PluginManager(
 					AppState.ConfigurationSections.Add(configurationSection.SectionName, configurationSection);
 				}
 
-				_ServiceDescriptors.Add(new ServiceDescriptor(type, configurationSection));
+				lock (_ServiceLock)
+				{
+					_ServiceDescriptors.Add(new ServiceDescriptor(type, configurationSection));
+				}
 
 				if (AppState.Initialized)
 				{
@@ -236,20 +315,79 @@ public class PluginManager(
 	}
 
 
+	private void ValidateArchiveSecurity(ZipArchive archive)
+	{
+		long totalExtractedSize = 0;
+
+		foreach (var entry in archive.Entries)
+		{
+			if (string.IsNullOrEmpty(entry.Name)) continue;
+
+			// Path traversal protection: reject any entry containing ".." (normalized for both slash styles)
+			var normalizedName = entry.FullName.Replace('\\', '/');
+			if (normalizedName.Contains("..", StringComparison.Ordinal))
+			{
+				var ex = new PluginException($"Path traversal detected in ZIP entry: {entry.FullName}");
+				logger.LogError(ex, "Rejected plugin: path traversal in entry '{EntryName}'", entry.FullName);
+				throw ex;
+			}
+
+			// Per-file size limit
+			if (entry.Length > MaxSingleFileSize)
+			{
+				var ex = new PluginException(
+					$"ZIP entry '{entry.FullName}' exceeds maximum file size of {MaxSingleFileSize / (1024 * 1024)}MB " +
+					$"(actual: {entry.Length / (1024 * 1024)}MB).");
+				logger.LogError(ex, "Rejected plugin: entry '{EntryName}' is {SizeMB}MB, max is {MaxMB}MB",
+					entry.FullName, entry.Length / (1024 * 1024), MaxSingleFileSize / (1024 * 1024));
+				throw ex;
+			}
+
+			// Compression ratio check (ZIP bomb detection)
+			if (entry.CompressedLength > 0)
+			{
+				double ratio = (double)entry.Length / entry.CompressedLength;
+				if (ratio > MaxCompressionRatio)
+				{
+					var ex = new PluginException(
+						$"ZIP entry '{entry.FullName}' has suspicious compression ratio of {ratio:F1}:1 " +
+						$"(max allowed: {MaxCompressionRatio}:1).");
+					logger.LogError(ex, "Rejected plugin: entry '{EntryName}' compression ratio {Ratio}:1 exceeds limit of {MaxRatio}:1",
+						entry.FullName, ratio, MaxCompressionRatio);
+					throw ex;
+				}
+			}
+
+			totalExtractedSize += entry.Length;
+		}
+
+		// Total extracted size limit
+		if (totalExtractedSize > MaxTotalExtractedSize)
+		{
+			var ex = new PluginException(
+				$"Total extracted size of {totalExtractedSize / (1024 * 1024)}MB exceeds maximum of " +
+				$"{MaxTotalExtractedSize / (1024 * 1024)}MB.");
+			logger.LogError(ex, "Rejected plugin: total extracted size {SizeMB}MB exceeds max {MaxMB}MB",
+				totalExtractedSize / (1024 * 1024), MaxTotalExtractedSize / (1024 * 1024));
+			throw ex;
+		}
+	}
+
+
 	private static async Task<(FileStream, DirectoryInfo, ZipArchive)> ExtractAndInstallPlugin(ILogger<PluginManager> logger, Plugin plugin, PluginManifest pluginManifest)
 	{
 		DirectoryInfo pluginLibFolder;
 		ZipArchive archive;
 
-		var pluginFolder = Directory.CreateDirectory(Path.Combine("plugins", "_uploaded"));
-		var filePath = Path.Combine(pluginFolder.FullName, $"{pluginManifest!.Id}@{pluginManifest.Version}.sspkg");
+		var pluginFolder = Directory.CreateDirectory(SharpSitePathProvider.UploadedPluginsRootPath);
+		var filePath = Path.Combine(pluginFolder.FullName, $"{pluginManifest.IdVersionToString()}.sspkg");
 
 		using var pluginAssemblyFileStream = File.OpenWrite(filePath);
 		await pluginAssemblyFileStream.WriteAsync(plugin.Bytes);
 		logger.LogInformation("Plugin saved to {FilePath}", filePath);
 
 		// Create a folder named after the plugin name under /plugins
-		pluginLibFolder = Directory.CreateDirectory(Path.Combine("plugins", $"{pluginManifest!.Id}@{pluginManifest.Version}"));
+		pluginLibFolder = Directory.CreateDirectory(SharpSitePathProvider.GetPluginInstallationPath(pluginManifest.IdVersionToString()));
 
 		using var pluginMemoryStream = new MemoryStream(plugin.Bytes);
 		archive = new ZipArchive(pluginMemoryStream, ZipArchiveMode.Read, true);
@@ -260,13 +398,20 @@ public class PluginManager(
 
 		if (hasWebContent)
 		{
-			pluginWwwRootFolder = Directory.CreateDirectory(Path.Combine("plugins", "_wwwroot", $"{pluginManifest!.Id}@{pluginManifest.Version}"));
+			pluginWwwRootFolder = Directory.CreateDirectory(Path.Combine(SharpSitePathProvider.PluginWebRootPath, pluginManifest.IdVersionToString()));
 		}
 
 		foreach (var entry in archive.Entries)
 		{
 			// skip directory entries in the archive
 			if (string.IsNullOrEmpty(entry.Name)) continue;
+
+			// Defense-in-depth: reject path traversal during extraction
+			var normalizedEntryName = entry.FullName.Replace('\\', '/');
+			if (normalizedEntryName.Contains("..", StringComparison.Ordinal))
+			{
+				throw new PluginException($"Path traversal detected in ZIP entry: {entry.FullName}");
+			}
 
 			string entryPath = entry.FullName switch
 			{
@@ -277,6 +422,19 @@ public class PluginManager(
 			};
 
 			if (string.IsNullOrEmpty(entryPath)) continue;
+
+			// Defense-in-depth: verify extracted file resolves within allowed directories
+			var resolvedPath = Path.GetFullPath(entryPath);
+			var libFullPath = Path.GetFullPath(pluginLibFolder.FullName) + Path.DirectorySeparatorChar;
+			var wwwFullPath = pluginWwwRootFolder is not null
+				? Path.GetFullPath(pluginWwwRootFolder.FullName) + Path.DirectorySeparatorChar
+				: null;
+
+			if (!resolvedPath.StartsWith(libFullPath, StringComparison.OrdinalIgnoreCase) &&
+				(wwwFullPath is null || !resolvedPath.StartsWith(wwwFullPath, StringComparison.OrdinalIgnoreCase)))
+			{
+				throw new PluginException($"ZIP entry '{entry.FullName}' resolves outside allowed directories.");
+			}
 
 			using var entryStream = entry.Open();
 			using var entryFileStream = new FileStream(entryPath, FileMode.Create);
@@ -333,19 +491,31 @@ public class PluginManager(
 		{
 			throw new InvalidFolderException($"Invalid path for folder: {name}");
 		}
-		return Task.FromResult(Directory.CreateDirectory(Path.Combine("plugins", "_" + name)));
+		return Task.FromResult(Directory.CreateDirectory(SharpSitePathProvider.GetPluginPrivateDirectoryPath(name)));
 	}
 
-	public T? GetPluginProvidedService<T>()
+	public T? GetPluginProvidedService<T>() where T : class
 	{
-		return _ServiceProvider!.GetService<T>();
+		lock (_ServiceLock)
+		{
+			if (_ServiceProvider is null)
+			{
+				throw new InvalidOperationException("Service provider is not initialized. Call LoadPluginsAtStartup first.");
+			}
+
+			if (!_ServiceDescriptors.Any(descriptor => descriptor.ServiceType == typeof(T)))
+			{
+				return null;
+			}
+			return _ServiceProvider.GetService<T>();
+		}
 	}
 
 	public Task<DirectoryInfo> MoveDirectoryInPluginsFolder(string oldName, string newName)
 	{
 
 		// check if the oldName directory exists
-		if (!Directory.Exists(Path.Combine("plugins", "_" + oldName)))
+		if (!Directory.Exists(SharpSitePathProvider.GetPluginPrivateDirectoryPath(oldName)))
 		{
 			throw new DirectoryNotFoundException($"Directory {oldName} not found in plugins folder.");
 		}
@@ -356,22 +526,22 @@ public class PluginManager(
 
 		// move the directory specified, which is prefixed with an underscore, to a new name
 		Directory.Move(
-			Path.Combine("plugins", "_" + oldName),
-			Path.Combine("plugins", "_" + newName)
+			SharpSitePathProvider.GetPluginPrivateDirectoryPath(oldName),
+			SharpSitePathProvider.GetPluginPrivateDirectoryPath(newName)
 		);
 
-		return Task.FromResult(new DirectoryInfo(Path.Combine("plugins", "_" + newName)));
+		return Task.FromResult(new DirectoryInfo(SharpSitePathProvider.GetPluginPrivateDirectoryPath(newName)));
 
 	}
 
 	public DirectoryInfo GetDirectoryInPluginsFolder(string name)
 	{
-		return new DirectoryInfo(Path.Combine("plugins", "_" + name));
+		return new DirectoryInfo(SharpSitePathProvider.GetPluginPrivateDirectoryPath(name));
 	}
 
 	private static readonly char[] _InvalidChars = Path.GetInvalidPathChars();
 	private static readonly string[] _InvalidPathSegments = ["~", "..", "/", "\\"];
-	private static readonly string[] _ReservedNames = [ "CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9" ];
+	private static readonly string[] _ReservedNames = ["CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"];
 
 	private static bool IsValidDirectory(string name)
 	{
@@ -415,4 +585,50 @@ public class PluginManager(
 		return true;
 
 	}
+
+	private static void EnsurePluginNotInstalled(PluginManifest? manifest, ILogger logger)
+	{
+
+		if (manifest is not null && Directory.Exists(SharpSitePathProvider.GetPluginInstallationPath(manifest.IdVersionToString())))
+		{
+			var errMsg = string.Format(Locales.SharedResource.sharpsite_plugin_exists, manifest.IdVersionToString());
+			PluginException ex = new(errMsg);
+			logger.LogError(ex, "Plugin '{Plugin}' is already installed.", manifest.IdVersionToString());
+			throw ex;
+		}
+
+	}
+
+	public async Task InstallDefaultPlugins()
+	{
+
+		var defaultPluginFolder = new DirectoryInfo(SharpSitePathProvider.DefaultPluginsRootPath);
+		if (!defaultPluginFolder.Exists) return;
+
+		foreach (var file in defaultPluginFolder.GetFiles("*.sspkg"))
+		{
+
+			using var stream = File.OpenRead(file.FullName);
+			var plugin = await Plugin.LoadFromStream(stream, file.Name);
+
+			try
+			{
+				HandleUploadedPlugin(plugin);
+				logger.LogInformation("Plugin {0} loaded from default plugins.", file.Name);
+				await SavePlugin();
+			}
+			catch (PluginException ex)
+			{
+				logger.LogError(ex, "Plugin {0} failed to load from default plugins.", file.Name);
+			}
+			finally
+			{
+				// Cleanup the plugin after processing
+				CleanupCurrentUploadedPlugin();
+			}
+
+		}
+
+	}
+
 }

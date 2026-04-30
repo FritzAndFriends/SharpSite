@@ -1,6 +1,7 @@
 @attribute [Route(RouteValues.AdminPostList)]
 @attribute [Authorize()]
 @using Microsoft.AspNetCore.Components.QuickGrid
+@rendermode InteractiveServer
 @inject IPostRepository PostService
 
 
@@ -27,6 +28,11 @@ else
 		<PropertyColumn Property="@(p => p.PublishedDate.ToLocalTime())" 
 			Format="g"
 						Title="@Localizer[SharedResource.sharpsite_postlist_publisheddate]" />
+		<TemplateColumn>
+			<button class="btn btn-link" 
+			aria-label="delete-@context.Slug"
+			@onclick="@(() => DeletePost(context))">@Localizer[SharedResource.sharpsite_delete]</button>
+		</TemplateColumn>
 	</QuickGrid>
 }
 
@@ -39,4 +45,12 @@ else
 		{
 				Posts = await PostService.GetPosts();
 		}
+
+	async Task DeletePost(Post post)
+	{
+		await PostService.DeletePost(post.Slug);
+		Posts = await PostService.GetPosts();
+	}
+
+
 }
