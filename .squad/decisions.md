@@ -297,6 +297,123 @@ gh issue list --repo csharpfritz/SharpSite --milestone "0.8 - The Version after 
 **Deliverable:** `.squad/decisions/inbox/mal-v08-clarification-plan.md`  
 **Next Phase:** User provides answers; Mal updates GitHub issues per recommendations table
 
+### User Directive: Upstream Repository as Source of Truth (2026-04-30T15:00:16Z)
+**By:** User (via Copilot)  
+**Decision:** Use the upstream repository milestone 0.8 (FritzAndFriends/SharpSite) as the canonical source of truth for v0.8 release planning.  
+**Impact:** All clarification questions and scope decisions reference upstream issues, not local planning documents.
+
+### Upstream v0.8 Milestone Review (2026-05-02) ✅ COMPLETED
+**Status:** Completed analysis; clarification queue prioritized  
+**Owner:** Mal  
+**Directive:** User requested full review of upstream FritzAndFriends/SharpSite v0.8 milestone using upstream as source of truth.
+
+**Upstream v0.8 Milestone State:**
+- **Total open issues:** 18 (vs. 9 anticipated in local docs)
+- **Tier 1 (Ship-blockers):** 5 issues — #319 (E2E OOB testing), #272 (Playwright badge), #322 (first admin user), #323 (favicon), #328 (custom CSS)
+- **Tier 2 (Core CMS):** 5 issues — #309 (delete page), #299 (delete post), #320 (logo upload), #321 (logo display), #297 (post summary on home)
+- **Tier 3+ (Ecosystem):** 8 issues — #313 (CSP header), #208 (admin file browser), #209 (editor file browser), #212 (autosave), #203 (plugin navlinks), #118 (remove plugin), #117 (upgrade plugin), #273 (README badges)
+
+**Scope Mismatch Discovery:**
+- **Local plan:** 9 issues (Tier 1: #350, #351 CLOSED upstream; Tier 2: 5 issues)
+- **Upstream v0.8:** 18 open issues (all Tier 1–2 present + 11 additional ecosystem items)
+- **Impact:** Scope discussion needed to confirm which of 11 new items belong in v0.8.0 (ship) vs v0.8.1+ (patch)
+
+**Critical Gaps Identified (by Tier):**
+| Tier | Issue | Gap | Impact |
+|------|-------|-----|--------|
+| 1 | #319 | No acceptance criteria defined | Wash blocked; unclear pass criteria |
+| 1 | #272 | Metric type undefined (count, %, coverage?) | Zoe blocked; CI reporting depends on choice |
+| 1 | #322 | Scope unclear (installer vs seed logic?) | Simon blocked; password reset UX depends on answer |
+| 1 | #328 | CSS scope & sanitization rules undefined | Simon blocked; security review depends on scope |
+| 2 | #309, #299 | Delete semantics undefined (hard vs soft delete?) | River/Simon blocked; schema complexity 2–3x difference |
+| 2 | #320, #321 | Logo feature scope unclear (image validation, formats, serving?) | Simon blocked; asset handling complexity |
+
+**Clarification Queue (7 Questions by Priority):**
+
+**PHASE 1 — Tier 1 Blockers (4 questions, unblocks E2E + UI sprint):**
+
+**Q1: E2E Testing Acceptance Criteria (#319)**
+- What must E2E validation achieve to be "done"?
+  - AppHost health only?
+  - AppHost + page load + key workflows (post create, save, publish)?
+  - Login + admin UI + content workflows?
+- **Impact:** Blocks Wash's sprint; unclear pass criteria
+- **GitHub Action:** Update #319 body with acceptance criteria; assign to Wash
+
+**Q2: Playwright Badge Metric (#272)**
+- Which metric should the badge display?
+  - Test count (e.g., "247 tests")?
+  - Pass percentage (e.g., "94% passing")?
+  - Coverage percentage?
+  - All three?
+- **Impact:** Blocks Zoe's CI work; changes reporting logic
+- **GitHub Action:** Update #272 with metric choice; assign to Zoe
+
+**Q3: First Admin User Creation (#322)**
+- How should the first admin user be created?
+  - Installer wizard step?
+  - Seed logic with forced password reset on first login?
+  - Both?
+- **Impact:** Blocks Simon's UI work; affects installer flow
+- **GitHub Action:** Clarify #322 scope; link to #350 if dependency
+
+**Q4: Custom CSS Scope & Sanitization (#328)**
+- Which CSS scope is needed for v0.8.0?
+  - Site-wide only (global stylesheet)?
+  - Per-page customization?
+  - Both?
+  - Sanitization: Allow all CSS or restrict XSS-prone properties?
+- **Impact:** Blocks Simon's UI work; affects security review
+- **GitHub Action:** Update #328 with scope; assign to Simon
+
+**PHASE 2 — Tier 2 Core CMS (3 questions, depends on Phase 1):**
+
+**Q5: Delete Semantics (#309, #299)**
+- For delete page/post, which strategy?
+  - Hard delete (purge immediately)?
+  - Soft delete (archive, with recovery)?
+  - Both (admin can choose)?
+- **Impact:** Schema complexity; River backend design depends on answer
+- **GitHub Action:** Update #309 + #299 bodies with semantics choice
+
+**Q6: Logo Upload & Display (#320, #321)**
+- Logo feature scope for v0.8.0?
+  - Upload existing images only?
+  - Or include image validation + serving strategy?
+  - Supported formats (JPG, PNG, SVG)?
+- **Impact:** Image handling complexity; affects #320 + #321 effort
+- **GitHub Action:** Update #320 + #321 with feature boundary
+
+**Q7: Tier 3 Deferral Decision**
+- For v0.8.0, which belong in scope?
+  - #313 (CSP): Ship-blocker or v0.8.1?
+  - #208, #209 (File browser): v0.8.0 or v0.8.1?
+  - #212 (Autosave): v0.8.0 or v0.8.1?
+  - #203, #117, #118 (Plugin lifecycle): v0.8.0 or post-v0.8.0?
+  - #273 (README badges): v0.8.0 or separate release?
+- **Impact:** Determines v0.8.0 vs v0.8.1+ split; resourcing
+- **GitHub Action:** Update each issue with milestone assignment (v0.8.0 vs v0.8.1)
+
+**Cross-Team Blockers:**
+| Role | Issue | Blocked Until | Impact |
+|------|-------|---------------|--------|
+| Wash | #319 | Q1 answer | Cannot write acceptance criteria or test plan |
+| Simon | #322, #328 | Q2, Q4 answers | Cannot scope admin UI sprint (est. 3–4 issues) |
+| River | #309, #299 | Q5 answer | Cannot design delete schema; mid-tier effort shift |
+| Zoe | #272 | Q3 answer | Cannot implement badge + reporting |
+| All | Tier 2–3 | Phase 1 complete | Cannot plan v0.8.0 → v0.8.1 split |
+
+**Deliverables:**
+- `.squad/decisions/inbox/mal-upstream-v08-question-queue.md` (clarification queue, 7 questions)
+- `.squad/decisions/inbox/mal-upstream-v08-question.md` (scope mismatch analysis)
+
+**Next Actions:**
+1. Present Q1 (E2E acceptance criteria) to user now
+2. Upon user answer, update #319 on GitHub + unblock Wash
+3. Move through Phase 1 sequentially (Q2, Q3, Q4)
+4. After Phase 1 complete, ask Phase 2 questions (#5–#7)
+5. After all 7 answered, Mal applies milestone tags and team begins sprint planning
+
 ## Governance
 
 - All meaningful changes require team consensus

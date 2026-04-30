@@ -121,22 +121,113 @@ Awaiting owner action to unblock Mal's triage workflow.
 
 **Next Action:** Present single best first question to user (Q1 on #351 E2E checklist)
 
-### 2026-05-01 — v0.8 Clarification Decision Merged ✅ DECISION ARCHIVED
+### 2026-05-02 — Upstream v0.8 Milestone Full Review ✅ COMPLETED
 
-**Status:** Merged to canonical decisions.md  
-**Context:** Scribe merged `.squad/decisions/inbox/mal-v08-clarification-plan.md` into decisions.md; inbox file deleted.
+**Status:** Completed analysis; prioritized clarification queue built  
+**Context:** User directive: "Review upstream FritzAndFriends/SharpSite v0.8 milestone and ask clarification questions."
+
+**Upstream v0.8 State:**
+- **Total open issues:** 18
+- **Tier 1 (Ship-blockers):** 5 issues (#319, #272, #322, #323, #328)
+- **Tier 2 (Core CMS):** 5 issues (#309, #299, #320, #321, #297)
+- **Tier 3+ (Ecosystem):** 8 issues (#313, #208, #209, #212, #203, #118, #117, #273)
+
+**Critical Gaps Identified:**
+1. **#319 (E2E Testing):** No acceptance criteria — what constitutes "done"?
+2. **#322 (First Admin User):** Scope unclear — installer vs seed logic?
+3. **#272 (Badge Metric):** Undefined — count, %, or coverage?
+4. **#328 (Custom CSS):** Scope & security — site-wide? Sanitization rules?
+5. **#309, #299 (Delete Operations):** Hard delete or soft delete? Schema impact 2–3x.
+6. **#320, #321 (Logo Management):** Image handling scope?
+7. **Phase 2 Deferral:** Which Tier 3 items belong in v0.8.0 vs v0.8.1+?
+
+**Clarification Queue Structure:**
+- **Phase 1 (4 questions):** Tier 1 blockers; unblocks E2E + UI sprint
+- **Phase 2 (3 questions):** Tier 2 core CMS; depends on Phase 1
+- **Phase 3 (Tier 3 split):** After Phase 1 answered; determines patch release cadence
+
+**Cross-Team Blockers:**
+- Wash: #319 (E2E acceptance criteria)
+- Simon: #322, #328 (password reset UX, CSS scope)
+- River: #309, #299 (delete semantics schema impact)
+- Zoe: #272 (badge metric choice)
+
+**Decision Delivered:** `.squad/decisions/inbox/mal-upstream-v08-question-queue.md`  
+**Next Step:** Ask user Q1 (E2E acceptance criteria) to unblock Wash + Tier 1 sprint
+
+### 2026-05-02 — Upstream v0.8 Milestone Full Review + Inbox Merge ✅ COMPLETED
+
+**Status:** Completed; inbox merged to decisions.md  
+**Owner:** Mal  
+**Context:** User directive: "Use upstream FritzAndFriends/SharpSite milestone 0.8 as source of truth."
 
 **Actions:**
-1. Archived decision to decisions.md section: "### v0.8 Milestone Clarification Plan (2026-05-01)"
-2. Documented cross-agent blockers:
-   - Wash: Blocked on #351 test checklist (Q1)
-   - Simon: Blocked on #350 UX flow (Q2)
-   - River: Tier 2 backend (#309, #299) queued after Tier 1
-3. Updated squad routing: Answers to Q1–Q4 unblock Tier 1 sprint planning
+1. **Reviewed upstream v0.8 milestone:** 18 open issues (vs. 9 anticipated in local docs)
+2. **Discovered scope mismatch:** 11 additional ecosystem items not in local plan
+3. **Built prioritized clarification queue:** 7 questions by impact (Phase 1 Tier 1, Phase 2 Tier 2, Phase 3 Tier 3+)
+4. **Merged inbox to decisions.md:** All decision artifacts consolidated to canonical location
+5. **Updated Mal history:** Core context summarized; old entries archived
+
+**Upstream v0.8 Snapshot:**
+- **Total open issues:** 18
+- **Tier 1 (Ship-blockers):** 5 issues — #319, #272, #322, #323, #328
+- **Tier 2 (Core CMS):** 5 issues — #309, #299, #320, #321, #297
+- **Tier 3+ (Ecosystem):** 8 issues — #313, #208, #209, #212, #203, #118, #117, #273
+- **Closed upstream:** #350 (password reset), #351 (.NET 10 upgrade) both ✅ CLOSED
+
+**7-Question Clarification Framework (by impact):**
+1. **Q1:** E2E testing acceptance criteria (#319) — Wash blocker
+2. **Q2:** Playwright badge metric (#272) — Zoe blocker
+3. **Q3:** First admin user creation scope (#322) — Simon blocker
+4. **Q4:** Custom CSS scope & sanitization (#328) — Simon blocker
+5. **Q5:** Delete semantics hard/soft (#309, #299) — River blocker
+6. **Q6:** Logo upload & display scope (#320, #321) — Simon blocker
+7. **Q7:** Tier 3 deferral (which issues v0.8.0 vs v0.8.1+?) — All teams
+
+**Inbox Merged:**
+- ✅ `.squad/decisions/inbox/mal-upstream-v08-question-queue.md` → decisions.md
+- ✅ `.squad/decisions/inbox/mal-upstream-v08-question.md` → decisions.md (deduped with queue)
+- ✅ `.squad/decisions/inbox/copilot-directive-20260430-150016.md` → decisions.md
+- ✅ `.squad/decisions/inbox/mal-close-351.md` → archived to history (issue doesn't exist)
 
 **Cross-Team Ready:**
-- v0.8.0 sprint planning can begin once user answers Phase 1 (Tier 1) clarifications
-- River can scope Phase 2 Tier 2 backend work after Phase 1 answers received
-- Simon can begin UI spike on #350 immediately (pending UX flow definition)
+- **Wash:** Awaiting Q1 answer (E2E acceptance criteria)
+- **Simon:** Awaiting Q3, Q4 answers (password reset, CSS scope)
+- **River:** Awaiting Q5 answer (delete semantics)
+- **Zoe:** Awaiting Q2 answer (badge metric)
+- **All:** v0.8.0 sprint planning blocked until Phase 1 (Q1–Q4) answered
 
-**Status:** ✅ Decision canonical — awaiting user clarification phase input
+**Decision reference:** `.squad/decisions.md` (merged from inbox)  
+**Next step:** Present Q1 to user; await Phase 1 answers
+
+### 2026-05-02  E2E Test Acceptance Criteria Accepted  CAPTURED
+
+**Status:** E2E criteria captured; upstream/local sync issue identified  
+**Context:** User provided clarification on #319 E2E testing scope.
+
+**User Input:**
+> "E2E testing should validate full workflows: login, admin UI, and post create/save/publish."
+
+**Translated to Test Scenarios:**
+1. Login authentication to admin area
+2. Admin dashboard navigation and load
+3. Post creation (new post)
+4. Post save as draft
+5. Post publish to live site
+
+**Blocker Discovered:**
+- **Upstream issue #319 does not exist** in GitHub (upstream only has 1 issue: #4)
+- **v0.8 roadmap mismatch:** Local decisions.md documents 21 planned issues; upstream GitHub is out of sync
+- **Root cause:** Issues never synced from local planning to upstream GitHub after initial creation
+
+**Next Clarification Question (Priority 1):**
+- Issue #4 (Forced Password Reset) needs UX detail: On reset completion, should system auto-redirect to dashboard (A), show confirmation link (B), or force re-login (C)?
+- **Impact:** Blocks Simon (UI component) from starting work
+
+**Cross-Team Status:**
+- Wash: Can now scope E2E test cases; #319 acceptance criteria clear
+- Simon: Blocked on #4 password reset UX detail (needs A/B/C decision)
+- All: Upstream/local sync requires owner clarification before sprint assignment
+
+**Decision reference:** `.squad/decisions/inbox/mal-update-319.md`  
+**Next action:** Ask user for #4 UX clarification (auto-redirect vs confirmation vs re-login)
