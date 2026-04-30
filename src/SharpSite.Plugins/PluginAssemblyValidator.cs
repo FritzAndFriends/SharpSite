@@ -11,7 +11,6 @@ namespace SharpSite.Plugins;
 /// </summary>
 public class PluginAssemblyValidator(ILogger<PluginAssemblyValidator> logger)
 {
-	private static readonly string HashRegistryPath = Path.Combine("plugins", "_assembly-hashes.json");
 	private static readonly object _hashFileLock = new();
 
 	/// <summary>
@@ -132,4 +131,6 @@ public class PluginAssemblyValidator(ILogger<PluginAssemblyValidator> logger)
 			File.WriteAllText(HashRegistryPath, json);
 		}
 	}
+
+	private static string HashRegistryPath => SharpSitePathProvider.AssemblyHashRegistryPath;
 }

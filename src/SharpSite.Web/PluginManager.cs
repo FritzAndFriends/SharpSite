@@ -30,12 +30,13 @@ public class PluginManager(
 	private const long MaxTotalExtractedSize = 100L * 1024 * 1024; // 100MB
 	private const long MaxSingleFileSize = 50L * 1024 * 1024;      // 50MB
 	private const double MaxCompressionRatio = 100.0;               // 100:1
-
-	public static void Initialize()
+ 
+	public static void Initialize(string? contentRootPath = null)
 	{
-		Directory.CreateDirectory("plugins");
-		Directory.CreateDirectory(Path.Combine("plugins", "_uploaded"));
-		Directory.CreateDirectory(Path.Combine("plugins", "_wwwroot"));
+		SharpSitePathProvider.Initialize(contentRootPath);
+		Directory.CreateDirectory(SharpSitePathProvider.PluginsRootPath);
+		Directory.CreateDirectory(SharpSitePathProvider.UploadedPluginsRootPath);
+		Directory.CreateDirectory(SharpSitePathProvider.PluginWebRootPath);
 
 	}
 
@@ -185,7 +186,7 @@ public class PluginManager(
 			_ServiceDescriptors.AddMemoryCache();
 		}
 
-		foreach (var pluginFolder in Directory.GetDirectories("plugins"))
+		foreach (var pluginFolder in Directory.GetDirectories(SharpSitePathProvider.PluginsRootPath))
 		{
 			var pluginName = Path.GetFileName(pluginFolder);
 			if (pluginName.StartsWith("_")) continue;
@@ -378,7 +379,7 @@ public class PluginManager(
 		DirectoryInfo pluginLibFolder;
 		ZipArchive archive;
 
-		var pluginFolder = Directory.CreateDirectory(Path.Combine("plugins", "_uploaded"));
+		var pluginFolder = Directory.CreateDirectory(SharpSitePathProvider.UploadedPluginsRootPath);
 		var filePath = Path.Combine(pluginFolder.FullName, $"{pluginManifest.IdVersionToString()}.sspkg");
 
 		using var pluginAssemblyFileStream = File.OpenWrite(filePath);
@@ -386,7 +387,7 @@ public class PluginManager(
 		logger.LogInformation("Plugin saved to {FilePath}", filePath);
 
 		// Create a folder named after the plugin name under /plugins
-		pluginLibFolder = Directory.CreateDirectory(Path.Combine("plugins", pluginManifest.IdVersionToString()));
+		pluginLibFolder = Directory.CreateDirectory(SharpSitePathProvider.GetPluginInstallationPath(pluginManifest.IdVersionToString()));
 
 		using var pluginMemoryStream = new MemoryStream(plugin.Bytes);
 		archive = new ZipArchive(pluginMemoryStream, ZipArchiveMode.Read, true);
@@ -397,7 +398,7 @@ public class PluginManager(
 
 		if (hasWebContent)
 		{
-			pluginWwwRootFolder = Directory.CreateDirectory(Path.Combine("plugins", "_wwwroot", pluginManifest.IdVersionToString()));
+			pluginWwwRootFolder = Directory.CreateDirectory(Path.Combine(SharpSitePathProvider.PluginWebRootPath, pluginManifest.IdVersionToString()));
 		}
 
 		foreach (var entry in archive.Entries)
@@ -490,7 +491,7 @@ public class PluginManager(
 		{
 			throw new InvalidFolderException($"Invalid path for folder: {name}");
 		}
-		return Task.FromResult(Directory.CreateDirectory(Path.Combine("plugins", "_" + name)));
+		return Task.FromResult(Directory.CreateDirectory(SharpSitePathProvider.GetPluginPrivateDirectoryPath(name)));
 	}
 
 	public T? GetPluginProvidedService<T>() where T : class
@@ -514,7 +515,7 @@ public class PluginManager(
 	{
 
 		// check if the oldName directory exists
-		if (!Directory.Exists(Path.Combine("plugins", "_" + oldName)))
+		if (!Directory.Exists(SharpSitePathProvider.GetPluginPrivateDirectoryPath(oldName)))
 		{
 			throw new DirectoryNotFoundException($"Directory {oldName} not found in plugins folder.");
 		}
@@ -525,17 +526,17 @@ public class PluginManager(
 
 		// move the directory specified, which is prefixed with an underscore, to a new name
 		Directory.Move(
-			Path.Combine("plugins", "_" + oldName),
-			Path.Combine("plugins", "_" + newName)
+			SharpSitePathProvider.GetPluginPrivateDirectoryPath(oldName),
+			SharpSitePathProvider.GetPluginPrivateDirectoryPath(newName)
 		);
 
-		return Task.FromResult(new DirectoryInfo(Path.Combine("plugins", "_" + newName)));
+		return Task.FromResult(new DirectoryInfo(SharpSitePathProvider.GetPluginPrivateDirectoryPath(newName)));
 
 	}
 
 	public DirectoryInfo GetDirectoryInPluginsFolder(string name)
 	{
-		return new DirectoryInfo(Path.Combine("plugins", "_" + name));
+		return new DirectoryInfo(SharpSitePathProvider.GetPluginPrivateDirectoryPath(name));
 	}
 
 	private static readonly char[] _InvalidChars = Path.GetInvalidPathChars();
@@ -588,7 +589,7 @@ public class PluginManager(
 	private static void EnsurePluginNotInstalled(PluginManifest? manifest, ILogger logger)
 	{
 
-		if (manifest is not null && Directory.Exists(Path.Combine("plugins", manifest.IdVersionToString())))
+		if (manifest is not null && Directory.Exists(SharpSitePathProvider.GetPluginInstallationPath(manifest.IdVersionToString())))
 		{
 			var errMsg = string.Format(Locales.SharedResource.sharpsite_plugin_exists, manifest.IdVersionToString());
 			PluginException ex = new(errMsg);
@@ -601,7 +602,7 @@ public class PluginManager(
 	public async Task InstallDefaultPlugins()
 	{
 
-		var defaultPluginFolder = new DirectoryInfo("defaultplugins");
+		var defaultPluginFolder = new DirectoryInfo(SharpSitePathProvider.DefaultPluginsRootPath);
 		if (!defaultPluginFolder.Exists) return;
 
 		foreach (var file in defaultPluginFolder.GetFiles("*.sspkg"))
