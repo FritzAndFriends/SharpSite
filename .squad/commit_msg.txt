@@ -1,17 +1,10 @@
-.squad: Merge upstream v0.8 milestone clarification queue
+[Scribe] v0.8.0 Sprint Launch & Decision Merge
 
-- Orchestration log: recorded Mal's upstream v0.8 review (2026-04-30T190953Z-mal.md)
-- Session log: documented clarification queue work (2026-04-30T190953Z-upstream-v08-question-queue.md)
-- Decision merge: consolidated 4 inbox files into decisions.md (mal-upstream-v08-question-queue.md, mal-upstream-v08-question.md, copilot-directive, mal-close-351.md)
-- Deleted inbox files: all 4 merged decisions cleared from inbox/
-- History update: Mal history rolled forward with summarized upstream review entry (11.35 KB)
+- Orchestration logs written for Simon, River, Wash
+- Session log: v0.8.0 launch (scope locked, ready for execution)
+- Decision inbox merged: 15 items  decisions.md
+- Cross-agent updates propagated to all agents
+- Decisions archived: >30 days moved to archive (40.8 KB  10.9 KB archive)
+- Agent history updated with sync context
 
-Cross-agent blockers identified:
-- Wash: Q1 E2E acceptance criteria (#319)
-- Simon: Q3, Q4 password reset + CSS scope (#322, #328)
-- River: Q5 delete semantics (#309, #299)
-- Zoe: Q2 badge metric (#272)
-
-All Tier 1-2 blocking items documented. Awaiting user answers to 7-question clarification queue.
-
-Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+Status: v0.8.0 launch phase complete. Squad ready for parallel execution.

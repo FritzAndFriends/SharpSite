@@ -42,3 +42,10 @@ River completed the Security P0 Remote Code Execution vulnerability fix (#346). 
   - `tests/SharpSite.Tests.Plugins/ConcurrentAccessTests.cs` — Issue #348: 3 tests for concurrent PluginAssemblyManager AddAssembly/RemoveAssembly and read-while-write safety.
 - **Lambda discard gotcha**: Don't use `_ =` for discards inside lambdas where `_` is already the lambda parameter (causes CS0029). Use named locals instead.
 - **Central Package Management**: Test projects use `<PackageReference Include="..." />` without `Version` attribute; versions are in `Directory.Packages.props`.
+
+---
+**[SCRIBE UPDATE - 2026-04-30 20:15:51]**
+- Decision inbox merged (15 decisions)
+- v0.8.0 scope locked and confirmed
+- Cross-agent context synchronized
+- Ready for parallel execution

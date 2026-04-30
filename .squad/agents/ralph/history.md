@@ -12,3 +12,10 @@ Ralph initialized. Team cast from Firefly universe on 2026-03-26.
 ## Learnings
 
 📌 Team initialized on 2026-03-26 — 9 agents + Scribe + Ralph
+
+---
+**[SCRIBE UPDATE - 2026-04-30 20:15:51]**
+- Decision inbox merged (15 decisions)
+- v0.8.0 scope locked and confirmed
+- Cross-agent context synchronized
+- Ready for parallel execution

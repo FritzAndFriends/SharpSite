@@ -47,3 +47,10 @@
 - The admin seed happens in `RegisterPostgresSecurityServices.ConfigureHttpApp()`, called from `StartApi.cs` — not during `Program.cs` startup directly.
 - E2E tests (Playwright) require a running Aspire stack and fail locally without it — this is expected.
 - **Cross-agent coordination:** River's #346–#349 security fixes are parallel, non-blocking work on the plugin system. No dependencies on this feature.
+
+---
+**[SCRIBE UPDATE - 2026-04-30 20:15:51]**
+- Decision inbox merged (15 decisions)
+- v0.8.0 scope locked and confirmed
+- Cross-agent context synchronized
+- Ready for parallel execution

@@ -41,3 +41,10 @@
 - Root cause: Aspire 13.2 dependency chain requires 1.15.0, but that version has known CVEs
 - **Action:** River must decide: (a) upgrade OpenTelemetry to newer 1.x if compatible, (b) suppress NU1902 warnings and document CVE risk, or (c) revert .NET 10 upgrade pending upstream fix
 - **Release Impact:** v0.7 cannot ship until this is resolved
+
+---
+**[SCRIBE UPDATE - 2026-04-30 20:15:51]**
+- Decision inbox merged (15 decisions)
+- v0.8.0 scope locked and confirmed
+- Cross-agent context synchronized
+- Ready for parallel execution

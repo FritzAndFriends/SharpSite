@@ -1,166 +1,92 @@
 # Squad Decisions
-
 ## Active Decisions
+## Governance
+## Merged Decisions (2026-04-30)
+# v0.8.0 Locked Scope & Squad Work Assignment
+## Executive Summary
+## Active v0.8.0 Issue Set (8 Issues)
+## Deferred to v0.8.1+ (Out of Active Scope)
+## Squad Work Assignment
+## Immediate First Work Batch (Launch Now)
+## Risks & Mitigations
+## GitHub Labels Applied
+## Checklist
+## Next Actions
+# v0.8.0 Scope Decision Notes
+## Decision Summary
+## Impact
+## Next Steps
+# Decision: README Badges Milestone Assignment (#273)
+## Decision
+## Impact on Interview Queue
+## Next Steps
+## Reference
+# Decision: #212 Autosave Deferral
+## What Changed
+## Next Clarification Queue
+# Decision: File Browsers Ship in v0.8.0
+## Decision
+## Rationale
+## Changes Made
+## Next Clarifications Needed
+# Decision: Issue #297 — Home Page Post Display Mode Deferred to v0.8.1+
+## Decision
+## User Input
+## Rationale
+## GitHub Actions Executed
+## Cross-Team Impact
+## Next Phase
+## Reference
+# Decision: CSP Header Work Deferred to v0.8.1+
+## Decision
+## Next Steps
+# Decision: Soft Delete via Trash/Recycle Bin for Pages & Posts (#309, #299)
+## Decision
+## Rationale
+## GitHub Updates Applied
+## Cross-Team Impact
+## Next Action
+# Decision Note: Unified Image Management UI (#320, #321)
+## Date
+## Decision
+## Rationale
+## Changes Made
+## Next Steps
+## Related
+# Decision: #323 Favicon Scope Clarified
+## User Input
+## Decision Summary
+## GitHub Update
+## Next Blocker
+# Upstream Issue #272: Playwright Badge Metric Decision
+## User Decision
+## Actions Executed
+## Implementation Context
+## Cross-Team Impact
+## Phase 1 Tier 1 Completion
+# Update #328 Custom CSS Scope & Sanitization (2026-05-02)
+## Decision Recorded
+## User Input
+## Actions Executed
+## Impact
+## Cross-Team Status
+## Decision Reference
+# Mal — Update #322 Upstream (2026-05-02)
+## Decision Captured
+## GitHub Actions Executed
+## Impact
+## Crosslinks
+# Decision: Issue #319 E2E Test Acceptance Criteria — CAPTURED
+## What Changed on #319
+## Next Clarification Question (Priority 1)
+## Cross-Team Status
+## Next Action
+# E2E Test Acceptance Criteria Clarified (2026-05-02)
+## User-Provided E2E Acceptance Criteria
+## Next Clarification Question
+## Cross-Team Unblocking
+## Syncing Note
 
-### Security P0: Remove TypeNameHandling.Auto RCE Vector (2026-03-26) ✅ COMPLETED
-**Status:** Completed  
-**Owner:** River  
-**Issue:** `ApplicationState.cs` (lines 130-134, 212-216) uses `TypeNameHandling.Auto` with Newtonsoft.Json — a well-documented Remote Code Execution deserialization vulnerability. Attacker can modify `plugins/applicationState.json` to inject arbitrary type instantiation payloads.  
-**Resolution:** Replaced all Newtonsoft.Json usage with System.Text.Json. Implemented ConfigurationSectionJsonConverter for safe polymorphic deserialization.  
-**Completion:** 2026-03-31T13:47  
-**Verification:** Build clean, 47 tests pass, Newtonsoft.Json fully removed.  
-**Blocker Status:** CLEARED — Plugin system production readiness unblocked.
-
-### Security P0: ZIP Bomb Protection for Plugin Extraction (2026-03-31) ✅ COMPLETED
-**Status:** Completed  
-**Owner:** River  
-**Issue:** `#347` — Plugin ZIP extraction in `PluginManager.cs` had no safety limits. An attacker could upload a ZIP bomb (42KB compressed → petabytes uncompressed) to exhaust server disk. Path traversal via `../` sequences in entry names was also not explicitly blocked.  
-**Resolution:** Added two-layer security validation:
-- **Layer 1 (upload-time):** `ValidateArchiveSecurity` validates max total size (100MB), per-file cap (50MB), compression ratio (100:1), and rejects path traversal via `..`
-- **Layer 2 (extraction-time):** Defense-in-depth validation during file writes using `Path.GetFullPath()` containment checks
-**Completion:** 2026-03-31T13:55  
-**Verification:** Build clean, 55 tests pass (8 ZIP security tests included)  
-**Blocker Status:** CLEARED — Plugin ZIP extraction production ready.
-
-### Security P0: Implement Assembly Validation for Plugin Loading (2026-03-26) ✅ COMPLETED
-**Status:** Completed (Phase 1)  
-**Owner:** River  
-**Issue:** Plugin DLLs in the plugins directory are loaded and executed with zero integrity verification, code signing, or assembly name validation. A malicious plugin has unrestricted access to database, filesystem, environment variables, network, and all application services.  
-**Resolution:** Implemented Phase 1 assembly validation with two checks:
-- **Assembly Name Validation** — After loading a plugin DLL, the assembly's `GetName().Name` is verified against the manifest `Id`. A mismatch causes the plugin to be rejected and unloaded.
-- **SHA-256 Hash Verification** — Before loading a DLL, its SHA-256 hash is computed. On first install, the hash is stored in `plugins/_assembly-hashes.json`. On every subsequent load (including startup), the hash is verified against the stored value. A mismatch indicates tampering.  
-**Completion:** 2026-03-31T14:12  
-**Verification:** Build clean, 67 tests pass.  
-**Blocker Status:** CLEARED — Phase 1 assembly validation production ready. Phase 2 (permission manifests) and Phase 3 (code signing) are future work.
-
-### Build Stabilization: Fix Type Ambiguities in Security.Postgres (2026-03-26)
-**Status:** In Progress  
-**Owner:** River  
-**Issue:** 60 build errors across `src/SharpSite.Security.Postgres/` due to collision between `SharpSite.Abstractions.Security.*` types and `Microsoft.AspNetCore.Identity.*` types. Secondary: missing type definitions in `src/SharpSite.UI.Security/`.  
-**Action:** Resolve ambiguous references via full namespace qualification or selective using imports. Estimated effort: 1-2 days.  
-**Dependency:** Must complete before .NET 10 upgrade can be fully validated.
-
-### .NET 10 + Aspire 13.2 Upgrade (2026-03-26)
-**Status:** In Progress  
-**Owner:** River  
-**Progress:** 39 files upgraded, 51 build errors remain (Blazor BL0008 + C# type errors).  
-**Dependency:** Blocked on build stabilization.
-
-### Correctness Bug: Thread-unsafe Static Service Collection in PluginManager (2026-03-31) ✅ COMPLETED
-**Status:** Completed  
-**Owner:** River  
-**Issue:** `#348` — Static mutable `IServiceCollection` and `IServiceProvider?` fields in `PluginManager`, and plain `Dictionary` in `PluginAssemblyManager`, shared across all instances with no synchronization. Concurrent plugin loads or configuration changes could corrupt collections mid-enumeration.  
-**Resolution:** Three-layer fix:
-- **PluginAssemblyManager:** Replaced `Dictionary` with `ConcurrentDictionary`; used atomic `AddOrUpdate` and `TryRemove` operations
-- **PluginManager:** Added static `lock` object guarding all `_ServiceDescriptors` mutations and reads; used `Interlocked.Exchange` for atomic `_ServiceProvider` swaps; restructured async `ConfigurationSectionChanged` handler into snapshot-before-await and mutate-after-await phases
-- **ApplicationState.Plugins:** Changed from `Dictionary` to `ConcurrentDictionary`
-**Completion:** 2026-03-31T14:02  
-**Verification:** Build clean (0 errors, 0 warnings), 67 tests pass (including Kaylee's 6 thread-safety tests). E2E 9 failures are pre-existing (require Aspire host).  
-**Blocker Status:** CLEARED — Plugin system thread-safety now production-ready.
-
-### Triage Priorities & Routing (2026-03-31)
-**Status:** Completed  
-**Owner:** Mal  
-**Decision:** 6 squad-labeled GitHub issues routed to team members based on expertise, security criticality, and effort priority.
-
-**Team Routing:**
-- **River (Backend Dev):** #346, #347, #348, #349 — plugin system security + threading (4 issues)
-- **Simon (Frontend Dev):** #350 — forced password reset UX
-- **Wash (E2E Tester):** #351 — .NET 10 + Aspire validation
-
-**Tier 1: Production Blockers (Security P0)**
-- **#346** → River: RCE via `TypeNameHandling.Auto` in `ApplicationState.cs` (Effort: 2-4 hours)
-  - Action: Replace Newtonsoft.Json polymorphic deserialization with System.Text.Json or strict `ISerializationBinder` whitelist
-  - Blocker: Plugin system production readiness
-  - **Status:** ✅ COMPLETED
-
-- **#349** → River: Implement assembly validation & signing for plugin loading (Effort: 4-6 hours Phase 1)
-  - Phase 1: Assembly name validation + SHA-256 hash verification
-  - Phase 2: Permission manifest sandboxing
-  - Phase 3: Code signing certificate chain
-  - Blocker: Plugin system production readiness
-
-**Tier 2: Critical Security Issues**
-- **#347** → River: ZIP bomb vulnerability in plugin extraction (Effort: 2-3 hours)
-  - Action: Add max total size (100MB), per-file cap (50MB), compression ratio check (100:1), path normalization
-  - **Status:** ✅ COMPLETED
-
-**Tier 3: Correctness Bugs**
-- **#348** → River: Thread-unsafe static service collection in `PluginManager` (Effort: 3-4 hours)
-  - Action: Add `lock` or `ReaderWriterLockSlim` around mutations; use `ConcurrentDictionary`
-  - **Status:** ✅ COMPLETED
-
-**Tier 4: Security Hardening**
-- **#350** → Simon: Forced password reset after initial admin seed (Effort: 3-4 hours)
-  - Scope: Add `MustChangePassword` flag, redirect to reset on first login, warn in Production if default creds active
-  - Note: Keep `Admin123!` as dev default; mandatory reset in production
-
-**Tier 5: Validation Work**
-- **#351** → Wash: .NET 10 + Aspire 13.2 upgrade validation (Effort: 2-3 hours)
-  - Status: Build complete (0 errors), unit tests pass (47/47)
-  - Pending: E2E/Playwright, Aspire AppHost, CI SDK updates
-  - Tracking: PR #352
-
-### Security Testing Framework: Anticipatory Tests for #346-#348 (2026-03-31) ✅ COMPLETED
-**Status:** Completed  
-**Owner:** Kaylee (Tester)  
-**Decision:** Wrote 21 anticipatory unit test cases across 4 test files to accelerate River's security fixes for Issues #346, #347, #348. Tests are written now; some verify the *fixed* behavior and will pass once implementations land.
-
-**Test Structure:**
-- **RCE Serialization (#346):** 7 tests validating System.Text.Json safe deserialization behavior
-  - Location: `tests/SharpSite.Tests.Web/ApplicationState/Security/`
-- **ZIP Bomb (#347):** 8 tests validating compression ratio limits, max sizes, path traversal rejection
-  - Location: `tests/SharpSite.Tests.Web/PluginManager/Security/`
-  - **Status:** Already passing with River's implementation
-- **Thread Safety (#348):** 6 tests verifying concurrent access patterns
-  - Location: Split across `Tests.Plugins` (PluginAssemblyManager) and `Tests.Web` (PluginManager, ApplicationState)
-
-**Completion:** 2026-03-31T13:55  
-**Verification:** Build clean, 55 tests pass (ZIP bomb tests already validated)  
-**Cross-Agent Impact:** Tests remain pending River's completion of #346 and #348 fixes.
-
-
-
-### User Directive: Admin Seed Credentials (2026-03-26T15:37Z)
-**By:** Jeffrey T. Fritz (via Copilot)  
-**Decision:** Keep `Admin123!` as the default developer experience. Add mechanism to force password reset after initial install in production mode. Do NOT remove seed credentials — they are a feature, not a bug.
-
-### .NET 10 + Aspire 13.2 Package Versions (2026-03-26)
-**Status:** Completed  
-**Author:** River  
-**Context:** Upgraded the entire SharpSite solution from .NET 9 / Aspire 9.1 to .NET 10 / Aspire 13.2.
-**Decisions:**
-| Package Family | Version | Rationale |
-|---|---|---|
-| Aspire.Hosting.*, Aspire.Npgsql.* | 13.2.0 | Target Aspire version |
-| Aspire.AppHost.Sdk | 13.2.0 | Must match Aspire packages |
-| Microsoft.EntityFrameworkCore.* | 10.0.5 | Floor required by Aspire 13.2 transitives |
-| Microsoft.Extensions.Hosting.* | 10.0.5 | Floor required by Aspire 13.2 transitives |
-| Microsoft.Extensions.Caching.Memory | 10.0.5 | Floor required by Aspire 13.2 transitives |
-| Microsoft.Extensions.ServiceDiscovery | 10.4.0 | NOT an Aspire package; 13.2.0 doesn't exist |
-| Microsoft.Extensions.Http.Resilience | 10.4.0 | Latest stable for .NET 10 |
-| OpenTelemetry.* | 1.15.0 | Fixes CVE in 1.11.x; floor required by Aspire 13.2 |
-| Newtonsoft.Json | 13.0.4 | ~~Floor required by Aspire 13.2~~ REMOVED in #346 |
-| System.Text.Json | 10.0.0 | Kept in central management, removed from csproj (pruned) |
-| ASP.NET Core packages | 10.0.0 | Standard .NET 10 RTM |
-
-**TargetFramework:** Moved `<TargetFramework>net10.0</TargetFramework>` to `Directory.Build.props`. Future upgrades require one-line change.
-
-**Packages Pruned (removed from csproj):**
-- `Microsoft.Extensions.Localization` — part of .NET 10 shared framework
-- `Microsoft.Extensions.Caching.Memory` — part of .NET 10 shared framework
-- `System.Text.Json` — part of .NET 10 shared framework
-
-### Pin Aspire Port for E2E Test Mode (2026-03-26)
-**Status:** Completed  
-**Author:** Zoe (CI/DevOps)  
-**PR:** #352  
-**Context:** Aspire 13.2 assigns dynamic ports; CI hangs waiting for port 5020.
-**Decision:** 
-- Add `WithHttpEndpoint(port: 5020, name: "http")` in AppHost when `testOnly` is true
-- Improve `build-and-test.ps1` with stderr capture, progress logging, diagnostics
-- Reduce HTTP health-check timeout from 5s to 2s
-**Impact:** CI no longer hangs; failures produce diagnostic output; no production impact
 
 ### v0.8 Milestone Plan (2026-04-30) 🎯 PROPOSED
 **Status:** Proposed  
@@ -414,9 +340,660 @@ gh issue list --repo csharpfritz/SharpSite --milestone "0.8 - The Version after 
 4. After Phase 1 complete, ask Phase 2 questions (#5–#7)
 5. After all 7 answered, Mal applies milestone tags and team begins sprint planning
 
-## Governance
 
 - All meaningful changes require team consensus
 - Document architectural decisions here
 - Keep history focused on work, decisions focused on direction
+
+
+
+
+
+**Date:** 2026-05-03  
+**Owner:** Mal (Lead)  
+**Status:** ✅ READY FOR EXECUTION  
+
+
+v0.8.0 scope is **fully locked** with all clarifications answered. 8 active issues routed to squad members with clear dependencies and immediate first batch identified. No blockers remain; sprint can launch now.
+
+---
+
+
+| # | Title | Tier | Squad | Effort | Status |
+|---|-------|------|-------|--------|--------|
+| #319 | E2E test suite (login, dashboard, post workflows) | 1 | Wash | 8–10h | Ready |
+| #322 | First admin user setup wizard | 1 | Simon | 4–6h | Ready |
+| #323 | Favicon upload to Admin UI | 1 | Simon | 2–3h | Ready |
+| #328 | Site-wide + per-page custom CSS editor (sanitized) | 1 | Simon | 5–7h | Ready |
+| #309 | Delete page (soft delete → trash/recycle bin) | 2 | River | 6–8h | Ready |
+| #299 | Delete post (soft delete → trash/recycle bin) | 2 | River | 6–8h | Ready |
+| #320 | Logo upload (image formats, validation) | 2 | Simon | 3–4h | Ready |
+| #321 | Logo display/maintenance in Admin UI | 2 | Simon | 2–3h | Ready |
+
+**Total Effort:** ~36–47 hours  
+**Critical Path:** Tier 1 → Tier 2 (Tier 1 blocks no other work; both can proceed in parallel after clarifications)
+
+---
+
+
+| # | Title | Rationale |
+|---|-------|-----------|
+| #313 | CSP header (security enhancement) | Not a ship-blocker; deferred for patch cycle |
+| #297 | Home page post display toggle | v0.8.1+ feature; lower priority than core content editing |
+
+---
+
+
+### Simon (Frontend/Admin UI Lead) — 5 Active Issues
+
+**Issues:** #322, #323, #320, #321, #328
+
+**Delivery:** Unified image-management UI component + setup wizard + CSS editor  
+**Effort:** ~16–23h  
+**Dependencies:** None (all clarifications locked)
+
+**Sequence (recommended):**
+1. **#322** (First admin user setup wizard) — foundational, other features depend on first-user context
+2. **#323** (Favicon upload) — leverage unified image UI pattern  
+3. **#320** (Logo upload) — part of same unified image UI
+4. **#321** (Logo display) — consumes uploaded logo; depends on #320  
+5. **#328** (Custom CSS editor) — distinct component; can parallel with images if bandwidth available
+
+**Batch 1 (Start now):**
+- #322, #323 — Setup wizard + favicon upload (ship-blockers)
+
+**Batch 2 (After Batch 1 or parallel):**
+- #320, #321 — Unified image UI for logo
+- #328 — CSS editor (can parallel)
+
+---
+
+### River (Backend Lead) — 2 Active Issues
+
+**Issues:** #309, #299
+
+**Delivery:** Soft-delete schema + trash/recovery queries + cleanup policies  
+**Effort:** ~12–16h  
+**Dependencies:** None (delete semantics clarified: soft delete → trash/recycle)
+
+**Sequence:**
+1. Extend Post/Page models with `IsDeleted` flag + `DeletedAt` timestamp
+2. Add trash view queries (retrieves deleted items within retention period)
+3. Implement recovery endpoint (un-delete with restore)
+4. Implement permanent cleanup (admin can purge old trash)
+
+**Batch 1 (Start now):**
+- **#309 + #299** — Both can start immediately; implement together as paired schema work
+
+---
+
+### Wash (E2E Tester) — 1 Active Issue
+
+**Issue:** #319
+
+**Delivery:** E2E test suite covering full workflows  
+**Effort:** ~8–10h  
+**Dependencies:** None (acceptance criteria locked)
+
+**Test Scenarios (per clarification):**
+1. Login authentication to admin area
+2. Admin dashboard navigation and load
+3. Post creation (new)
+4. Post save as draft
+5. Post publish to live site
+
+**Batch 1 (Start now):**
+- **#319** — Playwright test suite; CI integration for badge metric
+
+---
+
+### Zoe (CI/DevOps) — Supporting Role
+
+**Dependency:** Wash completes #319 E2E tests
+
+**Delivery:** Badge metric aggregation + GitHub Actions workflow  
+**Effort:** ~3–4h
+
+**Blocked until:** Wash provides test count data from #319  
+**Note:** #272 metric already clarified (total test count, not %)
+
+---
+
+
+**Parallel Tier 1 (Ship-Blockers):**
+
+1. **Simon:** #322 (First admin user setup) + #323 (Favicon)
+   - ~6–9h combined
+   - Unblocked; can start immediately
+   - Creates foundation for site identity (logo, CSS, initial auth)
+
+2. **Wash:** #319 (E2E test suite)
+   - ~8–10h
+   - Unblocked; can start immediately  
+   - Test scenarios fully defined
+   - Provides data to Zoe for badge metric
+
+**Parallel Tier 2 (Can start after OR immediately):**
+
+3. **River:** #309 + #299 (Delete operations)
+   - ~12–16h combined
+   - No blockers; proceed in parallel with Tier 1
+   - Design soft-delete schema while Simon/Wash execute Tier 1
+
+**Critical Path Optimization:**
+- Tier 1 + Tier 2 can overlap; no blocking dependencies between teams
+- Simon finishes Tier 1 → can start #320, #321 (logo) + #328 (CSS)
+- All issues can progress without gating on each other
+
+**Recommended Sprint Cadence:**
+- **Week 1:** Tier 1 foundation (#322, #323, #319)
+- **Week 1–2:** Tier 2 design + initial implementation (River)
+- **Week 2–3:** Tier 2 completion + Tier 1 polish + integration testing
+
+---
+
+
+| Risk | Likelihood | Mitigation |
+|------|------------|-----------|
+| Unified image UI complexity (Simon) | Low | Start with MVP (single input), extend if time permits |
+| E2E test environment setup (Wash) | Medium | Coordinate with River on AppHost health checks |
+| Trash cleanup retention policy (River) | Low | Default 30-day retention; make configurable later |
+| CSS sanitizer XSS vectors (Simon) | Medium | Use well-vetted library (e.g., HtmlSanitizer); avoid regex parsing |
+
+---
+
+
+✅ All squad labels already correct as of this review:
+- `squad:simon` → #322, #323, #320, #321, #328
+- `squad:river` → #309, #299
+- `squad:wash` → #319
+- `squad:mal` → #313 (deferred, monitoring)
+
+---
+
+
+- [x] v0.8.0 scope locked (no outstanding clarifications)
+- [x] All 8 active issues routed to squad members
+- [x] Dependencies identified and sequenced
+- [x] First batch identified and ready
+- [x] Effort estimates aligned with team expertise
+- [x] Deferred items marked and rationale documented
+- [x] GitHub labels verified
+- [x] No blockers remain
+
+---
+
+
+1. **Mal:** Present this assignment to squad + obtain team thumbs-up
+2. **Simon, River, Wash:** Begin assigned work per batch recommendations
+3. **All:** Daily standups on progress; escalate blockers immediately
+4. **Scribe:** Merge inbox decision to squad decisions.md
+5. **Ralph (Monitor):** Track v0.8.0 milestone closure on GitHub issues board
+
+---
+
+**Decision Delivered:** `.squad/decisions/inbox/mal-assign-v080-work.md`  
+**Scope:** FritzAndFriends/SharpSite v0.8.0 milestone (GitHub source of truth)  
+**Team Ready:** ✅ Yes — all clarifications answered, no outstanding questions
+
+
+
+**Date:** 2026-05-01  
+**Owner:** Mal (Lead)  
+**Status:** Committed to upstream GitHub issues
+
+
+Two issue groups triaged and decisions recorded on GitHub:
+
+### 1. Plugin Lifecycle Cluster — DEFERRED to v0.8.1+
+
+**Issues:** #203, #117, #118  
+**Decision:** Defer plugin ecosystem enhancements (navigation links, upgrade, remove) to v0.8.1+  
+
+**Rationale:**
+- v0.8.0 scope is core CMS delivery: file browser, content management, autosave
+- Plugin lifecycle features are post-v0.8.0 enhancements; no user stories block v0.8.0 ship
+- Ecosystem work planned for patch releases after v0.8.0 stabilizes
+- Clears capacity for Tier 1 & 2 blockers
+
+**GitHub Actions:**
+- #203 comment posted: Navigation links deferred
+- #117 comment posted: Upgrade functionality deferred  
+- #118 comment posted: Remove functionality deferred
+- No label changes (ecosystem already identified in backlog)
+
+### 2. README Badges — SHIP in v0.8.0
+
+**Issue:** #273  
+**Decision:** Include README status badges in v0.8.0 release  
+
+**Rationale:**
+- Quick-win polish item; ~2-3 hours effort max
+- No dependencies on other features
+- Improves project visibility + CI status transparency at launch
+- Low risk of blockers
+
+**GitHub Actions:**
+- #273 comment posted: Badges ship in v0.8.0
+- Label routing: None applied (already identified in Tier 3 ecosystem)
+
+
+**v0.8.0 Scope Unchanged:**
+- Tier 1 (4 ship-blockers): #350, #351, #319, #272
+- Tier 2 (5 core CMS): #309, #299, #321, #323, #328
+- Tier 3 quick-wins: #273 (badges) + others
+- Deferred: #203, #117, #118 → v0.8.1+ backlog
+
+**Team Bandwidth:** Reinforces v0.8.0 focus on core CMS, clears plugin ecosystem work for patches.
+
+
+1. GitHub decisions synced upstream ✅
+2. Await squad confirmation on Tier 1 & 2 progress
+3. Track v0.8.1+ roadmap (plugin lifecycle, CSP headers, editor enhancements)
+
+
+
+**Date:** 2025 (current session)  
+**Clarification Question:** Q7 — Which Tier 3+ issues belong in v0.8.0 vs later releases?  
+**User Answer:** README badges ship in **v0.8.0**
+
+- README badges (#273) are a **v0.8.0 deliverable** alongside core functionality
+- Rationale: Customer-facing documentation, ships with initial release
+- Label routing: Not required (already scoped as documentation, up-for-grabs)
+
+- Q7 (Tier 3 deferral) now has its first binding decision
+- Remaining Tier 3+ issues (#313, #208, #209, #212, #203, #118, #117) still pending deferral decisions
+- Interview queue **NOT complete** — 6 more Tier 3 items need clarification
+
+1. Review remaining Tier 3+ deferral decisions (CSP, file browsers, autosave, plugin lifecycle)
+2. Determine if all 8 should ship in v0.8.0 or some defer to v0.8.1+
+
+- Upstream: FritzAndFriends/SharpSite#273
+- Clarification plan: `.squad/decisions/inbox/mal-v08-clarification-plan.md`
+
+
+
+**Date:** 2025-01-12  
+**Issue:** #212 (Enable autosaving of content when editing in TextEditor)  
+**Decision:** Defer to v0.8.1+  
+**Rationale:** Implementation scope requires unique ID binding + form submission integration. Not a blocking requirement for v0.8.0 MVP.
+
+- Added upstream comment explaining deferral rationale
+- No label changes (already marked `enhancement`, `up-for-grabs`)
+- Milestone remains `0.8 - The Version after this` (no milestone change)
+
+Remaining unresolved items after #212:
+1. **Plugin lifecycle cluster** (#203, #117, #118): v0.8.0 or post-v0.8.0?
+2. **README badges** (#273): v0.8.0 or separate release?
+
+**Next Question:** Should plugin navlinks (#203), plugin removal (#118), and plugin upgrade (#117) ship in v0.8.0, or defer to v0.8.1+?
+
+
+
+**Date:** 2026-03-31  
+**Owner:** Mal  
+**Issues:** #208, #209  
+
+Both the admin file browser (#208) and editor file browser (#209) will ship in **v0.8.0**.
+
+- These are foundational for the content management workflow (uploading and selecting files for posts/pages)
+- Admin browser provides site-wide file management
+- Editor browser enables inline file selection during content editing
+- Both features are closely coupled in user intent
+
+- Added decision comment to #208 and #209
+- Both issues remain in v0.8.0 milestone
+
+- #212 (Autosave): v0.8.0 or v0.8.1?
+- #203, #117, #118 (Plugin ecosystem): scope for v0.8.0?
+- #273 (README badges): v0.8.0 or separate?
+
+
+
+**Date:** 2026-05-02  
+**Owner:** Mal (Lead)  
+**Status:** ✅ Recorded  
+**Issue:** #297 "Add an option to display summary or full post on home page"
+
+
+Home page post display mode toggle is **NOT a v0.8.0 ship-blocker** and can defer to v0.8.1+ patch cycle.
+
+
+> "home page post display mode toggle can DEFER to v0.8.1+"
+
+
+- Feature is aesthetic/UX enhancement, not core CMS functionality required for v0.8.0 release
+- Deferral unblocks v0.8.0 scope to focus on critical ship-blockers (Tier 1) and core CMS features (Tier 2)
+- Can be implemented as a straightforward Site Appearance checkbox in follow-up patch
+
+
+1. **Comment added to #297** — Decision recorded upstream
+   - URL: https://github.com/FritzAndFriends/SharpSite/issues/297#issuecomment-4355729722
+   - Routing: v0.8.1+ patch cycle (no squad label needed at this stage)
+
+
+- **Simon:** Unlocked; no admin UI work required for v0.8.0 on this feature
+- **River:** Unlocked; no backend API required for v0.8.0 on this feature
+- **All:** Tier 2 scope now finalized; all 5 core CMS issues (#309, #299, #320, #321, #297) are routed or deferred
+
+
+All Tier 1 (ship-blocker) and most Tier 2 clarifications now complete. Remaining unresolved:
+- #309, #299: Delete semantics (hard vs soft delete)
+- #208, #209: File browser features (admin + editor)
+
+**Next target:** Clarify v0.8.0 vs v0.8.1+ split for remaining Tier 3+ ecosystem issues.
+
+
+- Issue: FritzAndFriends/SharpSite#297
+- Milestone: 0.8 - The Version after this
+- Related: .squad/decisions/inbox/mal-update-313-upstream.md (CSP deferral pattern)
+
+
+
+**Issue:** #313 — Add CSP to base/default theme to enhance security on site  
+**Decision Date:** 2026-05-01  
+**Owner:** Mal (Lead)  
+**Status:** RECORDED on upstream issue
+
+
+CSP (Content Security Policy) header implementation is **NOT** a v0.8.0 ship blocker. Work deferred to v0.8.1+ patch release.
+
+### Rationale
+- Security enhancement with no impact on core CMS functionality
+- Adds defense depth but does not unblock other v0.8.0 deliverables
+- Can be implemented post-release without breaking changes
+- Aligns with v0.8.0 scope: admin UI, page/post management, plugin ecosystem
+
+### Action Taken
+- Commented on #313 with decision rationale
+- Applied `squad:mal` routing label for tracking
+- No GitHub milestone change needed (remains in 0.8 for future decision point)
+
+- Monitor for any security escalations that would promote this to ship-blocker status
+- Schedule CSP design/implementation for v0.8.1 planning cycle
+
+
+
+**Date:** 2026-05-02  
+**Owner:** Mal  
+**Status:** Applied  
+**Issues:** #309 (delete page), #299 (delete post)
+
+
+When a user deletes a page or post, the item should be **moved to a trash/recycle bin** for deferred deletion, not immediately purged. Permanent deletion occurs only when the user explicitly empties the trash.
+
+**Design Implication:** Soft delete with recovery path.
+
+
+- **User experience:** Prevents accidental permanent data loss
+- **Admin capability:** Recoverable deletion provides safety net
+- **Schema impact:** Moderate (add `IsDeleted` flag + trash view; River backend effort: 4–6 hours)
+
+
+- **#309 comment:** Decision recorded with relation to #299
+- **#299 comment:** Decision recorded with relation to #309
+
+
+- **River (Backend):** Unblocked; can design soft-delete schema & queries
+- **Simon (Admin UI):** Delete buttons + trash UI component added to scope
+- **Effort shift:** Schema complexity moderate; recoverable within Tier 2 CMS estimate
+
+
+Q6 (Logo feature scope) or Q7 (Tier 3 deferral) to be clarified next per queue priority.
+
+
+
+2025-01-XX
+
+Logo and favicon upload will share **ONE UNIFIED image-management UI** rather than separate upload flows.
+
+- **Consistency:** Single image handling pattern across site configuration
+- **Scope Reduction:** Reduces frontend complexity vs. separate flows (Simon estimate: 2–3h unified vs 3–5h separate)
+- **UX:** Admin users get consistent experience for all image uploads
+- **Maintainability:** Fewer edge cases; simpler validation/storage logic
+
+- ✅ Comment added to #320 with decision recorded
+- ✅ Comment added to #321 with decision recorded  
+- ✅ Label `squad:simon` added to both issues
+- ✅ Both issues now scoped as Simon frontend work
+
+- Simon can now estimate and scope admin UI sprint for #320, #321, #323, #328
+- Unified image-upload component serves both logo and favicon (#323) requirements
+- Awaiting clarification on **delete semantics** (#309, #299) for Tier 2 scope finalization
+
+- Tier 2 Clarifications: #319 ✅, #272 ✅, #322 ✅, #323 ✅, #328 ✅
+- Next Clarification: Delete behavior (#309, #299) — soft vs hard delete semantics
+
+
+
+**Status:** CAPTURED + ROUTED  
+**Issue:** #323 (Set a favicon for the site)  
+**Owner:** Mal  
+**Date:** 2026-05-02
+
+
+> "the site favicon should be a USER-EDITABLE UPLOAD via Admin UI"
+
+
+**Scope:** Favicon is user-editable via Admin UI file upload, not theme-configured or static.
+
+**Implementation Details:**
+- Admin UI provides file upload component for favicon (.ico, .png, .svg, etc.)
+- Favicon stored in site assets/media (not committed to code)
+- Served from Admin UI asset management or dedicated favicon endpoint
+- Replaces default favicon on all pages
+
+**Impact:**
+- **Simon:** Design favicon upload UI component; integrate with asset management
+- **Effort:** 2-3 hours (depends on asset management refactoring)
+- **Blocker:** None; can proceed in parallel with #320, #321 (logo/image management)
+
+
+**Issue:** #323  
+**Actions:**
+1. Add comment with decision and routing
+2. Apply `squad:simon` label (UI component dev)
+3. Reference related issues: #320 (logo image types), #321 (logo admin UI)
+
+
+**Issue:** #320, #321 (Logo Management Scope)
+
+**Question:** Should logo and favicon upload use the **same unified image management UI**, or separate upload flows?
+- **Impact:** Simon scope estimation (2-3h single UI vs 3-5h dual UIs)
+- **Cross-team:** Affects asset management architecture decision
+
+---
+
+**Tier 1 Progress:** 4/5 issues clarified (#319 ✅, #272 ✅, #322 ✅, #328 ✅)  
+**Next blocker:** #320, #321 (logo management) OR #309, #299 (delete semantics)
+
+
+
+**Status:** Captured and routed  
+**Owner:** Mal  
+**Issue:** #272 — Playwright badge and reports not updating properly  
+**Blocker:** Zoe (CI/Badge implementation)
+
+
+> "The Playwright badge should display the TOTAL TEST COUNT when E2E tests complete."
+
+
+1. **Added comment to #272** documenting decision:
+   - Link: https://github.com/FritzAndFriends/SharpSite/issues/272#issuecomment-4355597657
+   - Metric: Total test count (not percentage or coverage)
+   - Impact: GitHub Actions workflow aggregates all E2E test runs into single count
+
+2. **Applied `squad:zoe` label** — unblocks Zoe to implement badge update logic
+
+
+- **Metric:** Display absolute count (e.g., "272 tests passed")
+- **Trigger:** On E2E test completion in GitHub Actions
+- **Aggregation:** Merge multiple test runs (if parallel jobs) into single count via publish-unit-test-result-action
+- **Badge source:** Shields.io or similar dynamic badge service
+
+
+- **Wash:** E2E test suite provides input data (test count)
+- **Zoe:** Can now implement badge update workflow
+- **CI/Badge:** Unblocked for v0.8.0 sprint
+
+
+All 4 original Tier 1 blockers now answered:
+- Q1: #319 E2E acceptance criteria ✅
+- Q2: #272 Badge metric ✅
+- Q3: #322 First admin user ✅
+- Q4: #328 Custom CSS ✅
+- **Remaining Tier 1:** #323 (favicon) — needs scope clarification
+
+
+
+**Status:** Scope clarified; upstream #328 updated  
+**Owner:** Mal  
+**Issue:** #328 (Allow administrators to submit some custom CSS)
+
+> "v0.8.0 should support BOTH site-wide and per-page custom CSS, and sanitization should restrict unsafe/XSS-prone rules"
+
+1. **Added comprehensive comment to #328** documenting:
+   - **Scope:** Site-wide CSS + per-page CSS overrides/extensions
+   - **Sanitization:** Blocks script injection, XSS-prone pseudo-selectors, @-rules; allows basic selectors, colors, spacing, typography
+   - **Routing:** `squad:simon` label applied
+
+2. **Applied `squad:simon` label** — unblocks Simon (UI dev) to design CSS editor form + sanitizer integration
+
+- **Simon Unblocked:** Can now scope CSS editor component, input validation, and sanitizer library integration
+- **Tier 1 Progress:** 3 of 4 Tier 1 blockers now answered (#319 ✅, #322 ✅, #328 ✅)
+- **Next Blocker:** #272 (Playwright badge metric) — Q2 in phase 1 clarification queue
+
+- **Wash:** Awaiting no further Tier 1 input (E2E acceptance criteria ✅)
+- **Simon:** Unblocked on CSS; still needs clarification on logo display scope (#320, #321) and favicon (#323)
+- **River:** Awaiting Q5 on delete semantics (#309, #299)
+- **Zoe:** Blocked on Q2 (badge metric #272)
+- **All:** Phase 1 Tier 1 (60–70% complete); Phase 2 Tier 2 can begin once Q1–Q4 answered
+
+**Link:** https://github.com/FritzAndFriends/SharpSite/issues/328#issuecomment-4355512012
+
+
+
+**Status:** Completed  
+**Owner:** Mal  
+**Issue:** #322 (First Admin User Creation)
+
+
+**User Input:**
+> First admin user should be created via an interactive setup wizard.
+
+
+1. **Comment added to #322**
+   - Link: https://github.com/FritzAndFriends/SharpSite/issues/322#issuecomment-4355501208
+   - Content: Decision summary + squad routing
+
+2. **Label applied: `squad:simon`**
+   - Unblocks Simon (UI dev) to scope installer wizard
+
+
+- **Simon:** Can now design setup wizard flow (password entry, confirmation, validation)
+- **Tier 1 Clarity:** 3 of 4 Tier 1 blockers answered (#319 E2E ✅, #322 First User ✅, #272 Badge pending, #328 CSS pending)
+- **Next Blocker:** #328 (Custom CSS scope & sanitization) — Q4 in clarification queue
+
+
+- Relates to: #350 (forced password reset)
+- Tier 1 sprint: E2E (#319) + Installer (#322) + Badges (#272) + CSS (#328)
+
+
+
+**Date:** 2026-05-02  
+**Owner:** Mal  
+**Status:** Acceptance criteria documented; next clarification queued
+
+
+**Comment Added:** E2E test acceptance criteria captured with 5 required test scenarios:
+1. Login authentication to admin area
+2. Admin dashboard navigation and load
+3. Post creation (new post)
+4. Post save as draft
+5. Post publish to live site
+
+**Label Added:** `squad:wash` — unblocks Wash (E2E tester) to scope test buildout
+
+**Impact:**
+- Wash: Can now define Playwright test cases and CI integration
+- v0.8 Tier 1: E2E test scope is now actionable
+
+
+**Issue:** #322 (Create first user with Admin access)  
+**Gap:** Scope unclear — is first user created during installation/setup (interactive UI), or via database seeding (code-based)?
+
+**Question to User:**
+> "When SharpSite is deployed for the first time, how should the first admin user be created? Should the system provide an interactive setup wizard (e.g., form-based admin credentials entry), or is it code-based database seeding with hardcoded defaults?"
+
+**Blockers if unclear:**
+- Simon (UI) cannot design admin setup flow without knowing the pattern
+- Installation documentation depends on user creation method
+- Tier 1 timeline at risk if scope expands
+
+**Expected Answers:**
+- **(A) Interactive Setup:** SharpSite shows first-run form → user creates admin via UI → redirects to dashboard
+- **(B) Code Seeding:** Default admin user (e.g., `admin@localhost` / `Admin123!`) created at deploy-time; user must change on first login
+- **(C) Hybrid:** Setup wizard available; pre-seeded default also available as fallback
+
+**Impact if A:** +4–6h UI work (form, validation, auth integration)  
+**Impact if B:** +1h seeding logic; no UI needed  
+**Impact if C:** +5–7h (both paths required)
+
+
+- **Wash:** ✅ Unblocked on #319 (E2E acceptance criteria)
+- **Simon:** ⏸️ Awaiting Q1 answer (#322 first user creation)
+- **River:** ⏸️ Awaiting Q2 answer (#309/#299 delete semantics — hard/soft/archive)
+- **All:** v0.8 Tier 1 sprint planning continues after Q1 answered
+
+
+Ask user: Q1 on #322 (first user creation: setup wizard vs code seeding vs hybrid?)
+
+Once answered → update #322 + unblock Simon → decide Tier 1 timeline feasibility
+
+
+
+**Status:** Accepted — User-provided criteria captured  
+**Issue Reference:** #319 (planned in local decisions.md as Tier 1 E2E work)  
+**Upstream Status:** Issue #319 does not exist in upstream GitHub; v0.8 milestone absent
+
+
+> "E2E testing should validate full workflows: login, admin UI, and post create/save/publish."
+
+### Acceptance Criteria Breakdown
+1. **Login flow:** Successful authentication to admin area
+2. **Admin UI navigation:** Verify admin dashboard loads and is accessible
+3. **Post creation:** Create a new post (step 1 of workflow)
+4. **Post save:** Save post as draft (step 2 of workflow)
+5. **Post publish:** Publish post to live site (step 3 of workflow)
+
+### Test Venues
+- **Location:** `tests/SharpSite.Tests.E2E/` (Playwright + .NET Aspire host)
+- **Coverage:** Full end-to-end workflow in single session
+- **Flakiness flag:** #319 item noted as having flaky tests; investigate common timeouts/race conditions
+
+
+After E2E acceptance criteria, the single **best next question** for upstream open items is:
+
+**Issue #4 (Forced Password Reset) — Implementation Detail:**
+> "On password reset completion in step 4 of the forced-change flow, should the system:
+> - A) Auto-redirect to admin dashboard? 
+> - B) Show confirmation page with manual "Go to Admin" link?
+> - C) Force re-login with new password?"
+
+**Impact:** Blocks Simon (UI component) from determining redirect logic and error handling.
+
+
+- **Wash:** E2E criteria now clear → can scope test cases and prioritize flaky test fixes
+- **Simon:** Waiting on #4 password reset UX detail (A/B/C above) to start component build
+- **Mal:** Will update GitHub once upstream issues are created and synced to local roadmap
+
+
+**Critical:** v0.8 roadmap lives in local `decisions.md` (21 issues planned) but upstream GitHub is out of sync (only #4 exists). Before assigning Tier 1 work to Wash, River, Simon, need to clarify:
+- Should all 21 planned issues be created in upstream GitHub?
+- Or is upstream a separate, simpler track?
+
+Owner (Jeffrey T. Fritz) should confirm source of truth.
+
+
+
 

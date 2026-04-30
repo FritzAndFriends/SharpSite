@@ -136,3 +136,10 @@ Fixed remaining build error in `RegisterPostgresSecurityServices.cs:33`. The `Sh
 **Pattern to remember:** For plugin integrity, validate at two points: (1) the file hash before loading bytes into memory, and (2) the assembly metadata after loading. Store hashes on first install and verify on every subsequent load. At startup, catch validation failures per-plugin and `continue` to avoid one bad plugin blocking all others.
 
 **Cross-agent coordination:** Simon's #350 forced password reset is independent; no blocking dependencies.
+
+---
+**[SCRIBE UPDATE - 2026-04-30 20:15:51]**
+- Decision inbox merged (15 decisions)
+- v0.8.0 scope locked and confirmed
+- Cross-agent context synchronized
+- Ready for parallel execution
