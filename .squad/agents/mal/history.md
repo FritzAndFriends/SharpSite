@@ -152,3 +152,58 @@ Awaiting owner action to unblock Mal's triage workflow.
 - All: v0.8.0 sprint planning can begin immediately
 
 **Decision reference:** `.squad/decisions.md` (merged from inbox)
+
+### 2026-05-01 — v0.8 Milestone Clarification Analysis ✅ COMPLETED
+
+**Status:** Completed  
+**Context:** Repository has Issues disabled; cannot fetch issue bodies via GitHub API. Analysis based on Tier 1–2 roadmap from decisions.md + inferred requirements.
+
+**Actions Executed:**
+1. **Reviewed all 21 issues in v0.8 milestone** (9 Tier 1–2 committed; 12 Tier 3+ deferred)
+2. **Identified information gaps for each issue:**
+   - **Tier 1 gaps:** UX flow for #350, test checklist for #351, flaky test names for #319, badge metric for #272
+   - **Tier 2 gaps:** Delete semantics (#309, #299), asset display location (#321, #323), CSS scope (#328)
+   - **Tier 3+ gaps:** Plugin packager format (#166), DB schema migration (#254), selection UI (#334)
+3. **Created 7-question clarification plan** prioritized by shipping impact
+4. **Prepared GitHub update recommendations** for each issue once user answers
+
+**Gaps Summary by Priority:**
+| Tier | Issue | Critical Gap | Impact |
+|------|-------|--------------|--------|
+| 1 | #350 | UX flow for forced password reset | Blocks Simon (UI); 3-4h effort depends on scope |
+| 1 | #351 | E2E test checklist (what constitutes "done"?) | Blocks Wash; unclear pass criteria |
+| 1 | #319 | Flaky test names; root cause unknown | Wash spike depends on reproducible failures |
+| 1 | #272 | Badge metric (count/%, coverage) | Zoe implementation depends on metric choice |
+| 2 | #309, #299 | Delete semantics (hard/soft/archive) | Changes schema complexity by 2–3x if archive required |
+| 2 | #321, #323 | Asset serving strategy (local vs. CDN) | Affects implementation venue (frontend/backend) |
+| 2 | #328 | CSS scope + sanitization rules | Security decision needed before code review |
+| 3+ | #166 | Plugin packager format (ZIP vs. custom) | Blocker for entire plugin ecosystem track |
+
+**Questioning Strategy:**
+- **Phase 1 (Now):** Q1–Q4 on Tier 1 → unblocks E2E + password reset sprint
+- **Phase 2 (After Q1–Q4):** Q5–Q7 on Tier 2 → unblocks admin UI sprint
+- **Phase 3 (Post v0.8.0):** Spike #166 plugin packager before Tier 3 work
+
+**Deliverable:** `.squad/decisions/inbox/mal-v08-clarification-plan.md`
+
+**Next Action:** Present single best first question to user (Q1 on #351 E2E checklist)
+
+### 2026-05-01 — v0.8 Clarification Decision Merged ✅ DECISION ARCHIVED
+
+**Status:** Merged to canonical decisions.md  
+**Context:** Scribe merged `.squad/decisions/inbox/mal-v08-clarification-plan.md` into decisions.md; inbox file deleted.
+
+**Actions:**
+1. Archived decision to decisions.md section: "### v0.8 Milestone Clarification Plan (2026-05-01)"
+2. Documented cross-agent blockers:
+   - Wash: Blocked on #351 test checklist (Q1)
+   - Simon: Blocked on #350 UX flow (Q2)
+   - River: Tier 2 backend (#309, #299) queued after Tier 1
+3. Updated squad routing: Answers to Q1–Q4 unblock Tier 1 sprint planning
+
+**Cross-Team Ready:**
+- v0.8.0 sprint planning can begin once user answers Phase 1 (Tier 1) clarifications
+- River can scope Phase 2 Tier 2 backend work after Phase 1 answers received
+- Simon can begin UI spike on #350 immediately (pending UX flow definition)
+
+**Status:** ✅ Decision canonical — awaiting user clarification phase input

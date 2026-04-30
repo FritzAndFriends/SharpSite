@@ -16,6 +16,18 @@
 
 **Sync point:** Coordinate with River on installer UX for #334. Both Tier 1 and Tier 2 must complete before Tier 3 (plugin ecosystem) activates.
 
+### 2026-05-01 — v0.8 Tier 1 Clarification Blocker: #350 Forced Password Reset UX
+
+**Status:** BLOCKED pending user clarification  
+**Issue:** #350 (Forced password reset after initial admin seed) lacks UX flow definition.  
+**Critical Gap:** Should password reset happen immediately on first login, or allow N logins before enforcing?  
+
+**Impact on Simon:**
+- Cannot scope #350 UI effort until UX flow is defined (3–4h estimate depends on scope)
+- Cannot begin UI spike until redirect timing and warning placement are clarified
+
+**Next Action:** User provides UX flow requirements; Mal updates #350 with acceptance criteria. Simon can then scope UI implementation.
+
 # Project Context
 
 - **Owner:** Jeffrey T. Fritz

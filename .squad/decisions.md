@@ -270,6 +270,33 @@ gh issue list --repo csharpfritz/SharpSite --milestone "0.8 - The Version after 
 
 **Reference:** `.squad/decisions/inbox/mal-v08-milestone-github.md` (archived to history)
 
+### v0.8 Milestone Clarification Plan (2026-05-01)
+**Status:** Proposed (awaiting user answers)  
+**Owner:** Mal  
+**Decision:** Analyzed v0.8 milestone (21 issues, 3 tiers) and identified implementation detail gaps blocking sprint work. Created 7-question clarification framework prioritized by shipping impact.
+
+**Tier 1 Ship-Blockers (4 questions, ~12–16h):**
+1. **#351 E2E Validation** — Which test scenarios = "done"? (AppHost health + page load + workflows?)
+2. **#350 Forced Password Reset** — Trigger on first login or after N warnings?
+3. **#319 Flaky Tests** — Can you name 1–2 consistently failing Playwright tests?
+4. **#272 Badge Metric** — Show test count, pass %, or coverage %?
+
+**Tier 2 Core CMS (3 questions, ~15–19h):**
+5. **#309, #299 Delete Semantics** — Hard delete or soft (archive with recovery)?
+6. **#321, #323 Assets** — Display location, size limits, serving strategy (local vs. CDN)?
+7. **#328 Custom CSS** — Site-wide or page-scoped? Sanitization rules?
+
+**Tier 3+ (12 issues):** Deferred to v0.8.1–0.8.3 patches; spike #166 (plugin packager) first.
+
+**Cross-Agent Blockers:**
+- Wash: Blocked on #351 test checklist (#4 in Tier 1)
+- Simon: Blocked on #350 UX flow (#2 in Tier 1)
+- River: Tier 2 backend (#309, #299) queued after Tier 1 clarity
+- All: v0.8.0 sprint planning ready once Phase 1 (Tier 1) answered
+
+**Deliverable:** `.squad/decisions/inbox/mal-v08-clarification-plan.md`  
+**Next Phase:** User provides answers; Mal updates GitHub issues per recommendations table
+
 ## Governance
 
 - All meaningful changes require team consensus

@@ -20,6 +20,23 @@
 
 **Sync point:** v0.8.0 ship decision gates all Tier 3 work. Coordinate with Simon (installer UX) and Zoe (CI).
 
+### 2026-05-01 — v0.8 Tier 2 Backend Work Queued: Delete Pages/Posts Clarification Pending
+
+**Status:** QUEUED pending Tier 1 completion + clarification  
+**Issues:** #309 (Delete page), #299 (Delete post)  
+**Effort:** 6–9 hours combined (Tier 1 Phase 2 work)  
+**Critical Gap:** Delete semantics undefined — hard delete or soft (archive with recovery)?  
+
+**Impact on River:**
+- Cannot scope #309/#299 schema/data layer changes until delete semantics clarified
+- Hard delete is simpler (2–3h); soft delete with archive complicates schema by 2–3x (4–6h)
+
+**Dependencies:**
+- Tier 1 completion (Wash's #319, #351, #272 + Simon's #350) gates start
+- User clarification on delete semantics required (Q5 in Tier 2 phase)
+
+**Next Action:** User provides delete semantics; Mal updates #309/#299 with acceptance criteria. River can then scope schema/API work post-Tier 1.
+
 # Project Context
 
 - **Owner:** Jeffrey T. Fritz

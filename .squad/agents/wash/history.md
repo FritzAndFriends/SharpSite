@@ -20,6 +20,18 @@
 
 **Sync point:** Tier 1 completion gates Tier 2-3 work. E2E tests must pass CI before v0.8.0 release.
 
+### 2026-05-01 — v0.8 Tier 1 Clarification Blocker: #351 E2E Test Checklist
+
+**Status:** BLOCKED pending user clarification  
+**Issue:** #351 (.NET 10 + Aspire 13.2 E2E validation) lacks clear pass criteria.  
+**Critical Gap:** Which E2E scenarios constitute "validation complete"? Just AppHost health + page load, or full workflows?  
+
+**Impact on Wash:**
+- Cannot scope #351 effort accurately until test checklist is defined
+- Cannot spike #319 (flaky tests) until E2E baseline is clear
+
+**Next Action:** User provides test checklist; Mal updates #351 with acceptance criteria. Wash can then begin sprint planning.
+
 # Project Context
 
 - **Owner:** Jeffrey T. Fritz
