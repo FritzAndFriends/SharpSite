@@ -776,6 +776,40 @@ Logo and favicon upload will share **ONE UNIFIED image-management UI** rather th
 - **UX:** Admin users get consistent experience for all image uploads
 - **Maintainability:** Fewer edge cases; simpler validation/storage logic
 
+# Decision: Public Post Route Publishing (#319 — 2026-05-01)
+## Date
+2026-05-01
+
+## Decision
+Implement published post public URL access using a dedicated `/post/{slug}` route component that delegates to a shared post page rendering component, with an explicit load-complete gate to prevent premature HTTP 404 responses.
+
+## Why
+The published-post lookup path reached the repository successfully, but the shared page component rendered before the async repository fetch completed. The initial render with `Post == null` was immediately treated as "not found", causing Blazor SSR to set HTTP 404 status before the real content loaded.
+
+## Technical Solution
+- **Route component:** Thin `/post/{slug}` page that accepts slug parameter and manages load lifecycle
+- **Shared rendering component:** Delegated post display logic reusable across public and admin contexts
+- **Load-complete gate:** Explicit flag prevents `PageNotFound` rendering until async fetch finishes
+- **Rendering stages:** Show loading indicator or content; never render 404 before async work completes
+
+## Impact
+- ✅ Published posts are now accessible at `/post/{slug}` on live site
+- ✅ E2E test `CreatePostTests.CanCreateSaveAndPublishPost` passes end-to-end
+- ✅ HTTP 200 returned for published posts; 404 only when content truly not found
+- ✅ Future SSR content pages should adopt the same "distinguish loading from not found" pattern
+
+## Cross-Team Impact
+- **Wash:** E2E suite unblocked; full v0.8.0 Tier 1 test pipeline can now validate
+- **Kaylee:** Test harness foundation validated against working public route
+- **River:** Backend contracts confirmed working with public layer
+- **v0.8.0 Tier 1:** Critical path blocker resolved
+
+## Validation
+- Live URL test: `/post/{published-slug}` returns 200 + renders post ✅
+- E2E test: Full post creation/save/publish/view workflow passes ✅
+- Build: No regressions; clean build verified ✅
+
+
 - ✅ Comment added to #320 with decision recorded
 - ✅ Comment added to #321 with decision recorded  
 - ✅ Label `squad:simon` added to both issues

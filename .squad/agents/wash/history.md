@@ -59,15 +59,16 @@
 
 ---
 
-**Status:** BLOCKED pending user clarification  
-**Issue:** #351 (.NET 10 + Aspire 13.2 E2E validation) lacks clear pass criteria.  
-**Critical Gap:** Which E2E scenarios constitute "validation complete"? Just AppHost health + page load, or full workflows?  
+**Status:** E2E SUITE REVALIDATION READY  
+**Issue:** #351 (.NET 10 + Aspire 13.2 E2E validation) awaiting acceptance criteria  
+**Blocker Resolved:** Published post public route fixed by Simon; E2E CreatePostTests.CanCreateSaveAndPublishPost now PASSES  
 
-**Impact on Wash:**
-- Cannot scope #351 effort accurately until test checklist is defined
-- Cannot spike #319 (flaky tests) until E2E baseline is clear
+**Current Actions:**
+- Revalidate full E2E test pipeline against Simon's route fix
+- Confirm E2E suite completes successfully end-to-end
+- Document any remaining flakiness or timing issues for v0.8.0 burndown
 
-**Next Action:** User provides test checklist; Mal updates #351 with acceptance criteria. Wash can then begin sprint planning.
+**Next Steps:** Run E2E suite; document results in session log
 
 # Project Context
 

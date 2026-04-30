@@ -31,6 +31,18 @@
 
 ---
 
+---
+
+**[SCRIBE UPDATE - 2026-05-01 00:06:00Z — Simon Public Post Route Fix COMPLETED]**
+- ✅ Fixed /post/{slug} public route blocker (#319)
+- **Root Cause:** SSR page treated "not loaded yet" as "not found", triggering premature 404
+- **Solution:** Thin route page + shared rendering component + explicit load-complete gate before PageNotFound
+- **Validation:** Live post URL returns 200 | E2E test CreatePostTests.CanCreateSaveAndPublishPost PASSES
+- **Impact:** Issue #319 first execution wave blocker RESOLVED; v0.8.0 Tier 1 unblocked
+- **Next:** Wash revalidates full E2E suite against fixed route
+
+---
+
 **Status:** BLOCKED pending user clarification  
 **Issue:** #350 (Forced password reset after initial admin seed) lacks UX flow definition.  
 **Critical Gap:** Should password reset happen immediately on first login, or allow N logins before enforcing?  
@@ -51,6 +63,10 @@
 ## Learnings
 
 <!-- Append new learnings below. Each entry is something lasting about the project. -->
+
+### Public Post SSR Routing (Issue #319 blocker) — 2026-05-01
+- `DisplayPost`-style public SSR pages must not treat `null` model state as "not found" during the first render. With async repository lookups, Blazor can render once before the awaited load finishes, so a premature `PageNotFound` sets HTTP 404 even when the content exists.
+- For SharpSite public content pages, keep an explicit load-complete flag and only render `PageNotFound` after the async fetch has finished. A dedicated `/post/{slug}` route component can stay thin and delegate to a shared page component for lookup/rendering.
 
 ### Setup Wizard + Site Assets (Issues #322, #320, #321, #323) — 2026-05-02
 - The startup wizard now has a natural four-step flow: site name → site identity assets → database setup → first admin account. Step transitions are stored in `ApplicationState.StartupStep`, so saving state between steps matters.
