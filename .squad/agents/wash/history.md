@@ -42,6 +42,23 @@
 
 
 
+---
+**[SCRIBE UPDATE - 2026-05-01 00:03:00Z — Wash #319 E2E v0.8.0 Execution COMPLETE]**
+- ✅ E2E test suite: Login + admin workflow acceptance coverage
+- ✅ Admin workflow helpers: Reusable test utilities for setup wizard, asset management
+- ✅ Data-testid seams: Stable element selectors across Blazor components
+- ✅ Forced password change E2E: Full flow validation pass
+- ✅ Navigation flakiness: Replaced timing waits with condition-based polling
+- ✅ Build status: SharpSite.Web clean, SharpSite.E2E builds clean
+- ⏳ **BLOCKER:** CreatePostTests.CanCreateSaveAndPublishPost fails at live-site assertion
+  - Published post public URLs return 404 (route not mapped or URL generation issue)
+  - Post create/save/publish flow works; issue is at public URL resolution layer
+  - E2E test ready to validate once route is fixed
+- **HANDOFF:** Simon assigned to fix public post route (Issue #319 blocker)
+- **NEXT:** Wash standing by to revalidate E2E test against fixed route
+
+---
+
 **Status:** BLOCKED pending user clarification  
 **Issue:** #351 (.NET 10 + Aspire 13.2 E2E validation) lacks clear pass criteria.  
 **Critical Gap:** Which E2E scenarios constitute "validation complete"? Just AppHost health + page load, or full workflows?  

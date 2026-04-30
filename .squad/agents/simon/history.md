@@ -18,6 +18,19 @@
 
 ### 2026-05-01 — v0.8 Tier 1 Clarification Blocker: #350 Forced Password Reset UX
 
+---
+**[SCRIBE UPDATE - 2026-05-01 00:04:00Z — Simon #319 E2E Blocker: Public Post Route Fix]**
+- **ASSIGNED:** Fix published post public URLs (CreatePostTests.CanCreateSaveAndPublishPost blocker)
+- **Test Context:** E2E test in `/tests/SharpSite.E2E/Tests/CreatePostTests.cs`
+- **Failure Point:** Post creation/save/publish flow works; live-site assertion fails with 404
+- **Root Cause:** Route not mapped or URL generation logic missing for published post public access
+- **Expected Fix:** Add/fix post publication route handler + ensure URL generation in UI resolves correctly
+- **Scope:** Isolated route/URL generation fix; minimal scope, critical path impact
+- **Validation:** Wash will rerun E2E test once route is fixed
+- **Priority:** CRITICAL — unblocks E2E suite acceptance for v0.8.0
+
+---
+
 **Status:** BLOCKED pending user clarification  
 **Issue:** #350 (Forced password reset after initial admin seed) lacks UX flow definition.  
 **Critical Gap:** Should password reset happen immediately on first login, or allow N logins before enforcing?  
